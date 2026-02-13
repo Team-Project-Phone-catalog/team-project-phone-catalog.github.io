@@ -1,6 +1,9 @@
 import './App.css';
 import { Route, Routes } from 'react-router-dom';
 import { Header } from './pages/Header.tsx';
+import { PhonesPage } from './pages/PhonesPage/PhonesPage.tsx';
+import { TabletsPage } from './pages/TabletsPage/TabletsPage.tsx';
+import { AccessoriesPage } from './pages/AccessoriesPage/AccessoriesPage.tsx';
 
 export const App = () => {
   return (
@@ -15,15 +18,15 @@ export const App = () => {
           />
           <Route
             path="/phones"
-            element={<h1 className="title">Phones Page (Coming soon)</h1>}
+            element={<PhonesPage />}
           />
           <Route
             path="/tablets"
-            element={<h1 className="title">Tablets Page (Coming soon)</h1>}
+            element={<TabletsPage />}
           />
           <Route
             path="/accessories"
-            element={<h1 className="title">Access Page (Coming soon)</h1>}
+            element={<AccessoriesPage />}
           />
 
           <Route
