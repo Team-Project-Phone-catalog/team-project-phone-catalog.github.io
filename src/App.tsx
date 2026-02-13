@@ -1,51 +1,54 @@
-import { useState } from 'react';
-import reactLogo from './assets/react.svg';
-import viteLogo from '/vite.svg';
 import './App.css';
+import { Route, Routes } from 'react-router-dom';
+import { Header } from './pages/Header.tsx';
+import { PhonesPage } from './pages/PhonesPage/PhonesPage.tsx';
+import { TabletsPage } from './pages/TabletsPage/TabletsPage.tsx';
+import { AccessoriesPage } from './pages/AccessoriesPage/AccessoriesPage.tsx';
 
-function App() {
-  const [count, setCount] = useState(0);
-
+export const App = () => {
   return (
-    <>
-      <div>
-        <a
-          href="https://vite.dev"
-          target="_blank"
-          rel="noreferrer"
-        >
-          <img
-            src={viteLogo}
-            className="logo"
-            alt="Vite logo"
-          />
-        </a>
-        <a
-          href="https://react.dev"
-          target="_blank"
-          rel="noreferrer"
-        >
-          <img
-            src={reactLogo}
-            className="logo react"
-            alt="React logo"
-          />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  );
-}
+    <div className="App">
+      <Header />
 
-export default App;
+      <div className="container">
+        <Routes>
+          <Route
+            path="/"
+            element={<h1>Home Page (Coming soon)</h1>}
+          />
+          <Route
+            path="/phones"
+            element={<PhonesPage />}
+          />
+          <Route
+            path="/tablets"
+            element={<TabletsPage />}
+          />
+          <Route
+            path="/accessories"
+            element={<AccessoriesPage />}
+          />
+
+          <Route
+            path="/cart"
+            element={<h1 className="title">Cart</h1>}
+          />
+          <Route
+            path="/favorites"
+            element={<h1 className="title">Favorites</h1>}
+          />
+
+          <Route
+            path="/product/:productId"
+            element={<h1 className="title">Product Details</h1>}
+          />
+
+          <Route
+            path="*"
+            element={<h1 className="title">Page Not Found</h1>}
+          />
+        </Routes>
+      </div>
+    </div>
+  );
+};
