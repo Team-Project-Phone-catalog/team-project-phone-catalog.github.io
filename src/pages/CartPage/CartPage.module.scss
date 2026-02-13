@@ -1,0 +1,86 @@
+@import '../../styles/utils';
+
+@font-face {
+  font-family: 'Mont';
+  src: url('/fonts/Mont-Regular.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Mont';
+  src: url('/fonts/Mont-SemiBold.otf') format('opentype');
+  font-weight: 600;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Mont';
+  src: url('/fonts/Mont-Bold.otf') format('opentype');
+  font-weight: 800;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Mont';
+  src: url('/fonts/Mont-Regular.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Mont;
+}
+
+.cart {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding-inline: 16px;
+  width: 100%;
+
+  @include tablet {
+    padding-inline: 24px;
+  }
+
+  @include desktop {
+    padding-inline: 32px;
+  }
+
+  .buttonBack {
+    margin-top: 24px;
+
+    @include tablet {
+      margin-top: 40px;
+    }
+
+    &Link {
+      text-decoration: none;
+      color: #f1f2f9;
+      font-size: 12px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+
+      &::before {
+        content: '<';
+        font-size: 12px;
+      }
+    }
+  }
+
+  .title {
+    color: #f1f2f9;
+    font-weight: 800;
+    line-height: 41px;
+    margin-top: 24px;
+    letter-spacing: -1%;
+
+    @include tablet {
+      margin-top: 16px;
+    }
+  }
+}

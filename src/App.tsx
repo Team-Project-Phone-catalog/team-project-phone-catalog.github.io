@@ -1,6 +1,7 @@
 import './App.css';
 import { Route, Routes } from 'react-router-dom';
 import { Header } from './pages/Header.tsx';
+import { CartPage } from './pages/CartPage/CartPage.tsx';
 
 export const App = () => {
   return (
@@ -28,7 +29,7 @@ export const App = () => {
 
           <Route
             path="/cart"
-            element={<h1 className="title">Cart</h1>}
+            element={<CartPage />}
           />
           <Route
             path="/favorites"
