@@ -1,3 +1,7 @@
+body {
+  font-family: Mont;
+}
+
 .card {
   box-sizing: border-box;
   display: flex;
@@ -13,7 +17,6 @@
     display: flex;
     justify-content: center;
     height: 130px;
-
     margin-bottom: 24px;
   }
 
@@ -28,9 +31,10 @@
     display: block;
     margin: 0;
     margin-bottom: 8px;
-    height: 58px;
+    height: 42px;
 
-    font-weight: 600;
+    font-family: Mont;
+    font-weight: 400;
     font-size: 14px;
     line-height: 21px;
     text-align: left;
@@ -47,13 +51,15 @@
   }
 
   &__price-current {
-    font-weight: 800;
+    font-family: Mont;
+    font-weight: 700;
     font-size: 22px;
     line-height: 140%;
     color: #f1f2f9;
   }
 
   &__price-full {
+    font-family: Mont;
     font-weight: 600;
     font-size: 22px;
     line-height: 28px;
@@ -81,13 +87,15 @@
     align-items: center;
     margin: 0;
     margin-bottom: 8px;
+    font-weight: 600;
 
+    font-family: Mont;
     font-size: 12px;
     line-height: 15px;
 
     &-value {
-      font-weight: 700;
       color: #f1f2f9;
+      font-weight: 400;
     }
 
     &-name {
@@ -110,17 +118,18 @@
     width: 175px;
     height: 40px;
 
-    font-weight: 700;
+    font-family: Mont;
     font-size: 14px;
     line-height: 21px;
+    letter-spacing: 0;
 
     color: #f1f2f9;
-
     background-color: #905bff;
 
     text-decoration: none;
     text-align: center;
     cursor: pointer;
+    border: none;
   }
 
   &__favorites-icon {

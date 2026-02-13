@@ -1,0 +1,46 @@
+@import '../../../styles/utils';
+
+.block {
+  margin-top: 32px;
+  border: 1px solid #3b3e4a;
+  padding: 24px;
+  width: 100%;
+
+  .price {
+    color: #f1f2f9;
+    font-size: 32px;
+    font-family: Mont;
+    display: flex;
+    justify-content: center;
+  }
+
+  .info {
+    color: #75767f;
+    font-weight: 600;
+    font-size: 14px;
+    text-align: center;
+  }
+
+  .button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 100%;
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px solid #3b3e4a;
+  }
+
+  .buttonCheck {
+    color: #f1f2f9;
+    background-color: #905bff;
+    border: 1px solid #3b3e4a;
+    line-height: 21px;
+    padding: 12px 24px;
+    font-size: 14px;
+    cursor: pointer;
+    width: 100%;
+    letter-spacing: 0;
+  }
+}

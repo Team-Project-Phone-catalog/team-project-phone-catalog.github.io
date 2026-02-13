@@ -4,11 +4,14 @@ import { Header } from './pages/Header.tsx';
 import { PhonesPage } from './pages/PhonesPage/PhonesPage.tsx';
 import { TabletsPage } from './pages/TabletsPage/TabletsPage.tsx';
 import { AccessoriesPage } from './pages/AccessoriesPage/AccessoriesPage.tsx';
+import { CartPage } from './pages/CartPage/CartPage.tsx';
+import { ProductCard } from './pages/ProductCard';
 
 export const App = () => {
   return (
     <div className="App">
       <Header />
+      <ProductCard />
 
       <div className="container">
         <Routes>
@@ -31,7 +34,7 @@ export const App = () => {
 
           <Route
             path="/cart"
-            element={<h1 className="title">Cart</h1>}
+            element={<CartPage />}
           />
           <Route
             path="/favorites"
