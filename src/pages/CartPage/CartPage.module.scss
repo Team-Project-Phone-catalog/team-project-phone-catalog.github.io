@@ -24,6 +24,10 @@
 
   .buttonBack {
     margin-top: 24px;
+    font-weight: 700;
+    letter-spacing: 0%;
+    line-height: 100%;
+    font-size: 12px;
 
     @include on-tablet {
       margin-top: 40px;
@@ -44,7 +48,7 @@
 
       &::before {
         content: '<';
-        font-size: 16px;
+        font-size: 12px;
         font-weight: 600;
       }
     }
