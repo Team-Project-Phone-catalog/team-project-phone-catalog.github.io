@@ -5,6 +5,7 @@ import { PhonesPage } from './pages/PhonesPage/PhonesPage.tsx';
 import { TabletsPage } from './pages/TabletsPage/TabletsPage.tsx';
 import { AccessoriesPage } from './pages/AccessoriesPage/AccessoriesPage.tsx';
 import { CartPage } from './pages/CartPage/CartPage.tsx';
+import { HomePage } from './pages/HomePage/HomePage.tsx';
 
 export const App = () => {
   return (
@@ -14,7 +15,7 @@ export const App = () => {
         <Routes>
           <Route
             path="/"
-            element={<h1>Home Page (Coming soon)</h1>}
+            element={<HomePage />}
           />
           <Route
             path="/phones"
