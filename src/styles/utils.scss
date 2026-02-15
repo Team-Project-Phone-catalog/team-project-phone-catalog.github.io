@@ -1,14 +1,29 @@
-$tablet: 639px;
-$desktop: 1199px;
-
-@mixin tablet {
-  @media (min-width: #{$tablet}) {
+@mixin on-tablet() {
+  @media (min-width: 640px) {
     @content;
   }
 }
 
-@mixin desktop {
-  @media (min-width: #{$desktop}) {
+@mixin on-desktop() {
+  @media (min-width: 1200px) {
     @content;
+  }
+}
+
+@mixin page-grid {
+  --columns: 4;
+
+  display: grid;
+  //grid-auto-flow: row;
+  column-gap: 16px;
+  grid-template-columns: repeat(var(--columns), minmax(0, 1fr));
+  justify-content: center;
+
+  @include on-tablet {
+    --columns: 12;
+  }
+
+  @include on-desktop {
+    --columns: 24;
   }
 }
