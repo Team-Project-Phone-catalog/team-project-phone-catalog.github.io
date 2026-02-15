@@ -10,7 +10,8 @@ export const CartPage = () => {
           className={s.buttonBackLink}
           href="#"
         >
-          Back
+          {' '}
+          Back{' '}
         </a>
       </div>
 
@@ -18,9 +19,17 @@ export const CartPage = () => {
         <h1>Cart</h1>
       </div>
 
-      <CartProduct />
+      <div className={s.cartContent}>
+        <div className={s.products}>
+          <CartProduct />
+          <CartProduct />
+          <CartProduct />
+        </div>
 
-      <CartItem />
+        <div className={s.summary}>
+          <CartItem />
+        </div>
+      </div>
     </div>
   );
 };

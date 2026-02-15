@@ -1,33 +1,5 @@
 @import '../../styles/utils';
 
-@font-face {
-  font-family: 'Mont';
-  src: url('/fonts/Mont-Regular.otf') format('opentype');
-  font-weight: 400;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: 'Mont';
-  src: url('/fonts/Mont-SemiBold.otf') format('opentype');
-  font-weight: 600;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: 'Mont';
-  src: url('/fonts/Mont-Bold.otf') format('opentype');
-  font-weight: 800;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: 'Mont';
-  src: url('/fonts/Mont-Regular.otf') format('opentype');
-  font-weight: 400;
-  font-style: normal;
-}
-
 * {
   margin: 0;
   padding: 0;
@@ -36,24 +8,24 @@
 }
 
 .cart {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  padding-inline: 16px;
   width: 100%;
+  padding-inline: 16px;
+  min-height: 100vh;
+  margin: 0;
 
-  @include tablet {
+  @include on-tablet {
     padding-inline: 24px;
   }
 
-  @include desktop {
-    padding-inline: 32px;
+  @include on-desktop {
+    padding-inline: clamp(32px, calc(32px + (100vw - 1200px) * 0.5), 152px);
+    margin: 0 auto;
   }
 
   .buttonBack {
     margin-top: 24px;
 
-    @include tablet {
+    @include on-tablet {
       margin-top: 40px;
     }
 
@@ -64,10 +36,16 @@
       display: flex;
       align-items: center;
       gap: 4px;
+      transition: color 0.3s;
+
+      &:hover {
+        color: #905bff;
+      }
 
       &::before {
         content: '<';
-        font-size: 12px;
+        font-size: 16px;
+        font-weight: 600;
       }
     }
   }
@@ -75,12 +53,51 @@
   .title {
     color: #f1f2f9;
     font-weight: 800;
+    font-size: 32px;
     line-height: 41px;
     margin-top: 24px;
-    letter-spacing: -1%;
+    letter-spacing: -0.01em;
 
-    @include tablet {
+    @include on-tablet {
       margin-top: 16px;
+      font-size: 48px;
+      line-height: 56px;
+    }
+
+    h1 {
+      font-size: inherit;
+      font-weight: inherit;
+      line-height: inherit;
+    }
+  }
+
+  .cartContent {
+    margin-top: 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+
+    @include on-desktop {
+      @include page-grid;
+      align-items: start;
+    }
+
+    .products {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+
+      @include on-desktop {
+        grid-column: 1 / 17;
+      }
+    }
+
+    .summary {
+      @include on-desktop {
+        grid-column: 17 / 25;
+        position: sticky;
+        top: 24px;
+      }
     }
   }
 }
