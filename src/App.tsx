@@ -1,6 +1,6 @@
 import './App.css';
 import { Route, Routes } from 'react-router-dom';
-import { Header } from './pages/Header.tsx';
+import { Header } from './components/ui/Header/Header.tsx';
 import { PhonesPage } from './pages/PhonesPage/PhonesPage.tsx';
 import { TabletsPage } from './pages/TabletsPage/TabletsPage.tsx';
 import { AccessoriesPage } from './pages/AccessoriesPage/AccessoriesPage.tsx';
