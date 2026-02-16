@@ -21,7 +21,6 @@ export const ProductCard: React.FC<Props> = ({ product }) => {
     'priceRegular' in product ? product.priceRegular : product.fullPrice;
 
   const imagePath = 'images' in product ? product.images[0] : product.image;
-
   const imageUrl = imagePath ? `/${imagePath}` : null;
 
   return (
@@ -32,8 +31,8 @@ export const ProductCard: React.FC<Props> = ({ product }) => {
             className="card__image"
             src={imageUrl}
             alt={product.name}
-            width="208px"
-            height="196px"
+            width="208"
+            height="196"
           />
         )}
       </div>
