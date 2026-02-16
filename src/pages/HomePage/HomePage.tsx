@@ -1,511 +1,182 @@
-import React from 'react';
-import './HomePage.scss';
+import React, { useEffect, useState } from 'react';
+import styles from './HomePage.module.scss';
+import { ProductCard } from '../ProductCard';
+import { getNewestProducts } from '../../utils/getNewestProducts.ts';
+import { getBestPrice } from '../../utils/getBestPrice.ts';
+import { getAccessories, getPhones, getTablets } from '../../api/products.ts';
+import { Product } from '../../types/Product.ts';
 
 export const HomePage: React.FC = () => {
+  const [phones, setPhones] = useState<Product[]>([]);
+  const [tablets, setTablets] = useState<Product[]>([]);
+  const [accessories, setAccessories] = useState<Product[]>([]);
+
+  const allProducts = [...phones, ...tablets, ...accessories];
+  const newestProducts = getNewestProducts(allProducts).slice(0, 12);
+  const bestPriceProducts = getBestPrice(allProducts).slice(0, 12);
+
+  useEffect(() => {
+    getPhones()
+      .then(setPhones)
+      .catch((err) => console.error('Error loading phones:', err));
+
+    getTablets()
+      .then(setTablets)
+      .catch((err) => console.error('Error loading tablets:', err));
+
+    getAccessories()
+      .then(setAccessories)
+      .catch((err) => console.error('Error loading accessories:', err));
+  }, []);
+
   return (
-    <main className="home">
-      <div className="container">
-        {/* Hero Section */}
-        <section className="hero">
-          <h1 className="hero__title">Welcome to Nice Gadgets store!</h1>
+    <main className={styles.home}>
+      <div className={styles.container}>
+        <section className={styles.hero}>
+          <h1 className={styles.hero__title}>Welcome to Nice Gadgets store!</h1>
 
-          <div className="hero__slider">
-            <button className="hero__arrow hero__arrow--left">
-              <img
-                src="/img/arrow-left.svg"
-                alt="Previous"
-              />
-            </button>
+          <div className={styles.hero__slider}>
+            <button
+              className={`${styles.hero__arrow} ${styles['hero__arrow--left']}`}
+              aria-label="Previous slide"
+            />
 
-            <div className="hero__banner">
+            <div className={styles.hero__banner}>
               <img
-                src="/img/banner-phones.png"
-                alt="iPhone 14 Pro - Now available in our store"
-                className="hero__banner-image"
+                src="/img/main-banner.png"
+                alt="iPhone 14 Pro promotion"
+                className={styles['hero__banner-img']}
               />
             </div>
 
-            <button className="hero__arrow hero__arrow--right">
-              <img
-                src="/img/arrow-right.svg"
-                alt="Next"
-              />
-            </button>
+            <button
+              className={`${styles.hero__arrow} ${styles['hero__arrow--right']}`}
+              aria-label="Next slide"
+            />
           </div>
 
-          <div className="hero__dots">
-            <span className="hero__dot hero__dot--active"></span>
-            <span className="hero__dot"></span>
-            <span className="hero__dot"></span>
+          <div className={styles.hero__dots}>
+            <button
+              className={`${styles.hero__dot} ${styles['hero__dot--active']}`}
+              aria-label="Slide 1"
+            />
+            <button
+              className={styles.hero__dot}
+              aria-label="Slide 2"
+            />
+            <button
+              className={styles.hero__dot}
+              aria-label="Slide 3"
+            />
           </div>
         </section>
 
-        {/* Brand New Models */}
-        <section className="section">
-          <div className="section__header">
-            <h2 className="section__title">Brand new models</h2>
-            <div className="section__arrows">
-              <button className="arrow-btn arrow-btn--prev">
-                <img
-                  src="/img/arrow-left.svg"
-                  alt="Previous"
-                />
-              </button>
-              <button className="arrow-btn arrow-btn--next">
-                <img
-                  src="/img/arrow-right.svg"
-                  alt="Next"
-                />
-              </button>
+        <section className={styles.section}>
+          <div className={styles.section__header}>
+            <h2 className={styles.section__title}>Brand new models</h2>
+            <div className={styles.section__arrows}>
+              <button
+                className={styles['arrow-btn']}
+                aria-label="Previous"
+              />
+              <button
+                className={styles['arrow-btn']}
+                aria-label="Next"
+              />
             </div>
           </div>
 
-          <div className="products-slider">
-            <div className="products-slider__track">
-              {/* Product 1 */}
-              <article className="product-card">
-                <img
-                  src="/img/iphone-14-silver.png"
-                  alt="iPhone 14 Pro Silver"
-                  className="product-card__image"
+          <div className={styles['products-slider']}>
+            <div className={styles['products-slider__track']}>
+              {newestProducts.map((product) => (
+                <ProductCard
+                  key={product.id}
+                  product={product}
                 />
-
-                <h3 className="product-card__title">
-                  Apple iPhone 14 Pro 128GB Silver (MQ023)
-                </h3>
-
-                <p className="product-card__price">$999</p>
-
-                <div className="product-card__divider"></div>
-
-                <div className="product-card__specs">
-                  <div className="product-card__spec">
-                    <span className="product-card__spec-label">Screen</span>
-                    <span className="product-card__spec-value">
-                      {'6.1" OLED'}
-                    </span>
-                  </div>
-                  <div className="product-card__spec">
-                    <span className="product-card__spec-label">Capacity</span>
-                    <span className="product-card__spec-value">128 GB</span>
-                  </div>
-                  <div className="product-card__spec">
-                    <span className="product-card__spec-label">RAM</span>
-                    <span className="product-card__spec-value">6 GB</span>
-                  </div>
-                </div>
-
-                <div className="product-card__actions">
-                  <button className="product-card__btn product-card__btn--cart">
-                    Add to cart
-                  </button>
-                  <button className="product-card__btn product-card__btn--fav">
-                    <img
-                      src="/img/heart.svg"
-                      alt="Add to favorites"
-                    />
-                  </button>
-                </div>
-              </article>
-
-              {/* Product 2 */}
-              <article className="product-card">
-                <img
-                  src="/img/iphone-14-purple.png"
-                  alt="iPhone 14 Pro Purple"
-                  className="product-card__image"
-                />
-
-                <h3 className="product-card__title">
-                  Apple iPhone 14 Pro 128GB Deep Purple (MQ0G3)
-                </h3>
-
-                <p className="product-card__price">$999</p>
-
-                <div className="product-card__divider"></div>
-
-                <div className="product-card__specs">
-                  <div className="product-card__spec">
-                    <span className="product-card__spec-label">Screen</span>
-                    <span className="product-card__spec-value">
-                      {'6.1" OLED'}
-                    </span>
-                  </div>
-                  <div className="product-card__spec">
-                    <span className="product-card__spec-label">Capacity</span>
-                    <span className="product-card__spec-value">128 GB</span>
-                  </div>
-                  <div className="product-card__spec">
-                    <span className="product-card__spec-label">RAM</span>
-                    <span className="product-card__spec-value">6 GB</span>
-                  </div>
-                </div>
-
-                <div className="product-card__actions">
-                  <button className="product-card__btn product-card__btn--cart">
-                    Add to cart
-                  </button>
-                  <button className="product-card__btn product-card__btn--fav">
-                    <img
-                      src="/img/heart.svg"
-                      alt="Add to favorites"
-                    />
-                  </button>
-                </div>
-              </article>
-
-              {/* Product 3 */}
-              <article className="product-card">
-                <img
-                  src="/img/iphone-14-gold.png"
-                  alt="iPhone 14 Pro Gold"
-                  className="product-card__image"
-                />
-
-                <h3 className="product-card__title">
-                  Apple iPhone 14 Pro 128GB Gold (MQ083)
-                </h3>
-
-                <p className="product-card__price">$999</p>
-
-                <div className="product-card__divider"></div>
-
-                <div className="product-card__specs">
-                  <div className="product-card__spec">
-                    <span className="product-card__spec-label">Screen</span>
-                    <span className="product-card__spec-value">
-                      {'6.1" OLED'}
-                    </span>
-                  </div>
-                  <div className="product-card__spec">
-                    <span className="product-card__spec-label">Capacity</span>
-                    <span className="product-card__spec-value">128 GB</span>
-                  </div>
-                  <div className="product-card__spec">
-                    <span className="product-card__spec-label">RAM</span>
-                    <span className="product-card__spec-value">6 GB</span>
-                  </div>
-                </div>
-
-                <div className="product-card__actions">
-                  <button className="product-card__btn product-card__btn--cart">
-                    Add to cart
-                  </button>
-                  <button className="product-card__btn product-card__btn--fav">
-                    <img
-                      src="/img/heart.svg"
-                      alt="Add to favorites"
-                    />
-                  </button>
-                </div>
-              </article>
-
-              {/* Product 4 */}
-              <article className="product-card">
-                <img
-                  src="/img/iphone-14-red.png"
-                  alt="iPhone 14 Plus Red"
-                  className="product-card__image"
-                />
-
-                <h3 className="product-card__title">
-                  Apple iPhone 14 Plus 128GB PRODUCT Red (MQS13)
-                </h3>
-
-                <p className="product-card__price">$859</p>
-
-                <div className="product-card__divider"></div>
-
-                <div className="product-card__specs">
-                  <div className="product-card__spec">
-                    <span className="product-card__spec-label">Screen</span>
-                    <span className="product-card__spec-value">
-                      {'6.7" OLED'}
-                    </span>
-                  </div>
-                  <div className="product-card__spec">
-                    <span className="product-card__spec-label">Capacity</span>
-                    <span className="product-card__spec-value">128 GB</span>
-                  </div>
-                  <div className="product-card__spec">
-                    <span className="product-card__spec-label">RAM</span>
-                    <span className="product-card__spec-value">6 GB</span>
-                  </div>
-                </div>
-
-                <div className="product-card__actions">
-                  <button className="product-card__btn product-card__btn--cart">
-                    Add to cart
-                  </button>
-                  <button className="product-card__btn product-card__btn--fav">
-                    <img
-                      src="/img/heart.svg"
-                      alt="Add to favorites"
-                    />
-                  </button>
-                </div>
-              </article>
+              ))}
             </div>
           </div>
         </section>
 
-        {/* Shop by Category */}
-        <section className="section">
-          <h2 className="section__title">Shop by category</h2>
+        <section className={styles.section}>
+          <h2 className={styles.section__title}>Shop by category</h2>
 
-          <div className="categories">
-            <article className="category-card">
-              <div className="category-card__image category-card__image--phones">
+          <div className={styles.categories}>
+            <article className={styles['category-card']}>
+              <div className={styles['category-card__image-wrapper']}>
                 <img
-                  src="/img/category-phones.png"
+                  src="/img/category-phones.jpg"
                   alt="Mobile phones"
+                  className={styles['category-card__image']}
                 />
               </div>
-              <h3 className="category-card__title">Mobile phones</h3>
-              <p className="category-card__count">95 models</p>
+              <div className={styles['category-card__info']}>
+                <h3 className={styles['category-card__title']}>
+                  Mobile phones
+                </h3>
+                <p className={styles['category-card__count']}>
+                  {phones.length} models
+                </p>
+              </div>
             </article>
 
-            <article className="category-card">
-              <div className="category-card__image category-card__image--tablets">
+            <article className={styles['category-card']}>
+              <div className={styles['category-card__image-wrapper']}>
                 <img
-                  src="/img/category-tablets.png"
+                  src="/img/category-tablets.jpg"
                   alt="Tablets"
+                  className={styles['category-card__image']}
                 />
               </div>
-              <h3 className="category-card__title">Tablets</h3>
-              <p className="category-card__count">24 models</p>
+              <div className={styles['category-card__info']}>
+                <h3 className={styles['category-card__title']}>Tablets</h3>
+                <p className={styles['category-card__count']}>
+                  {tablets.length} models
+                </p>
+              </div>
             </article>
 
-            <article className="category-card">
-              <div className="category-card__image category-card__image--accessories">
+            <article className={styles['category-card']}>
+              <div className={styles['category-card__image-wrapper']}>
                 <img
-                  src="/img/category-accessories.png"
+                  src="/img/category-accessories.jpg"
                   alt="Accessories"
+                  className={styles['category-card__image']}
                 />
               </div>
-              <h3 className="category-card__title">Accessories</h3>
-              <p className="category-card__count">100 models</p>
+              <div className={styles['category-card__info']}>
+                <h3 className={styles['category-card__title']}>Accessories</h3>
+                <p className={styles['category-card__count']}>
+                  {accessories.length} models
+                </p>
+              </div>
             </article>
           </div>
         </section>
 
-        {/* Hot Prices */}
-        <section className="section">
-          <div className="section__header">
-            <h2 className="section__title">Hot prices</h2>
-            <div className="section__arrows">
-              <button className="arrow-btn arrow-btn--prev">
-                <img
-                  src="/img/arrow-left.svg"
-                  alt="Previous"
-                />
-              </button>
-              <button className="arrow-btn arrow-btn--next">
-                <img
-                  src="/img/arrow-right.svg"
-                  alt="Next"
-                />
-              </button>
+        <section className={styles.section}>
+          <div className={styles.section__header}>
+            <h2 className={styles.section__title}>Hot prices</h2>
+            <div className={styles.section__arrows}>
+              <button
+                className={styles['arrow-btn']}
+                aria-label="Previous"
+              />
+              <button
+                className={styles['arrow-btn']}
+                aria-label="Next"
+              />
             </div>
           </div>
 
-          <div className="products-slider">
-            <div className="products-slider__track">
-              {/* Hot Product 1 */}
-              <article className="product-card">
-                <img
-                  src="/img/iphone-11-green.png"
-                  alt="iPhone 11 Pro Max"
-                  className="product-card__image"
+          <div className={styles['products-slider']}>
+            <div className={styles['products-slider__track']}>
+              {bestPriceProducts.map((product) => (
+                <ProductCard
+                  key={product.id}
+                  product={product}
                 />
-
-                <h3 className="product-card__title">
-                  Apple iPhone 11 Pro Max 512GB Midnight Green (iMYG2FS/A)
-                </h3>
-
-                <div className="product-card__prices">
-                  <span className="product-card__price">$849</span>
-                  <span className="product-card__price--old">$1199</span>
-                </div>
-
-                <div className="product-card__divider"></div>
-
-                <div className="product-card__specs">
-                  <div className="product-card__spec">
-                    <span className="product-card__spec-label">Screen</span>
-                    <span className="product-card__spec-value">
-                      {'6.5" OLED'}
-                    </span>
-                  </div>
-                  <div className="product-card__spec">
-                    <span className="product-card__spec-label">Capacity</span>
-                    <span className="product-card__spec-value">512 GB</span>
-                  </div>
-                  <div className="product-card__spec">
-                    <span className="product-card__spec-label">RAM</span>
-                    <span className="product-card__spec-value">4 GB</span>
-                  </div>
-                </div>
-
-                <div className="product-card__actions">
-                  <button className="product-card__btn product-card__btn--cart">
-                    Add to cart
-                  </button>
-                  <button className="product-card__btn product-card__btn--fav">
-                    <img
-                      src="/img/heart.svg"
-                      alt="Add to favorites"
-                    />
-                  </button>
-                </div>
-              </article>
-
-              {/* Hot Product 2 */}
-              <article className="product-card">
-                <img
-                  src="/img/iphone-11-gold.png"
-                  alt="iPhone 11 Pro Max"
-                  className="product-card__image"
-                />
-
-                <h3 className="product-card__title">
-                  Apple iPhone 11 Pro Max 64GB Gold (iMT9G2FS/A)
-                </h3>
-
-                <div className="product-card__prices">
-                  <span className="product-card__price">$799</span>
-                  <span className="product-card__price--old">$999</span>
-                </div>
-
-                <div className="product-card__divider"></div>
-
-                <div className="product-card__specs">
-                  <div className="product-card__spec">
-                    <span className="product-card__spec-label">Screen</span>
-                    <span className="product-card__spec-value">
-                      {'6.5" OLED'}
-                    </span>
-                  </div>
-                  <div className="product-card__spec">
-                    <span className="product-card__spec-label">Capacity</span>
-                    <span className="product-card__spec-value">64 GB</span>
-                  </div>
-                  <div className="product-card__spec">
-                    <span className="product-card__spec-label">RAM</span>
-                    <span className="product-card__spec-value">4 GB</span>
-                  </div>
-                </div>
-
-                <div className="product-card__actions">
-                  <button className="product-card__btn product-card__btn--cart">
-                    Add to cart
-                  </button>
-                  <button className="product-card__btn product-card__btn--fav">
-                    <img
-                      src="/img/heart.svg"
-                      alt="Add to favorites"
-                    />
-                  </button>
-                </div>
-              </article>
-
-              {/* Hot Product 3 */}
-              <article className="product-card">
-                <img
-                  src="/img/iphone-11-purple.png"
-                  alt="iPhone 11"
-                  className="product-card__image"
-                />
-
-                <h3 className="product-card__title">
-                  Apple iPhone 11 256GB Purple (iMT9G2FS/A)
-                </h3>
-
-                <div className="product-card__prices">
-                  <span className="product-card__price">$729</span>
-                  <span className="product-card__price--old">$859</span>
-                </div>
-
-                <div className="product-card__divider"></div>
-
-                <div className="product-card__specs">
-                  <div className="product-card__spec">
-                    <span className="product-card__spec-label">Screen</span>
-                    <span className="product-card__spec-value">
-                      {'6.2" IPS'}
-                    </span>
-                  </div>
-                  <div className="product-card__spec">
-                    <span className="product-card__spec-label">Capacity</span>
-                    <span className="product-card__spec-value">256 GB</span>
-                  </div>
-                  <div className="product-card__spec">
-                    <span className="product-card__spec-label">RAM</span>
-                    <span className="product-card__spec-value">4 GB</span>
-                  </div>
-                </div>
-
-                <div className="product-card__actions">
-                  <button className="product-card__btn product-card__btn--cart">
-                    Add to cart
-                  </button>
-                  <button className="product-card__btn product-card__btn--fav">
-                    <img
-                      src="/img/heart.svg"
-                      alt="Add to favorites"
-                    />
-                  </button>
-                </div>
-              </article>
-
-              {/* Hot Product 4 */}
-              <article className="product-card">
-                <img
-                  src="/img/iphone-11-red.png"
-                  alt="iPhone 11"
-                  className="product-card__image"
-                />
-
-                <h3 className="product-card__title">
-                  Apple iPhone 11 128GB (Product) Red (iMT9G2FS/A)
-                </h3>
-
-                <div className="product-card__prices">
-                  <span className="product-card__price">$699</span>
-                  <span className="product-card__price--old">$800</span>
-                </div>
-
-                <div className="product-card__divider"></div>
-
-                <div className="product-card__specs">
-                  <div className="product-card__spec">
-                    <span className="product-card__spec-label">Screen</span>
-                    <span className="product-card__spec-value">
-                      {'6.2" IPS'}
-                    </span>
-                  </div>
-                  <div className="product-card__spec">
-                    <span className="product-card__spec-label">Capacity</span>
-                    <span className="product-card__spec-value">128 GB</span>
-                  </div>
-                  <div className="product-card__spec">
-                    <span className="product-card__spec-label">RAM</span>
-                    <span className="product-card__spec-value">4 GB</span>
-                  </div>
-                </div>
-
-                <div className="product-card__actions">
-                  <button className="product-card__btn product-card__btn--cart">
-                    Add to cart
-                  </button>
-                  <button className="product-card__btn product-card__btn--fav">
-                    <img
-                      src="/img/heart.svg"
-                      alt="Add to favorites"
-                    />
-                  </button>
-                </div>
-              </article>
+              ))}
             </div>
           </div>
         </section>
