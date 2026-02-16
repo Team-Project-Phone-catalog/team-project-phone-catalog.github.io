@@ -188,3 +188,20 @@ $color-gray: #75767f;
     display: block;
   }
 }
+
+.burger_icon {
+  width: 14px;
+  height: 9px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  span {
+    display: block;
+    width: 100%;
+    height: 2px;
+    background-color: $color-white;
+    border-radius: 2px;
+    transition: all 0.3s ease;
+  }
+}
