@@ -618,3 +618,59 @@ body {
   color: #f1f2f9;
   font-size: 24px;
 }
+._tablets-page_v3hkh_1 {
+  padding: 0 16px;
+}
+._tablets-page_v3hkh_1 ._title_v3hkh_4 {
+  margin-top: 24px;
+  margin-bottom: 8px;
+  color: #f1f2f9;
+  font-family: Mont;
+  font-weight: 800;
+  font-size: 32px;
+  line-height: 41px;
+  letter-spacing: -0.01em;
+}
+._tablets-page__controls_v3hkh_14 {
+  margin-bottom: 24px;
+}
+._tablets-page_v3hkh_1 ._controls_v3hkh_17 {
+  display: flex;
+  gap: 16px;
+}
+._tablets-page_v3hkh_1 ._control_v3hkh_17 {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+._tablets-page_v3hkh_1 ._label_v3hkh_26 {
+  font-size: 12px;
+  color: #75767f;
+}
+._tablets-page_v3hkh_1 ._select_v3hkh_30 {
+  width: 136px;
+  height: 40px;
+  padding: 0 12px;
+  background: #323542;
+  border: 1px solid #3b3e4a;
+  color: #f1f2f9;
+  font-family: Mont;
+  font-size: 14px;
+}
+._tablets-page__list_v3hkh_40 {
+  display: grid;
+  gap: 16px;
+  row-gap: 40px;
+  column-gap: 16px;
+  grid-template-columns: 1fr;
+}
+@media (min-width: 640px) {
+  ._tablets-page__list_v3hkh_40 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (min-width: 1200px) {
+  ._tablets-page__list_v3hkh_40 {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}

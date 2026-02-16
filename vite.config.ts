@@ -3,5 +3,6 @@ import react from '@vitejs/plugin-react';
 
 export default defineConfig({
   plugins: [react()],
-  base: '/phone-catalog-frontend/',
+  base:
+    process.env.NODE_ENV === 'production' ? '/phone-catalog-frontend/' : '/',
 });
