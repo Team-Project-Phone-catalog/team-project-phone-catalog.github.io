@@ -1,0 +1,29 @@
+.purchase {
+  &-price {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 32px;
+
+    &__current {
+      font-family: 'Mont', 'Helvetica Neue', Arial, sans-serif;
+      font-weight: 700;
+      font-size: 32px;
+      line-height: 41px;
+      color: #f1f2f9;
+    }
+
+    &__full {
+      font-family: 'Mont', 'Helvetica Neue', Arial, sans-serif;
+      font-weight: 600;
+      font-size: 22px;
+      line-height: 100%;
+      color: #75767f;
+      text-decoration: line-through;
+    }
+  }
+
+  &__buttons {
+    margin-top: 16px;
+  }
+}

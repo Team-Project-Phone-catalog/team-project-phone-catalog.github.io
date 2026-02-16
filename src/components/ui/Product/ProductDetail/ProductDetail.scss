@@ -1,0 +1,42 @@
+.ProductFeatures {
+  margin-top: 32px;
+}
+
+.ProductDetail {
+  &__about {
+    &-title {
+      color: #f1f2f9;
+      font-size: 20px;
+      font-weight: 700;
+
+      &::after {
+        content: '';
+        display: block;
+        height: 1px;
+        width: 100%;
+        background-color: #3b3e4a;
+        margin-top: 16px;
+      }
+    }
+
+    &-main {
+      margin-top: 32px;
+
+      &-title {
+        color: #f1f2f9;
+        font-size: 16px;
+        font-weight: 700;
+        line-height: 100%;
+        letter-spacing: 0;
+        margin-bottom: 16px;
+      }
+
+      &-second {
+        color: #89939a;
+        font-weight: 600;
+        font-size: 14px;
+        line-height: 21px;
+      }
+    }
+  }
+}

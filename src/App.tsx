@@ -2,9 +2,9 @@ import './App.css';
 import { Route, Routes } from 'react-router-dom';
 import { Header } from './pages/Header.tsx';
 import { PhonesPage } from './pages/PhonesPage/PhonesPage.tsx';
-import { TabletsPage } from './pages/TabletsPage/TabletsPage.tsx';
 import { AccessoriesPage } from './pages/AccessoriesPage/AccessoriesPage.tsx';
 import { CartPage } from './pages/CartPage/CartPage.tsx';
+import { NotFoundPage } from './pages/NotFoundPage/NotFoundPage.tsx';
 
 export const App = () => {
   return (
@@ -22,7 +22,7 @@ export const App = () => {
           />
           <Route
             path="/tablets"
-            element={<TabletsPage />}
+            element={<h1>Gello</h1>}
           />
           <Route
             path="/accessories"
@@ -45,7 +45,7 @@ export const App = () => {
 
           <Route
             path="*"
-            element={<h1 className="title">Page Not Found</h1>}
+            element={<NotFoundPage />}
           />
         </Routes>
       </div>
