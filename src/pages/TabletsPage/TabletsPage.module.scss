@@ -3,6 +3,18 @@
 .tablets-page {
   padding: 0 16px;
 
+  @include on-tablet {
+    padding: 0 24px;
+  }
+
+  @include on-desktop {
+    padding: 0 32px;
+  }
+
+  @media (min-width: 1440px) {
+    padding: 0 152px;
+  }
+
   .title {
     margin-top: 24px;
     margin-bottom: 8px;
@@ -12,6 +24,12 @@
     font-size: 32px;
     line-height: 41px;
     letter-spacing: -0.01em;
+  }
+
+  .modelsCount {
+    margin-bottom: 24px;
+    font-size: 14px;
+    color: #75767f;
   }
 
   &__controls {
@@ -45,6 +63,10 @@
 
     font-family: Mont;
     font-size: 14px;
+    appearance: none;
+    background-image: url('/img/icons/arrow-down.svg');
+    background-repeat: no-repeat;
+    background-position: right 12px center;
   }
 
   &__list {

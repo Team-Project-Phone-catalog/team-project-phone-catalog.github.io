@@ -19,6 +19,7 @@ export const TabletsPage = () => {
   return (
     <div className={s['tablets-page']}>
       <h1 className={s.title}>Tablets</h1>
+      <p className={s.modelsCount}>{tablets.length} models</p>
 
       <section className={s['tablets-page__controls']}>
         <div className={s.controls}>
