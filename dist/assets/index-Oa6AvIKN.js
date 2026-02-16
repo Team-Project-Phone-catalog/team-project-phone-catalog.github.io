@@ -14814,7 +14814,7 @@ const K0 = () =>
         N.jsx('div', {
           className: ze.imageWrapper,
           children: N.jsx('img', {
-            src: '/public/img/phones/apple-iphone-14-pro/spaceblack/00.webp',
+            src: '/img/phones/apple-iphone-14-pro/spaceblack/00.webp',
             alt: 'Apple iPhone 14 Pro',
             className: ze.image,
           }),
