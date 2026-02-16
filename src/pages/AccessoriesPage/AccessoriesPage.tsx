@@ -47,7 +47,10 @@ export const AccessoriesPage = () => {
 
       <section className={s['accessories-page__list']}>
         {accessories.map((accessory) => (
-          <ProductCard key={accessory.id} />
+          <ProductCard
+            key={accessory.id}
+            product={accessory}
+          />
         ))}
       </section>
 
