@@ -35,3 +35,31 @@ $bg-card: $color-surface-2;
 /* TRANSITIONS */
 
 $transition-default: 0.3s ease;
+
+/* BUTTON STATES */
+
+/* Primary */
+$btn-primary-bg: $color-accent;
+$btn-primary-hover: $color-accent-hover;
+$btn-primary-text: $color-white;
+
+/* Secondary */
+$btn-secondary-bg: $color-surface-2;
+$btn-secondary-hover: $color-icons;
+$btn-secondary-text: $color-white;
+
+/* Default small square buttons (arrows) */
+$btn-default-bg: $color-elements;
+$btn-default-hover: $color-icons;
+$btn-default-selected: $color-surface-1;
+$btn-default-disabled: $color-secondary;
+
+/* Status buttons */
+$btn-favorite: $color-red;
+$btn-success: $color-green;
+
+/* Option / capacity selected */
+$btn-option-selected: $color-option-selected;
+
+/* Light button */
+$btn-light-bg: $color-light-1;
