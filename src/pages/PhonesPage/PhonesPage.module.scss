@@ -11,11 +11,11 @@
 
     grid-template-columns: 1fr;
 
-    @include tablet {
+    @include on-tablet {
       grid-template-columns: repeat(2, 1fr);
     }
 
-    @include desktop {
+    @include on-desktop {
       grid-template-columns: repeat(4, 1fr);
     }
   }
