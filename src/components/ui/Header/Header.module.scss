@@ -13,7 +13,7 @@ $color-gray: #75767f;
   align-items: center;
   position: sticky;
   top: 0;
-  z-index: 100;
+  z-index: 1000;
 
   @include on-desktop {
     height: 64px;
@@ -49,7 +49,6 @@ $color-gray: #75767f;
       height: 22px;
       display: block;
       object-fit: contain;
-      transition: all 0.3s ease;
 
       @include on-desktop {
         width: 80px;
@@ -123,7 +122,6 @@ $color-gray: #75767f;
   &__link {
     display: flex;
     align-items: center;
-    padding: 0;
     height: 100%;
     color: $color-gray;
     text-decoration: none;
@@ -132,15 +130,6 @@ $color-gray: #75767f;
     text-transform: uppercase;
     transition: color 0.3s ease;
     position: relative;
-
-    &::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      bottom: 0;
-      left: -12px;
-      right: -12px;
-    }
 
     &:hover {
       color: $color-white;
@@ -170,6 +159,7 @@ $color-gray: #75767f;
   border-left: 1px solid $color-border;
   text-decoration: none;
   transition: background-color 0.2s ease;
+  position: relative;
 
   @include on-desktop {
     width: 64px;
@@ -178,23 +168,34 @@ $color-gray: #75767f;
   &:hover {
     background-color: rgba($color-white, 0.05);
   }
+
   &--active {
     background-color: rgba($color-white, 0.1);
+
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background-color: $color-white;
+    }
   }
 
   img {
     width: 16px;
     height: 16px;
-    display: block;
   }
 }
 
 .burger_icon {
-  width: 14px;
+  width: 16px;
   height: 9px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  position: relative;
 
   span {
     display: block;
@@ -202,6 +203,24 @@ $color-gray: #75767f;
     height: 2px;
     background-color: $color-white;
     border-radius: 2px;
-    transition: all 0.3s ease;
+    transition:
+      transform 0.3s ease,
+      opacity 0.2s ease;
+    transform-origin: center;
+  }
+
+  &--active {
+    span:nth-child(1) {
+      transform: translateY(3.5px) rotate(45deg);
+    }
+
+    span:nth-child(2) {
+      opacity: 0;
+      transform: translateX(-5px);
+    }
+
+    span:nth-child(3) {
+      transform: translateY(-3.5px) rotate(-45deg);
+    }
   }
 }
