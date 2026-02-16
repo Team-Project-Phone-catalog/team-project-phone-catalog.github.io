@@ -3,8 +3,8 @@ import { Link, NavLink } from 'react-router-dom';
 import { BurgerMenu } from './BurgerMenu/BurgerMenu';
 import styles from './Header.module.scss';
 import logo from './icons/logo.svg';
-import heartIcon from './icons/heart.svg';
-import cartIcon from './icons/cart.svg';
+import heartIcon from './icons/Heart.svg';
+import cartIcon from './icons/Cart.svg';
 
 const navLinks = [
   { id: 1, name: 'Home', path: '/' },
