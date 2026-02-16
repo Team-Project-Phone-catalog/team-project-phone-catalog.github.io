@@ -1,0 +1,66 @@
+@use '../../styles/utils' as *;
+
+.tablets-page {
+  padding: 0 16px;
+
+  .title {
+    margin-top: 24px;
+    margin-bottom: 8px;
+    color: #f1f2f9;
+    font-family: Mont;
+    font-weight: 800;
+    font-size: 32px;
+    line-height: 41px;
+    letter-spacing: -0.01em;
+  }
+
+  &__controls {
+    margin-bottom: 24px;
+  }
+
+  .controls {
+    display: flex;
+    gap: 16px;
+  }
+
+  .control {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .label {
+    font-size: 12px;
+    color: #75767f;
+  }
+
+  .select {
+    width: 136px;
+    height: 40px;
+    padding: 0 12px;
+
+    background: #323542;
+    border: 1px solid #3b3e4a;
+    color: #f1f2f9;
+
+    font-family: Mont;
+    font-size: 14px;
+  }
+
+  &__list {
+    display: grid;
+    gap: 16px;
+    row-gap: 40px;
+    column-gap: 16px;
+
+    grid-template-columns: 1fr;
+
+    @include on-tablet {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    @include on-desktop {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+}
