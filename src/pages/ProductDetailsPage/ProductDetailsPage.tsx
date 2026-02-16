@@ -1,5 +1,5 @@
 import './ProductDetailsPage.scss';
-import ProductCard from '../../components/ui/Product/ProductCard/ProductCard.tsx';
+import { ProductCard } from '../../components/ui/Product/ProductCard/ProductCard.tsx';
 import { BackButton } from '../../components/ui/Buttons/Back/BackButton.tsx';
 
 export const ProductDetailsPage = () => {
