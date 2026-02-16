@@ -10,8 +10,7 @@
 .cart {
   width: 100%;
   padding-inline: 16px;
-  min-height: 100vh;
-  margin: 0;
+  padding-bottom: 80px;
 
   @include on-tablet {
     padding-inline: 24px;
