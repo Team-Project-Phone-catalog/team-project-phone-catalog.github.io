@@ -1,6 +1,7 @@
 import './App.css';
 import { Route, Routes } from 'react-router-dom';
 import { Header } from './pages/Header.tsx';
+import { Footer } from './components/Footer';
 import { PhonesPage } from './pages/PhonesPage/PhonesPage.tsx';
 import { AccessoriesPage } from './pages/AccessoriesPage/AccessoriesPage.tsx';
 import { CartPage } from './pages/CartPage/CartPage.tsx';
@@ -11,6 +12,7 @@ export const App = () => {
   return (
     <div className="App">
       <Header />
+
       <div className="container">
         <Routes>
           <Route
@@ -29,7 +31,6 @@ export const App = () => {
             path="/accessories"
             element={<AccessoriesPage />}
           />
-
           <Route
             path="/cart"
             element={<CartPage />}
@@ -38,18 +39,18 @@ export const App = () => {
             path="/favorites"
             element={<h1 className="title">Favorites</h1>}
           />
-
           <Route
             path="/product/:productId"
             element={<h1 className="title">Product Details</h1>}
           />
-
           <Route
             path="*"
             element={<NotFoundPage />}
           />
         </Routes>
       </div>
+
+      <Footer />
     </div>
   );
 };
