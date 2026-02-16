@@ -1,0 +1,98 @@
+@import '../../styles/utils';
+
+.footer {
+  border-top: 1px solid #3b3e4a;
+  background: #0f1121;
+  padding: 32px 16px;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.logo {
+  display: flex;
+  height: 32px;
+  align-self: flex-start;
+}
+
+.nav {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+  a {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+
+    color: #f1f2f9;
+    text-decoration: none;
+
+    transition: color 0.3s ease;
+
+    &:hover {
+      color: #ffffff;
+    }
+  }
+}
+
+.back {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+
+  span {
+    font-size: 12px;
+    color: #89939a;
+  }
+}
+
+.arrow {
+  width: 32px;
+  height: 32px;
+
+  background: #323542;
+  border: none;
+
+  color: #ffffff;
+  cursor: pointer;
+
+  transition: background 0.3s ease;
+
+  &:hover {
+    background: #4219d0;
+  }
+}
+
+@include on-tablet {
+  .container {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .nav {
+    flex-direction: row;
+    gap: 48px;
+  }
+}
+
+@include on-desktop {
+  .footer {
+    padding-block: 32px;
+    padding-inline: clamp(32px, calc(32px + (100vw - 1200px) * 0.5), 152px);
+  }
+
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .nav {
+    gap: 64px;
+  }
+}

@@ -1,16 +1,19 @@
 import './App.css';
 import { Route, Routes } from 'react-router-dom';
 import { Header } from './pages/Header.tsx';
+import { Footer } from './components/Footer';
 import { PhonesPage } from './pages/PhonesPage/PhonesPage.tsx';
-import { TabletsPage } from './pages/TabletsPage/TabletsPage.tsx';
 import { AccessoriesPage } from './pages/AccessoriesPage/AccessoriesPage.tsx';
 import { CartPage } from './pages/CartPage/CartPage.tsx';
+import { NotFoundPage } from './pages/NotFoundPage/NotFoundPage.tsx';
+import { TabletsPage } from './pages/TabletsPage/TabletsPage.tsx';
 import { HomePage } from './pages/HomePage/HomePage.tsx';
 
 export const App = () => {
   return (
     <div className="App">
       <Header />
+
       <div className="container">
         <Routes>
           <Route
@@ -29,7 +32,6 @@ export const App = () => {
             path="/accessories"
             element={<AccessoriesPage />}
           />
-
           <Route
             path="/cart"
             element={<CartPage />}
@@ -38,18 +40,18 @@ export const App = () => {
             path="/favorites"
             element={<h1 className="title">Favorites</h1>}
           />
-
           <Route
             path="/product/:productId"
             element={<h1 className="title">Product Details</h1>}
           />
-
           <Route
             path="*"
-            element={<h1 className="title">Page Not Found</h1>}
+            element={<NotFoundPage />}
           />
         </Routes>
       </div>
+
+      <Footer />
     </div>
   );
 };

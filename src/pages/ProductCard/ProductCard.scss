@@ -6,10 +6,8 @@ body {
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
-
   width: 287px;
   height: 440px;
-
   padding: 32px;
   background-color: #161827;
 
@@ -32,115 +30,11 @@ body {
     margin: 0;
     margin-bottom: 8px;
     height: 42px;
-
     font-family: Mont;
     font-weight: 400;
     font-size: 14px;
     line-height: 21px;
     text-align: left;
-
     color: #f1f2f9;
-  }
-
-  &__price {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin: 0;
-    margin-bottom: 8px;
-  }
-
-  &__price-current {
-    font-family: Mont;
-    font-weight: 700;
-    font-size: 22px;
-    line-height: 140%;
-    color: #f1f2f9;
-  }
-
-  &__price-full {
-    font-family: Mont;
-    font-weight: 600;
-    font-size: 22px;
-    line-height: 28px;
-    color: #75767f;
-    text-decoration: line-through;
-  }
-
-  &__features {
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 8px;
-
-    &::before {
-      content: '';
-      height: 1px;
-      width: 100%;
-      background-color: #3b3e4a;
-      margin-bottom: 10px;
-    }
-  }
-
-  &__feature {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin: 0;
-    margin-bottom: 8px;
-    font-weight: 600;
-
-    font-family: Mont;
-    font-size: 12px;
-    line-height: 15px;
-
-    &-value {
-      color: #f1f2f9;
-      font-weight: 400;
-    }
-
-    &-name {
-      color: #75767f;
-    }
-  }
-
-  &__buy {
-    display: flex;
-    justify-content: space-between;
-    gap: 8px;
-  }
-
-  &__add-to-card {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-grow: 1;
-
-    width: 175px;
-    height: 40px;
-
-    font-family: Mont;
-    font-size: 14px;
-    line-height: 21px;
-    letter-spacing: 0;
-
-    color: #f1f2f9;
-    background-color: #905bff;
-
-    text-decoration: none;
-    text-align: center;
-    cursor: pointer;
-    border: none;
-  }
-
-  &__favorites-icon {
-    box-sizing: border-box;
-    width: 40px;
-    height: 40px;
-
-    background-color: #323542;
-    background-image: url(../../../public/img/heart.svg);
-    background-repeat: no-repeat;
-    background-position: center;
-    cursor: pointer;
   }
 }

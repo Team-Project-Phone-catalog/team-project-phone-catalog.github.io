@@ -1,0 +1,51 @@
+$bg-main: #0c1022;
+$bg-card: #111531;
+$white: #ffffff;
+$transition: 0.3s ease;
+
+.gallery {
+  margin-top: 32px;
+  text-align: center;
+
+  &__main {
+    overflow: hidden;
+
+    img {
+      width: 274px;
+      height: 274px;
+      object-fit: contain;
+      transition: $transition;
+    }
+  }
+
+  &__thumbs {
+    padding-top: 16px;
+
+    display: flex;
+    justify-content: left;
+    gap: 8px;
+  }
+}
+
+.thumb {
+  width: 80px;
+  height: 80px;
+  padding: 8px;
+  cursor: pointer;
+  transition: $transition;
+  border: 1px solid #3b3e4a;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  &:hover {
+    transform: scale(1.05);
+  }
+
+  &.active {
+    border: 2px solid $white;
+  }
+}
