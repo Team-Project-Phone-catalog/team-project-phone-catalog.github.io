@@ -29,8 +29,10 @@ export interface Product {
   category: string;
   itemId: string;
   name: string;
-  fullPrice: number;
-  price: number;
+  priceRegular: number;
+  priceDiscount: number;
+  fullPrice?: number;
+  price?: number;
   screen: string;
   capacity: string;
   color: string;

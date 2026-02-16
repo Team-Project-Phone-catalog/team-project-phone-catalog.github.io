@@ -15,10 +15,10 @@ export const ProductCard: React.FC<Props> = ({ product }) => {
   }
 
   const currentPrice =
-    'priceDiscount' in product ? product.priceDiscount : product.price;
-
+    product.priceDiscount ?? ('price' in product ? product.price : undefined);
   const fullPrice =
-    'priceRegular' in product ? product.priceRegular : product.fullPrice;
+    product.priceRegular ??
+    ('fullPrice' in product ? product.fullPrice : undefined);
 
   const imagePath = 'images' in product ? product.images[0] : product.image;
   const imageUrl = imagePath ? `/${imagePath}` : null;
