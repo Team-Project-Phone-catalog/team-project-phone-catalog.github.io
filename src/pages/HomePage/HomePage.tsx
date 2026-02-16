@@ -1,19 +1,24 @@
 import React, { useEffect, useState } from 'react';
 import styles from './HomePage.module.scss';
 import { ProductCard } from '../ProductCard';
-import { getNewestProducts } from '../../utils/getNewestProducts.ts';
-import { getBestPrice } from '../../utils/getBestPrice.ts';
-import { getAccessories, getPhones, getTablets } from '../../api/products.ts';
+import {
+  getAccessories,
+  getPhones,
+  getProducts,
+  getTablets,
+} from '../../api/products.ts';
 import { Product } from '../../types/Product.ts';
+import { sortByBestPrice, sortByNewest } from '../../utils/productFilters.ts';
 
 export const HomePage: React.FC = () => {
   const [phones, setPhones] = useState<Product[]>([]);
   const [tablets, setTablets] = useState<Product[]>([]);
   const [accessories, setAccessories] = useState<Product[]>([]);
+  const [products, setProducts] = useState<Product[]>([]);
 
   const allProducts = [...phones, ...tablets, ...accessories];
-  const newestProducts = getNewestProducts(allProducts).slice(0, 12);
-  const bestPriceProducts = getBestPrice(allProducts).slice(0, 12);
+  const newestProducts = sortByNewest(products).slice(0, 12);
+  const bestPriceProducts = sortByBestPrice(allProducts).slice(0, 12);
 
   useEffect(() => {
     getPhones()
@@ -26,6 +31,9 @@ export const HomePage: React.FC = () => {
 
     getAccessories()
       .then(setAccessories)
+      .catch((err) => console.error('Error loading accessories:', err));
+    getProducts()
+      .then(setProducts)
       .catch((err) => console.error('Error loading accessories:', err));
   }, []);
 

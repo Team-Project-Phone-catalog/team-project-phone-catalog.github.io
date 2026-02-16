@@ -14563,7 +14563,7 @@ const k0 = () =>
   eg = '_back_7q96a_37',
   lg = '_arrow_7q96a_47',
   Xa = { footer: F0, container: I0, logo: P0, nav: tg, back: eg, arrow: lg },
-  ag = '/assets/Logo-BX5z9YCI.svg',
+  ag = '/assets/logo-BX5z9YCI.svg',
   ng = () => {
     const c = () => {
       window.scrollTo({ top: 0, behavior: 'smooth' });
