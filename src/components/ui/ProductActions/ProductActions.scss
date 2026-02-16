@@ -1,0 +1,45 @@
+.product-actions {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+
+  &__add-to-cart {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-grow: 1;
+    width: 175px;
+    height: 40px;
+    font-family: 'Mont', 'Helvetica Neue', Arial, sans-serif;
+    font-size: 14px;
+    line-height: 21px;
+    letter-spacing: 0;
+    color: #f1f2f9;
+    background-color: #905bff;
+    text-decoration: none;
+    text-align: center;
+    cursor: pointer;
+    border: none;
+  }
+
+  &__favorites {
+    box-sizing: border-box;
+    width: 40px;
+    height: 40px;
+    background-color: #323542;
+    background-image: url(../../../../public/img/heart.svg);
+    background-repeat: no-repeat;
+    background-position: center;
+    cursor: pointer;
+    border: none;
+
+    &:focus {
+      outline: 2px solid #905bff;
+      outline-offset: 2px;
+    }
+
+    &:focus:not(:focus-visible) {
+      outline: none;
+    }
+  }
+}

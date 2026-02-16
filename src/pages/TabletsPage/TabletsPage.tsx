@@ -19,6 +19,7 @@ export const TabletsPage = () => {
   return (
     <div className={s['tablets-page']}>
       <h1 className={s.title}>Tablets</h1>
+      <p className={s.modelsCount}>{tablets.length} models</p>
 
       <section className={s['tablets-page__controls']}>
         <div className={s.controls}>
@@ -46,7 +47,10 @@ export const TabletsPage = () => {
 
       <section className={s['tablets-page__list']}>
         {tablets.map((tablet) => (
-          <ProductCard key={tablet.id} />
+          <ProductCard
+            key={tablet.id}
+            product={tablet}
+          />
         ))}
       </section>
 

@@ -10,8 +10,7 @@
 .cart {
   width: 100%;
   padding-inline: 16px;
-  min-height: 100vh;
-  margin: 0;
+  padding-bottom: 80px;
 
   @include on-tablet {
     padding-inline: 24px;
@@ -20,38 +19,6 @@
   @include on-desktop {
     padding-inline: clamp(32px, calc(32px + (100vw - 1200px) * 0.5), 152px);
     margin: 0 auto;
-  }
-
-  .buttonBack {
-    margin-top: 24px;
-    font-weight: 700;
-    letter-spacing: 0%;
-    line-height: 100%;
-    font-size: 12px;
-
-    @include on-tablet {
-      margin-top: 40px;
-    }
-
-    &Link {
-      text-decoration: none;
-      color: #f1f2f9;
-      font-size: 12px;
-      display: flex;
-      align-items: center;
-      gap: 4px;
-      transition: color 0.3s;
-
-      &:hover {
-        color: #905bff;
-      }
-
-      &::before {
-        content: '<';
-        font-size: 12px;
-        font-weight: 600;
-      }
-    }
   }
 
   .title {

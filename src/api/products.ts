@@ -17,3 +17,9 @@ export const getAccessories = (): Promise<Product[]> => {
     return response.json();
   });
 };
+
+export const getProducts = (): Promise<Product[]> => {
+  return fetch('/api/products.json').then((response) => {
+    return response.json();
+  });
+};
