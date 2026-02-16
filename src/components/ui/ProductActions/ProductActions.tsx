@@ -24,7 +24,7 @@ export const ProductActions: React.FC<Props> = ({
 
       <button
         type="button"
-        className="product-actions__favorites"
+        className={`product-actions__favorites ${isFavorite ? 'product-actions__favorites--active' : ''}`}
         onClick={onToggleFavorite}
         aria-label={isFavorite ? 'Remove from favorites' : 'Add to favorites'}
       ></button>
