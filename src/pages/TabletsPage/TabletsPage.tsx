@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { getTablets } from '../../api/products';
 import { Product } from '../../types/Product';
 import { ProductCard } from '../ProductCard/ProductCard';
-import './TabletsPage.module.scss';
+import s from './TabletsPage.module.scss';
 
 export const TabletsPage = () => {
   const [tablets, setTablets] = useState<Product[]>([]);
@@ -17,18 +17,40 @@ export const TabletsPage = () => {
   }, []);
 
   return (
-    <div className="tablets-page">
-      <h1 className="title">Tablets</h1>
+    <div className={s['tablets-page']}>
+      <h1 className={s.title}>Tablets</h1>
 
-      <section className="tablets-page__controls"></section>
+      <section className={s['tablets-page__controls']}>
+        <div className={s.controls}>
+          <div className={s.control}>
+            <label className={s.label}>Sort by</label>
 
-      <section className="tablets-page__list">
+            <select className={s.select}>
+              <option>Newest</option>
+              <option>Alphabetically</option>
+              <option>Cheapest</option>
+            </select>
+          </div>
+
+          <div className={s.control}>
+            <label className={s.label}>Items on page</label>
+
+            <select className={s.select}>
+              <option>16</option>
+              <option>32</option>
+              <option>64</option>
+            </select>
+          </div>
+        </div>
+      </section>
+
+      <section className={s['tablets-page__list']}>
         {tablets.map((tablet) => (
           <ProductCard key={tablet.id} />
         ))}
       </section>
 
-      <section className="tablets-page__pagination"></section>
+      <section className={s['tablets-page__pagination']}></section>
     </div>
   );
 };

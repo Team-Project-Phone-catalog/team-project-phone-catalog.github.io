@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { getPhones } from '../../api/products';
 import { Product } from '../../types/Product';
 import { ProductCard } from '../ProductCard/ProductCard';
-import './PhonesPage.module.scss';
+import s from './PhonesPage.module.scss';
 
 export const PhonesPage = () => {
   const [phones, setPhones] = useState<Product[]>([]);
@@ -17,18 +17,18 @@ export const PhonesPage = () => {
   }, []);
 
   return (
-    <div className="phones-page">
-      <h1 className="title">Mobile phones</h1>
+    <div className={s['phones-page']}>
+      <h1 className={s.title}>Mobile phones</h1>
 
-      <section className="phones-page__controls"></section>
+      <section className={s['phones-page__controls']}></section>
 
-      <section className="phones-page__list">
+      <section className={s['phones-page__list']}>
         {phones.map((phone) => (
           <ProductCard key={phone.id} />
         ))}
       </section>
 
-      <section className="phones-page__pagination"></section>
+      <section className={s['phones-page__pagination']}></section>
     </div>
   );
 };
