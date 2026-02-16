@@ -1,4 +1,6 @@
+import { useState, useEffect } from 'react';
 import { Link, NavLink } from 'react-router-dom';
+import { BurgerMenu } from './BurgerMenu/BurgerMenu';
 import styles from './Header.module.scss';
 import logo from './icons/logo.svg';
 import heartIcon from './icons/heart.svg';
@@ -12,85 +14,113 @@ const navLinks = [
 ];
 
 export const Header = () => {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  useEffect(() => {
+    if (isMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'auto';
+    }
+    return () => {
+      document.body.style.overflow = 'auto';
+    };
+  }, [isMenuOpen]);
+
+  const toggleMenu = () => {
+    setIsMenuOpen((prev) => !prev);
+  };
+
   return (
-    <header className={styles.header}>
-      <div className={styles.header__container}>
-        <div className={styles.header__left}>
-          <Link
-            to="/"
-            className={styles.header__logo}
-          >
-            <img
-              src={logo}
-              alt="Nice Gadgets"
-            />
-          </Link>
+    <>
+      <header className={styles.header}>
+        <div className={styles.header__container}>
+          <div className={styles.header__left}>
+            <Link
+              to="/"
+              className={styles.header__logo}
+              onClick={() => setIsMenuOpen(false)}
+            >
+              <img
+                src={logo}
+                alt="Nice Gadgets"
+              />
+            </Link>
 
-          <nav className={styles.header__nav}>
-            <ul className={styles.nav_list}>
-              {navLinks.map((link) => (
-                <li
-                  key={link.id}
-                  className={styles.nav_list__item}
-                >
-                  <NavLink
-                    to={link.path}
-                    className={({ isActive }) =>
-                      isActive ?
-                        `${styles.nav_list__link} ${styles['nav_list__link--active']}`
-                      : styles.nav_list__link
-                    }
+            <nav className={styles.header__nav}>
+              <ul className={styles.nav_list}>
+                {navLinks.map((link) => (
+                  <li
+                    key={link.id}
+                    className={styles.nav_list__item}
                   >
-                    {link.name}
-                  </NavLink>
-                </li>
-              ))}
-            </ul>
-          </nav>
-        </div>
-
-        <div className={styles.header__right}>
-          <div className={styles.header__icons}>
-            <NavLink
-              to="/favorites"
-              className={({ isActive }) =>
-                isActive ?
-                  `${styles.icon_btn} ${styles['icon_btn--active']}`
-                : styles.icon_btn
-              }
-            >
-              <img
-                src={heartIcon}
-                alt="Favorites"
-              />
-            </NavLink>
-            <NavLink
-              to="/cart"
-              className={({ isActive }) =>
-                isActive ?
-                  `${styles.icon_btn} ${styles['icon_btn--active']}`
-                : styles.icon_btn
-              }
-            >
-              <img
-                src={cartIcon}
-                alt="Cart"
-              />
-            </NavLink>
+                    <NavLink
+                      to={link.path}
+                      className={({ isActive }) =>
+                        isActive ?
+                          `${styles.nav_list__link} ${styles['nav_list__link--active']}`
+                        : styles.nav_list__link
+                      }
+                    >
+                      {link.name}
+                    </NavLink>
+                  </li>
+                ))}
+              </ul>
+            </nav>
           </div>
 
-          <button
-            className={styles.header__burger}
-            aria-label="Menu"
-          >
-            <div className={styles.burger_icon}>
-              <span></span>
-              <span></span>
-              <span></span>
+          <div className={styles.header__right}>
+            <div className={styles.header__icons}>
+              <NavLink
+                to="/favorites"
+                className={({ isActive }) =>
+                  isActive ?
+                    `${styles.icon_btn} ${styles['icon_btn--active']}`
+                  : styles.icon_btn
+                }
+              >
+                <img
+                  src={heartIcon}
+                  alt="Favorites"
+                />
+              </NavLink>
+              <NavLink
+                to="/cart"
+                className={({ isActive }) =>
+                  isActive ?
+                    `${styles.icon_btn} ${styles['icon_btn--active']}`
+                  : styles.icon_btn
+                }
+              >
+                <img
+                  src={cartIcon}
+                  alt="Cart"
+                />
+              </NavLink>
             </div>
-          </button>
+
+            <button
+              className={styles.header__burger}
+              onClick={toggleMenu}
+              aria-label="Toggle menu"
+            >
+              <div
+                className={`${styles.burger_icon} ${isMenuOpen ? styles['burger_icon--active'] : ''}`}
+              >
+                <span></span>
+                <span></span>
+                <span></span>
+              </div>
+            </button>
+          </div>
         </div>
-      </div>
-    </header>
+      </header>
+
+      <BurgerMenu
+        isOpen={isMenuOpen}
+        onClose={() => setIsMenuOpen(false)}
+      />
+    </>
   );
 };
