@@ -1,16 +1,15 @@
+@import '../../styles/utils';
+
 .footer {
   border-top: 1px solid #3b3e4a;
   background: #0f0f11;
-  padding: 32px 152px;
+  padding: 32px 16px; // MOBILE
 }
 
 .container {
-  max-width: 1200px;
-  margin: 0 auto;
-
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  flex-direction: column;
+  gap: 32px;
 }
 
 .logo {
@@ -19,7 +18,8 @@
 
 .nav {
   display: flex;
-  gap: 64px;
+  flex-direction: column;
+  gap: 16px;
 
   a {
     font-size: 12px;
@@ -56,7 +56,7 @@
   background: #323542;
   border: none;
 
-  color: white;
+  color: #ffffff;
   cursor: pointer;
 
   transition: background 0.3s ease;
@@ -66,26 +66,34 @@
   }
 }
 
-/* MOBILE */
-@media (max-width: 767px) {
-  .footer {
-    padding: 32px 16px;
-  }
+/* TABLET */
 
+@include tablet {
   .container {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 32px;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
   }
 
   .nav {
-    flex-direction: column;
-    gap: 16px;
+    flex-direction: row;
+    gap: 48px;
+  }
+}
+
+/* DESKTOP */
+
+@include desktop {
+  .footer {
+    padding: 32px 152px;
   }
 
-  .back {
-    display: flex;
-    align-items: center;
-    gap: 16px;
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .nav {
+    gap: 64px;
   }
 }
