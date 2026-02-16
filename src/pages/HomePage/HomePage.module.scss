@@ -126,8 +126,6 @@ $color-red: #eb5757;
     border-radius: 8px;
     overflow: hidden;
     background: linear-gradient(90deg, #2c2537 0%, #211c24 100%);
-    padding: 0;
-    display: block;
 
     @include on-tablet {
       padding: 56px 40px 40px;
