@@ -8,6 +8,7 @@ import { CartPage } from './pages/CartPage/CartPage.tsx';
 import { NotFoundPage } from './pages/NotFoundPage/NotFoundPage.tsx';
 import { TabletsPage } from './pages/TabletsPage/TabletsPage.tsx';
 import { HomePage } from './pages/HomePage/HomePage.tsx';
+import { FavoritesPage } from './pages/FavoritesPage/FavoritesPage.tsx';
 
 export const App = () => {
   return (
@@ -38,7 +39,7 @@ export const App = () => {
           />
           <Route
             path="/favorites"
-            element={<h1 className="title">Favorites</h1>}
+            element={<FavoritesPage />}
           />
           <Route
             path="/product/:productId"
