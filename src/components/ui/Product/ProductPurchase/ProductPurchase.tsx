@@ -1,12 +1,15 @@
 import './ProductPurchase.scss';
 import { ProductActions } from '../../ProductActions/ProductActions.tsx';
-import React from "react";
+import React from 'react';
 
-type Props ={
-    priceRegular: number;
-    priceDiscount: number;
-}
-export const ProductPurchase: React.FC<Props> = ( {priceRegular, priceDiscount}) => {
+type Props = {
+  priceRegular: number;
+  priceDiscount: number;
+};
+export const ProductPurchase: React.FC<Props> = ({
+  priceRegular,
+  priceDiscount,
+}) => {
   return (
     <div className="purchase">
       <div className="purchase-price">
