@@ -28,7 +28,7 @@ export const getProductDetails = async (
   category: string,
   itemId: string,
 ): Promise<ProductDetails> => {
-  const response = await fetch(`/api/${category}.json`); // ← весь масив
+  const response = await fetch(`/api/${category}.json`);
 
   if (!response.ok) {
     throw new Error(`Category not found: ${category}`);
@@ -36,7 +36,7 @@ export const getProductDetails = async (
 
   const products: ProductDetails[] = await response.json();
 
-  const found = products.find((p) => p.id === itemId); // ← шукаємо по id
+  const found = products.find((p) => p.id === itemId);
 
   if (!found) {
     throw new Error(`Product not found: ${itemId}`);

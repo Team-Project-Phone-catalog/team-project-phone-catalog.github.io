@@ -1,14 +1,16 @@
+@use '../../../styles/variables' as *;
+
 .product-options {
   &__title {
     margin-top: 40px;
     font-size: 12px;
     font-weight: 700;
-    color: #75767f;
+    color: $color-secondary;
 
     &--capacity {
       font-size: 12px;
       font-weight: 700;
-      color: #75767f;
+      color: $color-secondary;
       margin-top: 24px;
     }
   }
@@ -17,7 +19,7 @@
     display: flex;
     gap: 10px;
     margin-top: 10px;
-    border-bottom: 1px solid #3b3e4a;
+    border-bottom: 1px solid $color-border;
     padding-bottom: 24px;
   }
 
@@ -30,12 +32,12 @@
     width: 30px;
     height: 30px;
     border-radius: 50%;
-    border: 1px solid #3b3e4a;
+    border: 1px solid $color-border;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: transform 0.2s;
+    transition: transform $transition-default;
 
     &:hover {
       transform: scale(1.05);
@@ -43,7 +45,7 @@
   }
 
   &__color-item--active &__color {
-    outline: 2px solid white;
+    outline: 2px solid $color-text-primary;
     outline-offset: 2px;
   }
 
@@ -51,7 +53,7 @@
     display: flex;
     gap: 10px;
     margin-top: 10px;
-    border-bottom: 1px solid #3b3e4a;
+    border-bottom: 1px solid $color-border;
     padding-bottom: 24px;
   }
 
@@ -61,23 +63,23 @@
     justify-content: center;
     padding: 8px 24px;
     text-decoration: none;
-    color: #f1f2f9;
+    color: $color-light-1;
     font-size: 14px;
     font-weight: 600;
     font-family: 'Mont', 'Helvetica Neue', Arial, sans-serif;
-    border: 1px solid #4a4d58;
+    border: 1px solid $color-icons;
     background-color: transparent;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: all $transition-default;
 
     &:hover {
-      border-color: #75767f;
+      border-color: $color-secondary;
     }
 
     &--active {
-      background-color: #f1f2f9;
-      color: #0f1121;
-      border-color: #f1f2f9;
+      background-color: $color-light-1;
+      color: $bg-main;
+      border-color: $color-light-1;
     }
   }
 }

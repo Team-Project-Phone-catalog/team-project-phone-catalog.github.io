@@ -1,3 +1,5 @@
+@use '../../../styles/variables' as *;
+
 .product-price {
   display: flex;
   align-items: center;
@@ -11,7 +13,7 @@
     font-weight: 700;
     font-size: 22px;
     line-height: 140%;
-    color: #f1f2f9;
+    color: $color-light-1;
   }
 
   &__full {
@@ -19,7 +21,7 @@
     font-weight: 600;
     font-size: 22px;
     line-height: 28px;
-    color: #75767f;
+    color: $color-secondary;
     text-decoration: line-through;
   }
 }

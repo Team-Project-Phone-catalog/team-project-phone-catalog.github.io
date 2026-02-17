@@ -4,10 +4,7 @@ import logo from '../../assets/logo.svg';
 
 export const Footer = () => {
   const handleScrollTop = () => {
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth',
-    });
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   return (

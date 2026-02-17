@@ -1,3 +1,5 @@
+@use '../../../styles/variables' as *;
+
 // Міксини
 @mixin on-tablet {
   @media (min-width: 640px) {
@@ -10,12 +12,6 @@
     @content;
   }
 }
-
-// Кольори
-$color-white: #ffffff;
-$color-elements: #323542;
-$color-gray: #75767f;
-$color-secondary: #89939a;
 
 .AlsoLike {
   margin-top: 56px;
@@ -43,7 +39,7 @@ $color-secondary: #89939a;
     font-size: 22px;
     font-weight: 800;
     letter-spacing: -0.02em;
-    color: $color-white;
+    color: $color-text-primary;
     margin: 0;
 
     @include on-tablet {
@@ -64,20 +60,20 @@ $color-secondary: #89939a;
   &__arrow-btn {
     width: 32px;
     height: 32px;
-    border: 1px solid $color-elements;
+    border: 1px solid $color-border;
     border-radius: 4px;
     background: transparent;
-    color: $color-white;
+    color: $color-text-primary;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: all 0.2s;
+    transition: all $transition-default;
     font-size: 18px;
     padding: 0;
 
     &:hover:not(:disabled) {
-      border-color: $color-white;
+      border-color: $color-text-primary;
     }
 
     &:disabled {

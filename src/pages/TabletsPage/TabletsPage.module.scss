@@ -1,53 +1,18 @@
 @use '../../styles/utils' as *;
-
-.loader-wrapper {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  width: 100%;
-}
+@use '../../styles/variables' as *;
 
 .tablets-page {
-  &__container {
-    box-sizing: border-box;
-    margin: 0 auto;
-    max-width: 1280px;
-    padding: 0 16px;
-
-    @include on-tablet {
-      padding: 0 24px;
-
-      .search {
-        min-width: 420px;
-        margin-left: auto;
-      }
-    }
-
-    @include on-desktop {
-      padding: 0 32px;
-    }
-
-    @include on-desktop {
-      padding: 0 32px;
-    }
-  }
+  padding: 0 16px;
 
   .title {
     margin-top: 24px;
     margin-bottom: 8px;
-    color: #f1f2f9;
+    color: $color-light-1;
     font-family: Mont;
     font-weight: 800;
     font-size: 32px;
     line-height: 41px;
     letter-spacing: -0.01em;
-  }
-
-  .modelsCount {
-    margin-bottom: 24px;
-    font-size: 14px;
-    color: #75767f;
   }
 
   &__controls {
@@ -56,16 +21,12 @@
 
   .controls {
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
     gap: 16px;
-    align-items: flex-end;
-    flex-wrap: wrap;
-  }
 
-  .controlsLeft {
-    display: flex;
-    gap: 16px;
-    flex-shrink: 0;
+    @include on-tablet {
+      flex-direction: row;
+    }
   }
 
   .control {
@@ -76,7 +37,7 @@
 
   .label {
     font-size: 12px;
-    color: #75767f;
+    color: $color-secondary;
   }
 
   .select {
@@ -84,52 +45,17 @@
     height: 40px;
     padding: 0 12px;
 
-    background: #323542;
-    border: 1px solid #3b3e4a;
-    color: #f1f2f9;
-
-    font-family: Mont;
-    font-size: 14px;
-    appearance: none;
-    background-image: url('/img/icons/arrow-down.svg');
-    background-repeat: no-repeat;
-    background-position: right 12px center;
-  }
-
-  .search {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-    width: 290px;
-    order: 2;
-  }
-
-  .searchInput {
-    width: 100%;
-    height: 40px;
-    padding: 0 12px;
-    box-sizing: border-box; // ← додати
-
-    background: #323542;
-    border: 1px solid #3b3e4a;
-    color: #f1f2f9;
+    background: $bg-card;
+    border: 1px solid $color-border;
+    color: $color-light-1;
 
     font-family: Mont;
     font-size: 14px;
   }
 
   &__list {
-    padding-bottom: 56px;
-
-    @include on-tablet {
-      padding-bottom: 64px;
-    }
-
-    @include on-desktop {
-      padding-bottom: 80px;
-    }
-
     display: grid;
+    gap: 16px;
     row-gap: 40px;
     column-gap: 16px;
 
@@ -142,9 +68,12 @@
     @include on-desktop {
       grid-template-columns: repeat(4, 1fr);
     }
-
-    & > * {
-      min-width: 0;
-    }
   }
+}
+
+.loaderWrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 60vh;
 }

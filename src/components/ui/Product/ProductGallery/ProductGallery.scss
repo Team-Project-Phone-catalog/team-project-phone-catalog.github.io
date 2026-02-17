@@ -1,7 +1,4 @@
-$bg-main: #0c1022;
-$bg-card: #111531;
-$white: #ffffff;
-$transition: 0.3s ease;
+@use '../../../styles/variables' as *;
 
 .gallery {
   margin-top: 32px;
@@ -14,13 +11,12 @@ $transition: 0.3s ease;
       width: 274px;
       height: 274px;
       object-fit: contain;
-      transition: $transition;
+      transition: $transition-default;
     }
   }
 
   &__thumbs {
     padding-top: 16px;
-
     display: flex;
     justify-content: left;
     gap: 8px;
@@ -32,8 +28,8 @@ $transition: 0.3s ease;
   height: 80px;
   padding: 8px;
   cursor: pointer;
-  transition: $transition;
-  border: 1px solid #3b3e4a;
+  transition: $transition-default;
+  border: 1px solid $color-border;
 
   img {
     width: 100%;
@@ -46,6 +42,6 @@ $transition: 0.3s ease;
   }
 
   &.active {
-    border: 2px solid $white;
+    border: 2px solid $color-text-primary;
   }
 }

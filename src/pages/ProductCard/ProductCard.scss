@@ -1,3 +1,4 @@
+@use '../../styles/variables' as *;
 @use '../../styles/utils' as *;
 
 body {
@@ -12,7 +13,7 @@ body {
   min-width: 0;
   height: 440px;
   padding: 32px;
-  background-color: #161827;
+  background-color: $bg-surface;
 
   @include on-tablet {
     height: 506px;
@@ -31,6 +32,7 @@ body {
     @include on-tablet {
       height: 196px;
     }
+
     @include on-desktop {
       width: 208px;
     }
@@ -58,6 +60,6 @@ body {
     font-size: 14px;
     line-height: 21px;
     text-align: left;
-    color: #f1f2f9;
+    color: $color-light-1;
   }
 }
