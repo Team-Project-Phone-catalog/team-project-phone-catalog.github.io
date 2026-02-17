@@ -9,33 +9,46 @@ import {
 } from '../../api/products.ts';
 import { Product } from '../../types/Product.ts';
 import { sortByBestPrice, sortByNewest } from '../../utils/productFilters.ts';
+import { Loader } from '../../components/ui/Loader/Loader.tsx';
 
 export const HomePage: React.FC = () => {
   const [phones, setPhones] = useState<Product[]>([]);
   const [tablets, setTablets] = useState<Product[]>([]);
   const [accessories, setAccessories] = useState<Product[]>([]);
   const [products, setProducts] = useState<Product[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   const allProducts = [...phones, ...tablets, ...accessories];
   const newestProducts = sortByNewest(products).slice(0, 12);
   const bestPriceProducts = sortByBestPrice(allProducts).slice(0, 12);
 
   useEffect(() => {
-    getPhones()
-      .then(setPhones)
-      .catch((err) => console.error('Error loading phones:', err));
-
-    getTablets()
-      .then(setTablets)
-      .catch((err) => console.error('Error loading tablets:', err));
-
-    getAccessories()
-      .then(setAccessories)
-      .catch((err) => console.error('Error loading accessories:', err));
-    getProducts()
-      .then(setProducts)
-      .catch((err) => console.error('Error loading accessories:', err));
+    Promise.all([
+      getPhones(),
+      getTablets(),
+      getAccessories(),
+      getProducts(),
+      new Promise((resolve) => setTimeout(resolve, 1000)),
+    ])
+      .then(([phonesData, tabletsData, accessoriesData, productsData]) => {
+        setPhones(phonesData);
+        setTablets(tabletsData);
+        setAccessories(accessoriesData);
+        setProducts(productsData);
+      })
+      .catch((err) => console.error('Error loading data:', err))
+      .finally(() => setIsLoading(false));
   }, []);
+
+  if (isLoading) {
+    return (
+      <main className={styles.home}>
+        <div className={styles['loader-wrapper']}>
+          <Loader />
+        </div>
+      </main>
+    );
+  }
 
   return (
     <main className={styles.home}>
