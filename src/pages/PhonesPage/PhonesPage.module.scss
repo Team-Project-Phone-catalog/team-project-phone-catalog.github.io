@@ -1,5 +1,13 @@
 @use '../../styles/utils' as *;
 
+.loader-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100%;
+}
+
 .phones-page {
   &__container {
     box-sizing: border-box;
@@ -7,18 +15,18 @@
     max-width: 1280px;
     padding: 0 16px;
 
-  @include on-tablet {
-    padding: 0 24px;
+    @include on-tablet {
+      padding: 0 24px;
 
-    .search {
-      min-width: 420px;
-      margin-left: auto;
+      .search {
+        min-width: 420px;
+        margin-left: auto;
+      }
     }
-  }
 
-  @include on-desktop {
-    padding: 0 32px;
-  }
+    @include on-desktop {
+      padding: 0 32px;
+    }
 
     @include on-desktop {
       padding: 0 32px;
@@ -97,6 +105,7 @@
   }
 
   .searchInput {
+    box-sizing: border-box;
     width: 100%;
     height: 40px;
     padding: 0 12px;
@@ -137,6 +146,7 @@
     @include on-desktop {
       grid-template-columns: repeat(4, 1fr);
     }
+
     & > * {
       min-width: 0;
     }

@@ -5,6 +5,7 @@ import { ProductActions } from '../../components/ui/ProductActions/ProductAction
 import { Product, ProductDetails } from '../../types/Product.ts';
 import React, { useState } from 'react';
 import { useAppContext } from '../../hooks/useAppContext.ts';
+import { Link } from 'react-router-dom';
 
 interface Props {
   product?: Product | ProductDetails;
@@ -39,6 +40,24 @@ export const ProductCard: React.FC<Props> = ({ product, onFavoriteChange }) => {
   const imagePath = 'images' in product ? product.images[0] : product.image;
   const imageUrl = imagePath ? `/${imagePath}` : null;
 
+  const productId = 'itemId' in product ? product.itemId : product.id;
+
+  // Переводимо ID в нижній регістр для надійної перевірки
+  const idString = String(productId).toLowerCase();
+
+  let category = 'phones';
+
+  // 100% надійна перевірка за назвою ID
+  if (idString.includes('ipad')) {
+    category = 'tablets';
+  } else if (idString.includes('watch')) {
+    category = 'accessories';
+  } else if ('category' in product && product.category) {
+    category = product.category as string;
+  }
+
+  const linkTo = `/${category}/${productId}`;
+
   const toggleFavorite = () => {
     const favorites: string[] = JSON.parse(
       localStorage.getItem('favorites') || '[]',
@@ -49,7 +68,6 @@ export const ProductCard: React.FC<Props> = ({ product, onFavoriteChange }) => {
       updatedFavorites = favorites.filter((id) => id !== String(product.id));
     } else {
       updatedFavorites = [...favorites, String(product.id)];
-      console.log('added');
     }
 
     localStorage.setItem('favorites', JSON.stringify(updatedFavorites));
@@ -60,18 +78,24 @@ export const ProductCard: React.FC<Props> = ({ product, onFavoriteChange }) => {
   return (
     <div className="card">
       <div className="card__container">
-        <div className="card__img-container">
-          {imageUrl && (
-            <img
-              className="card__image"
-              src={imageUrl}
-              alt={product.name}
-            />
-          )}
-        </div>
-        <div className="card__title-wrapper">
-          <h2 className="card__title">{product.name}</h2>
-        </div>
+        <Link
+          to={linkTo}
+          className="card__link"
+        >
+          <div className="card__img-container">
+            {imageUrl && (
+              <img
+                className="card__image"
+                src={imageUrl}
+                alt={product.name}
+              />
+            )}
+          </div>
+          <div className="card__title-wrapper">
+            <h2 className="card__title">{product.name}</h2>
+          </div>
+        </Link>
+
         <ProductPrice
           currentPrice={currentPrice}
           fullPrice={fullPrice}
@@ -82,8 +106,16 @@ export const ProductCard: React.FC<Props> = ({ product, onFavoriteChange }) => {
           ram={product.ram}
         />
         <ProductActions
-          onAddToCart={handleAddToCart}
-          onToggleFavorite={toggleFavorite}
+          onAddToCart={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            handleAddToCart();
+          }}
+          onToggleFavorite={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            toggleFavorite();
+          }}
           isFavorite={isFavorite}
           isInCart={isInCart(product.id)}
         />

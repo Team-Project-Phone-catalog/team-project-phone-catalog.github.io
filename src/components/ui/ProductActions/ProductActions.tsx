@@ -2,8 +2,8 @@ import './ProductActions.scss';
 import * as React from 'react';
 
 interface Props {
-  onAddToCart: () => void;
-  onToggleFavorite: () => void;
+  onAddToCart: (e: React.MouseEvent) => void;
+  onToggleFavorite: (e: React.MouseEvent) => void;
   isFavorite?: boolean;
   isInCart?: boolean;
 }
