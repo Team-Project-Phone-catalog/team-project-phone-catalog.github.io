@@ -18,43 +18,47 @@ export const PhonesPage = () => {
 
   return (
     <div className={s['phones-page']}>
-      <h1 className={s.title}>Mobile phones</h1>
-      <p className={s.modelsCount}>{phones.length} models</p>
+      <div className={s['phones-page__container']}>
+        <h1 className={s.title}>Mobile phones</h1>
+        <p className={s.modelsCount}>{phones.length} models</p>
 
-      <section className={s['phones-page__controls']}>
-        <div className={s.controls}>
-          <div className={s.control}>
-            <label className={s.label}>Sort by</label>
+        <section className={s['phones-page__controls']}>
+          <div className={s.controls}>
+            <div className={s.control}>
+              <label className={s.label}>Sort by</label>
 
-            <select className={s.select}>
-              <option>Newest</option>
-              <option>Alphabetically</option>
-              <option>Cheapest</option>
-            </select>
+              <select className={s.select}>
+                <option>Newest</option>
+                <option>Alphabetically</option>
+                <option>Cheapest</option>
+              </select>
+            </div>
+
+            <div className={s.control}>
+              <label className={s.label}>Items on page</label>
+
+              <select className={s.select}>
+                <option>16</option>
+                <option>32</option>
+                <option>64</option>
+              </select>
+            </div>
           </div>
+        </section>
 
-          <div className={s.control}>
-            <label className={s.label}>Items on page</label>
+        <section className={s['phones-page__list']}>
+          {phones.map((phone) => (
+            <div
+              key={phone.id}
+              className={s['phones-page__item']}
+            >
+              <ProductCard product={phone} />
+            </div>
+          ))}
+        </section>
 
-            <select className={s.select}>
-              <option>16</option>
-              <option>32</option>
-              <option>64</option>
-            </select>
-          </div>
-        </div>
-      </section>
-
-      <section className={s['phones-page__list']}>
-        {phones.map((phone) => (
-          <ProductCard
-            key={phone.id}
-            product={phone}
-          />
-        ))}
-      </section>
-
-      <section className={s['phones-page__pagination']}></section>
+        <section className={s['phones-page__pagination']}></section>
+      </div>
     </div>
   );
 };

@@ -113,7 +113,7 @@ export const HomePage: React.FC = () => {
             <article className={styles['category-card']}>
               <div className={styles['category-card__image-wrapper']}>
                 <img
-                  src="/img/category-phones.jpg"
+                  src="/img/category-phones.png"
                   alt="Mobile phones"
                   className={styles['category-card__image']}
                 />
@@ -131,9 +131,9 @@ export const HomePage: React.FC = () => {
             <article className={styles['category-card']}>
               <div className={styles['category-card__image-wrapper']}>
                 <img
-                  src="/img/category-tablets.jpg"
+                  src="/img/category-tablets.png"
                   alt="Tablets"
-                  className={styles['category-card__image']}
+                  className={styles['category-card__image-tablets']}
                 />
               </div>
               <div className={styles['category-card__info']}>
@@ -147,9 +147,9 @@ export const HomePage: React.FC = () => {
             <article className={styles['category-card']}>
               <div className={styles['category-card__image-wrapper']}>
                 <img
-                  src="/img/category-accessories.jpg"
+                  src="/img/category-accessories.png"
                   alt="Accessories"
-                  className={styles['category-card__image']}
+                  className={styles['category-card__image-access']}
                 />
               </div>
               <div className={styles['category-card__info']}>

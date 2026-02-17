@@ -4,7 +4,7 @@
   &__container {
     box-sizing: border-box;
     margin: 0 auto;
-    max-width: 1136px;
+    max-width: 1280px;
     padding: 0 16px;
 
     @include on-tablet {
@@ -29,43 +29,22 @@
 
   &__title {
     display: block;
+    margin-top: 24px;
+    margin-bottom: 8px;
     color: #f1f2f9;
-    font-family: 'Mont';
+    font-family: Mont;
     font-style: bold;
     font-weight: 800;
     font-size: 32px;
     line-height: 41px;
-    letter-spacing: -1%;
-    margin-bottom: 8px;
-
-    @include on-tablet {
-      font-size: 48px;
-      line-height: 56px;
-    }
-
-    @include on-desktop {
-      font-size: 48px;
-      line-height: 56px;
-    }
+    letter-spacing: -0.01em;
   }
 
   &__items-number {
     display: block;
-    color: #89939a;
-    font-family: 'Mont';
-    font-style: normal;
-    font-weight: 600;
+    margin-bottom: 24px;
     font-size: 14px;
-    line-height: 21px;
-    margin-bottom: 32px;
-
-    @include on-tablet {
-      margin-bottom: 40px;
-    }
-
-    @include on-desktop {
-      margin-bottom: 40px;
-    }
+    color: #75767f;
   }
 
   &__all-favorites {
@@ -80,7 +59,6 @@
     }
 
     display: grid;
-    gap: 16px;
     row-gap: 40px;
     column-gap: 16px;
 
@@ -92,6 +70,10 @@
 
     @include on-desktop {
       grid-template-columns: repeat(4, 1fr);
+    }
+
+    & > * {
+      min-width: 0;
     }
   }
 }

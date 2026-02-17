@@ -41,6 +41,7 @@ export const ProductCard: React.FC<Props> = ({ product, onFavoriteChange }) => {
       updatedFavorites = favorites.filter((id) => id !== String(product.id));
     } else {
       updatedFavorites = [...favorites, String(product.id)];
+      console.log('added');
     }
 
     localStorage.setItem('favorites', JSON.stringify(updatedFavorites));
@@ -50,32 +51,34 @@ export const ProductCard: React.FC<Props> = ({ product, onFavoriteChange }) => {
 
   return (
     <div className="card">
-      <div className="card__img-container">
-        {imageUrl && (
-          <img
-            className="card__image"
-            src={imageUrl}
-            alt={product.name}
-            width="208"
-            height="196"
-          />
-        )}
+      <div className="card__container">
+        <div className="card__img-container">
+          {imageUrl && (
+            <img
+              className="card__image"
+              src={imageUrl}
+              alt={product.name}
+            />
+          )}
+        </div>
+        <div className="card__title-wrapper">
+          <h2 className="card__title">{product.name}</h2>
+        </div>
+        <ProductPrice
+          currentPrice={currentPrice}
+          fullPrice={fullPrice}
+        />
+        <ProductFeatures
+          screen={product.screen}
+          capacity={product.capacity}
+          ram={product.ram}
+        />
+        <ProductActions
+          onAddToCart={() => console.log('Added to cart')}
+          onToggleFavorite={toggleFavorite}
+          isFavorite={isFavorite}
+        />
       </div>
-      <h2 className="card__title">{product.name}</h2>
-      <ProductPrice
-        currentPrice={currentPrice}
-        fullPrice={fullPrice}
-      />
-      <ProductFeatures
-        screen={product.screen}
-        capacity={product.capacity}
-        ram={product.ram}
-      />
-      <ProductActions
-        onAddToCart={() => console.log('Added to cart')}
-        onToggleFavorite={toggleFavorite}
-        isFavorite={isFavorite}
-      />
     </div>
   );
 };

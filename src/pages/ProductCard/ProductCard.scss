@@ -1,3 +1,5 @@
+@use '../../styles/utils' as *;
+
 body {
   font-family: Mont;
 }
@@ -6,16 +8,32 @@ body {
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  width: 287px;
+  width: 100%;
+  min-width: 0;
   height: 440px;
   padding: 32px;
   background-color: #161827;
+
+  @include on-tablet {
+    height: 506px;
+  }
+
+  @include on-desktop {
+    height: 506px;
+  }
 
   &__img-container {
     display: flex;
     justify-content: center;
     height: 130px;
-    margin-bottom: 24px;
+    margin-bottom: 8px;
+
+    @include on-tablet {
+      height: 196px;
+    }
+    @include on-desktop {
+      width: 208px;
+    }
   }
 
   &__image {
@@ -25,13 +43,18 @@ body {
     object-position: center;
   }
 
+  &__title-wrapper {
+    display: flex;
+    align-items: flex-end;
+    min-height: 42px;
+    margin-top: 24px;
+  }
+
   &__title {
     display: block;
     margin: 0;
-    margin-bottom: 8px;
-    height: 42px;
-    font-family: Mont;
-    font-weight: 400;
+    font-family: 'Mont', 'Helvetica Neue', Arial, sans-serif;
+    font-weight: 600;
     font-size: 14px;
     line-height: 21px;
     text-align: left;
