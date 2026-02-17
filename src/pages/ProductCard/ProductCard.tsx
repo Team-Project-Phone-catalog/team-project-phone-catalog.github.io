@@ -116,7 +116,7 @@ export const ProductCard: React.FC<Props> = ({ product, onFavoriteChange }) => {
             toggleFavorite();
           }}
           isFavorite={isFavorite}
-          isInCart={isInCart(product.id)}
+          isInCart={isInCart(product as Product)}
         />
       </div>
     </div>

@@ -1,4 +1,3 @@
- 
 import { CartItem } from '../../../types/Cart';
 import s from './CartProduct.module.scss';
 
