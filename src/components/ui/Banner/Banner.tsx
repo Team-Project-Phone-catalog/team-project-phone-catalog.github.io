@@ -9,7 +9,6 @@ import './Banner.scss';
 export const Banner = () => {
   return (
     <div className="banner">
-      {/* Стрілки ПОЗА слайдером */}
       <button className="banner__arrow banner__arrow--prev swiper-btn-prev">
         {'<'}
       </button>
@@ -61,12 +60,10 @@ export const Banner = () => {
         </Swiper>
       </div>
 
-      {/* Стрілка права ПОЗА слайдером */}
       <button className="banner__arrow banner__arrow--next swiper-btn-next">
         {'>'}
       </button>
 
-      {/* Пагінація НИЖЧЕ, поза overflow:hidden */}
       <div className="banner__pagination" />
     </div>
   );
