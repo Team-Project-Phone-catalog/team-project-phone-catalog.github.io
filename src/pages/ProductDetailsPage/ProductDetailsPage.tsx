@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react';
 import { ProductDetails } from '../../types/Product.ts';
 import { getProductDetails } from '../../api/products.ts';
 import { Breadcrumbs } from '../../components/ui/Breadcrumbs/Breadcrumbs.tsx';
+import { Loader } from '../../components/ui/Loader/Loader.tsx';
 
 export const ProductDetailsPage = () => {
   const { category, productId } = useParams<{
@@ -20,18 +21,27 @@ export const ProductDetailsPage = () => {
   useEffect(() => {
     if (!category || !productId) return;
 
-    getProductDetails(category, productId)
-      .then((data) => {
-        setProduct(data);
-        setLoading(false);
-      })
-      .catch(() => {
-        setError(true);
-        setLoading(false);
-      });
+    const timer = setTimeout(() => {
+      getProductDetails(category, productId)
+        .then((data) => {
+          setProduct(data);
+          setLoading(false);
+        })
+        .catch(() => {
+          setError(true);
+          setLoading(false);
+        });
+    }, 1000);
+
+    return () => clearTimeout(timer);
   }, [category, productId]);
 
-  if (loading) return <p>Завантаження...</p>;
+  if (loading)
+    return (
+      <div className="loader-wrapper">
+        <Loader />
+      </div>
+    );
   if (error || !product) return <h1>Товар не знайдено</h1>;
 
   return (
