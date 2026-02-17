@@ -24,14 +24,23 @@ export const getProducts = (): Promise<Product[]> => {
   });
 };
 
-export const getProductDetails = (
+export const getProductDetails = async (
   category: string,
   itemId: string,
 ): Promise<ProductDetails> => {
-  return fetch(`/api/${category}/${itemId}.json`).then((response) => {
-    if (!response.ok) {
-      throw new Error(`Product not found: ${itemId}`);
-    }
-    return response.json();
-  });
+  const response = await fetch(`/api/${category}.json`); // ← весь масив
+
+  if (!response.ok) {
+    throw new Error(`Category not found: ${category}`);
+  }
+
+  const products: ProductDetails[] = await response.json();
+
+  const found = products.find((p) => p.id === itemId); // ← шукаємо по id
+
+  if (!found) {
+    throw new Error(`Product not found: ${itemId}`);
+  }
+
+  return found;
 };
