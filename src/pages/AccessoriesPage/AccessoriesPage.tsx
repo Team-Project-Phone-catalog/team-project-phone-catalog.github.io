@@ -18,14 +18,6 @@ export const AccessoriesPage = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [debouncedQuery, setDebouncedQuery] = useState('');
 
-  // Debounce для пошуку
-  useEffect(() => {
-    const handler = setTimeout(() => {
-      setDebouncedQuery(searchQuery);
-    }, 300);
-    return () => clearTimeout(handler);
-  }, [searchQuery]);
-
   useEffect(() => {
     const loadAccessories = async () => {
       setIsLoading(true);
@@ -35,21 +27,36 @@ export const AccessoriesPage = () => {
           data.map((acc) => ({ ...acc, category: 'accessories' })),
         );
       } finally {
-        setIsLoading(false);
+        setTimeout(() => setIsLoading(false), 600);
       }
     };
     loadAccessories();
   }, []);
 
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedQuery(searchQuery);
+    }, 300);
+    return () => clearTimeout(handler);
+  }, [searchQuery]);
+
+  useEffect(() => {
+    if (searchQuery.length === 0 && debouncedQuery.length > 0) {
+      setIsLoading(true);
+      const timer = setTimeout(() => {
+        setIsLoading(false);
+      }, 500);
+      return () => clearTimeout(timer);
+    }
+  }, [searchQuery]);
+
   const filteredAccessories = useMemo(() => {
-    return accessories.filter((acc) =>
-      acc.name.toLowerCase().includes(debouncedQuery.toLowerCase().trim()),
-    );
+    const query = debouncedQuery.toLowerCase().trim();
+    return accessories.filter((acc) => acc.name.toLowerCase().includes(query));
   }, [accessories, debouncedQuery]);
 
   const sortedAccessories = useMemo(() => {
     const toSort = [...filteredAccessories];
-
     switch (sortBy) {
       case 'alphabetically':
         return toSort.sort((a, b) => a.name.localeCompare(b.name));
@@ -120,7 +127,7 @@ export const AccessoriesPage = () => {
 
         <section className={s['accessories-page__list']}>
           {isLoading ?
-            Array.from({ length: itemsOnPage }).map((_, index) => (
+            Array.from({ length: 8 }).map((_, index) => (
               <ProductSkeleton key={index} />
             ))
           : visibleAccessories.length > 0 ?

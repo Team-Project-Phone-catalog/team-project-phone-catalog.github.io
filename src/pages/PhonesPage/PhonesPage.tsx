@@ -18,7 +18,19 @@ export const PhonesPage = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [debouncedQuery, setDebouncedQuery] = useState('');
 
-  // Логіка Debounce для пошуку
+  useEffect(() => {
+    const loadPhones = async () => {
+      setIsLoading(true);
+      try {
+        const data = await getPhones();
+        setPhones(data.map((phone) => ({ ...phone, category: 'phones' })));
+      } finally {
+        setTimeout(() => setIsLoading(false), 600);
+      }
+    };
+    loadPhones();
+  }, []);
+
   useEffect(() => {
     const handler = setTimeout(() => {
       setDebouncedQuery(searchQuery);
@@ -28,31 +40,24 @@ export const PhonesPage = () => {
   }, [searchQuery]);
 
   useEffect(() => {
-    const loadPhones = async () => {
+    if (searchQuery.length === 0 && debouncedQuery.length > 0) {
       setIsLoading(true);
-      try {
-        const data = await getPhones();
-        setPhones(data.map((phone) => ({ ...phone, category: 'phones' })));
-      } finally {
-        // Додаємо невелику затримку для плавності скелетонів
-        setTimeout(() => setIsLoading(false), 800);
-      }
-    };
 
-    loadPhones();
-  }, []);
+      const timer = setTimeout(() => {
+        setIsLoading(false);
+      }, 500);
 
-  // 1. Фільтрація
+      return () => clearTimeout(timer);
+    }
+  }, [searchQuery]);
+
   const filteredPhones = useMemo(() => {
-    return phones.filter((phone) =>
-      phone.name.toLowerCase().includes(debouncedQuery.toLowerCase().trim()),
-    );
+    const query = debouncedQuery.toLowerCase().trim();
+    return phones.filter((phone) => phone.name.toLowerCase().includes(query));
   }, [phones, debouncedQuery]);
 
-  // 2. Сортування
   const sortedPhones = useMemo(() => {
     const toSort = [...filteredPhones];
-
     switch (sortBy) {
       case 'alphabetically':
         return toSort.sort((a, b) => a.name.localeCompare(b.name));
@@ -64,7 +69,6 @@ export const PhonesPage = () => {
     }
   }, [filteredPhones, sortBy]);
 
-  // 3. Пагінація (частина списку)
   const visiblePhones = useMemo(() => {
     return sortedPhones.slice(0, itemsOnPage);
   }, [sortedPhones, itemsOnPage]);
@@ -87,9 +91,7 @@ export const PhonesPage = () => {
                 <select
                   className={s.select}
                   value={sortBy}
-                  onChange={(event) =>
-                    setSortBy(event.target.value as SortType)
-                  }
+                  onChange={(e) => setSortBy(e.target.value as SortType)}
                 >
                   <option value="newest">Newest</option>
                   <option value="alphabetically">Alphabetically</option>
@@ -102,7 +104,7 @@ export const PhonesPage = () => {
                 <select
                   className={s.select}
                   value={itemsOnPage}
-                  onChange={(event) => setItemsOnPage(+event.target.value)}
+                  onChange={(e) => setItemsOnPage(+e.target.value)}
                 >
                   <option value={16}>16</option>
                   <option value={32}>32</option>
@@ -120,7 +122,6 @@ export const PhonesPage = () => {
               </label>
               <input
                 id="search-input"
-                name="search"
                 type="text"
                 placeholder="Type here"
                 className={s.searchInput}
@@ -133,10 +134,7 @@ export const PhonesPage = () => {
 
         <section className={s['phones-page__list']}>
           {isLoading ?
-            // Під час завантаження показуємо скелетони
-            Array.from({ length: 8 }).map((_, index) => (
-              <ProductSkeleton key={index} />
-            ))
+            Array.from({ length: 8 }).map((_, i) => <ProductSkeleton key={i} />)
           : visiblePhones.length > 0 ?
             visiblePhones.map((phone) => (
               <ProductCard

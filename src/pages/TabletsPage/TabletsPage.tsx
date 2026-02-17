@@ -18,7 +18,19 @@ export const TabletsPage = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [debouncedQuery, setDebouncedQuery] = useState('');
 
-  // Обробка пошукового запиту з затримкою
+  useEffect(() => {
+    const loadTablets = async () => {
+      setIsLoading(true);
+      try {
+        const data = await getTablets();
+        setTablets(data.map((tablet) => ({ ...tablet, category: 'tablets' })));
+      } finally {
+        setTimeout(() => setIsLoading(false), 600);
+      }
+    };
+    loadTablets();
+  }, []);
+
   useEffect(() => {
     const handler = setTimeout(() => {
       setDebouncedQuery(searchQuery);
@@ -28,30 +40,26 @@ export const TabletsPage = () => {
   }, [searchQuery]);
 
   useEffect(() => {
-    const loadTablets = async () => {
+    if (searchQuery.length === 0 && debouncedQuery.length > 0) {
       setIsLoading(true);
-      try {
-        const data = await getTablets();
-        setTablets(data.map((tablet) => ({ ...tablet, category: 'tablets' })));
-      } finally {
-        setTimeout(() => setIsLoading(false), 800);
-      }
-    };
 
-    loadTablets();
-  }, []);
+      const timer = setTimeout(() => {
+        setIsLoading(false);
+      }, 500);
 
-  // 1. Фільтруємо
+      return () => clearTimeout(timer);
+    }
+  }, [searchQuery]);
+
   const filteredTablets = useMemo(() => {
+    const query = debouncedQuery.toLowerCase().trim();
     return tablets.filter((tablet) =>
-      tablet.name.toLowerCase().includes(debouncedQuery.toLowerCase().trim()),
+      tablet.name.toLowerCase().includes(query),
     );
   }, [tablets, debouncedQuery]);
 
-  // 2. Сортуємо відфільтроване
   const sortedTablets = useMemo(() => {
     const toSort = [...filteredTablets];
-
     switch (sortBy) {
       case 'alphabetically':
         return toSort.sort((a, b) => a.name.localeCompare(b.name));
@@ -63,7 +71,6 @@ export const TabletsPage = () => {
     }
   }, [filteredTablets, sortBy]);
 
-  // 3. Пагінація
   const visibleTablets = useMemo(() => {
     return sortedTablets.slice(0, itemsOnPage);
   }, [sortedTablets, itemsOnPage]);
@@ -86,9 +93,7 @@ export const TabletsPage = () => {
                 <select
                   className={s.select}
                   value={sortBy}
-                  onChange={(event) =>
-                    setSortBy(event.target.value as SortType)
-                  }
+                  onChange={(e) => setSortBy(e.target.value as SortType)}
                 >
                   <option value="newest">Newest</option>
                   <option value="alphabetically">Alphabetically</option>
@@ -101,7 +106,7 @@ export const TabletsPage = () => {
                 <select
                   className={s.select}
                   value={itemsOnPage}
-                  onChange={(event) => setItemsOnPage(+event.target.value)}
+                  onChange={(e) => setItemsOnPage(+e.target.value)}
                 >
                   <option value={16}>16</option>
                   <option value={32}>32</option>
@@ -119,7 +124,6 @@ export const TabletsPage = () => {
               </label>
               <input
                 id="search-input"
-                name="search"
                 type="text"
                 placeholder="Type here"
                 className={s.searchInput}
@@ -132,9 +136,7 @@ export const TabletsPage = () => {
 
         <section className={s['tablets-page__list']}>
           {isLoading ?
-            Array.from({ length: 8 }).map((_, index) => (
-              <ProductSkeleton key={index} />
-            ))
+            Array.from({ length: 8 }).map((_, i) => <ProductSkeleton key={i} />)
           : visibleTablets.length > 0 ?
             visibleTablets.map((tablet) => (
               <ProductCard
@@ -144,8 +146,6 @@ export const TabletsPage = () => {
             ))
           : <NoResults category="tablets" />}
         </section>
-
-        <section className={s['tablets-page__pagination']}></section>
       </div>
     </div>
   );
