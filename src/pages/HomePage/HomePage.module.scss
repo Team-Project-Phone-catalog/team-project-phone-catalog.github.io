@@ -350,10 +350,21 @@ $color-red: #eb5757;
   &__track {
     display: flex;
     gap: 16px;
+
+    & > * {
+      flex: 0 0 212px;
+
+      @include on-tablet {
+        flex: 0 0 237px;
+      }
+
+      @include on-desktop {
+        flex: 0 0 272px;
+      }
+    }
   }
 }
 
-// Categories - MOBILE FIRST
 .categories {
   display: flex;
   flex-direction: column;
