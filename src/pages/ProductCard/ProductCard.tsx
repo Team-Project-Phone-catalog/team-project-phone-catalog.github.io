@@ -2,32 +2,34 @@ import './ProductCard.scss';
 import { ProductPrice } from '../../components/ui/ProductPrice/ProductPrice.tsx';
 import { ProductFeatures } from '../../components/ui/ProductFeatures/ProductFeatures.tsx';
 import { ProductActions } from '../../components/ui/ProductActions/ProductActions.tsx';
-import { Product } from '../../types/Product.ts';
+import { Product, ProductDetails } from '../../types/Product.ts';
 import React, { useState } from 'react';
 
 interface Props {
-  product?: Product;
+  product?: Product | ProductDetails;
   onFavoriteChange?: () => void;
 }
 
 export const ProductCard: React.FC<Props> = ({ product, onFavoriteChange }) => {
-  const productData = product || {
-    id: '1',
-    name: 'Apple iPhone 14 Pro 128GB Silver (MQ023)',
-    fullPrice: 1199,
-    price: 999,
-    screen: '6.1" OLED',
-    capacity: '128 GB',
-    ram: '6 GB',
-    image: '../../img/phones/apple-iphone-14-pro/spaceblack/00.webp',
-  };
-
   const [isFavorite, setIsFavorite] = useState(() => {
+    if (!product) return false;
     const favorites: string[] = JSON.parse(
       localStorage.getItem('favorites') || '[]',
     );
-    return favorites.includes(String(productData.id));
+    return favorites.includes(String(product.id));
   });
+
+  if (!product) {
+    return null;
+  }
+
+  const currentPrice =
+    product.priceDiscount ?? ('price' in product ? product.price : undefined);
+  const fullPrice =
+    product.priceRegular ??
+    ('fullPrice' in product ? product.fullPrice : undefined);
+  const imagePath = 'images' in product ? product.images[0] : product.image;
+  const imageUrl = imagePath ? `/${imagePath}` : null;
 
   const toggleFavorite = () => {
     const favorites: string[] = JSON.parse(
@@ -35,48 +37,40 @@ export const ProductCard: React.FC<Props> = ({ product, onFavoriteChange }) => {
     );
     let updatedFavorites: string[];
 
-    if (favorites.includes(String(productData.id))) {
-      updatedFavorites = favorites.filter(
-        (id) => id !== String(productData.id),
-      );
+    if (favorites.includes(String(product.id))) {
+      updatedFavorites = favorites.filter((id) => id !== String(product.id));
     } else {
-      updatedFavorites = [...favorites, String(productData.id)];
+      updatedFavorites = [...favorites, String(product.id)];
     }
 
     localStorage.setItem('favorites', JSON.stringify(updatedFavorites));
     setIsFavorite(!isFavorite);
-
     onFavoriteChange?.();
   };
 
   return (
     <div className="card">
       <div className="card__img-container">
-        <img
-          className="card__image"
-          src={
-            productData.image ||
-            '../../img/phones/apple-iphone-14-pro/spaceblack/00.webp'
-          }
-          alt={productData.name}
-          width="208px"
-          height="196px"
-        />
+        {imageUrl && (
+          <img
+            className="card__image"
+            src={imageUrl}
+            alt={product.name}
+            width="208"
+            height="196"
+          />
+        )}
       </div>
-
-      <h2 className="card__title">{productData.name}</h2>
-
+      <h2 className="card__title">{product.name}</h2>
       <ProductPrice
-        currentPrice={productData.price}
-        fullPrice={productData.fullPrice}
+        currentPrice={currentPrice}
+        fullPrice={fullPrice}
       />
-
       <ProductFeatures
-        screen={productData.screen}
-        capacity={productData.capacity}
-        ram={productData.ram}
+        screen={product.screen}
+        capacity={product.capacity}
+        ram={product.ram}
       />
-
       <ProductActions
         onAddToCart={() => console.log('Added to cart')}
         onToggleFavorite={toggleFavorite}
