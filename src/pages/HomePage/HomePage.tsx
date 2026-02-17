@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { Link } from 'react-router-dom';
 import styles from './HomePage.module.scss';
 import { Banner } from '../../components/ui/Banner/Banner';
 import { ProductCard } from '../ProductCard';
@@ -78,11 +79,9 @@ export const HomePage: React.FC = () => {
           <h1 className={styles['hero__title']}>
             Welcome to Nice Gadgets store!
           </h1>
-
           <Banner />
         </section>
 
-        {/* Brand New Models */}
         <section className={styles.section}>
           <div className={styles['section__header']}>
             <h2 className={styles['section__title']}>Brand new models</h2>
@@ -119,12 +118,14 @@ export const HomePage: React.FC = () => {
           </div>
         </section>
 
-        {/* Shop by Category */}
         <section className={styles.section}>
           <h2 className={styles['section__title']}>Shop by category</h2>
 
           <div className={styles.categories}>
-            <article className={styles['category-card']}>
+            <Link
+              to="/phones"
+              className={styles['category-card']}
+            >
               <div className={styles['category-card__image-wrapper']}>
                 <img
                   src="/img/category-phones.png"
@@ -140,9 +141,12 @@ export const HomePage: React.FC = () => {
                   {phones.length} models
                 </p>
               </div>
-            </article>
+            </Link>
 
-            <article className={styles['category-card']}>
+            <Link
+              to="/tablets"
+              className={styles['category-card']}
+            >
               <div className={styles['category-card__image-wrapper']}>
                 <img
                   src="/img/category-tablets.png"
@@ -156,9 +160,12 @@ export const HomePage: React.FC = () => {
                   {tablets.length} models
                 </p>
               </div>
-            </article>
+            </Link>
 
-            <article className={styles['category-card']}>
+            <Link
+              to="/accessories"
+              className={styles['category-card']}
+            >
               <div className={styles['category-card__image-wrapper']}>
                 <img
                   src="/img/category-accessories.png"
@@ -172,11 +179,10 @@ export const HomePage: React.FC = () => {
                   {accessories.length} models
                 </p>
               </div>
-            </article>
+            </Link>
           </div>
         </section>
 
-        {/* Hot Prices */}
         <section className={styles.section}>
           <div className={styles['section__header']}>
             <h2 className={styles['section__title']}>Hot prices</h2>

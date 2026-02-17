@@ -23,7 +23,7 @@ $color-surface: #1a1b22;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: $color-surface;
+    background: transparent;
     border: 1px solid $color-elements;
     color: $color-white;
     cursor: pointer;
@@ -33,7 +33,9 @@ $color-surface: #1a1b22;
     width: 32px;
 
     &:hover {
-      background: lighten($color-surface, 8%);
+      background: #323542;
+      border-color: #4a4d58;
+      color: #ffffff;
     }
 
     &--prev {
@@ -85,7 +87,6 @@ $color-surface: #1a1b22;
   }
 }
 
-// Глобальні стилі для Swiper — БЕЗ :global()
 .swiper-button-prev,
 .swiper-button-next {
   display: none !important;
@@ -95,7 +96,6 @@ $color-surface: #1a1b22;
   display: none !important;
 }
 
-// Стилі для кастомної пагінації
 .banner__pagination {
   .swiper-pagination-bullet {
     width: 14px !important;
