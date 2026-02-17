@@ -33,6 +33,7 @@
 <td width="50%">
 
 ### 🛍️ For Shoppers
+
 - 📱 **Extensive catalog** of products
 - 🔍 **Smart search** with instant results
 - 🛒 **Shopping cart** with real-time updates
@@ -44,6 +45,7 @@
 <td width="50%">
 
 ### 💻 Technical Advantages
+
 - ⚡ **Fast** thanks to Vite
 - 📱 **Responsive design** for all devices
 - 🎨 **Modern UI/UX** with smooth animations
@@ -61,13 +63,13 @@
 
 ### Frontend Technologies
 
-| Technology | Version | Purpose |
-|------------|---------|---------|
-| **React** | `18.3` | UI library |
-| **TypeScript** | `5.6` | Type safety |
-| **Vite** | `6.0` | Build tool |
-| **React Router** | `v7` | Routing |
-| **SCSS** | Latest | Styling |
+| Technology       | Version | Purpose     |
+| ---------------- | ------- | ----------- |
+| **React**        | `18.3`  | UI library  |
+| **TypeScript**   | `5.6`   | Type safety |
+| **Vite**         | `6.0`   | Build tool  |
+| **React Router** | `v7`    | Routing     |
+| **SCSS**         | Latest  | Styling     |
 
 ### Development Tools
 
@@ -90,35 +92,39 @@
 ### Installation
 
 **1️⃣ Clone the repository**
+
 ```bash
 git clone https://github.com/Team-Project-Phone-catalog/team-project-phone-catalog.github.io.git
 cd team-project-phone-catalog.github.io
 ```
 
 **2️⃣ Install dependencies**
+
 ```bash
 npm install
 ```
 
 **3️⃣ Start the project**
+
 ```bash
 npm run dev
 ```
 
 **4️⃣ Open your browser**
+
 ```
 http://localhost:5173
 ```
 
 ### 📝 Available Commands
 
-| Command | Description |
-|---------|-------------|
-| `npm run dev` | 🔥 Start dev server with hot reload |
-| `npm run build` | 📦 Build production bundle |
-| `npm run preview` | 👀 Preview production build |
-| `npm run lint` | 🔍 Check code with ESLint |
-| `npm run format` | ✨ Format code with Prettier |
+| Command           | Description                         |
+| ----------------- | ----------------------------------- |
+| `npm run dev`     | 🔥 Start dev server with hot reload |
+| `npm run build`   | 📦 Build production bundle          |
+| `npm run preview` | 👀 Preview production build         |
+| `npm run lint`    | 🔍 Check code with ESLint           |
+| `npm run format`  | ✨ Format code with Prettier        |
 
 ---
 
@@ -189,6 +195,7 @@ team-project-phone-catalog.github.io/
 <td>
 
 **Product Categories:**
+
 - 📱 Phones
 - 📲 Tablets
 - 🎧 Accessories
@@ -197,6 +204,7 @@ team-project-phone-catalog.github.io/
 <td>
 
 **Capabilities:**
+
 - 🔍 Search by name/brand
 - 🎚️ Filter by specifications
 - 📊 Sort (price, popularity, newest)
@@ -241,10 +249,10 @@ graph LR
     D --> E[Live Site ✅]
 ```
 
-| Deploy Type | Source | URL |
-|-------------|--------|-----|
+| Deploy Type    | Source        | URL                                                                                  |
+| -------------- | ------------- | ------------------------------------------------------------------------------------ |
 | **Production** | `main` branch | [team-project-phone-catalog.github.io](https://team-project-phone-catalog.github.io) |
-| **Preview** | Pull Requests | Automatic preview URLs |
+| **Preview**    | Pull Requests | Automatic preview URLs                                                               |
 
 **⏱️ Build time:** ~1-2 minutes  
 **🔄 Updates:** Automatic on push
@@ -303,13 +311,13 @@ We welcome your contributions! 🎉
 
 ## 🔗 Useful Links
 
-| Resource | Link |
-|----------|------|
-| 🌐 **Live Demo** | [team-project-phone-catalog.github.io](https://team-project-phone-catalog.github.io) |
-| 💻 **GitHub Repo** | [Repository](https://github.com/Team-Project-Phone-catalog/team-project-phone-catalog.github.io) |
-| 📚 **Tech Stack** | [TECH_STACK.md](./TECH_STACK.md) |
-| ✅ **Task List** | [TASK_CHECKLIST.md](./TASK_CHECKLIST.md) |
-| 🐛 **Issues** | [Report Bug](https://github.com/Team-Project-Phone-catalog/team-project-phone-catalog.github.io/issues) |
+| Resource           | Link                                                                                                    |
+| ------------------ | ------------------------------------------------------------------------------------------------------- |
+| 🌐 **Live Demo**   | [team-project-phone-catalog.github.io](https://team-project-phone-catalog.github.io)                    |
+| 💻 **GitHub Repo** | [Repository](https://github.com/Team-Project-Phone-catalog/team-project-phone-catalog.github.io)        |
+| 📚 **Tech Stack**  | [TECH_STACK.md](./TECH_STACK.md)                                                                        |
+| ✅ **Task List**   | [TASK_CHECKLIST.md](./TASK_CHECKLIST.md)                                                                |
+| 🐛 **Issues**      | [Report Bug](https://github.com/Team-Project-Phone-catalog/team-project-phone-catalog.github.io/issues) |
 
 ---
 
