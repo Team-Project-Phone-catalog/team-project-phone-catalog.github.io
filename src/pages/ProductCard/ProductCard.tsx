@@ -32,10 +32,23 @@ export const ProductCard: React.FC<Props> = ({ product, onFavoriteChange }) => {
   const imagePath = 'images' in product ? product.images[0] : product.image;
   const imageUrl = imagePath ? `/${imagePath}` : null;
 
-  const linkTo =
-    'itemId' in product ?
-      `/${product.category}/${product.itemId}`
-    : `/${product.category}/${product.id}`;
+  const productId = 'itemId' in product ? product.itemId : product.id;
+
+  // Переводимо ID в нижній регістр для надійної перевірки
+  const idString = String(productId).toLowerCase();
+
+  let category = 'phones';
+
+  // 100% надійна перевірка за назвою ID
+  if (idString.includes('ipad')) {
+    category = 'tablets';
+  } else if (idString.includes('watch')) {
+    category = 'accessories';
+  } else if ('category' in product && product.category) {
+    category = product.category as string;
+  }
+
+  const linkTo = `/${category}/${productId}`;
 
   const toggleFavorite = () => {
     const favorites: string[] = JSON.parse(

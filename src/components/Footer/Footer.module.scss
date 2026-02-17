@@ -3,8 +3,17 @@
 
 .footer {
   border-top: 1px solid #3b3e4a;
-  background: #0f0f11;
-  padding: 32px 16px; // MOBILE
+  background: #0f1121;
+  padding: 32px 16px;
+  margin-top: 56px;
+
+  @include on-tablet {
+    margin-top: 64px;
+  }
+
+  @include on-desktop {
+    margin-top: 80px;
+  }
 }
 
 .container {

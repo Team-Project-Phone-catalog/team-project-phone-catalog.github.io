@@ -1,5 +1,6 @@
 import './ProductOptions.scss';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
+import { ColorLink } from '../../ColorMap/ColorLink.tsx';
 
 type Props = {
   itemId: string;
@@ -19,7 +20,6 @@ export const ProductOptions: React.FC<Props> = ({
   currentCapacity,
   onCapacityChange,
 }) => {
-  const navigate = useNavigate();
   const { category } = useParams<{ category: string }>();
 
   const buildItemId = (capacity: string, color: string) => {
@@ -29,33 +29,32 @@ export const ProductOptions: React.FC<Props> = ({
     return `${namespaceId}-${formattedCapacity}-${formattedColor}`;
   };
 
-  const handleColorChange = (newColor: string) => {
-    const newItemId = buildItemId(currentCapacity, newColor);
-    navigate(`/${category}/${newItemId}`);
-  };
-
-  const handleCapacityChange = (newCapacity: string) => {
-    const newItemId = buildItemId(newCapacity, currentColor);
-    onCapacityChange(newItemId);
-  };
-
   return (
     <div className="product-options">
       <div className="product-options__title">Available colors</div>
 
       <div className="product-options__colors">
-        {colorsAvailable.map((clr) => (
-          <button
-            key={clr}
-            className={`product-options__color-item ${currentColor === clr ? 'product-options__color-item--active' : ''}`}
-            onClick={() => handleColorChange(clr)}
-          >
-            <span
-              className="product-options__color"
-              style={{ backgroundColor: clr }}
-            />
-          </button>
-        ))}
+        <ul className="product-options__list">
+          {colorsAvailable.map((clr) => {
+            const newItemId = buildItemId(currentCapacity, clr);
+            const targetLocation = `/${category}/${newItemId}`;
+
+            const normalizedColor = clr.toLowerCase().replace(/\s+/g, '');
+
+            return (
+              <li
+                key={clr}
+                className="product-options__item"
+              >
+                <ColorLink
+                  to={targetLocation}
+                  color={normalizedColor}
+                  selected={currentColor === clr}
+                />
+              </li>
+            );
+          })}
+        </ul>
       </div>
 
       <div className="product-options__title--capacity">Select capacity</div>
@@ -65,7 +64,7 @@ export const ProductOptions: React.FC<Props> = ({
           <button
             key={cap}
             className={`product-options__ram-item ${currentCapacity === cap ? 'product-options__ram-item--active' : ''}`}
-            onClick={() => handleCapacityChange(cap)}
+            onClick={() => onCapacityChange(buildItemId(cap, currentColor))}
           >
             {cap}
           </button>
