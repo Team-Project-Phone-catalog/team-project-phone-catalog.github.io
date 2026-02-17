@@ -41,5 +41,8 @@
     &:focus:not(:focus-visible) {
       outline: none;
     }
+    &--active {
+      background-image: url(../../../../public/img/heart-red.svg);
+    }
   }
 }
