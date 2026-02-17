@@ -1,9 +1,24 @@
+@import '../../../../styles/utils';
+@import '../../../../styles/variables';
+
 .product-options {
+  display: block;
+
+  @include on-tablet {
+    grid-column: 8 / 13;
+    grid-row: 1;
+    margin-top: 0;
+  }
+
   &__title {
-    margin-top: 40px;
+    margin-top: 0;
     font-size: 12px;
     font-weight: 700;
     color: #75767f;
+
+    @include on-tablet {
+      margin-top: 40px;
+    }
 
     &--capacity {
       font-size: 12px;
@@ -46,16 +61,15 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 10px 20px;
-    text-decoration: none;
+    height: 40px;
+    padding: 0 20px;
     color: #f1f2f9;
     font-size: 14px;
     font-weight: 600;
-    font-family: 'Mont', sans-serif;
     border: 1px solid #4a4d58;
     background-color: transparent;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: transition;
 
     &:hover {
       border-color: #f1f2f9;

@@ -1,6 +1,7 @@
-import './ProductOptions.scss';
+import React from 'react';
 import { useParams } from 'react-router-dom';
 import { ColorLink } from '../../ColorMap/ColorLink.tsx';
+import './ProductOptions.scss';
 
 type Props = {
   itemId: string;
@@ -25,7 +26,6 @@ export const ProductOptions: React.FC<Props> = ({
   const buildItemId = (capacity: string, color: string) => {
     const formattedCapacity = capacity.toLowerCase().replace(/\s+/g, '-');
     const formattedColor = color.toLowerCase().replace(/\s+/g, '-');
-
     return `${namespaceId}-${formattedCapacity}-${formattedColor}`;
   };
 
@@ -38,7 +38,6 @@ export const ProductOptions: React.FC<Props> = ({
           {colorsAvailable.map((clr) => {
             const newItemId = buildItemId(currentCapacity, clr);
             const targetLocation = `/${category}/${newItemId}`;
-
             const normalizedColor = clr.toLowerCase().replace(/\s+/g, '');
 
             return (
@@ -63,7 +62,10 @@ export const ProductOptions: React.FC<Props> = ({
         {capacityAvailable.map((cap) => (
           <button
             key={cap}
-            className={`product-options__ram-item ${currentCapacity === cap ? 'product-options__ram-item--active' : ''}`}
+            type="button"
+            className={`product-options__ram-item ${
+              currentCapacity === cap ? 'product-options__ram-item--active' : ''
+            }`}
             onClick={() => onCapacityChange(buildItemId(cap, currentColor))}
           >
             {cap}
