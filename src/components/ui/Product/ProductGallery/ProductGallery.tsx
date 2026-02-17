@@ -1,41 +1,41 @@
-import {useState, useEffect} from 'react';
+import { useState, useEffect } from 'react';
 import './ProductGallery.scss';
 
-interface Props {
-    images: string[];
-    name: string;
-}
+type Props = {
+  images: string[];
+  name: string;
+};
 
-export const ProductGallery: React.FC<Props> = ({images, name}) => {
-    const [activeImage, setActiveImage] = useState(images[0]);
+export const ProductGallery: React.FC<Props> = ({ images, name }) => {
+  const [activeImage, setActiveImage] = useState(images[0]);
 
-    useEffect(() => {
-        setActiveImage(images[0]);
-    }, [images]);
+  useEffect(() => {
+    setActiveImage(images[0]);
+  }, [images]);
 
-    return (
-        <div className="gallery">
-            <div className="gallery__main">
-                <img
-                    src={`/${activeImage}`}
-                    alt={name}
-                />
-            </div>
+  return (
+    <div className="gallery">
+      <div className="gallery__main">
+        <img
+          src={`/${activeImage}`}
+          alt={name}
+        />
+      </div>
 
-            <div className="gallery__thumbs">
-                {images.map((img, index) => (
-                    <div
-                        key={index}
-                        className={`thumb ${activeImage === img ? 'active' : ''}`}
-                        onClick={() => setActiveImage(img)}
-                    >
-                        <img
-                            src={`/${img}`}
-                            alt={`${name} ${index + 1}`}
-                        />
-                    </div>
-                ))}
-            </div>
-        </div>
-    );
+      <div className="gallery__thumbs">
+        {images.map((img, index) => (
+          <div
+            key={index}
+            className={`thumb ${activeImage === img ? 'active' : ''}`}
+            onClick={() => setActiveImage(img)}
+          >
+            <img
+              src={`/${img}`}
+              alt={`${name} ${index + 1}`}
+            />
+          </div>
+        ))}
+      </div>
+    </div>
+  );
 };

@@ -19,6 +19,11 @@ export default tseslint.config(
       ecmaVersion: 2020,
       globals: globals.browser,
     },
+    settings: {
+      react: {
+        version: 'detect',
+      },
+    },
     plugins: {
       'react-hooks': reactHooks,
       'react-refresh': reactRefresh,
@@ -28,10 +33,8 @@ export default tseslint.config(
       ...reactHooks.configs.recommended.rules,
       ...react.configs.recommended.rules,
       'react/react-in-jsx-scope': 'off',
-      'react-refresh/only-export-components': [
-        'warn',
-        { allowConstantExport: true },
-      ],
+      'react/prop-types': 'off',
+      'react-refresh/only-export-components': 'off',
     },
   },
 );
