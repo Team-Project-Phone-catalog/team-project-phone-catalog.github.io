@@ -1,7 +1,20 @@
 @use '../../styles/utils' as *;
 
 .tablets-page {
-  padding: 0 16px;
+  &__container {
+    box-sizing: border-box;
+    margin: 0 auto;
+    max-width: 1280px;
+    padding: 0 16px;
+
+    @include on-tablet {
+      padding: 0 24px;
+    }
+
+    @include on-desktop {
+      padding: 0 32px;
+    }
+  }
 
   .title {
     margin-top: 24px;
@@ -12,6 +25,12 @@
     font-size: 32px;
     line-height: 41px;
     letter-spacing: -0.01em;
+  }
+
+  .modelsCount {
+    margin-bottom: 24px;
+    font-size: 14px;
+    color: #75767f;
   }
 
   &__controls {
@@ -45,11 +64,24 @@
 
     font-family: Mont;
     font-size: 14px;
+    appearance: none;
+    background-image: url('/img/icons/arrow-down.svg');
+    background-repeat: no-repeat;
+    background-position: right 12px center;
   }
 
   &__list {
+    padding-bottom: 56px;
+
+    @include on-tablet {
+      padding-bottom: 64px;
+    }
+
+    @include on-desktop {
+      padding-bottom: 80px;
+    }
+
     display: grid;
-    gap: 16px;
     row-gap: 40px;
     column-gap: 16px;
 
@@ -61,6 +93,10 @@
 
     @include on-desktop {
       grid-template-columns: repeat(4, 1fr);
+    }
+
+    & > * {
+      min-width: 0;
     }
   }
 }
