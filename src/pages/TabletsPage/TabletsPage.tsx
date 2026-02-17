@@ -47,7 +47,10 @@ export const TabletsPage = () => {
 
       <section className={s['tablets-page__list']}>
         {tablets.map((tablet) => (
-          <ProductCard key={tablet.id} />
+          <ProductCard
+            key={tablet.id}
+            product={tablet}
+          />
         ))}
       </section>
 
