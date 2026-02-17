@@ -1,11 +1,15 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { getPhones } from '../../api/products';
 import { Product } from '../../types/Product';
 import { ProductCard } from '../ProductCard/ProductCard';
+import { sortByNewest, sortByBestPrice } from '../../utils/productFilters';
+import { SortType } from '../../types/SortType';
 import s from './PhonesPage.module.scss';
 
 export const PhonesPage = () => {
   const [phones, setPhones] = useState<Product[]>([]);
+  const [sortBy, setSortBy] = useState<SortType>('newest');
+  const [itemsOnPage, setItemsOnPage] = useState(16);
 
   useEffect(() => {
     const loadPhones = async () => {
@@ -15,6 +19,24 @@ export const PhonesPage = () => {
 
     loadPhones();
   }, []);
+
+  const sortedPhones = useMemo(() => {
+    switch (sortBy) {
+      case 'alphabetically':
+        return [...phones].sort((a, b) => a.name.localeCompare(b.name));
+
+      case 'bestPrice':
+        return sortByBestPrice(phones);
+
+      case 'newest':
+      default:
+        return sortByNewest(phones);
+    }
+  }, [phones, sortBy]);
+
+  const visiblePhones = useMemo(() => {
+    return sortedPhones.slice(0, itemsOnPage);
+  }, [sortedPhones, itemsOnPage]);
 
   return (
     <div className={s['phones-page']}>
@@ -26,27 +48,35 @@ export const PhonesPage = () => {
           <div className={s.control}>
             <label className={s.label}>Sort by</label>
 
-            <select className={s.select}>
-              <option>Newest</option>
-              <option>Alphabetically</option>
-              <option>Cheapest</option>
+            <select
+              className={s.select}
+              value={sortBy}
+              onChange={(event) => setSortBy(event.target.value as SortType)}
+            >
+              <option value="newest">Newest</option>
+              <option value="alphabetically">Alphabetically</option>
+              <option value="bestPrice">Best price</option>
             </select>
           </div>
 
           <div className={s.control}>
             <label className={s.label}>Items on page</label>
 
-            <select className={s.select}>
-              <option>16</option>
-              <option>32</option>
-              <option>64</option>
+            <select
+              className={s.select}
+              value={itemsOnPage}
+              onChange={(event) => setItemsOnPage(+event.target.value)}
+            >
+              <option value={16}>16</option>
+              <option value={32}>32</option>
+              <option value={64}>64</option>
             </select>
           </div>
         </div>
       </section>
 
       <section className={s['phones-page__list']}>
-        {phones.map((phone) => (
+        {visiblePhones.map((phone) => (
           <ProductCard
             key={phone.id}
             product={phone}
