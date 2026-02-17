@@ -1,0 +1,93 @@
+import React, { useState, ReactNode, useCallback } from 'react';
+import { Product } from '../types/Product';
+import { CartItem } from '../types/Cart';
+import { AppContext } from './AppContext';
+
+interface AppProviderProps {
+  children: ReactNode;
+}
+
+export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
+  const [cartItems, setCartItems] = useState<CartItem[]>([]);
+
+  const getItemUniqueId = (product: Product) =>
+    `${product.itemId}_${product.color}_${product.capacity}`;
+
+  const addToCart = (product: Product) => {
+    const itemUniqueId = getItemUniqueId(product);
+
+    setCartItems((prevItems) => {
+      const existingItem = prevItems.find(
+        (item) => item.itemUniqueId === itemUniqueId,
+      );
+
+      if (existingItem) {
+        return prevItems.map((item) =>
+          item.itemUniqueId === itemUniqueId ?
+            { ...item, quantity: item.quantity + 1 }
+          : item,
+        );
+      }
+
+      return [...prevItems, { ...product, quantity: 1, itemUniqueId }];
+    });
+  };
+
+  const removeFromCart = (itemUniqueId: string) => {
+    setCartItems((prevItems) =>
+      prevItems.filter((item) => item.itemUniqueId !== itemUniqueId),
+    );
+  };
+
+  const updateQuantity = (itemUniqueId: string, quantity: number) => {
+    if (quantity <= 0) {
+      removeFromCart(itemUniqueId);
+      return;
+    }
+
+    setCartItems((prevItems) =>
+      prevItems.map((item) =>
+        item.itemUniqueId === itemUniqueId ? { ...item, quantity } : item,
+      ),
+    );
+  };
+
+  const clearCart = () => setCartItems([]);
+
+  const getTotalPrice = useCallback(
+    () =>
+      cartItems.reduce(
+        (total, item) =>
+          total + (item.priceDiscount ?? item.priceRegular) * item.quantity,
+        0,
+      ),
+    [cartItems],
+  );
+
+  const getTotalItems = useCallback(
+    () => cartItems.reduce((total, item) => total + item.quantity, 0),
+    [cartItems],
+  );
+
+  const isInCart = (product: Product) => {
+    const itemUniqueId = getItemUniqueId(product);
+    return cartItems.some((item) => item.itemUniqueId === itemUniqueId);
+  };
+
+  return (
+    <AppContext.Provider
+      value={{
+        cartItems,
+        addToCart,
+        removeFromCart,
+        updateQuantity,
+        clearCart,
+        getTotalPrice,
+        getTotalItems,
+        isInCart,
+      }}
+    >
+      {children}
+    </AppContext.Provider>
+  );
+};

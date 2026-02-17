@@ -5,12 +5,14 @@ interface Props {
   onAddToCart: () => void;
   onToggleFavorite: () => void;
   isFavorite?: boolean;
+  isInCart?: boolean;
 }
 
 export const ProductActions: React.FC<Props> = ({
   onAddToCart,
   onToggleFavorite,
   isFavorite,
+  isInCart,
 }) => {
   return (
     <div className="product-actions">
@@ -18,8 +20,9 @@ export const ProductActions: React.FC<Props> = ({
         type="button"
         className="product-actions__add-to-cart"
         onClick={onAddToCart}
+        disabled={isInCart}
       >
-        Add to cart
+        {isInCart ? 'Added' : 'Add to cart'}
       </button>
 
       <button

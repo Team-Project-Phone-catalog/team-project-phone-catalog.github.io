@@ -4,6 +4,7 @@ import { ProductFeatures } from '../../components/ui/ProductFeatures/ProductFeat
 import { ProductActions } from '../../components/ui/ProductActions/ProductActions.tsx';
 import { Product, ProductDetails } from '../../types/Product.ts';
 import React, { useState } from 'react';
+import { useAppContext } from '../../hooks/useAppContext.ts';
 
 interface Props {
   product?: Product | ProductDetails;
@@ -11,6 +12,13 @@ interface Props {
 }
 
 export const ProductCard: React.FC<Props> = ({ product, onFavoriteChange }) => {
+  const { addToCart, isInCart } = useAppContext();
+
+  const handleAddToCart = () => {
+    if (!product) return;
+    addToCart(product as Product);
+  };
+
   const [isFavorite, setIsFavorite] = useState(() => {
     if (!product) return false;
     const favorites: string[] = JSON.parse(
@@ -74,9 +82,10 @@ export const ProductCard: React.FC<Props> = ({ product, onFavoriteChange }) => {
           ram={product.ram}
         />
         <ProductActions
-          onAddToCart={() => console.log('Added to cart')}
+          onAddToCart={handleAddToCart}
           onToggleFavorite={toggleFavorite}
           isFavorite={isFavorite}
+          isInCart={isInCart(product.id)}
         />
       </div>
     </div>
