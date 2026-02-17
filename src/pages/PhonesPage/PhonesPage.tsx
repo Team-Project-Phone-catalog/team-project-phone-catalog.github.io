@@ -3,6 +3,7 @@ import { getPhones } from '../../api/products';
 import { Product } from '../../types/Product';
 import { ProductCard } from '../ProductCard/ProductCard';
 import s from './PhonesPage.module.scss';
+import { Breadcrumbs } from '../../components/ui/Breadcrumbs/Breadcrumbs.tsx';
 
 export const PhonesPage = () => {
   const [phones, setPhones] = useState<Product[]>([]);
@@ -10,7 +11,7 @@ export const PhonesPage = () => {
   useEffect(() => {
     const loadPhones = async () => {
       const data = await getPhones();
-      setPhones(data);
+      setPhones(data.map((phone) => ({ ...phone, category: 'phones' })));
     };
 
     loadPhones();
@@ -19,6 +20,8 @@ export const PhonesPage = () => {
   return (
     <div className={s['phones-page']}>
       <div className={s['phones-page__container']}>
+        <Breadcrumbs />
+
         <h1 className={s.title}>Mobile phones</h1>
         <p className={s.modelsCount}>{phones.length} models</p>
 

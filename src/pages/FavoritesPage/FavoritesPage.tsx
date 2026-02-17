@@ -3,6 +3,7 @@ import { ProductCard } from '../ProductCard';
 import { Product } from '../../types/Product';
 import { getAccessories, getPhones, getTablets } from '../../api/products';
 import './FavoritesPage.scss';
+import { Breadcrumbs } from '../../components/ui/Breadcrumbs/Breadcrumbs.tsx';
 
 export const FavoritesPage: React.FC = () => {
   const [favorites, setFavorites] = useState<Product[]>([]);
@@ -41,7 +42,7 @@ export const FavoritesPage: React.FC = () => {
     <>
       <div className="favorites-page">
         <div className="favorites-page__container">
-          <div className="favorites-page__history">Favourites</div>
+          <Breadcrumbs />
           <div className="favorites-page__text">
             <h1 className="favorites-page__title">Favourites</h1>
             <div className="favorites-page__items-number">

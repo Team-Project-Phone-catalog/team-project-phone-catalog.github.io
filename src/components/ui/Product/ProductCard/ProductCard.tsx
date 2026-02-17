@@ -5,8 +5,14 @@ import { ProductPurchase } from '../ProductPurchase/ProductPurchase.tsx';
 import { ProductDetail } from '../ProductDetail/ProductDetail.tsx';
 import { TechSpecs } from '../TechSpecs/TechSpecs.tsx';
 import { RelatedProducts } from '../../RelatedProducts/RelatedProducts.tsx';
+import { ProductDetails } from '../../../../types/Product.ts';
+import React from 'react';
 
-export const ProductCard = () => {
+type Props = {
+  product: ProductDetails;
+};
+
+export const ProductCard: React.FC<Props> = () => {
   return (
     <div className="product-card">
       <ProductGallery />

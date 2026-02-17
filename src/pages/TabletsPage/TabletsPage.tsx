@@ -3,6 +3,7 @@ import { getTablets } from '../../api/products';
 import { Product } from '../../types/Product';
 import { ProductCard } from '../ProductCard/ProductCard';
 import s from './TabletsPage.module.scss';
+import { Breadcrumbs } from '../../components/ui/Breadcrumbs/Breadcrumbs.tsx';
 
 export const TabletsPage = () => {
   const [tablets, setTablets] = useState<Product[]>([]);
@@ -10,7 +11,7 @@ export const TabletsPage = () => {
   useEffect(() => {
     const loadTablets = async () => {
       const data = await getTablets();
-      setTablets(data);
+      setTablets(data.map((tablet) => ({ ...tablet, category: 'tablets' })));
     };
 
     loadTablets();
@@ -19,6 +20,8 @@ export const TabletsPage = () => {
   return (
     <div className={s['tablets-page']}>
       <div className={s['tablets-page__container']}>
+        <Breadcrumbs />
+
         <h1 className={s.title}>Tablets</h1>
         <p className={s.modelsCount}>{tablets.length} models</p>
 

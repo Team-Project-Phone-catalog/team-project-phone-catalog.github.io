@@ -3,6 +3,7 @@ import { getAccessories } from '../../api/products';
 import { Product } from '../../types/Product';
 import { ProductCard } from '../ProductCard/ProductCard';
 import s from './AccessoriesPage.module.scss';
+import { Breadcrumbs } from '../../components/ui/Breadcrumbs/Breadcrumbs.tsx';
 
 export const AccessoriesPage = () => {
   const [accessories, setAccessories] = useState<Product[]>([]);
@@ -10,7 +11,7 @@ export const AccessoriesPage = () => {
   useEffect(() => {
     const loadTablets = async () => {
       const data = await getAccessories();
-      setAccessories(data);
+      setAccessories(data.map((acc) => ({ ...acc, category: 'accessories' })));
     };
 
     loadTablets();
@@ -19,6 +20,8 @@ export const AccessoriesPage = () => {
   return (
     <div className={s['accessories-page']}>
       <div className={s['accessories-page__container']}>
+        <Breadcrumbs />
+
         <h1 className={s.title}>Accessories</h1>
         <p className={s.modelsCount}>{accessories.length} models</p>
 

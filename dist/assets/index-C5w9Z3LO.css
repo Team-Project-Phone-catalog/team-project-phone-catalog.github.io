@@ -854,50 +854,43 @@ body {
   box-sizing: border-box;
   font-family: Mont;
 }
-._cart_1xti1_8 {
-  width: 100%;
-  padding-inline: 16px;
-  padding-bottom: 80px;
+._cart_1nbcg_8 {
+  box-sizing: border-box;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 16px 56px;
 }
 @media (min-width: 640px) {
-  ._cart_1xti1_8 {
-    padding-inline: 24px;
+  ._cart_1nbcg_8 {
+    padding: 0 24px 64px;
   }
 }
 @media (min-width: 1200px) {
-  ._cart_1xti1_8 {
-    padding-inline: clamp(32px, 32px + (100vw - 1200px) * 0.5, 152px);
-    margin: 0 auto;
+  ._cart_1nbcg_8 {
+    padding: 0 32px 80px;
   }
 }
-._cart_1xti1_8 ._title_1xti1_24 {
+._cart_1nbcg_8 ._title_1nbcg_27 {
   color: #f1f2f9;
   font-weight: 800;
   font-size: 32px;
   line-height: 41px;
   margin-top: 24px;
+  margin-bottom: 32px;
   letter-spacing: -0.01em;
 }
-@media (min-width: 640px) {
-  ._cart_1xti1_8 ._title_1xti1_24 {
-    margin-top: 16px;
-    font-size: 48px;
-    line-height: 56px;
-  }
-}
-._cart_1xti1_8 ._title_1xti1_24 h1 {
+._cart_1nbcg_8 ._title_1nbcg_27 h1 {
   font-size: inherit;
   font-weight: inherit;
   line-height: inherit;
 }
-._cart_1xti1_8 ._cartContent_1xti1_44 {
-  margin-top: 32px;
+._cart_1nbcg_8 ._cartContent_1nbcg_41 {
   display: flex;
   flex-direction: column;
   gap: 16px;
 }
 @media (min-width: 1200px) {
-  ._cart_1xti1_8 ._cartContent_1xti1_44 {
+  ._cart_1nbcg_8 ._cartContent_1nbcg_41 {
     --columns: 4;
     display: grid;
     column-gap: 16px;
@@ -907,27 +900,27 @@ body {
   }
 }
 @media (min-width: 1200px) and (min-width: 640px) {
-  ._cart_1xti1_8 ._cartContent_1xti1_44 {
+  ._cart_1nbcg_8 ._cartContent_1nbcg_41 {
     --columns: 12;
   }
 }
 @media (min-width: 1200px) and (min-width: 1200px) {
-  ._cart_1xti1_8 ._cartContent_1xti1_44 {
+  ._cart_1nbcg_8 ._cartContent_1nbcg_41 {
     --columns: 24;
   }
 }
-._cart_1xti1_8 ._cartContent_1xti1_44 ._products_1xti1_70 {
+._cart_1nbcg_8 ._cartContent_1nbcg_41 ._products_1nbcg_66 {
   display: flex;
   flex-direction: column;
   gap: 16px;
 }
 @media (min-width: 1200px) {
-  ._cart_1xti1_8 ._cartContent_1xti1_44 ._products_1xti1_70 {
+  ._cart_1nbcg_8 ._cartContent_1nbcg_41 ._products_1nbcg_66 {
     grid-column: 1/17;
   }
 }
 @media (min-width: 1200px) {
-  ._cart_1xti1_8 ._cartContent_1xti1_44 ._summary_1xti1_81 {
+  ._cart_1nbcg_8 ._cartContent_1nbcg_41 ._summary_1nbcg_77 {
     grid-column: 17/25;
     position: sticky;
     top: 24px;
