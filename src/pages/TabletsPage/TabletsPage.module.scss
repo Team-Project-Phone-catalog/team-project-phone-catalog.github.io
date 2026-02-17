@@ -1,18 +1,19 @@
 @use '../../styles/utils' as *;
 
 .tablets-page {
-  padding: 0 16px;
+  &__container {
+    box-sizing: border-box;
+    margin: 0 auto;
+    max-width: 1136px;
+    padding: 0 16px;
 
-  @include on-tablet {
-    padding: 0 24px;
-  }
+    @include on-tablet {
+      padding: 0 24px;
+    }
 
-  @include on-desktop {
-    padding: 0 32px;
-  }
-
-  @media (min-width: 1440px) {
-    padding: 0 152px;
+    @include on-desktop {
+      padding: 0 32px;
+    }
   }
 
   .title {
