@@ -4,7 +4,7 @@
   &__container {
     box-sizing: border-box;
     margin: 0 auto;
-    max-width: 1136px;
+    max-width: 1280px;
     padding: 0 16px;
 
     @include on-tablet {
@@ -71,8 +71,17 @@
   }
 
   &__list {
+    padding-bottom: 56px;
+
+    @include on-tablet {
+      padding-bottom: 64px;
+    }
+
+    @include on-desktop {
+      padding-bottom: 80px;
+    }
+
     display: grid;
-    gap: 16px;
     row-gap: 40px;
     column-gap: 16px;
 
@@ -84,6 +93,10 @@
 
     @include on-desktop {
       grid-template-columns: repeat(4, 1fr);
+    }
+
+    & > * {
+      min-width: 0;
     }
   }
 }
