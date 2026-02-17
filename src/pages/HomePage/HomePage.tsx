@@ -10,12 +10,14 @@ import {
 } from '../../api/products.ts';
 import { Product } from '../../types/Product.ts';
 import { sortByBestPrice, sortByNewest } from '../../utils/productFilters.ts';
+import { Loader } from '../../components/ui/Loader/Loader.tsx';
 
 export const HomePage: React.FC = () => {
   const [phones, setPhones] = useState<Product[]>([]);
   const [tablets, setTablets] = useState<Product[]>([]);
   const [accessories, setAccessories] = useState<Product[]>([]);
   const [products, setProducts] = useState<Product[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   const newestSliderRef = useRef<HTMLDivElement>(null);
   const hotSliderRef = useRef<HTMLDivElement>(null);
@@ -42,22 +44,32 @@ export const HomePage: React.FC = () => {
   };
 
   useEffect(() => {
-    getPhones()
-      .then(setPhones)
-      .catch((err) => console.error('Error loading phones:', err));
-
-    getTablets()
-      .then(setTablets)
-      .catch((err) => console.error('Error loading tablets:', err));
-
-    getAccessories()
-      .then(setAccessories)
-      .catch((err) => console.error('Error loading accessories:', err));
-
-    getProducts()
-      .then(setProducts)
-      .catch((err) => console.error('Error loading products:', err));
+    Promise.all([
+      getPhones(),
+      getTablets(),
+      getAccessories(),
+      getProducts(),
+      new Promise((resolve) => setTimeout(resolve, 1000)),
+    ])
+      .then(([phonesData, tabletsData, accessoriesData, productsData]) => {
+        setPhones(phonesData);
+        setTablets(tabletsData);
+        setAccessories(accessoriesData);
+        setProducts(productsData);
+      })
+      .catch((err) => console.error('Error loading data:', err))
+      .finally(() => setIsLoading(false));
   }, []);
+
+  if (isLoading) {
+    return (
+      <main className={styles.home}>
+        <div className={styles['loader-wrapper']}>
+          <Loader />
+        </div>
+      </main>
+    );
+  }
 
   return (
     <main className={styles.home}>
@@ -115,7 +127,7 @@ export const HomePage: React.FC = () => {
             <article className={styles['category-card']}>
               <div className={styles['category-card__image-wrapper']}>
                 <img
-                  src="/img/category-phones.jpg"
+                  src="/img/category-phones.png"
                   alt="Mobile phones"
                   className={styles['category-card__image']}
                 />
@@ -133,9 +145,9 @@ export const HomePage: React.FC = () => {
             <article className={styles['category-card']}>
               <div className={styles['category-card__image-wrapper']}>
                 <img
-                  src="/img/category-tablets.jpg"
+                  src="/img/category-tablets.png"
                   alt="Tablets"
-                  className={styles['category-card__image']}
+                  className={styles['category-card__image-tablets']}
                 />
               </div>
               <div className={styles['category-card__info']}>
@@ -149,9 +161,9 @@ export const HomePage: React.FC = () => {
             <article className={styles['category-card']}>
               <div className={styles['category-card__image-wrapper']}>
                 <img
-                  src="/img/category-accessories.jpg"
+                  src="/img/category-accessories.png"
                   alt="Accessories"
-                  className={styles['category-card__image']}
+                  className={styles['category-card__image-access']}
                 />
               </div>
               <div className={styles['category-card__info']}>

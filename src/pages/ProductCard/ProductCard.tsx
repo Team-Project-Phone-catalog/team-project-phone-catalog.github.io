@@ -4,6 +4,7 @@ import { ProductFeatures } from '../../components/ui/ProductFeatures/ProductFeat
 import { ProductActions } from '../../components/ui/ProductActions/ProductActions.tsx';
 import { Product, ProductDetails } from '../../types/Product.ts';
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 interface Props {
   product?: Product | ProductDetails;
@@ -31,6 +32,11 @@ export const ProductCard: React.FC<Props> = ({ product, onFavoriteChange }) => {
   const imagePath = 'images' in product ? product.images[0] : product.image;
   const imageUrl = imagePath ? `/${imagePath}` : null;
 
+  const linkTo =
+    'itemId' in product ?
+      `/${product.category}/${product.itemId}`
+    : `/${product.category}/${product.id}`;
+
   const toggleFavorite = () => {
     const favorites: string[] = JSON.parse(
       localStorage.getItem('favorites') || '[]',
@@ -50,32 +56,48 @@ export const ProductCard: React.FC<Props> = ({ product, onFavoriteChange }) => {
 
   return (
     <div className="card">
-      <div className="card__img-container">
-        {imageUrl && (
-          <img
-            className="card__image"
-            src={imageUrl}
-            alt={product.name}
-            width="208"
-            height="196"
-          />
-        )}
+      <div className="card__container">
+        <Link
+          to={linkTo}
+          className="card__link"
+        >
+          <div className="card__img-container">
+            {imageUrl && (
+              <img
+                className="card__image"
+                src={imageUrl}
+                alt={product.name}
+              />
+            )}
+          </div>
+          <div className="card__title-wrapper">
+            <h2 className="card__title">{product.name}</h2>
+          </div>
+        </Link>
+
+        <ProductPrice
+          currentPrice={currentPrice}
+          fullPrice={fullPrice}
+        />
+        <ProductFeatures
+          screen={product.screen}
+          capacity={product.capacity}
+          ram={product.ram}
+        />
+        <ProductActions
+          onAddToCart={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            console.log('Added to cart');
+          }}
+          onToggleFavorite={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            toggleFavorite();
+          }}
+          isFavorite={isFavorite}
+        />
       </div>
-      <h2 className="card__title">{product.name}</h2>
-      <ProductPrice
-        currentPrice={currentPrice}
-        fullPrice={fullPrice}
-      />
-      <ProductFeatures
-        screen={product.screen}
-        capacity={product.capacity}
-        ram={product.ram}
-      />
-      <ProductActions
-        onAddToCart={() => console.log('Added to cart')}
-        onToggleFavorite={toggleFavorite}
-        isFavorite={isFavorite}
-      />
     </div>
   );
 };

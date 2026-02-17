@@ -1,22 +1,24 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import './ProductGallery.scss';
 
-export const ProductGallery = () => {
-  const images = [
-    '/img/phones/apple-iphone-12/black/00.webp',
-    '/img/phones/apple-iphone-12/black/01.webp',
-    '/img/phones/apple-iphone-12/black/02.webp',
-    '/img/phones/apple-iphone-12/black/03.webp',
-  ];
+type Props = {
+  images: string[];
+  name: string;
+};
 
+export const ProductGallery: React.FC<Props> = ({ images, name }) => {
   const [activeImage, setActiveImage] = useState(images[0]);
+
+  useEffect(() => {
+    setActiveImage(images[0]);
+  }, [images]);
 
   return (
     <div className="gallery">
       <div className="gallery__main">
         <img
-          src={activeImage}
-          alt="Product"
+          src={`/${activeImage}`}
+          alt={name}
         />
       </div>
 
@@ -28,8 +30,8 @@ export const ProductGallery = () => {
             onClick={() => setActiveImage(img)}
           >
             <img
-              src={img}
-              alt="thumb"
+              src={`/${img}`}
+              alt={`${name} ${index + 1}`}
             />
           </div>
         ))}

@@ -1,44 +1,74 @@
-import { useState } from 'react';
 import './ProductOptions.scss';
+import { useNavigate, useParams } from 'react-router-dom';
 
-export const ProductOptions = () => {
-  const color = ['gold', 'blue', 'grey'];
-  const phone_ram = ['64 GB', '128 GB', '256 GB'];
-  const [activeColor, setActiveColor] = useState(color[0]);
-  const [activePhoneRam, setActivePhoneRam] = useState(phone_ram[0]);
+type Props = {
+  itemId: string;
+  namespaceId: string;
+  colorsAvailable: string[];
+  currentColor: string;
+  capacityAvailable: string[];
+  currentCapacity: string;
+  onCapacityChange: (newItemId: string) => void;
+};
+
+export const ProductOptions: React.FC<Props> = ({
+  namespaceId,
+  colorsAvailable,
+  currentColor,
+  capacityAvailable,
+  currentCapacity,
+  onCapacityChange,
+}) => {
+  const navigate = useNavigate();
+  const { category } = useParams<{ category: string }>();
+
+  const buildItemId = (capacity: string, color: string) => {
+    const formattedCapacity = capacity.toLowerCase().replace(/\s+/g, '-');
+    const formattedColor = color.toLowerCase().replace(/\s+/g, '-');
+
+    return `${namespaceId}-${formattedCapacity}-${formattedColor}`;
+  };
+
+  const handleColorChange = (newColor: string) => {
+    const newItemId = buildItemId(currentCapacity, newColor);
+    navigate(`/${category}/${newItemId}`);
+  };
+
+  const handleCapacityChange = (newCapacity: string) => {
+    const newItemId = buildItemId(newCapacity, currentColor);
+    onCapacityChange(newItemId);
+  };
 
   return (
     <div className="product-options">
       <div className="product-options__title">Available colors</div>
 
       <div className="product-options__colors">
-        {color.map((clr, index) => (
-          <a
-            key={index}
-            href={`/${clr}`}
-            className={`product-options__color-item ${activeColor === clr ? 'product-options__color-item--active' : ''}`}
-            onClick={() => setActiveColor(clr)}
+        {colorsAvailable.map((clr) => (
+          <button
+            key={clr}
+            className={`product-options__color-item ${currentColor === clr ? 'product-options__color-item--active' : ''}`}
+            onClick={() => handleColorChange(clr)}
           >
             <span
               className="product-options__color"
               style={{ backgroundColor: clr }}
-            ></span>
-          </a>
+            />
+          </button>
         ))}
       </div>
 
       <div className="product-options__title--capacity">Select capacity</div>
 
       <div className="product-options__ram">
-        {phone_ram.map((ram, index) => (
-          <a
-            key={index}
-            href={`/${ram}`}
-            className={`product-options__ram-item ${activePhoneRam === ram ? 'product-options__ram-item--active' : ''}`}
-            onClick={() => setActivePhoneRam(ram)}
+        {capacityAvailable.map((cap) => (
+          <button
+            key={cap}
+            className={`product-options__ram-item ${currentCapacity === cap ? 'product-options__ram-item--active' : ''}`}
+            onClick={() => handleCapacityChange(cap)}
           >
-            {ram}
-          </a>
+            {cap}
+          </button>
         ))}
       </div>
     </div>
