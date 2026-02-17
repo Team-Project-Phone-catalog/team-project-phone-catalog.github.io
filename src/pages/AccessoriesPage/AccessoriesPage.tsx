@@ -7,6 +7,7 @@ import { SortType } from '../../types/SortType';
 import s from './AccessoriesPage.module.scss';
 import { Breadcrumbs } from '../../components/ui/Breadcrumbs/Breadcrumbs.tsx';
 import { ProductSkeleton } from '../../components/ProductSkelet/ProductSkelet.tsx';
+import { NoResults } from '../../components/ui/NoResults/NoResults.tsx';
 
 export const AccessoriesPage = () => {
   const [accessories, setAccessories] = useState<Product[]>([]);
@@ -14,29 +15,51 @@ export const AccessoriesPage = () => {
   const [itemsOnPage, setItemsOnPage] = useState(16);
   const [isLoading, setIsLoading] = useState(true);
 
+  const [searchQuery, setSearchQuery] = useState('');
+  const [debouncedQuery, setDebouncedQuery] = useState('');
+
+  // Debounce для пошуку
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedQuery(searchQuery);
+    }, 300);
+    return () => clearTimeout(handler);
+  }, [searchQuery]);
+
   useEffect(() => {
     const loadAccessories = async () => {
       setIsLoading(true);
-      const data = await getAccessories();
-      setAccessories(data.map((acc) => ({ ...acc, category: 'accessories' })));
-      setTimeout(() => {
+      try {
+        const data = await getAccessories();
+        setAccessories(
+          data.map((acc) => ({ ...acc, category: 'accessories' })),
+        );
+      } finally {
         setIsLoading(false);
-      }, 1000);
+      }
     };
     loadAccessories();
   }, []);
 
+  const filteredAccessories = useMemo(() => {
+    return accessories.filter((acc) =>
+      acc.name.toLowerCase().includes(debouncedQuery.toLowerCase().trim()),
+    );
+  }, [accessories, debouncedQuery]);
+
   const sortedAccessories = useMemo(() => {
+    const toSort = [...filteredAccessories];
+
     switch (sortBy) {
       case 'alphabetically':
-        return [...accessories].sort((a, b) => a.name.localeCompare(b.name));
+        return toSort.sort((a, b) => a.name.localeCompare(b.name));
       case 'bestPrice':
-        return sortByBestPrice(accessories);
+        return sortByBestPrice(toSort);
       case 'newest':
       default:
-        return sortByNewest(accessories);
+        return sortByNewest(toSort);
     }
-  }, [accessories, sortBy]);
+  }, [filteredAccessories, sortBy]);
 
   const visibleAccessories = useMemo(() => {
     return sortedAccessories.slice(0, itemsOnPage);
@@ -48,9 +71,8 @@ export const AccessoriesPage = () => {
         <Breadcrumbs />
         <h1 className={s.title}>Accessories</h1>
 
-        {/* Показуємо кількість моделей тільки коли дані є */}
         {!isLoading && (
-          <p className={s.modelsCount}>{accessories.length} models</p>
+          <p className={s.modelsCount}>{filteredAccessories.length} models</p>
         )}
 
         <section className={s['accessories-page__controls']}>
@@ -89,6 +111,8 @@ export const AccessoriesPage = () => {
                 type="text"
                 placeholder="Type here"
                 className={s.searchInput}
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
               />
             </div>
           </div>
@@ -99,16 +123,15 @@ export const AccessoriesPage = () => {
             Array.from({ length: itemsOnPage }).map((_, index) => (
               <ProductSkeleton key={index} />
             ))
-          : visibleAccessories.map((accessory) => (
+          : visibleAccessories.length > 0 ?
+            visibleAccessories.map((accessory) => (
               <ProductCard
                 key={accessory.id}
                 product={accessory}
               />
             ))
-          }
+          : <NoResults category="accessories" />}
         </section>
-
-        <section className={s['accessories-page__pagination']}></section>
       </div>
     </div>
   );
