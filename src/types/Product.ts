@@ -7,6 +7,7 @@ export interface ProductDetails {
   id: string;
   namespaceId: string;
   name: string;
+  category: string;
   capacityAvailable: string[];
   capacity: string;
   priceRegular: number;

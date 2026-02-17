@@ -6,6 +6,16 @@
   border-radius: 50%;
   position: relative;
   animation: rotate 1s linear infinite;
+
+  @media (min-width: 640px) {
+    width: 72px;
+    height: 72px;
+  }
+
+  @media (min-width: 1024px) {
+    width: 96px;
+    height: 96px;
+  }
 }
 
 .loader::before,
