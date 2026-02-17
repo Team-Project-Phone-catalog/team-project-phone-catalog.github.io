@@ -1,22 +1,25 @@
+import { Link } from 'react-router-dom';
 import styles from './Footer.module.scss';
 import logo from '../../assets/logo.svg';
 
 export const Footer = () => {
   const handleScrollTop = () => {
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth',
-    });
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   return (
     <footer className={styles.footer}>
       <div className={styles.container}>
-        <img
-          src={logo}
-          alt="Nice Gadgets"
-          className={styles.logo}
-        />
+        <Link
+          to="/"
+          className={styles.logoLink}
+        >
+          <img
+            src={logo}
+            alt="Nice Gadgets"
+            className={styles.logo}
+          />
+        </Link>
 
         <nav className={styles.nav}>
           <a

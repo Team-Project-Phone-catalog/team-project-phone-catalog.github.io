@@ -4,6 +4,7 @@ import { ProductFeatures } from '../../components/ui/ProductFeatures/ProductFeat
 import { ProductActions } from '../../components/ui/ProductActions/ProductActions.tsx';
 import { Product, ProductDetails } from '../../types/Product.ts';
 import React, { useState } from 'react';
+import { useAppContext } from '../../hooks/useAppContext.ts';
 import { Link } from 'react-router-dom';
 
 interface Props {
@@ -12,6 +13,13 @@ interface Props {
 }
 
 export const ProductCard: React.FC<Props> = ({ product, onFavoriteChange }) => {
+  const { addToCart, isInCart } = useAppContext();
+
+  const handleAddToCart = () => {
+    if (!product) return;
+    addToCart(product as Product);
+  };
+
   const [isFavorite, setIsFavorite] = useState(() => {
     if (!product) return false;
     const favorites: string[] = JSON.parse(
@@ -32,10 +40,22 @@ export const ProductCard: React.FC<Props> = ({ product, onFavoriteChange }) => {
   const imagePath = 'images' in product ? product.images[0] : product.image;
   const imageUrl = imagePath ? `/${imagePath}` : null;
 
-  const linkTo =
-    'itemId' in product ?
-      `/${product.category}/${product.itemId}`
-    : `/${product.category}/${product.id}`;
+  const productId = 'itemId' in product ? product.itemId : product.id;
+
+  const idString = String(productId).toLowerCase();
+
+  let category = 'phones';
+
+  // 100% надійна перевірка за назвою ID
+  if (idString.includes('ipad')) {
+    category = 'tablets';
+  } else if (idString.includes('watch')) {
+    category = 'accessories';
+  } else if ('category' in product && product.category) {
+    category = product.category as string;
+  }
+
+  const linkTo = `/${category}/${productId}`;
 
   const toggleFavorite = () => {
     const favorites: string[] = JSON.parse(
@@ -88,7 +108,7 @@ export const ProductCard: React.FC<Props> = ({ product, onFavoriteChange }) => {
           onAddToCart={(e) => {
             e.preventDefault();
             e.stopPropagation();
-            console.log('Added to cart');
+            handleAddToCart();
           }}
           onToggleFavorite={(e) => {
             e.preventDefault();
@@ -96,6 +116,7 @@ export const ProductCard: React.FC<Props> = ({ product, onFavoriteChange }) => {
             toggleFavorite();
           }}
           isFavorite={isFavorite}
+          isInCart={isInCart(product.id)}
         />
       </div>
     </div>

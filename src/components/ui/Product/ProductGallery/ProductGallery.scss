@@ -1,39 +1,73 @@
-$bg-main: #0c1022;
-$bg-card: #111531;
-$white: #ffffff;
-$transition: 0.3s ease;
+@import '../../../../styles/utils';
+@import '../../../../styles/variables';
 
 .gallery {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
   margin-top: 32px;
-  text-align: center;
+
+  @include on-tablet {
+    display: grid;
+    grid-template-columns: 80px 1fr;
+    grid-column: 1 / 8;
+    gap: 16px;
+    align-items: center;
+  }
 
   &__main {
-    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    order: 1;
+
+    @include on-tablet {
+      order: 2;
+    }
 
     img {
-      width: 274px;
-      height: 274px;
+      width: 288px;
+      height: 288px;
       object-fit: contain;
-      transition: $transition;
+      transition: transition;
+
+      @include on-desktop {
+        width: 264px;
+        height: 264px;
+      }
     }
   }
 
   &__thumbs {
-    padding-top: 16px;
-
     display: flex;
-    justify-content: left;
+    flex-direction: row;
+    justify-content: center;
     gap: 8px;
+    order: 2;
+
+    @include on-tablet {
+      flex-direction: column;
+      justify-content: center;
+      height: 100%;
+      order: 1;
+    }
   }
 }
 
 .thumb {
-  width: 80px;
-  height: 80px;
-  padding: 8px;
+  width: 50px;
+  height: 50px;
+  padding: 4px;
   cursor: pointer;
-  transition: $transition;
   border: 1px solid #3b3e4a;
+  background-color: transparent;
+  transition: transition;
+
+  @include on-tablet {
+    width: 80px;
+    height: 80px;
+    padding: 8px;
+  }
 
   img {
     width: 100%;
@@ -42,10 +76,15 @@ $transition: 0.3s ease;
   }
 
   &:hover {
-    transform: scale(1.05);
+    border-color: #89939a;
+    transform: scale(1.02);
   }
 
   &.active {
-    border: 2px solid $white;
+    border: 1px solid #f0f0f0;
+    border-width: 1px;
+    @include on-tablet {
+      border-width: 2px;
+    }
   }
 }

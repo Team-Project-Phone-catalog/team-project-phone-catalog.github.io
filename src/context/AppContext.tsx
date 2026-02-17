@@ -10,7 +10,7 @@ export interface AppContextValue {
   clearCart: () => void;
   getTotalPrice: () => number;
   getTotalItems: () => number;
-  isInCart: (productId: string) => boolean;
+  isInCart: (productId: Product) => boolean;
 }
 
 export const AppContext = createContext<AppContextValue | undefined>(undefined);
