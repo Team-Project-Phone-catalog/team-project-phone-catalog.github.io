@@ -1,7 +1,11 @@
 @use '../../styles/utils' as *;
 
 .accessories-page {
-  padding: 0 16px;
+  &__container {
+    box-sizing: border-box;
+    margin: 0 auto;
+    max-width: 1280px;
+    padding: 0 16px;
 
   @include on-tablet {
     padding: 0 24px;
@@ -16,8 +20,9 @@
     padding: 0 32px;
   }
 
-  @media (min-width: 1440px) {
-    padding: 0 152px;
+    @include on-desktop {
+      padding: 0 32px;
+    }
   }
 
   .title {
@@ -106,8 +111,17 @@
   }
 
   &__list {
+    padding-bottom: 56px;
+
+    @include on-tablet {
+      padding-bottom: 64px;
+    }
+
+    @include on-desktop {
+      padding-bottom: 80px;
+    }
+
     display: grid;
-    gap: 16px;
     row-gap: 40px;
     column-gap: 16px;
 
@@ -119,6 +133,10 @@
 
     @include on-desktop {
       grid-template-columns: repeat(4, 1fr);
+    }
+
+    & > * {
+      min-width: 0;
     }
   }
 }
