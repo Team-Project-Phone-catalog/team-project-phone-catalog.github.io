@@ -1,62 +1,100 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { getAccessories } from '../../api/products';
 import { Product } from '../../types/Product';
 import { ProductCard } from '../ProductCard/ProductCard';
+import { sortByNewest, sortByBestPrice } from '../../utils/productFilters';
+import { SortType } from '../../types/SortType';
 import s from './AccessoriesPage.module.scss';
 
 export const AccessoriesPage = () => {
   const [accessories, setAccessories] = useState<Product[]>([]);
+  const [sortBy, setSortBy] = useState<SortType>('newest');
+  const [itemsOnPage, setItemsOnPage] = useState(16);
 
   useEffect(() => {
-    const loadTablets = async () => {
+    const loadAccessories = async () => {
       const data = await getAccessories();
-      setAccessories(data);
+      setAccessories(data.map((acc) => ({ ...acc, category: 'accessories' })));
     };
-
-    loadTablets();
+    loadAccessories();
   }, []);
+
+  const sortedAccessories = useMemo(() => {
+    switch (sortBy) {
+      case 'alphabetically':
+        return [...accessories].sort((a, b) => a.name.localeCompare(b.name));
+
+      case 'bestPrice':
+        return sortByBestPrice(accessories);
+
+      case 'newest':
+      default:
+        return sortByNewest(accessories);
+    }
+  }, [accessories, sortBy]);
+
+  const visibleAccessories = useMemo(() => {
+    return sortedAccessories.slice(0, itemsOnPage);
+  }, [sortedAccessories, itemsOnPage]);
 
   return (
     <div className={s['accessories-page']}>
-      <div className={s['accessories-page__container']}>
-        <h1 className={s.title}>Accessories</h1>
-        <p className={s.modelsCount}>{accessories.length} models</p>
+      <h1 className={s.title}>Accessories</h1>
+      <p className={s.modelsCount}>{accessories.length} models</p>
 
-        <section className={s['accessories-page__controls']}>
-          <div className={s.controls}>
+      <section className={s['accessories-page__controls']}>
+        <div className={s.controls}>
+          <div className={s.controlsLeft}>
             <div className={s.control}>
               <label className={s.label}>Sort by</label>
 
-              <select className={s.select}>
-                <option>Newest</option>
-                <option>Alphabetically</option>
-                <option>Cheapest</option>
+              <select
+                className={s.select}
+                value={sortBy}
+                onChange={(event) => setSortBy(event.target.value as SortType)}
+              >
+                <option value="newest">Newest</option>
+                <option value="alphabetically">Alphabetically</option>
+                <option value="bestPrice">Best price</option>
               </select>
             </div>
 
             <div className={s.control}>
               <label className={s.label}>Items on page</label>
 
-              <select className={s.select}>
-                <option>16</option>
-                <option>32</option>
-                <option>64</option>
+              <select
+                className={s.select}
+                value={itemsOnPage}
+                onChange={(event) => setItemsOnPage(+event.target.value)}
+              >
+                <option value={16}>16</option>
+                <option value={32}>32</option>
+                <option value={64}>64</option>
               </select>
             </div>
           </div>
-        </section>
+          <div className={s.search}>
+            <label className={s.label}>Looking for something?</label>
 
-        <section className={s['accessories-page__list']}>
-          {accessories.map((accessory) => (
-            <ProductCard
-              key={accessory.id}
-              product={accessory}
+            <input
+              type="text"
+              placeholder="Type here"
+              className={s.searchInput}
             />
-          ))}
-        </section>
+          </div>
+        </div>
+      </section>
 
-        <section className={s['accessories-page__pagination']}></section>
-      </div>
+      <section className={s['accessories-page__list']}>
+        {visibleAccessories.map((accessory) => (
+          <ProductCard
+            key={accessory.id}
+            product={accessory}
+          />
+        ))}
+      </section>
+
+      <section className={s['accessories-page__pagination']}></section>
     </div>
   );
 };
