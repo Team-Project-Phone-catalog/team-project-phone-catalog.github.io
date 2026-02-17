@@ -1,3 +1,5 @@
+@use '../../../styles/variables' as *;
+
 .breadcrumbs {
   display: flex;
   margin-top: 24px;
@@ -16,12 +18,12 @@
   }
 
   &__separator {
-    color: #75767f;
+    color: $color-secondary;
     font-size: 12px;
   }
 
   &__link {
-    color: #75767f;
+    color: $color-secondary;
     text-decoration: none;
     font-style: normal;
     font-weight: 600;
@@ -29,12 +31,12 @@
     line-height: 15px;
 
     &:hover {
-      color: #75767f;
+      color: $color-secondary;
     }
   }
 
   &__current {
-    color: #75767f;
+    color: $color-secondary;
     font-style: normal;
     font-weight: 600;
     font-size: 12px;
