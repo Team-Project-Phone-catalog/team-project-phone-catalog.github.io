@@ -7,12 +7,24 @@ import { SortType } from '../../types/SortType';
 import s from './AccessoriesPage.module.scss';
 import { Breadcrumbs } from '../../components/ui/Breadcrumbs/Breadcrumbs.tsx';
 import { Loader } from '../../components/ui/Loader/Loader.tsx';
+import { NoResults } from '../../components/ui/NoResults/NoResults.tsx';
 
 export const AccessoriesPage = () => {
   const [accessories, setAccessories] = useState<Product[]>([]);
   const [sortBy, setSortBy] = useState<SortType>('newest');
   const [itemsOnPage, setItemsOnPage] = useState(16);
-  const [isLoading, setIsLoading] = useState(true); // ← true одразу
+  const [isLoading, setIsLoading] = useState(true);
+
+  const [searchQuery, setSearchQuery] = useState('');
+  const [debouncedQuery, setDebouncedQuery] = useState('');
+
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedQuery(searchQuery);
+    }, 300);
+
+    return () => clearTimeout(handler);
+  }, [searchQuery]);
 
   useEffect(() => {
     const loadAccessories = async () => {
@@ -26,17 +38,25 @@ export const AccessoriesPage = () => {
     loadAccessories();
   }, []);
 
+  const filteredAccessories = useMemo(() => {
+    return accessories.filter((acc) =>
+      acc.name.toLowerCase().includes(debouncedQuery.toLowerCase().trim()),
+    );
+  }, [accessories, debouncedQuery]);
+
   const sortedAccessories = useMemo(() => {
+    const toSort = [...filteredAccessories];
+
     switch (sortBy) {
       case 'alphabetically':
-        return [...accessories].sort((a, b) => a.name.localeCompare(b.name));
+        return toSort.sort((a, b) => a.name.localeCompare(b.name));
       case 'bestPrice':
-        return sortByBestPrice(accessories);
+        return sortByBestPrice(toSort);
       case 'newest':
       default:
-        return sortByNewest(accessories);
+        return sortByNewest(toSort);
     }
-  }, [accessories, sortBy]);
+  }, [filteredAccessories, sortBy]);
 
   const visibleAccessories = useMemo(() => {
     return sortedAccessories.slice(0, itemsOnPage);
@@ -48,19 +68,19 @@ export const AccessoriesPage = () => {
         <Loader />
       </div>
     );
+
   return (
     <div className={s['accessories-page']}>
       <div className={s['accessories-page__container']}>
         <Breadcrumbs />
         <h1 className={s.title}>Accessories</h1>
-        <p className={s.modelsCount}>{accessories.length} models</p>
+        <p className={s.modelsCount}>{filteredAccessories.length} models</p>
 
         <section className={s['accessories-page__controls']}>
           <div className={s.controls}>
             <div className={s.controlsLeft}>
               <div className={s.control}>
                 <label className={s.label}>Sort by</label>
-
                 <select
                   className={s.select}
                   value={sortBy}
@@ -76,7 +96,6 @@ export const AccessoriesPage = () => {
 
               <div className={s.control}>
                 <label className={s.label}>Items on page</label>
-
                 <select
                   className={s.select}
                   value={itemsOnPage}
@@ -90,24 +109,34 @@ export const AccessoriesPage = () => {
             </div>
 
             <div className={s.search}>
-              <label className={s.label}>Looking for something?</label>
-
+              <label
+                className={s.label}
+                htmlFor="search-input"
+              >
+                Looking for something?
+              </label>
               <input
+                id="search-input"
+                name="search"
                 type="text"
                 placeholder="Type here"
                 className={s.searchInput}
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
               />
             </div>
           </div>
         </section>
 
         <section className={s['accessories-page__list']}>
-          {visibleAccessories.map((accessory) => (
-            <ProductCard
-              key={accessory.id}
-              product={accessory}
-            />
-          ))}
+          {visibleAccessories.length > 0 ?
+            visibleAccessories.map((accessory) => (
+              <ProductCard
+                key={accessory.id}
+                product={accessory}
+              />
+            ))
+          : <NoResults category="accessories" />}
         </section>
 
         <section className={s['accessories-page__pagination']}></section>

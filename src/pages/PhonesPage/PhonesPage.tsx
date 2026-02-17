@@ -7,12 +7,24 @@ import { SortType } from '../../types/SortType';
 import s from './PhonesPage.module.scss';
 import { Breadcrumbs } from '../../components/ui/Breadcrumbs/Breadcrumbs.tsx';
 import { Loader } from '../../components/ui/Loader/Loader.tsx';
+import { NoResults } from '../../components/ui/NoResults/NoResults.tsx';
 
 export const PhonesPage = () => {
   const [phones, setPhones] = useState<Product[]>([]);
   const [sortBy, setSortBy] = useState<SortType>('newest');
   const [itemsOnPage, setItemsOnPage] = useState(16);
   const [isLoading, setIsLoading] = useState(true);
+
+  const [searchQuery, setSearchQuery] = useState('');
+  const [debouncedQuery, setDebouncedQuery] = useState('');
+
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedQuery(searchQuery);
+    }, 300);
+
+    return () => clearTimeout(handler);
+  }, [searchQuery]);
 
   useEffect(() => {
     const loadPhones = async () => {
@@ -24,17 +36,25 @@ export const PhonesPage = () => {
     loadPhones();
   }, []);
 
+  const filteredPhones = useMemo(() => {
+    return phones.filter((phone) =>
+      phone.name.toLowerCase().includes(debouncedQuery.toLowerCase().trim()),
+    );
+  }, [phones, debouncedQuery]);
+
   const sortedPhones = useMemo(() => {
+    const toSort = [...filteredPhones];
+
     switch (sortBy) {
       case 'alphabetically':
-        return [...phones].sort((a, b) => a.name.localeCompare(b.name));
+        return toSort.sort((a, b) => a.name.localeCompare(b.name));
       case 'bestPrice':
-        return sortByBestPrice(phones);
+        return sortByBestPrice(toSort);
       case 'newest':
       default:
-        return sortByNewest(phones);
+        return sortByNewest(toSort);
     }
-  }, [phones, sortBy]);
+  }, [filteredPhones, sortBy]);
 
   const visiblePhones = useMemo(() => {
     return sortedPhones.slice(0, itemsOnPage);
@@ -52,7 +72,8 @@ export const PhonesPage = () => {
       <div className={s['phones-page__container']}>
         <Breadcrumbs />
         <h1 className={s.title}>Mobile phones</h1>
-        <p className={s.modelsCount}>{phones.length} models</p>
+
+        <p className={s.modelsCount}>{filteredPhones.length} models</p>
 
         <section className={s['phones-page__controls']}>
           <div className={s.controls}>
@@ -87,23 +108,34 @@ export const PhonesPage = () => {
             </div>
 
             <div className={s.search}>
-              <label className={s.label}>Looking for something?</label>
+              <label
+                className={s.label}
+                htmlFor="search-input"
+              >
+                Looking for something?
+              </label>
               <input
+                id="search-input"
+                name="search"
                 type="text"
                 placeholder="Type here"
                 className={s.searchInput}
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
               />
             </div>
           </div>
         </section>
 
         <section className={s['phones-page__list']}>
-          {visiblePhones.map((phone) => (
-            <ProductCard
-              key={phone.id}
-              product={phone}
-            />
-          ))}
+          {visiblePhones.length > 0 ?
+            visiblePhones.map((phone) => (
+              <ProductCard
+                key={phone.id}
+                product={phone}
+              />
+            ))
+          : <NoResults category="phones" />}
         </section>
 
         <section className={s['phones-page__pagination']}></section>
