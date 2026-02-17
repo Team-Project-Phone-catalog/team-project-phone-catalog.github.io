@@ -6,16 +6,19 @@ import { sortByNewest, sortByBestPrice } from '../../utils/productFilters';
 import { SortType } from '../../types/SortType';
 import s from './TabletsPage.module.scss';
 import { Breadcrumbs } from '../../components/ui/Breadcrumbs/Breadcrumbs.tsx';
+import { Loader } from '../../components/ui/Loader/Loader.tsx';
 
 export const TabletsPage = () => {
   const [tablets, setTablets] = useState<Product[]>([]);
   const [sortBy, setSortBy] = useState<SortType>('newest');
   const [itemsOnPage, setItemsOnPage] = useState(16);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const loadTablets = async () => {
       const data = await getTablets();
       setTablets(data.map((tablet) => ({ ...tablet, category: 'tablets' })));
+      setTimeout(() => setIsLoading(false), 1000);
     };
 
     loadTablets();
@@ -25,10 +28,8 @@ export const TabletsPage = () => {
     switch (sortBy) {
       case 'alphabetically':
         return [...tablets].sort((a, b) => a.name.localeCompare(b.name));
-
       case 'bestPrice':
         return sortByBestPrice(tablets);
-
       case 'newest':
       default:
         return sortByNewest(tablets);
@@ -38,6 +39,13 @@ export const TabletsPage = () => {
   const visibleTablets = useMemo(() => {
     return sortedTablets.slice(0, itemsOnPage);
   }, [sortedTablets, itemsOnPage]);
+
+  if (isLoading)
+    return (
+      <div className={s['loader-wrapper']}>
+        <Loader />
+      </div>
+    );
 
   return (
     <div className={s['tablets-page']}>
@@ -51,7 +59,6 @@ export const TabletsPage = () => {
             <div className={s.controlsLeft}>
               <div className={s.control}>
                 <label className={s.label}>Sort by</label>
-
                 <select
                   className={s.select}
                   value={sortBy}
@@ -67,7 +74,6 @@ export const TabletsPage = () => {
 
               <div className={s.control}>
                 <label className={s.label}>Items on page</label>
-
                 <select
                   className={s.select}
                   value={itemsOnPage}
@@ -82,7 +88,6 @@ export const TabletsPage = () => {
 
             <div className={s.search}>
               <label className={s.label}>Looking for something?</label>
-
               <input
                 type="text"
                 placeholder="Type here"

@@ -6,16 +6,19 @@ import { sortByNewest, sortByBestPrice } from '../../utils/productFilters';
 import { SortType } from '../../types/SortType';
 import s from './PhonesPage.module.scss';
 import { Breadcrumbs } from '../../components/ui/Breadcrumbs/Breadcrumbs.tsx';
+import { Loader } from '../../components/ui/Loader/Loader.tsx';
 
 export const PhonesPage = () => {
   const [phones, setPhones] = useState<Product[]>([]);
   const [sortBy, setSortBy] = useState<SortType>('newest');
   const [itemsOnPage, setItemsOnPage] = useState(16);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const loadPhones = async () => {
       const data = await getPhones();
       setPhones(data.map((phone) => ({ ...phone, category: 'phones' })));
+      setTimeout(() => setIsLoading(false), 1000);
     };
 
     loadPhones();
@@ -25,10 +28,8 @@ export const PhonesPage = () => {
     switch (sortBy) {
       case 'alphabetically':
         return [...phones].sort((a, b) => a.name.localeCompare(b.name));
-
       case 'bestPrice':
         return sortByBestPrice(phones);
-
       case 'newest':
       default:
         return sortByNewest(phones);
@@ -38,6 +39,13 @@ export const PhonesPage = () => {
   const visiblePhones = useMemo(() => {
     return sortedPhones.slice(0, itemsOnPage);
   }, [sortedPhones, itemsOnPage]);
+
+  if (isLoading)
+    return (
+      <div className={s['loader-wrapper']}>
+        <Loader />
+      </div>
+    );
 
   return (
     <div className={s['phones-page']}>
@@ -51,7 +59,6 @@ export const PhonesPage = () => {
             <div className={s.controlsLeft}>
               <div className={s.control}>
                 <label className={s.label}>Sort by</label>
-
                 <select
                   className={s.select}
                   value={sortBy}
@@ -67,7 +74,6 @@ export const PhonesPage = () => {
 
               <div className={s.control}>
                 <label className={s.label}>Items on page</label>
-
                 <select
                   className={s.select}
                   value={itemsOnPage}
@@ -82,7 +88,6 @@ export const PhonesPage = () => {
 
             <div className={s.search}>
               <label className={s.label}>Looking for something?</label>
-
               <input
                 type="text"
                 placeholder="Type here"

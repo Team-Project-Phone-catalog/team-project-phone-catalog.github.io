@@ -6,16 +6,22 @@ import { sortByNewest, sortByBestPrice } from '../../utils/productFilters';
 import { SortType } from '../../types/SortType';
 import s from './AccessoriesPage.module.scss';
 import { Breadcrumbs } from '../../components/ui/Breadcrumbs/Breadcrumbs.tsx';
+import { Loader } from '../../components/ui/Loader/Loader.tsx';
 
 export const AccessoriesPage = () => {
   const [accessories, setAccessories] = useState<Product[]>([]);
   const [sortBy, setSortBy] = useState<SortType>('newest');
   const [itemsOnPage, setItemsOnPage] = useState(16);
+  const [isLoading, setIsLoading] = useState(true); // ← true одразу
 
   useEffect(() => {
     const loadAccessories = async () => {
       const data = await getAccessories();
       setAccessories(data.map((acc) => ({ ...acc, category: 'accessories' })));
+
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 1000);
     };
     loadAccessories();
   }, []);
@@ -24,10 +30,8 @@ export const AccessoriesPage = () => {
     switch (sortBy) {
       case 'alphabetically':
         return [...accessories].sort((a, b) => a.name.localeCompare(b.name));
-
       case 'bestPrice':
         return sortByBestPrice(accessories);
-
       case 'newest':
       default:
         return sortByNewest(accessories);
@@ -38,6 +42,12 @@ export const AccessoriesPage = () => {
     return sortedAccessories.slice(0, itemsOnPage);
   }, [sortedAccessories, itemsOnPage]);
 
+  if (isLoading)
+    return (
+      <div className={s['loader-wrapper']}>
+        <Loader />
+      </div>
+    );
   return (
     <div className={s['accessories-page']}>
       <div className={s['accessories-page__container']}>

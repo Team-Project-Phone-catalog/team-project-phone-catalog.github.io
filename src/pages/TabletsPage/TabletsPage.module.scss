@@ -1,5 +1,13 @@
 @use '../../styles/utils' as *;
 
+.loader-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100%;
+}
+
 .tablets-page {
   &__container {
     box-sizing: border-box;
