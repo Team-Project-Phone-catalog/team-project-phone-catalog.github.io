@@ -1,3 +1,4 @@
+@use '../../../styles/variables' as *;
 @import '../../../styles/utils';
 
 .item {
@@ -6,7 +7,7 @@
   grid-template-rows: auto auto;
   gap: 16px;
   padding: 16px;
-  background-color: #161827;
+  background-color: $bg-surface;
   position: relative;
 
   @include on-tablet {
@@ -24,11 +25,11 @@
   transform: translateY(-50%);
   background: none;
   border: none;
-  color: #75767f;
+  color: $color-secondary;
   font-size: 20px;
   cursor: pointer;
 
-  @include on-tablet {
+  @include on-tablet() {
     left: 24px;
     top: 50%;
   }
@@ -42,7 +43,7 @@
   height: 66px;
   align-self: center;
 
-  @include on-tablet {
+  @include on-tablet() {
     margin-left: 24px;
   }
 }
@@ -58,13 +59,13 @@
   grid-row: 1;
   align-self: center;
 
-  @include on-tablet {
+  @include on-tablet() {
     flex: 1;
   }
 }
 
 .name {
-  color: #f1f2f9;
+  color: $color-light-1;
   font-size: 14px;
   font-weight: 600;
   line-height: 21px;
@@ -79,7 +80,7 @@
   gap: 12px;
   margin-left: 16px;
 
-  @include on-tablet {
+  @include on-tablet() {
     margin-left: 0;
     gap: 24px;
   }
@@ -90,7 +91,7 @@
   align-items: center;
   gap: 12px;
 
-  @include on-tablet {
+  @include on-tablet() {
     gap: 16px;
   }
 }
@@ -98,9 +99,9 @@
 .btnPlus {
   width: 32px;
   height: 32px;
-  background-color: #323542;
-  border: 1px solid #3b3e4a;
-  color: #f1f2f9;
+  background-color: $bg-card;
+  border: 1px solid $color-border;
+  color: $color-light-1;
   font-size: 16px;
   cursor: pointer;
 }
@@ -109,27 +110,27 @@
   width: 32px;
   height: 32px;
   background-color: transparent;
-  border: 1px solid #3b3e4a;
-  color: #4a4d58;
+  border: 1px solid $color-border;
+  color: $color-icons;
   font-size: 16px;
   cursor: pointer;
 }
 
 .count {
-  color: #f1f2f9;
+  color: $color-light-1;
   font-size: 14px;
   font-weight: 600;
 }
 
 .price {
-  color: #f1f2f9;
+  color: $color-light-1;
   font-size: 22px;
   font-weight: 800;
   position: absolute;
   right: 16px;
   bottom: 16px;
 
-  @include on-tablet {
+  @include on-tablet() {
     position: static;
   }
 }
