@@ -4,6 +4,7 @@ import { ProductFeatures } from '../../components/ui/ProductFeatures/ProductFeat
 import { ProductActions } from '../../components/ui/ProductActions/ProductActions.tsx';
 import { Product, ProductDetails } from '../../types/Product.ts';
 import React, { useState } from 'react';
+import { useAppContext } from '../../hooks/useAppContext.ts';
 import { Link } from 'react-router-dom';
 
 interface Props {
@@ -12,6 +13,13 @@ interface Props {
 }
 
 export const ProductCard: React.FC<Props> = ({ product, onFavoriteChange }) => {
+  const { addToCart, isInCart } = useAppContext();
+
+  const handleAddToCart = () => {
+    if (!product) return;
+    addToCart(product as Product);
+  };
+
   const [isFavorite, setIsFavorite] = useState(() => {
     if (!product) return false;
     const favorites: string[] = JSON.parse(
@@ -101,7 +109,7 @@ export const ProductCard: React.FC<Props> = ({ product, onFavoriteChange }) => {
           onAddToCart={(e) => {
             e.preventDefault();
             e.stopPropagation();
-            console.log('Added to cart');
+            handleAddToCart();
           }}
           onToggleFavorite={(e) => {
             e.preventDefault();
@@ -109,6 +117,7 @@ export const ProductCard: React.FC<Props> = ({ product, onFavoriteChange }) => {
             toggleFavorite();
           }}
           isFavorite={isFavorite}
+          isInCart={isInCart(product.id)}
         />
       </div>
     </div>
