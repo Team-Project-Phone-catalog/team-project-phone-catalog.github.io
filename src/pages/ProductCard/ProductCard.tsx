@@ -3,13 +3,22 @@ import { ProductPrice } from '../../components/ui/ProductPrice/ProductPrice.tsx'
 import { ProductFeatures } from '../../components/ui/ProductFeatures/ProductFeatures.tsx';
 import { ProductActions } from '../../components/ui/ProductActions/ProductActions.tsx';
 import { Product, ProductDetails } from '../../types/Product.ts';
-import * as React from 'react';
+import React, { useState } from 'react';
 
 interface Props {
   product?: Product | ProductDetails;
+  onFavoriteChange?: () => void;
 }
 
-export const ProductCard: React.FC<Props> = ({ product }) => {
+export const ProductCard: React.FC<Props> = ({ product, onFavoriteChange }) => {
+  const [isFavorite, setIsFavorite] = useState(() => {
+    if (!product) return false;
+    const favorites: string[] = JSON.parse(
+      localStorage.getItem('favorites') || '[]',
+    );
+    return favorites.includes(String(product.id));
+  });
+
   if (!product) {
     return null;
   }
@@ -19,9 +28,25 @@ export const ProductCard: React.FC<Props> = ({ product }) => {
   const fullPrice =
     product.priceRegular ??
     ('fullPrice' in product ? product.fullPrice : undefined);
-
   const imagePath = 'images' in product ? product.images[0] : product.image;
   const imageUrl = imagePath ? `/${imagePath}` : null;
+
+  const toggleFavorite = () => {
+    const favorites: string[] = JSON.parse(
+      localStorage.getItem('favorites') || '[]',
+    );
+    let updatedFavorites: string[];
+
+    if (favorites.includes(String(product.id))) {
+      updatedFavorites = favorites.filter((id) => id !== String(product.id));
+    } else {
+      updatedFavorites = [...favorites, String(product.id)];
+    }
+
+    localStorage.setItem('favorites', JSON.stringify(updatedFavorites));
+    setIsFavorite(!isFavorite);
+    onFavoriteChange?.();
+  };
 
   return (
     <div className="card">
@@ -36,23 +61,20 @@ export const ProductCard: React.FC<Props> = ({ product }) => {
           />
         )}
       </div>
-
       <h2 className="card__title">{product.name}</h2>
-
       <ProductPrice
         currentPrice={currentPrice}
         fullPrice={fullPrice}
       />
-
       <ProductFeatures
         screen={product.screen}
         capacity={product.capacity}
         ram={product.ram}
       />
-
       <ProductActions
-        onAddToCart={() => console.log('Added')}
-        onToggleFavorite={() => console.log('Fav')}
+        onAddToCart={() => console.log('Added to cart')}
+        onToggleFavorite={toggleFavorite}
+        isFavorite={isFavorite}
       />
     </div>
   );
