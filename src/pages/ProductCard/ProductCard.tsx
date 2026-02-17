@@ -42,7 +42,6 @@ export const ProductCard: React.FC<Props> = ({ product, onFavoriteChange }) => {
 
   const productId = 'itemId' in product ? product.itemId : product.id;
 
-  // Переводимо ID в нижній регістр для надійної перевірки
   const idString = String(productId).toLowerCase();
 
   let category = 'phones';

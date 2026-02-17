@@ -96,7 +96,7 @@ export const AccessoriesPage = () => {
 
         <section className={s['accessories-page__list']}>
           {isLoading ?
-            Array.from({ length: 8 }).map((_, index) => (
+            Array.from({ length: itemsOnPage }).map((_, index) => (
               <ProductSkeleton key={index} />
             ))
           : visibleAccessories.map((accessory) => (

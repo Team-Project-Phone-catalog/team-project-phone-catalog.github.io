@@ -6,7 +6,7 @@ import { sortByNewest, sortByBestPrice } from '../../utils/productFilters';
 import { SortType } from '../../types/SortType';
 import s from './TabletsPage.module.scss';
 import { Breadcrumbs } from '../../components/ui/Breadcrumbs/Breadcrumbs.tsx';
-import { Loader } from '../../components/ui/Loader/Loader.tsx';
+import { ProductSkeleton } from '../../components/ProductSkelet/ProductSkelet.tsx';
 
 export const TabletsPage = () => {
   const [tablets, setTablets] = useState<Product[]>([]);
@@ -16,9 +16,12 @@ export const TabletsPage = () => {
 
   useEffect(() => {
     const loadTablets = async () => {
+      setIsLoading(true);
       const data = await getTablets();
       setTablets(data.map((tablet) => ({ ...tablet, category: 'tablets' })));
-      setTimeout(() => setIsLoading(false), 1000);
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 1000);
     };
 
     loadTablets();
@@ -40,19 +43,13 @@ export const TabletsPage = () => {
     return sortedTablets.slice(0, itemsOnPage);
   }, [sortedTablets, itemsOnPage]);
 
-  if (isLoading)
-    return (
-      <div className={s['loader-wrapper']}>
-        <Loader />
-      </div>
-    );
-
   return (
     <div className={s['tablets-page']}>
       <div className={s['tablets-page__container']}>
         <Breadcrumbs />
         <h1 className={s.title}>Tablets</h1>
-        <p className={s.modelsCount}>{tablets.length} models</p>
+
+        {!isLoading && <p className={s.modelsCount}>{tablets.length} models</p>}
 
         <section className={s['tablets-page__controls']}>
           <div className={s.controls}>
@@ -98,12 +95,17 @@ export const TabletsPage = () => {
         </section>
 
         <section className={s['tablets-page__list']}>
-          {visibleTablets.map((tablet) => (
-            <ProductCard
-              key={tablet.id}
-              product={tablet}
-            />
-          ))}
+          {isLoading ?
+            Array.from({ length: itemsOnPage }).map((_, index) => (
+              <ProductSkeleton key={index} />
+            ))
+          : visibleTablets.map((tablet) => (
+              <ProductCard
+                key={tablet.id}
+                product={tablet}
+              />
+            ))
+          }
         </section>
 
         <section className={s['tablets-page__pagination']}></section>

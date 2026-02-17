@@ -6,7 +6,7 @@ import { sortByNewest, sortByBestPrice } from '../../utils/productFilters';
 import { SortType } from '../../types/SortType';
 import s from './PhonesPage.module.scss';
 import { Breadcrumbs } from '../../components/ui/Breadcrumbs/Breadcrumbs.tsx';
-import { Loader } from '../../components/ui/Loader/Loader.tsx';
+import { ProductSkeleton } from '../../components/ProductSkelet/ProductSkelet.tsx';
 
 export const PhonesPage = () => {
   const [phones, setPhones] = useState<Product[]>([]);
@@ -16,9 +16,12 @@ export const PhonesPage = () => {
 
   useEffect(() => {
     const loadPhones = async () => {
+      setIsLoading(true); // Явно вказуємо початок завантаження
       const data = await getPhones();
       setPhones(data.map((phone) => ({ ...phone, category: 'phones' })));
-      setTimeout(() => setIsLoading(false), 1000);
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 1000);
     };
 
     loadPhones();
@@ -40,19 +43,13 @@ export const PhonesPage = () => {
     return sortedPhones.slice(0, itemsOnPage);
   }, [sortedPhones, itemsOnPage]);
 
-  if (isLoading)
-    return (
-      <div className={s['loader-wrapper']}>
-        <Loader />
-      </div>
-    );
-
   return (
     <div className={s['phones-page']}>
       <div className={s['phones-page__container']}>
         <Breadcrumbs />
         <h1 className={s.title}>Mobile phones</h1>
-        <p className={s.modelsCount}>{phones.length} models</p>
+
+        {!isLoading && <p className={s.modelsCount}>{phones.length} models</p>}
 
         <section className={s['phones-page__controls']}>
           <div className={s.controls}>
@@ -98,12 +95,17 @@ export const PhonesPage = () => {
         </section>
 
         <section className={s['phones-page__list']}>
-          {visiblePhones.map((phone) => (
-            <ProductCard
-              key={phone.id}
-              product={phone}
-            />
-          ))}
+          {isLoading ?
+            Array.from({ length: itemsOnPage }).map((_, index) => (
+              <ProductSkeleton key={index} />
+            ))
+          : visiblePhones.map((phone) => (
+              <ProductCard
+                key={phone.id}
+                product={phone}
+              />
+            ))
+          }
         </section>
 
         <section className={s['phones-page__pagination']}></section>
