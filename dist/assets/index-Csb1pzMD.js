@@ -126,9 +126,9 @@ function _v() {
           O = 1,
           z = null,
           q = 3,
-          w = !1,
-          F = !1,
           Z = !1,
+          F = !1,
+          w = !1,
           G = !1,
           K = typeof setTimeout == 'function' ? setTimeout : null,
           L = typeof clearTimeout == 'function' ? clearTimeout : null,
@@ -143,7 +143,7 @@ function _v() {
           }
         }
         function St(R) {
-          if (((Z = !1), Et(R), !F))
+          if (((w = !1), Et(R), !F))
             if (r(S) !== null) ((F = !0), At || ((At = !0), Pt()));
             else {
               var H = r(_);
@@ -164,7 +164,7 @@ function _v() {
             var H = !0;
             try {
               t: {
-                ((F = !1), Z && ((Z = !1), L(P), (P = -1)), (w = !0));
+                ((F = !1), w && ((w = !1), L(P), (P = -1)), (Z = !0));
                 var k = q;
                 try {
                   e: {
@@ -192,7 +192,7 @@ function _v() {
                   }
                   break t;
                 } finally {
-                  ((z = null), (q = k), (w = !1));
+                  ((z = null), (q = k), (Z = !1));
                 }
                 H = void 0;
               }
@@ -320,10 +320,10 @@ function _v() {
                 o(_, R),
                 r(S) === null &&
                   R === r(_) &&
-                  (Z ? (L(P), (P = -1)) : (Z = !0), Me(St, k - vt)))
+                  (w ? (L(P), (P = -1)) : (w = !0), Me(St, k - vt)))
               : ((R.sortIndex = pt),
                 o(S, R),
-                F || w || ((F = !0), At || ((At = !0), Pt()))),
+                F || Z || ((F = !0), At || ((At = !0), Pt()))),
               R
             );
           }),
@@ -348,7 +348,7 @@ var dh;
 function gv() {
   return (dh || ((dh = 1), (Xf.exports = _v())), Xf.exports);
 }
-var wf = { exports: {} },
+var Zf = { exports: {} },
   I = {};
 var hh;
 function pv() {
@@ -367,7 +367,7 @@ function pv() {
     O = Symbol.for('react.lazy'),
     z = Symbol.for('react.activity'),
     q = Symbol.iterator;
-  function w(g) {
+  function Z(g) {
     return g === null || typeof g != 'object' ?
         null
       : ((g = (q && g[q]) || g['@@iterator']),
@@ -381,7 +381,7 @@ function pv() {
       enqueueReplaceState: function () {},
       enqueueSetState: function () {},
     },
-    Z = Object.assign,
+    w = Object.assign,
     G = {};
   function K(g, U, B) {
     ((this.props = g),
@@ -409,7 +409,7 @@ function pv() {
       (this.updater = B || F));
   }
   var Et = (W.prototype = new L());
-  ((Et.constructor = W), Z(Et, K.prototype), (Et.isPureReactComponent = !0));
+  ((Et.constructor = W), w(Et, K.prototype), (Et.isPureReactComponent = !0));
   var St = Array.isArray;
   function At() {}
   var P = { H: null, A: null, T: null, S: null },
@@ -526,7 +526,7 @@ function pv() {
     if (St(g))
       for (var Ot = 0; Ot < g.length; Ot++)
         ((X = g[Ot]), (at = Wt + Qe(X, Ot)), (dt += R(X, U, B, at, tt)));
-    else if (((Ot = w(g)), typeof Ot == 'function'))
+    else if (((Ot = Z(g)), typeof Ot == 'function'))
       for (g = Ot.call(g), Ot = 0; !(X = g.next()).done; )
         ((X = X.value), (at = Wt + Qe(X, Ot++)), (dt += R(X, U, B, at, tt)));
     else if (at === 'object') {
@@ -669,7 +669,7 @@ function pv() {
         throw Error(
           'The argument must be a React element, but you passed ' + g + '.',
         );
-      var X = Z({}, g.props),
+      var X = w({}, g.props),
         tt = g.key;
       if (U != null)
         for (at in (U.key !== void 0 && (tt = '' + U.key), U))
@@ -821,9 +821,9 @@ function pv() {
 }
 var mh;
 function Ff() {
-  return (mh || ((mh = 1), (wf.exports = pv())), wf.exports);
+  return (mh || ((mh = 1), (Zf.exports = pv())), Zf.exports);
 }
-var Zf = { exports: {} },
+var wf = { exports: {} },
   $t = {};
 var vh;
 function bv() {
@@ -919,18 +919,18 @@ function bv() {
         var O = _.as,
           z = j(O, _.crossOrigin),
           q = typeof _.integrity == 'string' ? _.integrity : void 0,
-          w = typeof _.fetchPriority == 'string' ? _.fetchPriority : void 0;
+          Z = typeof _.fetchPriority == 'string' ? _.fetchPriority : void 0;
         O === 'style' ?
           f.d.S(S, typeof _.precedence == 'string' ? _.precedence : void 0, {
             crossOrigin: z,
             integrity: q,
-            fetchPriority: w,
+            fetchPriority: Z,
           })
         : O === 'script' &&
           f.d.X(S, {
             crossOrigin: z,
             integrity: q,
-            fetchPriority: w,
+            fetchPriority: Z,
             nonce: typeof _.nonce == 'string' ? _.nonce : void 0,
           });
       }
@@ -1002,7 +1002,7 @@ function bv() {
 }
 var yh;
 function Sv() {
-  if (yh) return Zf.exports;
+  if (yh) return wf.exports;
   yh = 1;
   function c() {
     if (
@@ -1017,7 +1017,7 @@ function Sv() {
         console.error(o);
       }
   }
-  return (c(), (Zf.exports = bv()), Zf.exports);
+  return (c(), (wf.exports = bv()), wf.exports);
 }
 var _h;
 function Ev() {
@@ -1149,9 +1149,9 @@ function Ev() {
   }
   var z = Object.assign,
     q = Symbol.for('react.element'),
-    w = Symbol.for('react.transitional.element'),
+    Z = Symbol.for('react.transitional.element'),
     F = Symbol.for('react.portal'),
-    Z = Symbol.for('react.fragment'),
+    w = Symbol.for('react.fragment'),
     G = Symbol.for('react.strict_mode'),
     K = Symbol.for('react.profiler'),
     L = Symbol.for('react.consumer'),
@@ -1177,7 +1177,7 @@ function Ev() {
       return t.$$typeof === Bl ? null : t.displayName || t.name || null;
     if (typeof t == 'string') return t;
     switch (t) {
-      case Z:
+      case w:
         return 'Fragment';
       case K:
         return 'Profiler';
@@ -1744,7 +1744,7 @@ Error generating stack: ` +
     }
   }
   var dl = Math.random().toString(36).slice(2),
-    wt = '__reactFiber$' + dl,
+    Zt = '__reactFiber$' + dl,
     te = '__reactProps$' + dl,
     ua = '__reactContainer$' + dl,
     Ci = '__reactEvents$' + dl,
@@ -1753,19 +1753,19 @@ Error generating stack: ` +
     gs = '__reactResources$' + dl,
     ka = '__reactMarker$' + dl;
   function Ri(t) {
-    (delete t[wt], delete t[te], delete t[Ci], delete t[n0], delete t[u0]);
+    (delete t[Zt], delete t[te], delete t[Ci], delete t[n0], delete t[u0]);
   }
   function ia(t) {
-    var e = t[wt];
+    var e = t[Zt];
     if (e) return e;
     for (var l = t.parentNode; l; ) {
-      if ((e = l[ua] || l[wt])) {
+      if ((e = l[ua] || l[Zt])) {
         if (
           ((l = e.alternate),
           e.child !== null || (l !== null && l.child !== null))
         )
           for (t = Gd(t); t !== null; ) {
-            if ((l = t[wt])) return l;
+            if ((l = t[Zt])) return l;
             t = Gd(t);
           }
         return e;
@@ -1775,7 +1775,7 @@ Error generating stack: ` +
     return null;
   }
   function ca(t) {
-    if ((t = t[wt] || t[ua])) {
+    if ((t = t[Zt] || t[ua])) {
       var e = t.tag;
       if (
         e === 5 ||
@@ -1862,7 +1862,7 @@ Error generating stack: ` +
       t.setAttribute(e, '' + l);
     }
   }
-  function we(t, e, l, a) {
+  function Ze(t, e, l, a) {
     if (a === null) t.removeAttribute(l);
     else {
       switch (typeof a) {
@@ -2230,7 +2230,7 @@ Error generating stack: ` +
         "javascript:throw new Error('React has blocked a javascript: URL as a security precaution.')"
       : t;
   }
-  function Ze() {}
+  function we() {}
   var Hi = null;
   function Bi(t) {
     return (
@@ -2475,7 +2475,7 @@ Error generating stack: ` +
       shiftKey: 0,
       altKey: 0,
       metaKey: 0,
-      getModifierState: wi,
+      getModifierState: Zi,
       button: 0,
       buttons: 0,
       relatedTarget: function (t) {
@@ -2582,7 +2582,7 @@ Error generating stack: ` +
       : !1
     );
   }
-  function wi() {
+  function Zi() {
     return z0;
   }
   var N0 = z({}, tn, {
@@ -2607,7 +2607,7 @@ Error generating stack: ` +
       metaKey: 0,
       repeat: 0,
       locale: 0,
-      getModifierState: wi,
+      getModifierState: Zi,
       charCode: function (t) {
         return t.type === 'keypress' ? iu(t) : 0;
       },
@@ -2644,7 +2644,7 @@ Error generating stack: ` +
       metaKey: 0,
       ctrlKey: 0,
       shiftKey: 0,
-      getModifierState: wi,
+      getModifierState: Zi,
     }),
     R0 = ee(C0),
     O0 = z({}, Gl, { propertyName: 0, elapsedTime: 0, pseudoElement: 0 }),
@@ -2672,11 +2672,11 @@ Error generating stack: ` +
     H0 = z({}, Gl, { newState: 0, oldState: 0 }),
     B0 = ee(H0),
     q0 = [9, 13, 27, 32],
-    Zi = Ve && 'CompositionEvent' in window,
+    wi = Ve && 'CompositionEvent' in window,
     ln = null;
   Ve && 'documentMode' in document && (ln = document.documentMode);
   var Y0 = Ve && 'TextEvent' in window && !ln,
-    qs = Ve && (!Zi || (ln && 8 < ln && 11 >= ln)),
+    qs = Ve && (!wi || (ln && 8 < ln && 11 >= ln)),
     Ys = ' ',
     Ls = !1;
   function Gs(t, e) {
@@ -2714,7 +2714,7 @@ Error generating stack: ` +
   }
   function G0(t, e) {
     if (ma)
-      return t === 'compositionend' || (!Zi && Gs(t, e)) ?
+      return t === 'compositionend' || (!wi && Gs(t, e)) ?
           ((t = Ms()), (uu = Li = hl = null), (ma = !1), t)
         : null;
     switch (t) {
@@ -2753,7 +2753,7 @@ Error generating stack: ` +
     var e = t && t.nodeName && t.nodeName.toLowerCase();
     return e === 'input' ? !!X0[t.type] : e === 'textarea';
   }
-  function ws(t, e, l, a) {
+  function Zs(t, e, l, a) {
     (da ?
       ha ? ha.push(a)
       : (ha = [a])
@@ -2772,7 +2772,7 @@ Error generating stack: ` +
     var e = Fa(t);
     if (Ts(e)) return t;
   }
-  function Zs(t, e) {
+  function ws(t, e) {
     if (t === 'change') return e;
   }
   var Vs = !1;
@@ -2795,15 +2795,15 @@ Error generating stack: ` +
   function $s(t) {
     if (t.propertyName === 'value' && ou(nn)) {
       var e = [];
-      (ws(e, nn, t, Bi(t)), Os(Q0, e));
+      (Zs(e, nn, t, Bi(t)), Os(Q0, e));
     }
   }
-  function w0(t, e, l) {
+  function Z0(t, e, l) {
     t === 'focusin' ?
       (Js(), (an = e), (nn = l), an.attachEvent('onpropertychange', $s))
     : t === 'focusout' && Js();
   }
-  function Z0(t) {
+  function w0(t) {
     if (t === 'selectionchange' || t === 'keyup' || t === 'keydown')
       return ou(nn);
   }
@@ -3057,7 +3057,7 @@ Error generating stack: ` +
   function Pi(t, e, l, a) {
     return (hu(t, e, l, a), mu(t));
   }
-  function wl(t, e) {
+  function Zl(t, e) {
     return (hu(t, null, null, e), mu(t));
   }
   function io(t, e, l) {
@@ -3200,8 +3200,8 @@ Error generating stack: ` +
             (t.lanes = u),
             t
           );
-        case Z:
-          return Zl(l.children, n, u, e);
+        case w:
+          return wl(l.children, n, u, e);
         case G:
           ((i = 8), (n |= 24));
           break;
@@ -3257,7 +3257,7 @@ Error generating stack: ` +
       e
     );
   }
-  function Zl(t, e, l, a) {
+  function wl(t, e, l, a) {
     return ((t = he(7, t, a, e)), (t.lanes = l), t);
   }
   function ec(t, e, l) {
@@ -3339,7 +3339,7 @@ Error generating stack: ` +
       (Le = e.overflow),
       (ml = t));
   }
-  var Zt = null,
+  var wt = null,
     xt = null,
     ft = !1,
     vl = null,
@@ -3361,7 +3361,7 @@ Error generating stack: ` +
     var e = t.stateNode,
       l = t.type,
       a = t.memoizedProps;
-    switch (((e[wt] = t), (e[te] = a), l)) {
+    switch (((e[Zt] = t), (e[te] = a), l)) {
       case 'dialog':
         (ut('cancel', e), ut('close', e));
         break;
@@ -3416,14 +3416,14 @@ Error generating stack: ` +
         (a.popover != null && (ut('beforetoggle', e), ut('toggle', e)),
         a.onScroll != null && ut('scroll', e),
         a.onScrollEnd != null && ut('scrollend', e),
-        a.onClick != null && (e.onclick = Ze),
+        a.onClick != null && (e.onclick = we),
         (e = !0))
       : (e = !1),
       e || yl(t, !0));
   }
   function mo(t) {
-    for (Zt = t.return; Zt; )
-      switch (Zt.tag) {
+    for (wt = t.return; wt; )
+      switch (wt.tag) {
         case 5:
         case 31:
         case 13:
@@ -3434,11 +3434,11 @@ Error generating stack: ` +
           Ne = !0;
           return;
         default:
-          Zt = Zt.return;
+          wt = wt.return;
       }
   }
   function Sa(t) {
-    if (t !== Zt) return !1;
+    if (t !== wt) return !1;
     if (!ft) return (mo(t), (ft = !0), !1);
     var e = t.tag,
       l;
@@ -3463,11 +3463,11 @@ Error generating stack: ` +
     } else
       e === 27 ?
         ((e = xt), Rl(t.type) ? ((t = Cf), (Cf = null), (xt = t)) : (xt = e))
-      : (xt = Zt ? je(t.stateNode.nextSibling) : null);
+      : (xt = wt ? je(t.stateNode.nextSibling) : null);
     return !0;
   }
   function Vl() {
-    ((xt = Zt = null), (ft = !1));
+    ((xt = wt = null), (ft = !1));
   }
   function ic() {
     var t = vl;
@@ -3720,7 +3720,7 @@ Error generating stack: ` +
   function bo(t, e, l) {
     switch (
       ((l = t[l]),
-      l === void 0 ? t.push(e) : l !== e && (e.then(Ze, Ze), (e = l)),
+      l === void 0 ? t.push(e) : l !== e && (e.then(we, we), (e = l)),
       e.status)
     ) {
       case 'fulfilled':
@@ -3728,7 +3728,7 @@ Error generating stack: ` +
       case 'rejected':
         throw ((t = e.reason), Eo(t), t);
       default:
-        if (typeof e.status == 'string') e.then(Ze, Ze);
+        if (typeof e.status == 'string') e.then(we, we);
         else {
           if (((t = bt), t !== null && 100 < t.shellSuspendCounter))
             throw Error(f(482));
@@ -3841,7 +3841,7 @@ Error generating stack: ` +
     function h(p, y, E, M) {
       var V = E.type;
       return (
-        V === Z ? C(p, y, E.props.children, M, E.key)
+        V === w ? C(p, y, E.props.children, M, E.key)
         : (
           y !== null &&
           (y.elementType === V ||
@@ -3869,7 +3869,7 @@ Error generating stack: ` +
     }
     function C(p, y, E, M, V) {
       return y === null || y.tag !== 7 ?
-          ((y = Zl(E, p.mode, M, V)), (y.return = p), y)
+          ((y = wl(E, p.mode, M, V)), (y.return = p), y)
         : ((y = n(y, E)), (y.return = p), y);
     }
     function D(p, y, E) {
@@ -3881,7 +3881,7 @@ Error generating stack: ` +
         return ((y = ec('' + y, p.mode, E)), (y.return = p), y);
       if (typeof y == 'object' && y !== null) {
         switch (y.$$typeof) {
-          case w:
+          case Z:
             return (
               (E = vu(y.type, y.key, y.props, null, p.mode, E)),
               hn(E, y),
@@ -3894,7 +3894,7 @@ Error generating stack: ` +
             return ((y = Wl(y)), D(p, y, E));
         }
         if (Me(y) || Pt(y))
-          return ((y = Zl(y, p.mode, E, null)), (y.return = p), y);
+          return ((y = wl(y, p.mode, E, null)), (y.return = p), y);
         if (typeof y.then == 'function') return D(p, Eu(y), E);
         if (y.$$typeof === W) return D(p, gu(p, y), E);
         xu(p, y);
@@ -3911,7 +3911,7 @@ Error generating stack: ` +
         return V !== null ? null : s(p, y, '' + E, M);
       if (typeof E == 'object' && E !== null) {
         switch (E.$$typeof) {
-          case w:
+          case Z:
             return E.key === V ? h(p, y, E, M) : null;
           case F:
             return E.key === V ? x(p, y, E, M) : null;
@@ -3934,7 +3934,7 @@ Error generating stack: ` +
         return ((p = p.get(E) || null), s(y, p, '' + M, V));
       if (typeof M == 'object' && M !== null) {
         switch (M.$$typeof) {
-          case w:
+          case Z:
             return (
               (p = p.get(M.key === null ? E : M.key) || null),
               h(y, p, M, V)
@@ -4052,17 +4052,17 @@ Error generating stack: ` +
       if (
         (typeof E == 'object' &&
           E !== null &&
-          E.type === Z &&
+          E.type === w &&
           E.key === null &&
           (E = E.props.children),
         typeof E == 'object' && E !== null)
       ) {
         switch (E.$$typeof) {
-          case w:
+          case Z:
             t: {
               for (var V = E.key; y !== null; ) {
                 if (y.key === V) {
-                  if (((V = E.type), V === Z)) {
+                  if (((V = E.type), V === w)) {
                     if (y.tag === 7) {
                       (l(p, y.sibling),
                         (M = n(y, E.props.children)),
@@ -4089,8 +4089,8 @@ Error generating stack: ` +
                 } else e(p, y);
                 y = y.sibling;
               }
-              E.type === Z ?
-                ((M = Zl(E.props.children, p.mode, M, E.key)),
+              E.type === w ?
+                ((M = wl(E.props.children, p.mode, M, E.key)),
                 (M.return = p),
                 (p = M))
               : ((M = vu(E.type, E.key, E.props, null, p.mode, M)),
@@ -4753,7 +4753,7 @@ Error generating stack: ` +
     }
   }
   function Bo(t) {
-    var e = wl(t, 2);
+    var e = Zl(t, 2);
     e !== null && ie(e, t, 2);
   }
   function Cc(t) {
@@ -4870,7 +4870,7 @@ Error generating stack: ` +
   function Qo(t, e) {
     return e;
   }
-  function wo(t, e) {
+  function Zo(t, e) {
     if (ft) {
       var l = bt.formState;
       if (l !== null) {
@@ -4927,7 +4927,7 @@ Error generating stack: ` +
       [e, l, !1]
     );
   }
-  function Zo(t) {
+  function wo(t) {
     var e = Dt();
     return Vo(e, yt, t);
   }
@@ -5414,8 +5414,8 @@ Error generating stack: ` +
         return (t.memoizedState = e);
       },
       useHostTransitionStatus: Hc,
-      useFormState: wo,
-      useActionState: wo,
+      useFormState: Zo,
+      useActionState: Zo,
       useOptimistic: function (t) {
         var e = kt();
         e.memoizedState = e.baseState = t;
@@ -5477,8 +5477,8 @@ Error generating stack: ` +
       useSyncExternalStore: Oo,
       useId: ir,
       useHostTransitionStatus: Hc,
-      useFormState: Zo,
-      useActionState: Zo,
+      useFormState: wo,
+      useActionState: wo,
       useOptimistic: function (t, e) {
         var l = Dt();
         return qo(l, yt, t, e);
@@ -5941,7 +5941,7 @@ Error generating stack: ` +
               (l = fo(t)),
               (l.return = e),
               (e.child = l),
-              (Zt = e),
+              (wt = e),
               (xt = null)))
           : (t = null),
           t === null)
@@ -5966,12 +5966,12 @@ Error generating stack: ` +
           ((a = bt),
           a !== null && ((i = vs(a, l)), i !== 0 && i !== u.retryLane))
         )
-          throw ((u.retryLane = i), wl(t, i), ie(a, t, i), Xc);
+          throw ((u.retryLane = i), Zl(t, i), ie(a, t, i), Xc);
         (Ku(), (e = Nr(t, e, l)));
       } else
         ((t = u.treeContext),
           (xt = je(i.nextSibling)),
-          (Zt = e),
+          (wt = e),
           (ft = !0),
           (vl = null),
           (Ne = !1),
@@ -6185,13 +6185,13 @@ Error generating stack: ` +
   function Cr(t, e, l, a) {
     return (Vl(), (e.flags |= 256), Kt(t, e, l, a), e.child);
   }
-  var wc = {
+  var Zc = {
     dehydrated: null,
     treeContext: null,
     retryLane: 0,
     hydrationErrors: null,
   };
-  function Zc(t) {
+  function wc(t) {
     return { baseLanes: t, cachePool: go() };
   }
   function Vc(t, e, l) {
@@ -6227,7 +6227,7 @@ Error generating stack: ` +
               (l = fo(t)),
               (l.return = e),
               (e.child = l),
-              (Zt = e),
+              (wt = e),
               (xt = null)))
           : (t = null),
           t === null)
@@ -6242,15 +6242,15 @@ Error generating stack: ` +
           (El(),
           (n = e.mode),
           (s = qu({ mode: 'hidden', children: s }, n)),
-          (a = Zl(a, n, l, null)),
+          (a = wl(a, n, l, null)),
           (s.return = e),
           (a.return = e),
           (s.sibling = a),
           (e.child = s),
           (a = e.child),
-          (a.memoizedState = Zc(l)),
+          (a.memoizedState = wc(l)),
           (a.childLanes = Vc(t, i, l)),
-          (e.memoizedState = wc),
+          (e.memoizedState = Zc),
           Sn(null, a))
         : (Sl(e), Kc(e, s))
       );
@@ -6265,7 +6265,7 @@ Error generating stack: ` +
           (s = a.fallback),
           (n = e.mode),
           (a = qu({ mode: 'visible', children: a.children }, n)),
-          (s = Zl(s, n, l, null)),
+          (s = wl(s, n, l, null)),
           (s.flags |= 2),
           (a.return = e),
           (s.return = e),
@@ -6273,9 +6273,9 @@ Error generating stack: ` +
           (e.child = a),
           Fl(e, t.child, null, l),
           (a = e.child),
-          (a.memoizedState = Zc(l)),
+          (a.memoizedState = wc(l)),
           (a.childLanes = Vc(t, i, l)),
-          (e.memoizedState = wc),
+          (e.memoizedState = Zc),
           (e = Sn(null, a)));
       else if ((Sl(e), jf(s))) {
         if (((i = s.nextSibling && s.nextSibling.dataset), i)) var x = i.dgst;
@@ -6292,14 +6292,14 @@ Error generating stack: ` +
           ((i = bt),
           i !== null && ((a = vs(i, l)), a !== 0 && a !== h.retryLane))
         )
-          throw ((h.retryLane = a), wl(t, a), ie(i, t, a), Xc);
+          throw ((h.retryLane = a), Zl(t, a), ie(i, t, a), Xc);
         (Af(s) || Ku(), (e = Jc(t, e, l)));
       } else
         Af(s) ?
           ((e.flags |= 192), (e.child = t.child), (e = null))
         : ((t = h.treeContext),
           (xt = je(s.nextSibling)),
-          (Zt = e),
+          (wt = e),
           (ft = !0),
           (vl = null),
           (Ne = !1),
@@ -6316,7 +6316,7 @@ Error generating stack: ` +
         (x = h.sibling),
         (a = Ke(h, { mode: 'hidden', children: a.children })),
         (a.subtreeFlags = h.subtreeFlags & 65011712),
-        x !== null ? (s = Ke(x, s)) : ((s = Zl(s, n, l, null)), (s.flags |= 2)),
+        x !== null ? (s = Ke(x, s)) : ((s = wl(s, n, l, null)), (s.flags |= 2)),
         (s.return = e),
         (a.return = e),
         (a.sibling = s),
@@ -6325,7 +6325,7 @@ Error generating stack: ` +
         (a = e.child),
         (s = t.child.memoizedState),
         s === null ?
-          (s = Zc(l))
+          (s = wc(l))
         : ((n = s.cachePool),
           n !== null ?
             ((h = Ht._currentValue),
@@ -6334,7 +6334,7 @@ Error generating stack: ` +
           (s = { baseLanes: s.baseLanes | l, cachePool: n })),
         (a.memoizedState = s),
         (a.childLanes = Vc(t, i, l)),
-        (e.memoizedState = wc),
+        (e.memoizedState = Zc),
         Sn(t.child, a))
       : (Sl(e),
         (l = t.child),
@@ -6604,7 +6604,7 @@ Error generating stack: ` +
                     (t = t.body)
                   : (t = t.nodeName === 'HTML' ? t.ownerDocument.body : t),
                   xt = je(t.firstChild),
-                  Zt = e,
+                  wt = e,
                   ft = !0,
                   vl = null,
                   Ne = !0,
@@ -6627,18 +6627,18 @@ Error generating stack: ` +
         return (
           Bu(t, e),
           t === null ?
-            (l = Zd(e.type, null, e.pendingProps, null)) ?
+            (l = wd(e.type, null, e.pendingProps, null)) ?
               (e.memoizedState = l)
             : ft ||
               ((l = e.type),
               (t = e.pendingProps),
               (a = Pu(at.current).createElement(l)),
-              (a[wt] = e),
+              (a[Zt] = e),
               (a[te] = t),
               Jt(a, l, t),
               Gt(a),
               (e.stateNode = a))
-          : (e.memoizedState = Zd(
+          : (e.memoizedState = wd(
               e.type,
               t.memoizedProps,
               e.pendingProps,
@@ -6652,7 +6652,7 @@ Error generating stack: ` +
           t === null &&
             ft &&
             ((a = e.stateNode = Xd(e.type, e.pendingProps, at.current)),
-            (Zt = e),
+            (wt = e),
             (Ne = !0),
             (n = xt),
             Rl(e.type) ? ((Cf = n), (xt = je(a.firstChild))) : (xt = n)),
@@ -6666,10 +6666,10 @@ Error generating stack: ` +
           t === null &&
             ft &&
             ((n = a = xt) &&
-              ((a = Zm(a, e.type, e.pendingProps, Ne)),
+              ((a = wm(a, e.type, e.pendingProps, Ne)),
               a !== null ?
                 ((e.stateNode = a),
-                (Zt = e),
+                (wt = e),
                 (xt = je(a.firstChild)),
                 (Ne = !1),
                 (n = !0))
@@ -6694,7 +6694,7 @@ Error generating stack: ` +
             ((t = l = xt) &&
               ((l = Vm(l, e.pendingProps, Ne)),
               l !== null ?
-                ((e.stateNode = l), (Zt = e), (xt = null), (t = !0))
+                ((e.stateNode = l), (wt = e), (xt = null), (t = !0))
               : (t = !1)),
             t || yl(e)),
           null
@@ -6957,7 +6957,7 @@ Error generating stack: ` +
                       : i.createElement(n);
                 }
             }
-            ((u[wt] = e), (u[te] = a));
+            ((u[Zt] = e), (u[te] = a));
             t: for (i = e.child; i !== null; ) {
               if (i.tag === 5 || i.tag === 6) u.appendChild(i.stateNode);
               else if (i.tag !== 4 && i.tag !== 27 && i.child !== null) {
@@ -7002,7 +7002,7 @@ Error generating stack: ` +
               ((t = e.stateNode),
               (l = e.memoizedProps),
               (a = null),
-              (n = Zt),
+              (n = wt),
               n !== null)
             )
               switch (n.tag) {
@@ -7010,7 +7010,7 @@ Error generating stack: ` +
                 case 5:
                   a = n.memoizedProps;
               }
-            ((t[wt] = e),
+            ((t[Zt] = e),
               (t = !!(
                 t.nodeValue === l ||
                 (a !== null && a.suppressHydrationWarning === !0) ||
@@ -7018,7 +7018,7 @@ Error generating stack: ` +
               )),
               t || yl(e, !0));
           } else
-            ((t = Pu(t).createTextNode(a)), (t[wt] = e), (e.stateNode = t));
+            ((t = Pu(t).createTextNode(a)), (t[Zt] = e), (e.stateNode = t));
         }
         return (Tt(e), null);
       case 31:
@@ -7032,7 +7032,7 @@ Error generating stack: ` +
                 !t)
               )
                 throw Error(f(557));
-              t[wt] = e;
+              t[Zt] = e;
             } else
               (Vl(),
                 (e.flags & 128) === 0 && (e.memoizedState = null),
@@ -7063,7 +7063,7 @@ Error generating stack: ` +
                 !n)
               )
                 throw Error(f(317));
-              n[wt] = e;
+              n[Zt] = e;
             } else
               (Vl(),
                 (e.flags & 128) === 0 && (e.memoizedState = null),
@@ -7133,7 +7133,7 @@ Error generating stack: ` +
                 t = t.sibling;
               }
             a.tail !== null &&
-              se() > wu &&
+              se() > Zu &&
               ((e.flags |= 128), (n = !0), En(a, !1), (e.lanes = 4194304));
           }
         else {
@@ -7153,7 +7153,7 @@ Error generating stack: ` +
               )
                 return (Tt(e), null);
             } else
-              2 * se() - a.renderingStartTime > wu &&
+              2 * se() - a.renderingStartTime > Zu &&
                 l !== 536870912 &&
                 ((e.flags |= 128), (n = !0), En(a, !1), (e.lanes = 4194304));
           a.isBackwards ?
@@ -7500,7 +7500,7 @@ Error generating stack: ` +
             : l),
           e.appendChild(t),
           (l = l._reactRootContainer),
-          l != null || e.onclick !== null || (e.onclick = Ze)));
+          l != null || e.onclick !== null || (e.onclick = we)));
     else if (
       a !== 4 &&
       (a === 27 && Rl(t.type) && ((l = t.stateNode), (e = null)),
@@ -7527,7 +7527,7 @@ Error generating stack: ` +
     try {
       for (var a = t.type, n = e.attributes; n.length; )
         e.removeAttributeNode(n[0]);
-      (Jt(e, a, l), (e[wt] = t), (e[te] = l));
+      (Jt(e, a, l), (e[Zt] = t), (e[te] = l));
     } catch (u) {
       mt(t, t.return, u);
     }
@@ -7746,9 +7746,9 @@ Error generating stack: ` +
         ll(t, l);
     }
   }
-  function wr(t) {
+  function Zr(t) {
     var e = t.alternate;
-    (e !== null && ((t.alternate = null), wr(e)),
+    (e !== null && ((t.alternate = null), Zr(e)),
       (t.child = null),
       (t.deletions = null),
       (t.sibling = null),
@@ -7765,9 +7765,9 @@ Error generating stack: ` +
   var zt = null,
     le = !1;
   function el(t, e, l) {
-    for (l = l.child; l !== null; ) (Zr(t, e, l), (l = l.sibling));
+    for (l = l.child; l !== null; ) (wr(t, e, l), (l = l.sibling));
   }
-  function Zr(t, e, l) {
+  function wr(t, e, l) {
     if (oe && typeof oe.onCommitFiberUnmount == 'function')
       try {
         oe.onCommitFiberUnmount(Ja, l);
@@ -7944,7 +7944,7 @@ Error generating stack: ` +
           s = s.return;
         }
         if (zt === null) throw Error(f(160));
-        (Zr(u, i, n),
+        (wr(u, i, n),
           (zt = null),
           (le = !1),
           (u = n.alternate),
@@ -8001,7 +8001,7 @@ Error generating stack: ` +
                       ((u = n.getElementsByTagName('title')[0]),
                         (!u ||
                           u[ka] ||
-                          u[wt] ||
+                          u[Zt] ||
                           u.namespaceURI === 'http://www.w3.org/2000/svg' ||
                           u.hasAttribute('itemprop')) &&
                           ((u = n.createElement(a)),
@@ -8010,7 +8010,7 @@ Error generating stack: ` +
                             n.querySelector('head > title'),
                           )),
                         Jt(u, a, l),
-                        (u[wt] = t),
+                        (u[Zt] = t),
                         Gt(u),
                         (a = u));
                       break t;
@@ -8070,7 +8070,7 @@ Error generating stack: ` +
                     default:
                       throw Error(f(468, a));
                   }
-                  ((u[wt] = t), Gt(u), (a = u));
+                  ((u[Zt] = t), Gt(u), (a = u));
                 }
                 t.stateNode = a;
               } else $d(n, t.type, t.stateNode);
@@ -8697,7 +8697,7 @@ Error generating stack: ` +
           a = Xt;
           var n = a.sibling,
             u = a.return;
-          if ((wr(a), a === l)) {
+          if ((Zr(a), a === l)) {
             Xt = null;
             break t;
           }
@@ -8741,8 +8741,8 @@ Error generating stack: ` +
     uf = !1,
     Qu = 0,
     td = 0,
-    wu = 1 / 0,
-    Zu = null,
+    Zu = 1 / 0,
+    wu = null,
     Nl = null,
     Lt = 0,
     Al = null,
@@ -8852,7 +8852,7 @@ Error generating stack: ` +
                   a,
                   l,
                   ue,
-                  Zu,
+                  wu,
                   uf,
                   e,
                   _e,
@@ -8868,7 +8868,7 @@ Error generating stack: ` +
               )));
             break t;
           }
-          nd(a, l, ue, Zu, uf, e, _e, ea, Ua, Tl, u, null, -0, 0);
+          nd(a, l, ue, wu, uf, e, _e, ea, Ua, Tl, u, null, -0, 0);
         }
       }
       break;
@@ -8889,7 +8889,7 @@ Error generating stack: ` +
         suspenseyImages: [],
         waitingForImages: !0,
         waitingForViewTransition: !1,
-        unsuspend: Ze,
+        unsuspend: we,
       }),
         kr(e, u, D));
       var Y =
@@ -9033,7 +9033,7 @@ Error generating stack: ` +
     rt |= 2;
     var n = cd(),
       u = fd();
-    ((bt !== t || it !== e) && ((Zu = null), Ba(t, e)), (e = !1));
+    ((bt !== t || it !== e) && ((wu = null), Ba(t, e)), (e = !1));
     var i = Ct;
     t: do
       try {
@@ -9084,7 +9084,7 @@ Error generating stack: ` +
     var a = cd(),
       n = fd();
     bt !== t || it !== e ?
-      ((Zu = null), (wu = se() + 500), Ba(t, e))
+      ((wu = null), (Zu = se() + 500), Ba(t, e))
     : (Da = $a(t, e));
     t: do
       try {
@@ -9523,7 +9523,7 @@ Error generating stack: ` +
       Xe(t));
   }
   function pd(t, e) {
-    (e === 0 && (e = ds()), (t = wl(t, e)), t !== null && (Wa(t, e), Xe(t)));
+    (e === 0 && (e = ds()), (t = Zl(t, e)), t !== null && (Wa(t, e), Xe(t)));
   }
   function Nm(t) {
     var e = t.memoizedState,
@@ -10147,12 +10147,12 @@ Error generating stack: ` +
             (N = T.nodeName && T.nodeName.toLowerCase()),
             N === 'select' || (N === 'input' && T.type === 'file'))
           )
-            var st = Zs;
+            var st = ws;
           else if (Qs(T))
             if (Vs) st = K0;
             else {
-              st = Z0;
-              var Q = w0;
+              st = w0;
+              var Q = Z0;
             }
           else
             ((N = T.nodeName),
@@ -10161,10 +10161,10 @@ Error generating stack: ` +
                 N.toLowerCase() !== 'input' ||
                 (T.type !== 'checkbox' && T.type !== 'radio')
               ) ?
-                x && Ui(x.elementType) && (st = Zs)
+                x && Ui(x.elementType) && (st = ws)
               : (st = V0));
           if (st && (st = st(t, x))) {
-            ws(D, st, l, C);
+            Zs(D, st, l, C);
             break t;
           }
           (Q && Q(t, T, x),
@@ -10197,7 +10197,7 @@ Error generating stack: ` +
             Ps(D, l, C);
         }
         var lt;
-        if (Zi)
+        if (wi)
           t: {
             switch (t) {
               case 'compositionstart':
@@ -10372,7 +10372,7 @@ Error generating stack: ` +
         ((a = nu('' + a)), t.setAttribute(l, a));
         break;
       case 'onClick':
-        a != null && (t.onclick = Ze);
+        a != null && (t.onclick = we);
         break;
       case 'onScroll':
         a != null && ut('scroll', t);
@@ -10497,31 +10497,31 @@ Error generating stack: ` +
         (ut('beforetoggle', t), ut('toggle', t), eu(t, 'popover', a));
         break;
       case 'xlinkActuate':
-        we(t, 'http://www.w3.org/1999/xlink', 'xlink:actuate', a);
+        Ze(t, 'http://www.w3.org/1999/xlink', 'xlink:actuate', a);
         break;
       case 'xlinkArcrole':
-        we(t, 'http://www.w3.org/1999/xlink', 'xlink:arcrole', a);
+        Ze(t, 'http://www.w3.org/1999/xlink', 'xlink:arcrole', a);
         break;
       case 'xlinkRole':
-        we(t, 'http://www.w3.org/1999/xlink', 'xlink:role', a);
+        Ze(t, 'http://www.w3.org/1999/xlink', 'xlink:role', a);
         break;
       case 'xlinkShow':
-        we(t, 'http://www.w3.org/1999/xlink', 'xlink:show', a);
+        Ze(t, 'http://www.w3.org/1999/xlink', 'xlink:show', a);
         break;
       case 'xlinkTitle':
-        we(t, 'http://www.w3.org/1999/xlink', 'xlink:title', a);
+        Ze(t, 'http://www.w3.org/1999/xlink', 'xlink:title', a);
         break;
       case 'xlinkType':
-        we(t, 'http://www.w3.org/1999/xlink', 'xlink:type', a);
+        Ze(t, 'http://www.w3.org/1999/xlink', 'xlink:type', a);
         break;
       case 'xmlBase':
-        we(t, 'http://www.w3.org/XML/1998/namespace', 'xml:base', a);
+        Ze(t, 'http://www.w3.org/XML/1998/namespace', 'xml:base', a);
         break;
       case 'xmlLang':
-        we(t, 'http://www.w3.org/XML/1998/namespace', 'xml:lang', a);
+        Ze(t, 'http://www.w3.org/XML/1998/namespace', 'xml:lang', a);
         break;
       case 'xmlSpace':
-        we(t, 'http://www.w3.org/XML/1998/namespace', 'xml:space', a);
+        Ze(t, 'http://www.w3.org/XML/1998/namespace', 'xml:space', a);
         break;
       case 'is':
         eu(t, 'is', a);
@@ -10562,7 +10562,7 @@ Error generating stack: ` +
         a != null && ut('scrollend', t);
         break;
       case 'onClick':
-        a != null && (t.onclick = Ze);
+        a != null && (t.onclick = we);
         break;
       case 'suppressContentEditableWarning':
       case 'suppressHydrationWarning':
@@ -11114,10 +11114,10 @@ Error generating stack: ` +
       typeof queueMicrotask == 'function' ? queueMicrotask
       : typeof Hd < 'u' ?
         function (t) {
-          return Hd.resolve(null).then(t).catch(wm);
+          return Hd.resolve(null).then(t).catch(Zm);
         }
       : Ud;
-  function wm(t) {
+  function Zm(t) {
     setTimeout(function () {
       throw t;
     });
@@ -11206,7 +11206,7 @@ Error generating stack: ` +
       t.removeChild(l);
     }
   }
-  function Zm(t, e, l, a) {
+  function wm(t, e, l, a) {
     for (; t.nodeType === 1; ) {
       var n = l;
       if (t.nodeName.toLowerCase() !== e.toLowerCase()) {
@@ -11393,7 +11393,7 @@ Error generating stack: ` +
     e !== null && e.tag === 5 && e.type === 'form' ? ur(e) : il.r(t);
   }
   var La = typeof document > 'u' ? null : document;
-  function wd(t, e, l) {
+  function Zd(t, e, l) {
     var a = La;
     if (a && typeof e == 'string' && e) {
       var n = Se(e);
@@ -11410,10 +11410,10 @@ Error generating stack: ` +
     }
   }
   function Wm(t) {
-    (il.D(t), wd('dns-prefetch', t, null));
+    (il.D(t), Zd('dns-prefetch', t, null));
   }
   function km(t, e) {
-    (il.C(t, e), wd('preconnect', t, e));
+    (il.C(t, e), Zd('preconnect', t, e));
   }
   function Fm(t, e, l) {
     il.L(t, e, l);
@@ -11565,7 +11565,7 @@ Error generating stack: ` +
         a.set(n, u));
     }
   }
-  function Zd(t, e, l, a) {
+  function wd(t, e, l, a) {
     var n = (n = at.current) ? ti(n) : null;
     if (!n) throw Error(f(446));
     switch (t) {
@@ -11785,7 +11785,7 @@ Error generating stack: ` +
       if (
         !(
           u[ka] ||
-          u[wt] ||
+          u[Zt] ||
           (t === 'link' && u.getAttribute('rel') === 'stylesheet')
         ) &&
         u.namespaceURI !== 'http://www.w3.org/2000/svg'
@@ -12066,7 +12066,7 @@ Error generating stack: ` +
   }
   function th(t) {
     if (t.tag === 13 || t.tag === 31) {
-      var e = wl(t, 67108864);
+      var e = Zl(t, 67108864);
       (e !== null && ie(e, t, 67108864), Df(t, 67108864));
     }
   }
@@ -12074,7 +12074,7 @@ Error generating stack: ` +
     if (t.tag === 13 || t.tag === 31) {
       var e = ge();
       e = Ai(e);
-      var l = wl(t, e);
+      var l = Zl(t, e);
       (l !== null && ie(l, t, e), Df(t, e));
     }
   }
@@ -12118,13 +12118,13 @@ Error generating stack: ` +
                       var h = 1 << (31 - re(i));
                       ((s.entanglements[1] |= h), (i &= ~h));
                     }
-                    (Xe(u), (rt & 6) === 0 && ((wu = se() + 500), Rn(0)));
+                    (Xe(u), (rt & 6) === 0 && ((Zu = se() + 500), Rn(0)));
                   }
                 }
                 break;
               case 31:
               case 13:
-                ((s = wl(u, 2)), s !== null && ie(s, u, 2), Vu(), Df(u, 2));
+                ((s = Zl(u, 2)), s !== null && ie(s, u, 2), Vu(), Df(u, 2));
             }
           if (((u = Hf(a)), u === null && bf(t, e, a, ci, l), u === n)) break;
           n = u;
@@ -12716,35 +12716,35 @@ function Av(c, o, r, f = {}) {
     j = 'POP';
     let G = O(),
       K = G == null ? null : G - _;
-    ((_ = G), S && S({ action: j, location: Z.location, delta: K }));
+    ((_ = G), S && S({ action: j, location: w.location, delta: K }));
   }
   function q(G, K) {
     j = 'PUSH';
-    let L = Wf(Z.location, G, K);
+    let L = Wf(w.location, G, K);
     (r && r(L, G), (_ = O() + 1));
     let W = bh(L, _),
-      Et = Z.createHref(L);
+      Et = w.createHref(L);
     try {
       b.pushState(W, '', Et);
     } catch (St) {
       if (St instanceof DOMException && St.name === 'DataCloneError') throw St;
       m.location.assign(Et);
     }
-    v && S && S({ action: j, location: Z.location, delta: 1 });
+    v && S && S({ action: j, location: w.location, delta: 1 });
   }
-  function w(G, K) {
+  function Z(G, K) {
     j = 'REPLACE';
-    let L = Wf(Z.location, G, K);
+    let L = Wf(w.location, G, K);
     (r && r(L, G), (_ = O()));
     let W = bh(L, _),
-      Et = Z.createHref(L);
+      Et = w.createHref(L);
     (b.replaceState(W, '', Et),
-      v && S && S({ action: j, location: Z.location, delta: 0 }));
+      v && S && S({ action: j, location: w.location, delta: 0 }));
   }
   function F(G) {
     return jv(G);
   }
-  let Z = {
+  let w = {
     get action() {
       return j;
     },
@@ -12770,12 +12770,12 @@ function Av(c, o, r, f = {}) {
       return { pathname: K.pathname, search: K.search, hash: K.hash };
     },
     push: q,
-    replace: w,
+    replace: Z,
     go(G) {
       return b.go(G);
     },
   };
-  return Z;
+  return w;
 }
 function jv(c, o = !1) {
   let r = 'http://localhost';
@@ -12950,9 +12950,9 @@ function _i(c, o) {
         let F = j[q] || '';
         b = v.slice(0, v.length - F.length).replace(/(.)\/+$/, '$1');
       }
-      const w = j[q];
+      const Z = j[q];
       return (
-        z && !w ? (_[O] = void 0) : (_[O] = (w || '').replace(/%2F/g, '/')),
+        z && !Z ? (_[O] = void 0) : (_[O] = (Z || '').replace(/%2F/g, '/')),
         _
       );
     }, {}),
@@ -13014,7 +13014,7 @@ function sl(c, o) {
   return f && f !== '/' ? null : c.slice(r) || '/';
 }
 var Qv = /^(?:[a-z][a-z0-9+.-]*:|\/\/)/i;
-function wv(c, o = '/') {
+function Zv(c, o = '/') {
   let {
       pathname: r,
       search: f = '',
@@ -13041,13 +13041,13 @@ function Eh(c, o) {
 function Vf(c, o, r, f) {
   return `Cannot include a '${c}' character in a manually specified \`to.${o}\` field [${JSON.stringify(f)}].  Please separate it out to the \`to.${r}\` field. Alternatively you may provide the full path as a string in <Link to="..."> and the router will parse it for you.`;
 }
-function Zv(c) {
+function wv(c) {
   return c.filter(
     (o, r) => r === 0 || (o.route.path && o.route.path.length > 0),
   );
 }
 function jh(c) {
-  let o = Zv(c);
+  let o = wv(c);
   return o.map((r, f) => (f === o.length - 1 ? r.pathname : r.pathnameBase));
 }
 function Ch(c, o, r, f = !1) {
@@ -13077,7 +13077,7 @@ function Ch(c, o, r, f = !1) {
     }
     j = z >= 0 ? o[z] : '/';
   }
-  let S = wv(m, j),
+  let S = Zv(m, j),
     _ = b && b !== '/' && b.endsWith('/'),
     O = (v || b === '.') && r.endsWith('/');
   return (!S.pathname.endsWith('/') && (_ || O) && (S.pathname += '/'), S);
@@ -13301,32 +13301,32 @@ Please change the parent <Route path="${L}"> to <Route path="${L === '/' ? '*' :
     );
   }
   let q = na(),
-    w;
+    Z;
   if (o) {
     let L = typeof o == 'string' ? aa(o) : o;
     (Nt(
       O === '/' || L.pathname?.startsWith(O),
       `When overriding the location using \`<Routes location>\` or \`useRoutes(routes, location)\`, the location pathname must begin with the portion of the URL pathname that was matched by all parent routes. The current pathname base is "${O}" but pathname "${L.pathname}" was given in the \`location\` prop.`,
     ),
-      (w = L));
-  } else w = q;
-  let F = w.pathname || '/',
-    Z = F;
+      (Z = L));
+  } else Z = q;
+  let F = Z.pathname || '/',
+    w = F;
   if (O !== '/') {
     let L = O.replace(/^\//, '').split('/');
-    Z = '/' + F.replace(/^\//, '').split('/').slice(L.length).join('/');
+    w = '/' + F.replace(/^\//, '').split('/').slice(L.length).join('/');
   }
-  let G = zh(c, { pathname: Z });
+  let G = zh(c, { pathname: w });
   (Be(
     z || G != null,
-    `No routes matched location "${w.pathname}${w.search}${w.hash}" `,
+    `No routes matched location "${Z.pathname}${Z.search}${Z.hash}" `,
   ),
     Be(
       G == null ||
         G[G.length - 1].route.element !== void 0 ||
         G[G.length - 1].route.Component !== void 0 ||
         G[G.length - 1].route.lazy !== void 0,
-      `Matched leaf route at location "${w.pathname}${w.search}${w.hash}" does not have an element or Component. This means it will render an <Outlet /> with a null value by default resulting in an "empty" page.`,
+      `Matched leaf route at location "${Z.pathname}${Z.search}${Z.hash}" does not have an element or Component. This means it will render an <Outlet /> with a null value by default resulting in an "empty" page.`,
     ));
   let K = h1(
     G &&
@@ -13370,7 +13370,7 @@ Please change the parent <Route path="${L}"> to <Route path="${L === '/' ? '*' :
               hash: '',
               state: null,
               key: 'default',
-              ...w,
+              ...Z,
             },
             navigationType: 'POP',
           },
@@ -13548,11 +13548,11 @@ function h1(c, o = [], r = null, f = null, m = null) {
         ((z.route.HydrateFallback || z.route.hydrateFallbackElement) && (S = O),
         z.route.id)
       ) {
-        let { loaderData: q, errors: w } = r,
+        let { loaderData: q, errors: Z } = r,
           F =
             z.route.loader &&
             !q.hasOwnProperty(z.route.id) &&
-            (!w || w[z.route.id] === void 0);
+            (!Z || Z[z.route.id] === void 0);
         if (z.route.lazy || F) {
           ((j = !0), S >= 0 ? (v = v.slice(0, S + 1)) : (v = [v[0]]));
           break;
@@ -13571,13 +13571,13 @@ function h1(c, o = [], r = null, f = null, m = null) {
       }
     : void 0;
   return v.reduceRight((O, z, q) => {
-    let w,
+    let Z,
       F = !1,
-      Z = null,
+      w = null,
       G = null;
     r &&
-      ((w = b && z.route.id ? b[z.route.id] : void 0),
-      (Z = z.route.errorElement || o1),
+      ((Z = b && z.route.id ? b[z.route.id] : void 0),
+      (w = z.route.errorElement || o1),
       j &&
         (S < 0 && q === 0 ?
           (Lh(
@@ -13592,7 +13592,7 @@ function h1(c, o = [], r = null, f = null, m = null) {
       L = () => {
         let W;
         return (
-          w ? (W = Z)
+          Z ? (W = w)
           : F ? (W = G)
           : z.route.Component ? (W = A.createElement(z.route.Component, null))
           : z.route.element ? (W = z.route.element)
@@ -13608,8 +13608,8 @@ function h1(c, o = [], r = null, f = null, m = null) {
         A.createElement(Yh, {
           location: r.location,
           revalidation: r.revalidation,
-          component: Z,
-          error: w,
+          component: w,
+          error: Z,
           children: L(),
           routeContext: { outlet: null, matches: K, isDataRoute: !0 },
           onError: _,
@@ -13716,17 +13716,17 @@ function S1({
       search: O = '',
       hash: z = '',
       state: q = null,
-      key: w = 'default',
+      key: Z = 'default',
     } = r,
     F = A.useMemo(() => {
-      let Z = sl(_, j);
-      return Z == null ? null : (
+      let w = sl(_, j);
+      return w == null ? null : (
           {
-            location: { pathname: Z, search: O, hash: z, state: q, key: w },
+            location: { pathname: w, search: O, hash: z, state: q, key: Z },
             navigationType: f,
           }
         );
-    }, [j, _, O, z, q, w, f]);
+    }, [j, _, O, z, q, Z, f]);
   return (
     Be(
       F != null,
@@ -14059,12 +14059,12 @@ function G1(c, o) {
     q = A.useRef(null);
   (A.useEffect(() => {
     if ((c === 'render' && b(!0), c === 'viewport')) {
-      let Z = (K) => {
+      let w = (K) => {
           K.forEach((L) => {
             b(L.isIntersecting);
           });
         },
-        G = new IntersectionObserver(Z, { threshold: 0.5 });
+        G = new IntersectionObserver(w, { threshold: 0.5 });
       return (
         q.current && G.observe(q.current),
         () => {
@@ -14075,15 +14075,15 @@ function G1(c, o) {
   }, [c]),
     A.useEffect(() => {
       if (f) {
-        let Z = setTimeout(() => {
+        let w = setTimeout(() => {
           b(!0);
         }, 100);
         return () => {
-          clearTimeout(Z);
+          clearTimeout(w);
         };
       }
     }, [f]));
-  let w = () => {
+  let Z = () => {
       m(!0);
     },
     F = () => {
@@ -14097,11 +14097,11 @@ function G1(c, o) {
           v,
           q,
           {
-            onFocus: Qn(j, w),
+            onFocus: Qn(j, Z),
             onBlur: Qn(S, F),
-            onMouseEnter: Qn(_, w),
+            onMouseEnter: Qn(_, Z),
             onMouseLeave: Qn(O, F),
-            onTouchStart: Qn(z, w),
+            onTouchStart: Qn(z, Z),
           },
         ]
     : [!1, q, {}]
@@ -14115,7 +14115,7 @@ function Qn(c, o) {
 function X1({ page: c, ...o }) {
   let { router: r } = Gh(),
     f = A.useMemo(() => zh(r.routes, c, r.basename), [r.routes, c, r.basename]);
-  return f ? A.createElement(w1, { page: c, matches: f, ...o }) : null;
+  return f ? A.createElement(Z1, { page: c, matches: f, ...o }) : null;
 }
 function Q1(c) {
   let { manifest: o, routeModules: r } = Xh(),
@@ -14135,7 +14135,7 @@ function Q1(c) {
     f
   );
 }
-function w1({ page: c, matches: o, ...r }) {
+function Z1({ page: c, matches: o, ...r }) {
   let f = na(),
     { future: m, manifest: v, routeModules: b } = Xh(),
     { basename: j } = Gh(),
@@ -14144,7 +14144,7 @@ function w1({ page: c, matches: o, ...r }) {
     z = A.useMemo(() => Th(c, o, _, v, f, 'assets'), [c, o, _, v, f]),
     q = A.useMemo(() => {
       if (c === f.pathname + f.search + f.hash) return [];
-      let Z = new Set(),
+      let w = new Set(),
         G = !1;
       if (
         (o.forEach((L) => {
@@ -14158,45 +14158,45 @@ function w1({ page: c, matches: o, ...r }) {
               W.hasClientLoader
             ) ?
               (G = !0)
-            : Z.add(L.route.id));
+            : w.add(L.route.id));
         }),
-        Z.size === 0)
+        w.size === 0)
       )
         return [];
       let K = O1(c, j, m.unstable_trailingSlashAwareDataRequests, 'data');
       return (
         G &&
-          Z.size > 0 &&
+          w.size > 0 &&
           K.searchParams.set(
             '_routes',
             o
-              .filter((L) => Z.has(L.route.id))
+              .filter((L) => w.has(L.route.id))
               .map((L) => L.route.id)
               .join(','),
           ),
         [K.pathname + K.search]
       );
     }, [j, m.unstable_trailingSlashAwareDataRequests, S, f, v, O, o, c, b]),
-    w = A.useMemo(() => H1(z, v), [z, v]),
+    Z = A.useMemo(() => H1(z, v), [z, v]),
     F = Q1(z);
   return A.createElement(
     A.Fragment,
     null,
-    q.map((Z) =>
+    q.map((w) =>
       A.createElement('link', {
-        key: Z,
+        key: w,
         rel: 'prefetch',
         as: 'fetch',
-        href: Z,
+        href: w,
         ...r,
       }),
     ),
-    w.map((Z) =>
-      A.createElement('link', { key: Z, rel: 'modulepreload', href: Z, ...r }),
+    Z.map((w) =>
+      A.createElement('link', { key: w, rel: 'modulepreload', href: w, ...r }),
     ),
-    F.map(({ key: Z, link: G }) =>
+    F.map(({ key: w, link: G }) =>
       A.createElement('link', {
-        key: Z,
+        key: w,
         nonce: r.nonce,
         ...G,
         crossOrigin: G.crossOrigin ?? r.crossOrigin,
@@ -14204,7 +14204,7 @@ function w1({ page: c, matches: o, ...r }) {
     ),
   );
 }
-function Z1(...c) {
+function w1(...c) {
   return (o) => {
     c.forEach((r) => {
       typeof r == 'function' ? r(o) : r != null && (r.current = o);
@@ -14261,16 +14261,16 @@ var Qh = /^(?:[a-z][a-z0-9+.-]*:|\/\/)/i,
       preventScrollReset: O,
       viewTransition: z,
       unstable_defaultShouldRevalidate: q,
-      ...w
+      ...Z
     },
     F,
   ) {
-    let { basename: Z, unstable_useTransitions: G } = A.useContext(Oe),
+    let { basename: w, unstable_useTransitions: G } = A.useContext(Oe),
       K = typeof _ == 'string' && Qh.test(_),
-      L = Oh(_, Z);
+      L = Oh(_, w);
     _ = L.to;
     let W = u1(_, { relative: m }),
-      [Et, St, At] = G1(f, w),
+      [Et, St, At] = G1(f, Z),
       P = W1(_, {
         replace: b,
         state: j,
@@ -14285,11 +14285,11 @@ var Qh = /^(?:[a-z][a-z0-9+.-]*:|\/\/)/i,
       (o && o(pe), pe.defaultPrevented || P(pe));
     }
     let Qt = A.createElement('a', {
-      ...w,
+      ...Z,
       ...At,
       'href': L.absoluteURL || W,
       'onClick': L.isExternal || v ? o : Rt,
-      'ref': Z1(F, St),
+      'ref': w1(F, St),
       'target': S,
       'data-discover': !K && r === 'render' ? 'true' : void 0,
     });
@@ -14314,20 +14314,20 @@ var la = A.forwardRef(function (
 ) {
   let z = $n(b, { relative: _.relative }),
     q = na(),
-    w = A.useContext(gi),
-    { navigator: F, basename: Z } = A.useContext(Oe),
-    G = w != null && ty(z) && j === !0,
+    Z = A.useContext(gi),
+    { navigator: F, basename: w } = A.useContext(Oe),
+    G = Z != null && ty(z) && j === !0,
     K = F.encodeLocation ? F.encodeLocation(z).pathname : z.pathname,
     L = q.pathname,
     W =
-      w && w.navigation && w.navigation.location ?
-        w.navigation.location.pathname
+      Z && Z.navigation && Z.navigation.location ?
+        Z.navigation.location.pathname
       : null;
   (r ||
     ((L = L.toLowerCase()),
     (W = W ? W.toLowerCase() : null),
     (K = K.toLowerCase())),
-    W && Z && (W = sl(W, Z) || W));
+    W && w && (W = sl(W, w) || W));
   const Et = K !== '/' && K.endsWith('/') ? K.length - 1 : K.length;
   let St = L === K || (!m && L.startsWith(K) && L.charAt(Et) === '/'),
     At =
@@ -14378,11 +14378,11 @@ var J1 = A.forwardRef(
       preventScrollReset: O,
       viewTransition: z,
       unstable_defaultShouldRevalidate: q,
-      ...w
+      ...Z
     },
     F,
   ) => {
-    let { unstable_useTransitions: Z } = A.useContext(Oe),
+    let { unstable_useTransitions: w } = A.useContext(Oe),
       G = I1(),
       K = P1(j, { relative: _ }),
       L = b.toLowerCase() === 'get' ? 'get' : 'post',
@@ -14404,14 +14404,14 @@ var J1 = A.forwardRef(
               viewTransition: z,
               unstable_defaultShouldRevalidate: q,
             });
-        Z && r !== !1 ? A.startTransition(() => Rt()) : Rt();
+        w && r !== !1 ? A.startTransition(() => Rt()) : Rt();
       };
     return A.createElement('form', {
       'ref': F,
       'method': L,
       'action': K,
       'onSubmit': f ? S : Et,
-      ...w,
+      ...Z,
       'data-discover': !W && c === 'render' ? 'true' : void 0,
     });
   },
@@ -14420,7 +14420,7 @@ J1.displayName = 'Form';
 function $1(c) {
   return `${c} must be used within a data router.  See https://reactrouter.com/en/main/routers/picking-a-router.`;
 }
-function wh(c) {
+function Zh(c) {
   let o = A.useContext(Va);
   return (Nt(o, $1(c)), o);
 }
@@ -14444,10 +14444,10 @@ function W1(
     (q) => {
       if (A1(q, o)) {
         q.preventDefault();
-        let w = r !== void 0 ? r : Vn(O) === Vn(z),
+        let Z = r !== void 0 ? r : Vn(O) === Vn(z),
           F = () =>
             _(c, {
-              replace: w,
+              replace: Z,
               state: f,
               preventScrollReset: m,
               relative: v,
@@ -14463,7 +14463,7 @@ function W1(
 var k1 = 0,
   F1 = () => `__${String(++k1)}__`;
 function I1() {
-  let { router: c } = wh('useSubmit'),
+  let { router: c } = Zh('useSubmit'),
     { basename: o } = A.useContext(Oe),
     r = _1(),
     f = c.fetch,
@@ -14532,7 +14532,7 @@ function ty(c, { relative: o } = {}) {
     r != null,
     "`useViewTransitionState` must be used within `react-router-dom`'s `RouterProvider`.  Did you accidentally import `RouterProvider` from `react-router`?",
   );
-  let { basename: f } = wh('useViewTransitionState'),
+  let { basename: f } = Zh('useViewTransitionState'),
     m = $n(c, { relative: o });
   if (!r.isTransitioning) return !1;
   let v = sl(r.currentLocation.pathname, f) || r.currentLocation.pathname,
@@ -14556,7 +14556,7 @@ const ey = '_menu_fvuuk_1',
     'footer_btn': iy,
     'footer_btn--active': '_footer_btn--active_fvuuk_87',
   },
-  Zh =
+  wh =
     "data:image/svg+xml,%3csvg%20width='16'%20height='14'%20viewBox='0%200%2016%2014'%20fill='none'%20xmlns='http://www.w3.org/2000/svg'%3e%3cpath%20fill-rule='evenodd'%20clip-rule='evenodd'%20d='M9.296%200.332589C9.82592%200.113015%2010.3939%200%2010.9675%200C11.5411%200%2012.1091%200.113015%2012.6391%200.332589C13.169%200.552163%2013.6504%200.873992%2014.056%201.27969C14.4615%201.68515%2014.7833%202.16654%2015.0028%202.69636C15.2224%203.22628%2015.3354%203.79427%2015.3354%204.36788C15.3354%204.9415%2015.2224%205.50949%2015.0028%206.03941C14.7833%206.56928%2014.4615%207.05071%2014.0558%207.45619C14.0558%207.45623%2014.0559%207.45615%2014.0558%207.45619L8.1625%2013.3495C7.88913%2013.6229%207.44592%2013.6229%207.17255%2013.3495L1.27922%207.45619C0.460149%206.63712%200%205.52622%200%204.36788C0%203.20954%200.460149%202.09865%201.27922%201.27958C2.09829%200.460505%203.20919%200.000356495%204.36753%200.000356495C5.52587%200.000356495%206.63676%200.460505%207.45583%201.27958L7.66753%201.49127L7.8791%201.27969C7.87906%201.27973%207.87914%201.27965%207.8791%201.27969C8.28459%200.874047%208.76613%200.552142%209.296%200.332589ZM13.0658%202.26941C12.7903%201.99378%2012.4632%201.77513%2012.1031%201.62596C11.7431%201.47678%2011.3572%201.4%2010.9675%201.4C10.5778%201.4%2010.1919%201.47678%209.83191%201.62596C9.47189%201.77513%209.14478%201.99378%208.86928%202.26941L8.1625%202.97619C7.88913%203.24956%207.44592%203.24956%207.17255%202.97619L6.46589%202.26953C5.90937%201.71301%205.15456%201.40036%204.36753%201.40036C3.58049%201.40036%202.82569%201.71301%202.26917%202.26953C1.71265%202.82604%201.4%203.58085%201.4%204.36788C1.4%205.15492%201.71265%205.90972%202.26917%206.46624L7.66753%2011.8646L13.0659%206.46624C13.3415%206.19074%2013.5603%205.86352%2013.7095%205.5035C13.8586%205.14347%2013.9354%204.75759%2013.9354%204.36788C13.9354%203.97818%2013.8586%203.59229%2013.7095%203.23227C13.5603%202.87224%2013.3414%202.54491%2013.0658%202.26941Z'%20fill='%23F1F2F9'/%3e%3c/svg%3e",
   Vh =
     "data:image/svg+xml,%3csvg%20width='16'%20height='16'%20viewBox='0%200%2016%2016'%20fill='none'%20xmlns='http://www.w3.org/2000/svg'%3e%3cpath%20fill-rule='evenodd'%20clip-rule='evenodd'%20d='M3.46683%200.933323C3.59273%200.765453%203.79032%200.666656%204.00016%200.666656H12.0002C12.21%200.666656%2012.4076%200.765453%2012.5335%200.933323L14.5335%203.59999C14.62%203.71539%2014.6668%203.85574%2014.6668%203.99999V13.3333C14.6668%2013.8638%2014.4561%2014.3725%2014.081%2014.7475C13.706%2015.1226%2013.1973%2015.3333%2012.6668%2015.3333H3.3335C2.80306%2015.3333%202.29436%2015.1226%201.91928%2014.7475C1.54421%2014.3725%201.3335%2013.8638%201.3335%2013.3333V3.99999C1.3335%203.85574%201.38028%203.71539%201.46683%203.59999L3.46683%200.933323ZM4.3335%201.99999L2.66683%204.22221V13.3333C2.66683%2013.5101%202.73707%2013.6797%202.86209%2013.8047C2.98712%2013.9298%203.15669%2014%203.3335%2014H12.6668C12.8436%2014%2013.0132%2013.9298%2013.1382%2013.8047C13.2633%2013.6797%2013.3335%2013.5101%2013.3335%2013.3333V4.22221L11.6668%201.99999H4.3335Z'%20fill='%23F1F2F9'/%3e%3cpath%20fill-rule='evenodd'%20clip-rule='evenodd'%20d='M1.3335%204.00001C1.3335%203.63182%201.63197%203.33334%202.00016%203.33334H14.0002C14.3684%203.33334%2014.6668%203.63182%2014.6668%204.00001C14.6668%204.3682%2014.3684%204.66668%2014.0002%204.66668H2.00016C1.63197%204.66668%201.3335%204.3682%201.3335%204.00001Z'%20fill='%23F1F2F9'/%3e%3cpath%20fill-rule='evenodd'%20clip-rule='evenodd'%20d='M5.33341%206C5.7016%206%206.00008%206.29848%206.00008%206.66667C6.00008%207.1971%206.21079%207.70581%206.58587%208.08088C6.96094%208.45595%207.46965%208.66667%208.00008%208.66667C8.53051%208.66667%209.03922%208.45595%209.41429%208.08088C9.78937%207.70581%2010.0001%207.1971%2010.0001%206.66667C10.0001%206.29848%2010.2986%206%2010.6667%206C11.0349%206%2011.3334%206.29848%2011.3334%206.66667C11.3334%207.55072%2010.9822%208.39857%2010.3571%209.02369C9.73198%209.64881%208.88414%2010%208.00008%2010C7.11603%2010%206.26818%209.64881%205.64306%209.02369C5.01794%208.39857%204.66675%207.55072%204.66675%206.66667C4.66675%206.29848%204.96522%206%205.33341%206Z'%20fill='%23F1F2F9'/%3e%3c/svg%3e",
@@ -14604,7 +14604,7 @@ const ey = '_menu_fvuuk_1',
                   `${Ft.footer_btn} ${Ft['footer_btn--active']}`
                 : Ft.footer_btn,
               onClick: o,
-              children: d.jsx('img', { src: Zh, alt: 'Favorites' }),
+              children: d.jsx('img', { src: wh, alt: 'Favorites' }),
             }),
             d.jsx(la, {
               to: '/cart',
@@ -14726,7 +14726,7 @@ const ey = '_menu_fvuuk_1',
                           f ?
                             `${Ut.icon_btn} ${Ut['icon_btn--active']}`
                           : Ut.icon_btn,
-                        children: d.jsx('img', { src: Zh, alt: 'Favorites' }),
+                        children: d.jsx('img', { src: wh, alt: 'Favorites' }),
                       }),
                       d.jsx(la, {
                         to: '/cart',
@@ -14766,20 +14766,20 @@ const ey = '_menu_fvuuk_1',
   jy = '_nav_7q96a_19',
   Cy = '_back_7q96a_37',
   Ry = '_arrow_7q96a_47',
-  wa = { footer: zy, container: Ny, logo: Ay, nav: jy, back: Cy, arrow: Ry },
+  Za = { footer: zy, container: Ny, logo: Ay, nav: jy, back: Cy, arrow: Ry },
   Oy = '/assets/logo-BX5z9YCI.svg',
   My = () => {
     const c = () => {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     };
     return d.jsx('footer', {
-      className: wa.footer,
+      className: Za.footer,
       children: d.jsxs('div', {
-        className: wa.container,
+        className: Za.container,
         children: [
-          d.jsx('img', { src: Oy, alt: 'Nice Gadgets', className: wa.logo }),
+          d.jsx('img', { src: Oy, alt: 'Nice Gadgets', className: Za.logo }),
           d.jsxs('nav', {
-            className: wa.nav,
+            className: Za.nav,
             children: [
               d.jsx('a', {
                 href: 'https://github.com/Team-Project-Phone-catalog/phone-catalog-frontend',
@@ -14792,13 +14792,13 @@ const ey = '_menu_fvuuk_1',
             ],
           }),
           d.jsxs('div', {
-            className: wa.back,
+            className: Za.back,
             children: [
               d.jsx('span', { children: 'Back to top' }),
               d.jsx('button', {
                 type: 'button',
                 onClick: c,
-                className: wa.arrow,
+                className: Za.arrow,
                 children: '↑',
               }),
             ],
@@ -14909,7 +14909,7 @@ const ey = '_menu_fvuuk_1',
         }),
       ],
     }),
-  Za = ({ product: c, onFavoriteChange: o }) => {
+  wa = ({ product: c, onFavoriteChange: o }) => {
     const [r, f] = A.useState(() =>
       c ?
         JSON.parse(localStorage.getItem('favorites') || '[]').includes(
@@ -14979,7 +14979,7 @@ const ey = '_menu_fvuuk_1',
     'select': Qy,
     'phones-page__list': '_phones-page__list_pc0jx_63',
   },
-  wy = () => {
+  Zy = () => {
     const [c, o] = A.useState([]);
     return (
       A.useEffect(() => {
@@ -15047,7 +15047,7 @@ const ey = '_menu_fvuuk_1',
                   'div',
                   {
                     className: It['phones-page__item'],
-                    children: d.jsx(Za, { product: r }),
+                    children: d.jsx(wa, { product: r }),
                   },
                   r.id,
                 ),
@@ -15059,7 +15059,7 @@ const ey = '_menu_fvuuk_1',
       })
     );
   },
-  Zy = '_title_1vwnt_17',
+  wy = '_title_1vwnt_17',
   Vy = '_modelsCount_1vwnt_27',
   Ky = '_controls_1vwnt_35',
   Jy = '_control_1vwnt_35',
@@ -15068,7 +15068,7 @@ const ey = '_menu_fvuuk_1',
   ce = {
     'accessories-page__container': '_accessories-page__container_1vwnt_1',
     'accessories-page': '_accessories-page_1vwnt_1',
-    'title': Zy,
+    'title': wy,
     'modelsCount': Vy,
     'accessories-page__controls': '_accessories-page__controls_1vwnt_32',
     'controls': Ky,
@@ -15140,7 +15140,7 @@ const ey = '_menu_fvuuk_1',
             }),
             d.jsx('section', {
               className: ce['accessories-page__list'],
-              children: c.map((r) => d.jsx(Za, { product: r }, r.id)),
+              children: c.map((r) => d.jsx(wa, { product: r }, r.id)),
             }),
             d.jsx('section', { className: ce['accessories-page__pagination'] }),
           ],
@@ -15153,23 +15153,23 @@ const ey = '_menu_fvuuk_1',
   Py = '_cartContent_1xti1_44',
   t2 = '_products_1xti1_70',
   e2 = '_summary_1xti1_81',
-  wn = { cart: Fy, title: Iy, cartContent: Py, products: t2, summary: e2 },
+  Zn = { cart: Fy, title: Iy, cartContent: Py, products: t2, summary: e2 },
   l2 = '_block_1xzjy_1',
   a2 = '_price_1xzjy_7',
   n2 = '_info_1xzjy_17',
   u2 = '_button_1xzjy_24',
   i2 = '_buttonCheck_1xzjy_33',
-  Zn = { block: l2, price: a2, info: n2, button: u2, buttonCheck: i2 },
+  wn = { block: l2, price: a2, info: n2, button: u2, buttonCheck: i2 },
   c2 = () =>
     d.jsxs('div', {
-      className: Zn.block,
+      className: wn.block,
       children: [
-        d.jsx('h2', { className: Zn.price, children: '$2656' }),
-        d.jsx('p', { className: Zn.info, children: 'Total for 3 items' }),
+        d.jsx('h2', { className: wn.price, children: '$2656' }),
+        d.jsx('p', { className: wn.info, children: 'Total for 3 items' }),
         d.jsx('div', {
-          className: Zn.button,
+          className: wn.button,
           children: d.jsx('button', {
-            className: Zn.buttonCheck,
+            className: wn.buttonCheck,
             children: 'Checkout',
           }),
         }),
@@ -15252,21 +15252,21 @@ const ey = '_menu_fvuuk_1',
     }),
   S2 = () =>
     d.jsxs('div', {
-      className: wn.cart,
+      className: Zn.cart,
       children: [
         d.jsx(b2, {}),
         d.jsx('div', {
-          className: wn.title,
+          className: Zn.title,
           children: d.jsx('h1', { children: 'Cart' }),
         }),
         d.jsxs('div', {
-          className: wn.cartContent,
+          className: Zn.cartContent,
           children: [
             d.jsxs('div', {
-              className: wn.products,
+              className: Zn.products,
               children: [d.jsx($f, {}), d.jsx($f, {}), d.jsx($f, {})],
             }),
-            d.jsx('div', { className: wn.summary, children: d.jsx(c2, {}) }),
+            d.jsx('div', { className: Zn.summary, children: d.jsx(c2, {}) }),
           ],
         }),
       ],
@@ -15363,7 +15363,7 @@ const ey = '_menu_fvuuk_1',
             }),
             d.jsx('section', {
               className: fe['tablets-page__list'],
-              children: c.map((r) => d.jsx(Za, { product: r }, r.id)),
+              children: c.map((r) => d.jsx(wa, { product: r }, r.id)),
             }),
             d.jsx('section', { className: fe['tablets-page__pagination'] }),
           ],
@@ -15371,20 +15371,20 @@ const ey = '_menu_fvuuk_1',
       })
     );
   },
-  R2 = '_home_wddpw_1',
-  O2 = '_container_wddpw_12',
-  M2 = '_hero_wddpw_28',
-  D2 = '_hero__title_wddpw_41',
-  U2 = '_hero__slider_wddpw_59',
-  H2 = '_hero__arrow_wddpw_63',
-  B2 = '_hero__banner_wddpw_98',
-  q2 = '_hero__dots_wddpw_206',
-  Y2 = '_hero__dot_wddpw_206',
-  L2 = '_section_wddpw_235',
-  G2 = '_section__header_wddpw_248',
-  X2 = '_section__title_wddpw_259',
-  Q2 = '_section__arrows_wddpw_274',
-  w2 = '_categories_wddpw_332',
+  R2 = '_home_1sewe_1',
+  O2 = '_container_1sewe_12',
+  M2 = '_hero_1sewe_28',
+  D2 = '_hero__title_1sewe_41',
+  U2 = '_hero__slider_1sewe_59',
+  H2 = '_hero__arrow_1sewe_63',
+  B2 = '_hero__banner_1sewe_98',
+  q2 = '_hero__dots_1sewe_206',
+  Y2 = '_hero__dot_1sewe_206',
+  L2 = '_section_1sewe_235',
+  G2 = '_section__header_1sewe_248',
+  X2 = '_section__title_1sewe_259',
+  Q2 = '_section__arrows_1sewe_274',
+  Z2 = '_categories_1sewe_345',
   J = {
     'home': R2,
     'container': O2,
@@ -15392,31 +15392,31 @@ const ey = '_menu_fvuuk_1',
     'hero__title': D2,
     'hero__slider': U2,
     'hero__arrow': H2,
-    'hero__arrow--left': '_hero__arrow--left_wddpw_89',
-    'hero__arrow--right': '_hero__arrow--right_wddpw_94',
+    'hero__arrow--left': '_hero__arrow--left_1sewe_89',
+    'hero__arrow--right': '_hero__arrow--right_1sewe_94',
     'hero__banner': B2,
-    'hero__banner-img': '_hero__banner-img_wddpw_116',
+    'hero__banner-img': '_hero__banner-img_1sewe_116',
     'hero__dots': q2,
     'hero__dot': Y2,
-    'hero__dot--active': '_hero__dot--active_wddpw_227',
+    'hero__dot--active': '_hero__dot--active_1sewe_227',
     'section': L2,
     'section__header': G2,
     'section__title': X2,
     'section__arrows': Q2,
-    'arrow-btn': '_arrow-btn_wddpw_279',
-    'products-slider': '_products-slider_wddpw_302',
-    'products-slider__track': '_products-slider__track_wddpw_327',
-    'categories': w2,
-    'category-card': '_category-card_wddpw_350',
-    'category-card__image': '_category-card__image_wddpw_356',
-    'category-card__image-wrapper': '_category-card__image-wrapper_wddpw_359',
-    'category-card__image-tablets': '_category-card__image-tablets_wddpw_385',
-    'category-card__image-access': '_category-card__image-access_wddpw_393',
-    'category-card__info': '_category-card__info_wddpw_401',
-    'category-card__title': '_category-card__title_wddpw_405',
-    'category-card__count': '_category-card__count_wddpw_421',
+    'arrow-btn': '_arrow-btn_1sewe_279',
+    'products-slider': '_products-slider_1sewe_302',
+    'products-slider__track': '_products-slider__track_1sewe_327',
+    'categories': Z2,
+    'category-card': '_category-card_1sewe_363',
+    'category-card__image': '_category-card__image_1sewe_369',
+    'category-card__image-wrapper': '_category-card__image-wrapper_1sewe_372',
+    'category-card__image-tablets': '_category-card__image-tablets_1sewe_398',
+    'category-card__image-access': '_category-card__image-access_1sewe_406',
+    'category-card__info': '_category-card__info_1sewe_414',
+    'category-card__title': '_category-card__title_1sewe_418',
+    'category-card__count': '_category-card__count_1sewe_434',
   },
-  Z2 = (c) => [...c].sort((o, r) => (r.year || 0) - (o.year || 0)),
+  w2 = (c) => [...c].sort((o, r) => (r.year || 0) - (o.year || 0)),
   V2 = (c) =>
     [...c].sort((o, r) => {
       const f = (o.priceRegular || 0) - (o.priceDiscount || 0);
@@ -15428,7 +15428,7 @@ const ey = '_menu_fvuuk_1',
       [m, v] = A.useState([]),
       [b, j] = A.useState([]),
       S = [...c, ...r, ...m],
-      _ = Z2(b).slice(0, 12),
+      _ = w2(b).slice(0, 12),
       O = V2(S).slice(0, 12);
     return (
       A.useEffect(() => {
@@ -15526,7 +15526,7 @@ const ey = '_menu_fvuuk_1',
                   className: J['products-slider'],
                   children: d.jsx('div', {
                     className: J['products-slider__track'],
-                    children: _.map((z) => d.jsx(Za, { product: z }, z.id)),
+                    children: _.map((z) => d.jsx(wa, { product: z }, z.id)),
                   }),
                 }),
               ],
@@ -15652,7 +15652,7 @@ const ey = '_menu_fvuuk_1',
                   className: J['products-slider'],
                   children: d.jsx('div', {
                     className: J['products-slider__track'],
-                    children: O.map((z) => d.jsx(Za, { product: z }, z.id)),
+                    children: O.map((z) => d.jsx(wa, { product: z }, z.id)),
                   }),
                 }),
               ],
@@ -15708,7 +15708,7 @@ const ey = '_menu_fvuuk_1',
               d.jsx('div', {
                 className: 'favorites-page__all-favorites',
                 children: c.map((m) =>
-                  d.jsx(Za, { product: m, onFavoriteChange: f }, m.id),
+                  d.jsx(wa, { product: m, onFavoriteChange: f }, m.id),
                 ),
               }),
             ],
@@ -15727,7 +15727,7 @@ const ey = '_menu_fvuuk_1',
           children: d.jsxs(E1, {
             children: [
               d.jsx(cl, { path: '/', element: d.jsx(K2, {}) }),
-              d.jsx(cl, { path: '/phones', element: d.jsx(wy, {}) }),
+              d.jsx(cl, { path: '/phones', element: d.jsx(Zy, {}) }),
               d.jsx(cl, { path: '/tablets', element: d.jsx(C2, {}) }),
               d.jsx(cl, { path: '/accessories', element: d.jsx(ky, {}) }),
               d.jsx(cl, { path: '/cart', element: d.jsx(S2, {}) }),

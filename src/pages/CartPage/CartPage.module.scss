@@ -8,17 +8,20 @@
 }
 
 .cart {
-  width: 100%;
-  padding-inline: 16px;
-  padding-bottom: 80px;
+  box-sizing: border-box;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 16px;
+  padding-bottom: 56px;
 
   @include on-tablet {
-    padding-inline: 24px;
+    padding: 0 24px;
+    padding-bottom: 64px;
   }
 
   @include on-desktop {
-    padding-inline: clamp(32px, calc(32px + (100vw - 1200px) * 0.5), 152px);
-    margin: 0 auto;
+    padding: 0 32px;
+    padding-bottom: 80px;
   }
 
   .title {
@@ -27,13 +30,8 @@
     font-size: 32px;
     line-height: 41px;
     margin-top: 24px;
+    margin-bottom: 32px;
     letter-spacing: -0.01em;
-
-    @include on-tablet {
-      margin-top: 16px;
-      font-size: 48px;
-      line-height: 56px;
-    }
 
     h1 {
       font-size: inherit;
@@ -43,7 +41,6 @@
   }
 
   .cartContent {
-    margin-top: 32px;
     display: flex;
     flex-direction: column;
     gap: 16px;
