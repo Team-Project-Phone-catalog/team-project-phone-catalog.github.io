@@ -41,6 +41,7 @@ export const ProductPage: React.FC<Props> = ({ product, onCapacityChange }) => {
             onCapacityChange={onCapacityChange}
           />
           <ProductPurchase
+            product={product}
             priceDiscount={product.priceDiscount}
             priceRegular={product.priceRegular}
           />

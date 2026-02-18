@@ -1,17 +1,24 @@
 import './ProductPurchase.scss';
 import { ProductActions } from '../../ProductActions/ProductActions.tsx';
 import React from 'react';
+import { Product } from '../../../../types/Product.ts';
+import { useAppContext } from '../../../../hooks/useAppContext.ts';
 
 type Props = {
+  product: Product;
   priceRegular: number;
   priceDiscount: number;
 };
 
 export const ProductPurchase: React.FC<Props> = ({
+  product,
   priceRegular,
   priceDiscount,
 }) => {
+  const { addToCart, isInCart } = useAppContext();
+
   const hasDiscount = priceDiscount < priceRegular;
+  const inCart = isInCart(product);
 
   return (
     <div className="purchase">
@@ -25,8 +32,9 @@ export const ProductPurchase: React.FC<Props> = ({
 
       <div className="purchase__buttons">
         <ProductActions
-          onAddToCart={() => console.log('Added to cart')}
+          onAddToCart={() => addToCart(product)}
           onToggleFavorite={() => console.log('Toggled favorite')}
+          isInCart={inCart}
         />
       </div>
     </div>
