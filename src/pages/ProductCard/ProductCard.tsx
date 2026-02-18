@@ -40,8 +40,23 @@ export const ProductCard: React.FC<Props> = ({ product, onFavoriteChange }) => {
     product.priceRegular ??
     ('fullPrice' in product ? product.fullPrice : undefined);
 
-  const imagePath =
-    Array.isArray(product.images) ? product.images[0] : product.images;
+  let imagePath = null;
+
+  if ('images' in product && product.images) {
+    if (Array.isArray(product.images)) {
+      imagePath = product.images[0];
+    } else if (typeof product.images === 'string') {
+      try {
+        const parsed = JSON.parse(product.images);
+        imagePath = Array.isArray(parsed) ? parsed[0] : product.images;
+      } catch {
+        imagePath = product.images;
+      }
+    }
+  } else if ('image' in product && product.image) {
+    imagePath = product.image;
+  }
+
   const imageUrl = imagePath ? `/${imagePath}` : null;
 
   const productId = 'itemId' in product ? product.itemId : product.id;
