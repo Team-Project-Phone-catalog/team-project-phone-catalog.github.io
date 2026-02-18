@@ -1,5 +1,5 @@
 import './ProductDetailsPage.scss';
-import {ProductPage} from '../../components/ui/Product/ProductCard/ProductPage.tsx';
+import { ProductPage } from '../../components/ui/Product/ProductCard/ProductPage.tsx';
 import { BackButton } from '../../components/ui/Buttons/Back/BackButton.tsx';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';

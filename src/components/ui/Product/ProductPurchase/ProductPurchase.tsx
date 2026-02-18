@@ -3,32 +3,32 @@ import { ProductActions } from '../../ProductActions/ProductActions.tsx';
 import React from 'react';
 
 type Props = {
-    priceRegular: number;
-    priceDiscount: number;
+  priceRegular: number;
+  priceDiscount: number;
 };
 
 export const ProductPurchase: React.FC<Props> = ({
-                                                     priceRegular,
-                                                     priceDiscount,
-                                                 }) => {
-    const hasDiscount = priceDiscount < priceRegular;
+  priceRegular,
+  priceDiscount,
+}) => {
+  const hasDiscount = priceDiscount < priceRegular;
 
-    return (
-        <div className="purchase">
-            <div className="purchase-price">
-                <span className="purchase-price__current">${priceDiscount}</span>
+  return (
+    <div className="purchase">
+      <div className="purchase-price">
+        <span className="purchase-price__current">${priceDiscount}</span>
 
-                {hasDiscount && (
-                    <span className="purchase-price__full">${priceRegular}</span>
-                )}
-            </div>
+        {hasDiscount && (
+          <span className="purchase-price__full">${priceRegular}</span>
+        )}
+      </div>
 
-            <div className="purchase__buttons">
-                <ProductActions
-                    onAddToCart={() => console.log('Added to cart')}
-                    onToggleFavorite={() => console.log('Toggled favorite')}
-                />
-            </div>
-        </div>
-    );
+      <div className="purchase__buttons">
+        <ProductActions
+          onAddToCart={() => console.log('Added to cart')}
+          onToggleFavorite={() => console.log('Toggled favorite')}
+        />
+      </div>
+    </div>
+  );
 };
