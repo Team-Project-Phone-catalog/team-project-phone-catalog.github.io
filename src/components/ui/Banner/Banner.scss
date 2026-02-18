@@ -1,6 +1,6 @@
 $color-white: #ffffff;
 $color-elements: #323542;
-$color-surface: #1a1b22;
+$color-icons: #4a4d58;
 
 .banner {
   display: grid;
@@ -11,38 +11,56 @@ $color-surface: #1a1b22;
     '.    dots   .   ';
   column-gap: 16px;
   align-items: stretch;
+  width: 100%;
+  margin: 0;
 
   @media (max-width: 639px) {
     grid-template-columns: 1fr;
     grid-template-areas:
       'slider'
       'dots';
-    margin: 0 -16px;
+    margin: 0;
   }
 
   &__arrow {
     display: flex;
     align-items: center;
     justify-content: center;
-    background: transparent;
+    background-color: transparent;
     border: 1px solid $color-elements;
-    color: $color-white;
     cursor: pointer;
-    font-size: 14px;
-    transition: background 0.2s;
     padding: 0;
     width: 32px;
+    transition: all 0.2s;
+    border-radius: 8px;
 
-    border-radius: 8px; // ← скругление со всех сторон
+    &::before {
+      content: '';
+      display: block;
+      width: 6px;
+      height: 10px;
+      background-color: $color-icons;
+      mask-image: url('../../../../dist/img/icons/Vector-black.svg');
+      mask-repeat: no-repeat;
+      mask-position: center;
+      mask-size: contain;
+      transition: background-color 0.2s;
+    }
 
     &:hover {
-      background: $color-elements;
-      border-color: #4a4d58;
-      color: $color-white;
+      background-color: $color-elements;
+
+      &::before {
+        background-color: $color-white;
+      }
     }
 
     &--prev {
       grid-area: prev;
+
+      &::before {
+        transform: rotate(180deg);
+      }
 
       @media (max-width: 639px) {
         display: none;
@@ -62,7 +80,6 @@ $color-surface: #1a1b22;
     grid-area: slider;
     overflow: hidden;
     width: 100%;
-    min-width: 0;
 
     .swiper {
       width: 100%;
@@ -73,14 +90,16 @@ $color-surface: #1a1b22;
   &__image {
     width: 100%;
     display: block;
-    aspect-ratio: 1 / 1;
-    object-fit: contain;
-    height: auto;
+    object-fit: cover;
+    height: 400px;
 
-    @media (min-width: 640px) {
-      aspect-ratio: auto;
-      height: 400px;
-      object-fit: cover;
+    @media (min-width: 640px) and (max-width: 1199px) {
+      height: 340px;
+    }
+
+    @media (max-width: 639px) {
+      height: auto;
+      aspect-ratio: 1 / 1;
     }
   }
 
@@ -111,7 +130,6 @@ $color-surface: #1a1b22;
 }
 
 .swiper-button-prev,
-.swiper-button-next,
-.swiper-pagination {
+.swiper-button-next {
   display: none !important;
 }
