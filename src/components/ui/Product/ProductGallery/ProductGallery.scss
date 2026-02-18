@@ -29,7 +29,7 @@
       width: 288px;
       height: 288px;
       object-fit: contain;
-      transition: $transition-default;
+      transition: transition;
 
       @include on-desktop {
         width: 264px;
@@ -59,9 +59,9 @@
   height: 50px;
   padding: 4px;
   cursor: pointer;
-  border: 1px solid $color-border;
+  border: 1px solid #3b3e4a;
   background-color: transparent;
-  transition: $transition-default;
+  transition: transition;
 
   @include on-tablet {
     width: 80px;
@@ -76,11 +76,15 @@
   }
 
   &:hover {
-    border-color: $color-accent;
-    background-color: rgba($color-accent, 0.05);
+    border-color: #89939a;
+    transform: scale(1.02);
   }
 
   &.active {
-    border: 2px solid $color-text-primary;
+    border: 1px solid #f0f0f0;
+    border-width: 1px;
+    @include on-tablet {
+      border-width: 2px;
+    }
   }
 }
