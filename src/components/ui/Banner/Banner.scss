@@ -33,6 +33,8 @@ $color-surface: #1a1b22;
     padding: 0;
     width: 32px;
 
+    border-radius: 8px; // ← скругление со всех сторон
+
     &:hover {
       background: $color-elements;
       border-color: #4a4d58;
@@ -41,6 +43,7 @@ $color-surface: #1a1b22;
 
     &--prev {
       grid-area: prev;
+
       @media (max-width: 639px) {
         display: none;
       }
@@ -48,6 +51,7 @@ $color-surface: #1a1b22;
 
     &--next {
       grid-area: next;
+
       @media (max-width: 639px) {
         display: none;
       }
