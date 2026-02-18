@@ -11,15 +11,29 @@ export const TabletsPage = () => {
   const [tablets, setTablets] = useState<Product[]>([]);
   const [sortBy, setSortBy] = useState<SortType>('newest');
   const [itemsOnPage, setItemsOnPage] = useState(16);
+  const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
     const loadTablets = async () => {
       const data = await getTablets();
-      setTablets(data.map((tablet) => ({ ...tablet, category: 'tablets' })));
+
+      setTablets(
+        data.map((tablet) => ({
+          ...tablet,
+          category: 'tablets',
+        })),
+      );
     };
 
     loadTablets();
   }, []);
+
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    });
+  }, [currentPage]);
 
   const sortedTablets = useMemo(() => {
     switch (sortBy) {
@@ -35,14 +49,20 @@ export const TabletsPage = () => {
     }
   }, [tablets, sortBy]);
 
+  const totalPages = Math.ceil(sortedTablets.length / itemsOnPage);
+
   const visibleTablets = useMemo(() => {
-    return sortedTablets.slice(0, itemsOnPage);
-  }, [sortedTablets, itemsOnPage]);
+    const start = (currentPage - 1) * itemsOnPage;
+    const end = start + itemsOnPage;
+
+    return sortedTablets.slice(start, end);
+  }, [sortedTablets, itemsOnPage, currentPage]);
 
   return (
     <div className={s['tablets-page']}>
       <div className={s['tablets-page__container']}>
         <Breadcrumbs />
+
         <h1 className={s.title}>Tablets</h1>
         <p className={s.modelsCount}>{tablets.length} models</p>
 
@@ -55,9 +75,10 @@ export const TabletsPage = () => {
                 <select
                   className={s.select}
                   value={sortBy}
-                  onChange={(event) =>
-                    setSortBy(event.target.value as SortType)
-                  }
+                  onChange={(event) => {
+                    setSortBy(event.target.value as SortType);
+                    setCurrentPage(1);
+                  }}
                 >
                   <option value="newest">Newest</option>
                   <option value="alphabetically">Alphabetically</option>
@@ -71,7 +92,10 @@ export const TabletsPage = () => {
                 <select
                   className={s.select}
                   value={itemsOnPage}
-                  onChange={(event) => setItemsOnPage(+event.target.value)}
+                  onChange={(event) => {
+                    setItemsOnPage(+event.target.value);
+                    setCurrentPage(1);
+                  }}
                 >
                   <option value={16}>16</option>
                   <option value={32}>32</option>
@@ -101,7 +125,49 @@ export const TabletsPage = () => {
           ))}
         </section>
 
-        <section className={s['tablets-page__pagination']}></section>
+        {totalPages > 1 && (
+          <section className={s['tablets-page__pagination']}>
+            <div className={s.pagination}>
+              <button
+                disabled={currentPage === 1}
+                onClick={() => setCurrentPage((prev) => prev - 1)}
+                className={`${s.pageButton} ${s.arrow} ${s.arrowLeft}`}
+              >
+                <img
+                  src="/img/icons/arrow-right.svg"
+                  alt="Previous page"
+                />
+              </button>
+
+              {[...Array(totalPages)].map((_, index) => {
+                const page = index + 1;
+
+                return (
+                  <button
+                    key={page}
+                    onClick={() => setCurrentPage(page)}
+                    className={`${s.pageButton} ${
+                      currentPage === page ? s.active : ''
+                    }`}
+                  >
+                    {page}
+                  </button>
+                );
+              })}
+
+              <button
+                disabled={currentPage === totalPages}
+                onClick={() => setCurrentPage((prev) => prev + 1)}
+                className={`${s.pageButton} ${s.arrow}`}
+              >
+                <img
+                  src="/img/icons/arrow-right.svg"
+                  alt="Next page"
+                />
+              </button>
+            </div>
+          </section>
+        )}
       </div>
     </div>
   );

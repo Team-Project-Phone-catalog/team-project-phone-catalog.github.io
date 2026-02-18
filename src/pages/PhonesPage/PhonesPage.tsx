@@ -124,9 +124,12 @@ export const PhonesPage = () => {
               <button
                 disabled={currentPage === 1}
                 onClick={() => setCurrentPage((prev) => prev - 1)}
-                className={s.pageButton}
+                className={`${s.pageButton} ${s.arrow} ${s.arrowLeft}`}
               >
-                {'<'}
+                <img
+                  src="/img/icons/arrow-right.svg"
+                  alt="Previous page"
+                />
               </button>
 
               {[...Array(totalPages)].map((_, index) => {
@@ -148,9 +151,12 @@ export const PhonesPage = () => {
               <button
                 disabled={currentPage === totalPages}
                 onClick={() => setCurrentPage((prev) => prev + 1)}
-                className={s.pageButton}
+                className={`${s.pageButton} ${s.arrow}`}
               >
-                {'>'}
+                <img
+                  src="/img/icons/arrow-right.svg"
+                  alt="Next page"
+                />
               </button>
             </div>
           </section>
