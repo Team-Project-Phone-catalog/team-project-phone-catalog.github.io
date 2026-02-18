@@ -1,8 +1,9 @@
 import { CartItem } from '../../../types/Cart';
+import { ProductDetails } from '../../../types/Product';
 import s from './CartProduct.module.scss';
 
 interface Props {
-  product: CartItem;
+  product: CartItem | ProductDetails;
   onRemove: () => void;
   onIncrease: () => void;
   onDecrease: () => void;
@@ -14,7 +15,15 @@ export const CartProduct: React.FC<Props> = ({
   onIncrease,
   onDecrease,
 }) => {
-  const imageUrl = product.images?.[0];
+  const imagePath = 'images' in product ? product.images[0] : product.image;
+  const imageUrl = `/${imagePath}`;
+
+  const currentPrice =
+    product.priceDiscount ?? ('price' in product ? product.price : undefined);
+
+  const fullPrice =
+    product.priceRegular ??
+    ('fullPrice' in product ? product.fullPrice : undefined);
 
   return (
     <div className={s.item}>
@@ -29,7 +38,7 @@ export const CartProduct: React.FC<Props> = ({
       <div className={s.imageWrapper}>
         <img
           src={imageUrl}
-          alt="Apple iPhone 14 Pro"
+          alt={product.name}
           className={s.image}
         />
       </div>
@@ -46,7 +55,9 @@ export const CartProduct: React.FC<Props> = ({
           >
             -
           </button>
-          <span className={s.count}>{product.quantity}</span>
+          <span className={s.count}>
+            {'quantity' in product ? product.quantity : 1}
+          </span>
           <button
             className={s.btnPlus}
             onClick={onIncrease}
@@ -54,7 +65,7 @@ export const CartProduct: React.FC<Props> = ({
             +
           </button>
         </div>
-        <p className={s.price}>${product.priceDiscount}</p>
+        <p className={s.price}>${currentPrice || fullPrice}</p>
       </div>
     </div>
   );

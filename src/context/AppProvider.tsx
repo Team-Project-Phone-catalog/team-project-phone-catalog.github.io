@@ -1,4 +1,9 @@
-import React, { useState, ReactNode, useCallback } from 'react';
+import React, {
+  useState,
+  ReactNode,
+  useCallback,
+  useEffect,
+} from 'react';
 import { Product } from '../types/Product';
 import { CartItem } from '../types/Cart';
 import { AppContext } from './AppContext';
@@ -8,7 +13,25 @@ interface AppProviderProps {
 }
 
 export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
-  const [cartItems, setCartItems] = useState<CartItem[]>([]);
+  // ✅ Ініціалізація з localStorage
+  const [cartItems, setCartItems] = useState<CartItem[]>(() => {
+    if (typeof window === 'undefined') return [];
+
+    try {
+      const savedCart = localStorage.getItem('cart');
+      return savedCart ? JSON.parse(savedCart) : [];
+    } catch (error) {
+      console.error('Failed to parse cart from localStorage:', error);
+      return [];
+    }
+  });
+
+  // ✅ Автоматичне збереження при зміні корзини
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('cart', JSON.stringify(cartItems));
+    }
+  }, [cartItems]);
 
   const getItemUniqueId = (product: Product) =>
     `${product.itemId}_${product.color}_${product.capacity}`;
@@ -23,9 +46,9 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
 
       if (existingItem) {
         return prevItems.map((item) =>
-          item.itemUniqueId === itemUniqueId ?
-            { ...item, quantity: item.quantity + 1 }
-          : item,
+          item.itemUniqueId === itemUniqueId
+            ? { ...item, quantity: item.quantity + 1 }
+            : item,
         );
       }
 
@@ -47,7 +70,9 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
 
     setCartItems((prevItems) =>
       prevItems.map((item) =>
-        item.itemUniqueId === itemUniqueId ? { ...item, quantity } : item,
+        item.itemUniqueId === itemUniqueId
+          ? { ...item, quantity }
+          : item,
       ),
     );
   };
