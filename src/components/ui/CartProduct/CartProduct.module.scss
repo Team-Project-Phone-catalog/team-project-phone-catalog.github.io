@@ -29,7 +29,7 @@
   font-size: 20px;
   cursor: pointer;
 
-  @include on-tablet() {
+  @include on-tablet {
     left: 24px;
     top: 50%;
   }
@@ -43,7 +43,7 @@
   height: 66px;
   align-self: center;
 
-  @include on-tablet() {
+  @include on-tablet {
     margin-left: 24px;
   }
 }
@@ -59,7 +59,7 @@
   grid-row: 1;
   align-self: center;
 
-  @include on-tablet() {
+  @include on-tablet {
     flex: 1;
   }
 }
@@ -80,7 +80,7 @@
   gap: 12px;
   margin-left: 16px;
 
-  @include on-tablet() {
+  @include on-tablet {
     margin-left: 0;
     gap: 24px;
   }
@@ -91,7 +91,7 @@
   align-items: center;
   gap: 12px;
 
-  @include on-tablet() {
+  @include on-tablet {
     gap: 16px;
   }
 }
@@ -130,7 +130,7 @@
   right: 16px;
   bottom: 16px;
 
-  @include on-tablet() {
+  @include on-tablet {
     position: static;
   }
 }

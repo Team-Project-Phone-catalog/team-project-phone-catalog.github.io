@@ -1,3 +1,5 @@
+@use '../../../styles/variables' as *;
+
 .wrapper {
   grid-column: 1 / -1;
   display: flex;
@@ -18,11 +20,11 @@
 .title {
   font-size: 24px;
   font-weight: 600;
-  color: #75767f;
+  color: $color-secondary;
   margin-bottom: 8px;
 }
 
 .message {
   font-size: 16px;
-  color: #f1f2f9;
+  color: $color-light-1;
 }
