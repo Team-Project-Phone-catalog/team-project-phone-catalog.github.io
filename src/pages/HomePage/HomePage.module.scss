@@ -139,7 +139,7 @@ $color-secondary: #89939a;
     display: block;
     width: 6px;
     height: 10px;
-    background-image: url('../../../../dist/img/icons/Vector-black.svg');
+    background-image: url('../../../../public/img/icons/Vector-black.svg');
     background-repeat: no-repeat;
     background-position: center;
     background-size: contain;
@@ -154,7 +154,7 @@ $color-secondary: #89939a;
     border-color: $color-icons;
 
     &::after {
-      background-image: url('../../../../dist/img/icons/Vector-white.svg');
+      background-image: url('../../../public/img/icons/Vector-white.svg');
     }
   }
 
@@ -164,7 +164,7 @@ $color-secondary: #89939a;
     opacity: 0.5;
 
     &::after {
-      background-image: url('../../../../dist/img/icons/Vector-black.svg');
+      background-image: url('../../../public/img/icons/Vector-black.svg');
     }
   }
 }
