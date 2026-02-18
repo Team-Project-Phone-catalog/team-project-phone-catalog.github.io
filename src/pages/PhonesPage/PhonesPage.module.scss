@@ -19,10 +19,6 @@
     @include on-desktop {
       padding: 0 32px;
     }
-
-    @include on-desktop {
-      padding: 0 32px;
-    }
   }
 
   .title {
@@ -142,5 +138,37 @@
     & > * {
       min-width: 0;
     }
+  }
+
+  &__pagination {
+    padding-bottom: 40px;
+  }
+
+  .pagination {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 40px;
+  }
+
+  .pageButton {
+    width: 32px;
+    height: 32px;
+
+    background: #161827;
+    border: #3b3e4a;
+    color: #f1f2f9;
+
+    cursor: pointer;
+
+    &:disabled {
+      opacity: 0.4;
+      cursor: default;
+    }
+  }
+
+  .active {
+    background: #905bff;
+    border-color: #905bff;
   }
 }

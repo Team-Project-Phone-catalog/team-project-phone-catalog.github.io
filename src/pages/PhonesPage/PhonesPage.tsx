@@ -11,6 +11,7 @@ export const PhonesPage = () => {
   const [phones, setPhones] = useState<Product[]>([]);
   const [sortBy, setSortBy] = useState<SortType>('newest');
   const [itemsOnPage, setItemsOnPage] = useState(16);
+  const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
     const loadPhones = async () => {
@@ -20,6 +21,13 @@ export const PhonesPage = () => {
 
     loadPhones();
   }, []);
+
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    });
+  }, [currentPage]);
 
   const sortedPhones = useMemo(() => {
     switch (sortBy) {
@@ -35,9 +43,14 @@ export const PhonesPage = () => {
     }
   }, [phones, sortBy]);
 
+  const totalPages = Math.ceil(sortedPhones.length / itemsOnPage);
+
   const visiblePhones = useMemo(() => {
-    return sortedPhones.slice(0, itemsOnPage);
-  }, [sortedPhones, itemsOnPage]);
+    const start = (currentPage - 1) * itemsOnPage;
+    const end = start + itemsOnPage;
+
+    return sortedPhones.slice(start, end);
+  }, [sortedPhones, itemsOnPage, currentPage]);
 
   return (
     <div className={s['phones-page']}>
@@ -55,9 +68,10 @@ export const PhonesPage = () => {
                 <select
                   className={s.select}
                   value={sortBy}
-                  onChange={(event) =>
-                    setSortBy(event.target.value as SortType)
-                  }
+                  onChange={(event) => {
+                    setSortBy(event.target.value as SortType);
+                    setCurrentPage(1);
+                  }}
                 >
                   <option value="newest">Newest</option>
                   <option value="alphabetically">Alphabetically</option>
@@ -71,7 +85,10 @@ export const PhonesPage = () => {
                 <select
                   className={s.select}
                   value={itemsOnPage}
-                  onChange={(event) => setItemsOnPage(+event.target.value)}
+                  onChange={(event) => {
+                    setItemsOnPage(+event.target.value);
+                    setCurrentPage(1);
+                  }}
                 >
                   <option value={16}>16</option>
                   <option value={32}>32</option>
@@ -101,7 +118,43 @@ export const PhonesPage = () => {
           ))}
         </section>
 
-        <section className={s['phones-page__pagination']}></section>
+        {totalPages > 1 && (
+          <section className={s['phones-page__pagination']}>
+            <div className={s.pagination}>
+              <button
+                disabled={currentPage === 1}
+                onClick={() => setCurrentPage((prev) => prev - 1)}
+                className={s.pageButton}
+              >
+                {'<'}
+              </button>
+
+              {[...Array(totalPages)].map((_, index) => {
+                const page = index + 1;
+
+                return (
+                  <button
+                    key={page}
+                    onClick={() => setCurrentPage(page)}
+                    className={`${s.pageButton} ${
+                      currentPage === page ? s.active : ''
+                    }`}
+                  >
+                    {page}
+                  </button>
+                );
+              })}
+
+              <button
+                disabled={currentPage === totalPages}
+                onClick={() => setCurrentPage((prev) => prev + 1)}
+                className={s.pageButton}
+              >
+                {'>'}
+              </button>
+            </div>
+          </section>
+        )}
       </div>
     </div>
   );
