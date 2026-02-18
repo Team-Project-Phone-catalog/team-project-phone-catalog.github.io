@@ -14,6 +14,7 @@ export const CartProduct: React.FC<Props> = ({
                                                  onIncrease,
                                                  onDecrease,
                                              }) => {
+    // @ts-ignore
     const imageUrl = product.images?.[0];
 
     return (
