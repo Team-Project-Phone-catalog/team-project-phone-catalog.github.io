@@ -1,3 +1,217 @@
+@mixin on-tablet {
+  @media (min-width: 640px) {
+    @content;
+  }
+}
+
+@mixin on-desktop {
+  @media (min-width: 1200px) {
+    @content;
+  }
+}
+
+$color-white: #ffffff;
+$color-black: #0f1111;
+$color-surface: #161827;
+$color-surface-light: #1f2130;
+$color-elements: #3b3e4a;
+$color-icons: #4a4d58;
+$color-gray: #75767f;
+$color-secondary: #89939a;
+$color-primary: #4219d0;
+$color-accent: #905cff;
+$color-green: #27ae60;
+$color-red: #eb5757;
+
+.loader-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100%;
+}
+
+.home {
+  color: $color-white;
+  min-height: 100vh;
+  padding-bottom: 60px;
+
+  @include on-tablet {
+    padding-bottom: 80px;
+  }
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding-inline: 16px;
+
+  @include on-tablet {
+    padding: 0 24px;
+  }
+
+  @include on-desktop {
+    padding: 0 32px;
+  }
+}
+
+.hero {
+  padding: 24px 0 40px;
+
+  @include on-tablet {
+    padding: 32px 0 48px;
+  }
+
+  @include on-desktop {
+    padding: 40px 0 56px;
+  }
+
+  &__title {
+    font-size: 32px;
+    font-weight: 800;
+    line-height: 1.2;
+    margin-bottom: 24px;
+    letter-spacing: -0.02em;
+
+    @include on-tablet {
+      font-size: 40px;
+      margin-bottom: 32px;
+    }
+
+    @include on-desktop {
+      font-size: 48px;
+    }
+  }
+}
+
+.section {
+  margin-top: 56px;
+
+  @include on-tablet {
+    margin-top: 64px;
+  }
+
+  @include on-desktop {
+    margin-top: 80px;
+  }
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+
+    @include on-tablet {
+      margin-bottom: 32px;
+    }
+  }
+
+  &__title {
+    font-size: 22px;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+
+    @include on-tablet {
+      font-size: 28px;
+    }
+
+    @include on-desktop {
+      font-size: 32px;
+    }
+  }
+
+  &__arrows {
+    display: flex;
+    gap: 16px;
+  }
+}
+
+.arrow-btn {
+  width: 32px;
+  height: 32px;
+  border: 1px solid $color-elements;
+  background: transparent;
+  color: $color-icons;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s;
+  font-size: 16px;
+  padding: 0;
+  font-weight: 600;
+
+  &:hover:not(:disabled) {
+    border-color: $color-icons;
+    background: $color-elements;
+    color: $color-white;
+  }
+
+  &:disabled {
+    border-color: $color-surface;
+    background: transparent;
+    color: $color-surface;
+    cursor: not-allowed;
+  }
+}
+
+.products-slider {
+  overflow-x: auto;
+  overflow-y: hidden;
+  margin: 0 -16px;
+  padding: 0 16px 4px;
+  scroll-behavior: smooth;
+
+  @include on-tablet {
+    margin: 0 -24px;
+    padding: 0 24px 4px;
+  }
+
+  @include on-desktop {
+    margin: 0 -32px;
+    padding: 0 32px 4px;
+  }
+
+  &::-webkit-scrollbar {
+    height: 0;
+  }
+
+  scrollbar-width: none;
+
+  &__track {
+    display: flex;
+    gap: 16px;
+
+    & > * {
+      flex: 0 0 212px;
+
+      @include on-tablet {
+        flex: 0 0 237px;
+      }
+
+      @include on-desktop {
+        flex: 0 0 272px;
+      }
+    }
+  }
+}
+
+.categories {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+
+  @include on-tablet {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+
+  @include on-desktop {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
 .category-card {
   display: flex;
   flex-direction: column;
@@ -29,22 +243,22 @@
     object-fit: cover;
     background-color: #6d6474;
     object-position: left center;
-  }
 
-  &__image-tablets {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    background-color: #8d8d92;
-    object-position: left center;
-  }
+    &-tablets {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      background-color: #8d8d92;
+      object-position: left center;
+    }
 
-  &__image-access {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    background-color: #973d5f;
-    object-position: left center;
+    &-access {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      background-color: #973d5f;
+      object-position: left center;
+    }
   }
 
   &__info {
