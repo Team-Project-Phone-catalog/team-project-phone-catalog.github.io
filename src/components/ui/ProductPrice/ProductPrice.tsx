@@ -7,10 +7,12 @@ interface Props {
 }
 
 export const ProductPrice: React.FC<Props> = ({ currentPrice, fullPrice }) => {
+  const hasDiscount = currentPrice < fullPrice;
+
   return (
     <p className="product-price">
       <span className="product-price__current">${currentPrice}</span>
-      <span className="product-price__full">${fullPrice}</span>
+      {hasDiscount && <span className="product-price__full">${fullPrice}</span>}
     </p>
   );
 };

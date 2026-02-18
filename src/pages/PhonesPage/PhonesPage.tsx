@@ -6,19 +6,29 @@ import { sortByNewest, sortByBestPrice } from '../../utils/productFilters';
 import { SortType } from '../../types/SortType';
 import s from './PhonesPage.module.scss';
 import { Breadcrumbs } from '../../components/ui/Breadcrumbs/Breadcrumbs.tsx';
+import { ProductSkeleton } from '../../components/ProductSkelet/ProductSkelet.tsx';
+import { NoResults } from '../../components/ui/NoResults/NoResults.tsx';
 
 export const PhonesPage = () => {
   const [phones, setPhones] = useState<Product[]>([]);
   const [sortBy, setSortBy] = useState<SortType>('newest');
   const [itemsOnPage, setItemsOnPage] = useState(16);
   const [currentPage, setCurrentPage] = useState(1);
+  const [isLoading, setIsLoading] = useState(true);
+
+  const [searchQuery, setSearchQuery] = useState('');
+  const [debouncedQuery, setDebouncedQuery] = useState('');
 
   useEffect(() => {
     const loadPhones = async () => {
-      const data = await getPhones();
-      setPhones(data.map((phone) => ({ ...phone, category: 'phones' })));
+      setIsLoading(true);
+      try {
+        const data = await getPhones();
+        setPhones(data.map((phone) => ({ ...phone, category: 'phones' })));
+      } finally {
+        setTimeout(() => setIsLoading(false), 600);
+      }
     };
-
     loadPhones();
   }, []);
 
@@ -29,19 +39,43 @@ export const PhonesPage = () => {
     });
   }, [currentPage]);
 
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedQuery(searchQuery);
+    }, 300);
+
+    return () => clearTimeout(handler);
+  }, [searchQuery]);
+
+  useEffect(() => {
+    if (searchQuery.length === 0 && debouncedQuery.length > 0) {
+      setIsLoading(true);
+
+      const timer = setTimeout(() => {
+        setIsLoading(false);
+      }, 500);
+
+      return () => clearTimeout(timer);
+    }
+  }, [searchQuery, debouncedQuery]);
+
+  const filteredPhones = useMemo(() => {
+    const query = debouncedQuery.toLowerCase().trim();
+    return phones.filter((phone) => phone.name.toLowerCase().includes(query));
+  }, [phones, debouncedQuery]);
+
   const sortedPhones = useMemo(() => {
+    const toSort = [...filteredPhones];
     switch (sortBy) {
       case 'alphabetically':
-        return [...phones].sort((a, b) => a.name.localeCompare(b.name));
-
+        return toSort.sort((a, b) => a.name.localeCompare(b.name));
       case 'bestPrice':
-        return sortByBestPrice(phones);
-
+        return sortByBestPrice(toSort);
       case 'newest':
       default:
-        return sortByNewest(phones);
+        return sortByNewest(toSort);
     }
-  }, [phones, sortBy]);
+  }, [filteredPhones, sortBy]);
 
   const totalPages = Math.ceil(sortedPhones.length / itemsOnPage);
 
@@ -57,14 +91,16 @@ export const PhonesPage = () => {
       <div className={s['phones-page__container']}>
         <Breadcrumbs />
         <h1 className={s.title}>Mobile phones</h1>
-        <p className={s.modelsCount}>{phones.length} models</p>
+
+        {!isLoading && (
+          <p className={s.modelsCount}>{filteredPhones.length} models</p>
+        )}
 
         <section className={s['phones-page__controls']}>
           <div className={s.controls}>
             <div className={s.controlsLeft}>
               <div className={s.control}>
                 <label className={s.label}>Sort by</label>
-
                 <select
                   className={s.select}
                   value={sortBy}
@@ -81,7 +117,6 @@ export const PhonesPage = () => {
 
               <div className={s.control}>
                 <label className={s.label}>Items on page</label>
-
                 <select
                   className={s.select}
                   value={itemsOnPage}
@@ -98,24 +133,35 @@ export const PhonesPage = () => {
             </div>
 
             <div className={s.search}>
-              <label className={s.label}>Looking for something?</label>
-
+              <label
+                className={s.label}
+                htmlFor="search-input"
+              >
+                Looking for something?
+              </label>
               <input
+                id="search-input"
                 type="text"
                 placeholder="Type here"
                 className={s.searchInput}
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
               />
             </div>
           </div>
         </section>
 
         <section className={s['phones-page__list']}>
-          {visiblePhones.map((phone) => (
-            <ProductCard
-              key={phone.id}
-              product={phone}
-            />
-          ))}
+          {isLoading ?
+            Array.from({ length: 8 }).map((_, i) => <ProductSkeleton key={i} />)
+          : visiblePhones.length > 0 ?
+            visiblePhones.map((phone) => (
+              <ProductCard
+                key={phone.id}
+                product={phone}
+              />
+            ))
+          : <NoResults category="phones" />}
         </section>
 
         {totalPages > 1 && (

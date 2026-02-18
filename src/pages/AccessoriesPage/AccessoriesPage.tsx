@@ -6,6 +6,8 @@ import { sortByNewest, sortByBestPrice } from '../../utils/productFilters';
 import { SortType } from '../../types/SortType';
 import s from './AccessoriesPage.module.scss';
 import { Breadcrumbs } from '../../components/ui/Breadcrumbs/Breadcrumbs.tsx';
+import { ProductSkeleton } from '../../components/ProductSkelet/ProductSkelet.tsx';
+import { NoResults } from '../../components/ui/NoResults/NoResults.tsx';
 
 export const AccessoriesPage = () => {
   const [accessories, setAccessories] = useState<Product[]>([]);
@@ -13,16 +15,27 @@ export const AccessoriesPage = () => {
   const [itemsOnPage, setItemsOnPage] = useState(16);
   const [currentPage, setCurrentPage] = useState(1);
 
+  const [isLoading, setIsLoading] = useState(true);
+
+  const [searchQuery, setSearchQuery] = useState('');
+  const [debouncedQuery, setDebouncedQuery] = useState('');
+
   useEffect(() => {
     const loadAccessories = async () => {
-      const data = await getAccessories();
+      setIsLoading(true);
 
-      setAccessories(
-        data.map((acc) => ({
-          ...acc,
-          category: 'accessories',
-        })),
-      );
+      try {
+        const data = await getAccessories();
+
+        setAccessories(
+          data.map((acc) => ({
+            ...acc,
+            category: 'accessories',
+          })),
+        );
+      } finally {
+        setTimeout(() => setIsLoading(false), 600);
+      }
     };
 
     loadAccessories();
@@ -35,19 +48,42 @@ export const AccessoriesPage = () => {
     });
   }, [currentPage]);
 
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedQuery(searchQuery);
+    }, 300);
+    return () => clearTimeout(handler);
+  }, [searchQuery]);
+
+  useEffect(() => {
+    if (searchQuery.length === 0 && debouncedQuery.length > 0) {
+      setIsLoading(true);
+
+      const timer = setTimeout(() => {
+        setIsLoading(false);
+      }, 500);
+
+      return () => clearTimeout(timer);
+    }
+  }, [searchQuery, debouncedQuery]);
+
+  const filteredAccessories = useMemo(() => {
+    const query = debouncedQuery.toLowerCase().trim();
+    return accessories.filter((acc) => acc.name.toLowerCase().includes(query));
+  }, [accessories, debouncedQuery]);
+
   const sortedAccessories = useMemo(() => {
+    const toSort = [...filteredAccessories];
     switch (sortBy) {
       case 'alphabetically':
-        return [...accessories].sort((a, b) => a.name.localeCompare(b.name));
-
+        return toSort.sort((a, b) => a.name.localeCompare(b.name));
       case 'bestPrice':
-        return sortByBestPrice(accessories);
-
+        return sortByBestPrice(toSort);
       case 'newest':
       default:
-        return sortByNewest(accessories);
+        return sortByNewest(toSort);
     }
-  }, [accessories, sortBy]);
+  }, [filteredAccessories, sortBy]);
 
   const totalPages = Math.ceil(sortedAccessories.length / itemsOnPage);
 
@@ -64,14 +100,16 @@ export const AccessoriesPage = () => {
         <Breadcrumbs />
 
         <h1 className={s.title}>Accessories</h1>
-        <p className={s.modelsCount}>{accessories.length} models</p>
+
+        {!isLoading && (
+          <p className={s.modelsCount}>{filteredAccessories.length} models</p>
+        )}
 
         <section className={s['accessories-page__controls']}>
           <div className={s.controls}>
             <div className={s.controlsLeft}>
               <div className={s.control}>
                 <label className={s.label}>Sort by</label>
-
                 <select
                   className={s.select}
                   value={sortBy}
@@ -88,7 +126,6 @@ export const AccessoriesPage = () => {
 
               <div className={s.control}>
                 <label className={s.label}>Items on page</label>
-
                 <select
                   className={s.select}
                   value={itemsOnPage}
@@ -106,23 +143,30 @@ export const AccessoriesPage = () => {
 
             <div className={s.search}>
               <label className={s.label}>Looking for something?</label>
-
               <input
                 type="text"
                 placeholder="Type here"
                 className={s.searchInput}
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
               />
             </div>
           </div>
         </section>
 
         <section className={s['accessories-page__list']}>
-          {visibleAccessories.map((accessory) => (
-            <ProductCard
-              key={accessory.id}
-              product={accessory}
-            />
-          ))}
+          {isLoading ?
+            Array.from({ length: 8 }).map((_, index) => (
+              <ProductSkeleton key={index} />
+            ))
+          : visibleAccessories.length > 0 ?
+            visibleAccessories.map((accessory) => (
+              <ProductCard
+                key={accessory.id}
+                product={accessory}
+              />
+            ))
+          : <NoResults category="accessories" />}
         </section>
 
         {totalPages > 1 && (

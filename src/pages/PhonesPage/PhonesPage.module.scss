@@ -1,6 +1,14 @@
 @use '../../styles/utils' as *;
 @use '../../styles/variables.scss' as *;
 
+.loader-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100%;
+}
+
 .phones-page {
   &__container {
     box-sizing: border-box;

@@ -6,6 +6,8 @@ import { sortByNewest, sortByBestPrice } from '../../utils/productFilters';
 import { SortType } from '../../types/SortType';
 import s from './TabletsPage.module.scss';
 import { Breadcrumbs } from '../../components/ui/Breadcrumbs/Breadcrumbs.tsx';
+import { ProductSkeleton } from '../../components/ProductSkelet/ProductSkelet.tsx';
+import { NoResults } from '../../components/ui/NoResults/NoResults.tsx';
 
 export const TabletsPage = () => {
   const [tablets, setTablets] = useState<Product[]>([]);
@@ -13,16 +15,27 @@ export const TabletsPage = () => {
   const [itemsOnPage, setItemsOnPage] = useState(16);
   const [currentPage, setCurrentPage] = useState(1);
 
+  const [isLoading, setIsLoading] = useState(true);
+
+  const [searchQuery, setSearchQuery] = useState('');
+  const [debouncedQuery, setDebouncedQuery] = useState('');
+
   useEffect(() => {
     const loadTablets = async () => {
-      const data = await getTablets();
+      setIsLoading(true);
 
-      setTablets(
-        data.map((tablet) => ({
-          ...tablet,
-          category: 'tablets',
-        })),
-      );
+      try {
+        const data = await getTablets();
+
+        setTablets(
+          data.map((tablet) => ({
+            ...tablet,
+            category: 'tablets',
+          })),
+        );
+      } finally {
+        setTimeout(() => setIsLoading(false), 600);
+      }
     };
 
     loadTablets();
@@ -35,19 +48,45 @@ export const TabletsPage = () => {
     });
   }, [currentPage]);
 
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedQuery(searchQuery);
+    }, 300);
+
+    return () => clearTimeout(handler);
+  }, [searchQuery]);
+
+  useEffect(() => {
+    if (searchQuery.length === 0 && debouncedQuery.length > 0) {
+      setIsLoading(true);
+
+      const timer = setTimeout(() => {
+        setIsLoading(false);
+      }, 500);
+
+      return () => clearTimeout(timer);
+    }
+  }, [searchQuery, debouncedQuery]);
+
+  const filteredTablets = useMemo(() => {
+    const query = debouncedQuery.toLowerCase().trim();
+    return tablets.filter((tablet) =>
+      tablet.name.toLowerCase().includes(query),
+    );
+  }, [tablets, debouncedQuery]);
+
   const sortedTablets = useMemo(() => {
+    const toSort = [...filteredTablets];
     switch (sortBy) {
       case 'alphabetically':
-        return [...tablets].sort((a, b) => a.name.localeCompare(b.name));
-
+        return toSort.sort((a, b) => a.name.localeCompare(b.name));
       case 'bestPrice':
-        return sortByBestPrice(tablets);
-
+        return sortByBestPrice(toSort);
       case 'newest':
       default:
-        return sortByNewest(tablets);
+        return sortByNewest(toSort);
     }
-  }, [tablets, sortBy]);
+  }, [filteredTablets, sortBy]);
 
   const totalPages = Math.ceil(sortedTablets.length / itemsOnPage);
 
@@ -64,14 +103,16 @@ export const TabletsPage = () => {
         <Breadcrumbs />
 
         <h1 className={s.title}>Tablets</h1>
-        <p className={s.modelsCount}>{tablets.length} models</p>
+
+        {!isLoading && (
+          <p className={s.modelsCount}>{filteredTablets.length} models</p>
+        )}
 
         <section className={s['tablets-page__controls']}>
           <div className={s.controls}>
             <div className={s.controlsLeft}>
               <div className={s.control}>
                 <label className={s.label}>Sort by</label>
-
                 <select
                   className={s.select}
                   value={sortBy}
@@ -88,7 +129,6 @@ export const TabletsPage = () => {
 
               <div className={s.control}>
                 <label className={s.label}>Items on page</label>
-
                 <select
                   className={s.select}
                   value={itemsOnPage}
@@ -105,24 +145,35 @@ export const TabletsPage = () => {
             </div>
 
             <div className={s.search}>
-              <label className={s.label}>Looking for something?</label>
-
+              <label
+                className={s.label}
+                htmlFor="search-input"
+              >
+                Looking for something?
+              </label>
               <input
+                id="search-input"
                 type="text"
                 placeholder="Type here"
                 className={s.searchInput}
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
               />
             </div>
           </div>
         </section>
 
         <section className={s['tablets-page__list']}>
-          {visibleTablets.map((tablet) => (
-            <ProductCard
-              key={tablet.id}
-              product={tablet}
-            />
-          ))}
+          {isLoading ?
+            Array.from({ length: 8 }).map((_, i) => <ProductSkeleton key={i} />)
+          : visibleTablets.length > 0 ?
+            visibleTablets.map((tablet) => (
+              <ProductCard
+                key={tablet.id}
+                product={tablet}
+              />
+            ))
+          : <NoResults category="tablets" />}
         </section>
 
         {totalPages > 1 && (

@@ -1,13 +1,14 @@
+@use '../../../styles/variables' as *;
 @import '../../../styles/utils';
 
 .block {
-  border: 1px solid #3b3e4a;
+  border: 1px solid $color-border;
   padding: 24px;
   width: 100%;
-  background-color: #0f1121;
+  background-color: $bg-main;
 
   .price {
-    color: #f1f2f9;
+    color: $color-light-1;
     font-size: 32px;
     font-weight: 800;
     font-family: Mont;
@@ -18,7 +19,7 @@
   }
 
   .info {
-    color: #75767f;
+    color: $color-secondary;
     font-size: 14px;
     text-align: center;
     line-height: 21px;
@@ -32,12 +33,12 @@
     width: 100%;
     margin-top: 24px;
     padding-top: 24px;
-    border-top: 1px solid #3b3e4a;
+    border-top: 1px solid $color-border;
   }
 
   .buttonCheck {
-    color: #f1f2f9;
-    background-color: #905bff;
+    color: $color-light-1;
+    background-color: $color-accent;
     border: none;
     line-height: 21px;
     padding: 10px 24px;
@@ -45,14 +46,14 @@
     cursor: pointer;
     width: 100%;
     letter-spacing: 0;
-    transition: background-color 0.3s;
+    transition: background-color $transition-default;
 
     &:hover {
-      background-color: #7c4ce0;
+      background-color: $color-accent;
     }
 
     &:disabled {
-      background-color: #4a4d58;
+      background-color: $color-icons;
       cursor: not-allowed;
     }
   }

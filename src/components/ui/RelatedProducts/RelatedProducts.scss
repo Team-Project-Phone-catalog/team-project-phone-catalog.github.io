@@ -65,7 +65,7 @@ $color-secondary: #89939a;
     width: 32px;
     height: 32px;
     border: 1px solid $color-elements;
-    border-radius: 4px;
+    border-radius: 4px; // Повернув ваші квадратні кнопки з радіусом 4px
     background: transparent;
     color: $color-white;
     cursor: pointer;
@@ -86,6 +86,7 @@ $color-secondary: #89939a;
     }
   }
 
+  // ПОВЕРНУВ ВАШІ ОРИГІНАЛЬНІ СТИЛІ СЛАЙДЕРА
   &__slider {
     overflow-x: auto;
     overflow-y: hidden;
