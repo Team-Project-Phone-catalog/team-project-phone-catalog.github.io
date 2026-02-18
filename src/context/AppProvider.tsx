@@ -1,9 +1,4 @@
-import React, {
-  useState,
-  ReactNode,
-  useCallback,
-  useEffect,
-} from 'react';
+import React, { useState, ReactNode, useCallback, useEffect } from 'react';
 import { Product } from '../types/Product';
 import { CartItem } from '../types/Cart';
 import { AppContext } from './AppContext';
@@ -46,9 +41,9 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
 
       if (existingItem) {
         return prevItems.map((item) =>
-          item.itemUniqueId === itemUniqueId
-            ? { ...item, quantity: item.quantity + 1 }
-            : item,
+          item.itemUniqueId === itemUniqueId ?
+            { ...item, quantity: item.quantity + 1 }
+          : item,
         );
       }
 
@@ -70,9 +65,7 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
 
     setCartItems((prevItems) =>
       prevItems.map((item) =>
-        item.itemUniqueId === itemUniqueId
-          ? { ...item, quantity }
-          : item,
+        item.itemUniqueId === itemUniqueId ? { ...item, quantity } : item,
       ),
     );
   };
