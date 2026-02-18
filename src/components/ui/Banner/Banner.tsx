@@ -35,27 +35,45 @@ export const Banner = () => {
           }}
         >
           <SwiperSlide>
-            <img
-              src="img/main-banner.png"
-              alt="iPhone 14 Pro"
-              className="banner__image"
-            />
+            <picture>
+              <source
+                media="(max-width: 639px)"
+                srcSet="img/image-s-logo-x2.png"
+              />
+              <img
+                src="img/main-banner.png"
+                alt="iPhone 14 Pro"
+                className="banner__image"
+              />
+            </picture>
           </SwiperSlide>
 
           <SwiperSlide>
-            <img
-              src="img/banner-phones.png"
-              alt="Phones"
-              className="banner__image"
-            />
+            <picture>
+              <source
+                media="(max-width: 639px)"
+                srcSet="img/image 16.png"
+              />
+              <img
+                src="img/banner-phones.png"
+                alt="Phones"
+                className="banner__image"
+              />
+            </picture>
           </SwiperSlide>
 
           <SwiperSlide>
-            <img
-              src="img/banner-accessories.png"
-              alt="Accessories"
-              className="banner__image"
-            />
+            <picture>
+              <source
+                media="(max-width: 639px)"
+                srcSet="img/banner-accessories.png"
+              />
+              <img
+                src="img/banner-accessories.png"
+                alt="Accessories"
+                className="banner__image"
+              />
+            </picture>
           </SwiperSlide>
         </Swiper>
       </div>
