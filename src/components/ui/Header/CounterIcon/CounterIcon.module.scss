@@ -1,0 +1,40 @@
+.wrapper {
+  position: relative;
+  display: flex;
+  line-height: 0;
+}
+
+.icon {
+  width: 16px;
+  height: 16px;
+  display: block;
+}
+
+.badge {
+  position: absolute;
+  top: -7px;
+  right: -7px;
+
+  width: 16px;
+  height: 16px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background-color: #eb5757;
+  color: #f1f2f9;
+  border: 1px solid #0f1121;
+  border-radius: 50%;
+
+  padding: 0;
+  box-sizing: border-box;
+
+  font-size: 8px;
+  font-weight: 700;
+  line-height: 1;
+  text-align: center;
+
+  overflow: hidden;
+  white-space: nowrap;
+}
