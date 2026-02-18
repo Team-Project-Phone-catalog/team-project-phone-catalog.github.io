@@ -9,7 +9,7 @@ interface Props {
 export const CartItem: React.FC<Props> = ({ totalPrice, totalItems }) => {
   return (
     <div className={s.block}>
-      <h2 className={s.price}>{totalPrice}</h2>
+      <h2 className={s.price}>${totalPrice}</h2>
       <p className={s.info}>
         Total for {totalItems} {totalItems === 1 ? 'item' : 'items'}
       </p>
