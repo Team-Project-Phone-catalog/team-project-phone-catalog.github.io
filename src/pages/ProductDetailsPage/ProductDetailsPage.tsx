@@ -1,5 +1,5 @@
 import './ProductDetailsPage.scss';
-import { ProductCard } from '../../components/ui/Product/ProductCard/ProductCard.tsx';
+import {ProductPage} from '../../components/ui/Product/ProductCard/ProductPage.tsx';
 import { BackButton } from '../../components/ui/Buttons/Back/BackButton.tsx';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
@@ -97,7 +97,7 @@ export const ProductDetailsPage = () => {
         <h1 className="product-title">{product.name}</h1>
       </div>
 
-      <ProductCard
+      <ProductPage
         product={product}
         onCapacityChange={handleCapacityUpdate}
       />

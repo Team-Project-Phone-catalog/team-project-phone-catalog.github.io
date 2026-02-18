@@ -1,12 +1,11 @@
 .TechSpecs {
-  margin-top: 56px;
-
   &__title {
     font-size: 20px;
     color: #f1f2f9;
     font-weight: 700;
     line-height: 100%;
     letter-spacing: 0%;
+    margin-top: 10px;
 
     &::after {
       content: '';
@@ -16,7 +15,6 @@
       background-color: #3b3e4a;
       margin-top: 16px;
       margin-bottom: 30px;
-
     }
   }
 

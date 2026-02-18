@@ -6,67 +6,91 @@ import { sortByNewest, sortByBestPrice } from '../../utils/productFilters';
 import { SortType } from '../../types/SortType';
 import s from './AccessoriesPage.module.scss';
 import { Breadcrumbs } from '../../components/ui/Breadcrumbs/Breadcrumbs.tsx';
-import { Loader } from '../../components/ui/Loader/Loader.tsx';
+import { ProductSkeleton } from '../../components/ProductSkelet/ProductSkelet.tsx';
+import { NoResults } from '../../components/ui/NoResults/NoResults.tsx';
 
 export const AccessoriesPage = () => {
   const [accessories, setAccessories] = useState<Product[]>([]);
   const [sortBy, setSortBy] = useState<SortType>('newest');
   const [itemsOnPage, setItemsOnPage] = useState(16);
-  const [isLoading, setIsLoading] = useState(true); // ← true одразу
+  const [isLoading, setIsLoading] = useState(true);
+
+  const [searchQuery, setSearchQuery] = useState('');
+  const [debouncedQuery, setDebouncedQuery] = useState('');
 
   useEffect(() => {
     const loadAccessories = async () => {
-      const data = await getAccessories();
-      setAccessories(data.map((acc) => ({ ...acc, category: 'accessories' })));
-
-      setTimeout(() => {
-        setIsLoading(false);
-      }, 1000);
+      setIsLoading(true);
+      try {
+        const data = await getAccessories();
+        setAccessories(
+          data.map((acc) => ({ ...acc, category: 'accessories' })),
+        );
+      } finally {
+        setTimeout(() => setIsLoading(false), 600);
+      }
     };
     loadAccessories();
   }, []);
 
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedQuery(searchQuery);
+    }, 300);
+    return () => clearTimeout(handler);
+  }, [searchQuery]);
+
+  useEffect(() => {
+    if (searchQuery.length === 0 && debouncedQuery.length > 0) {
+      setIsLoading(true);
+      const timer = setTimeout(() => {
+        setIsLoading(false);
+      }, 500);
+      return () => clearTimeout(timer);
+    }
+  }, [searchQuery]);
+
+  const filteredAccessories = useMemo(() => {
+    const query = debouncedQuery.toLowerCase().trim();
+    return accessories.filter((acc) => acc.name.toLowerCase().includes(query));
+  }, [accessories, debouncedQuery]);
+
   const sortedAccessories = useMemo(() => {
+    const toSort = [...filteredAccessories];
     switch (sortBy) {
       case 'alphabetically':
-        return [...accessories].sort((a, b) => a.name.localeCompare(b.name));
+        return toSort.sort((a, b) => a.name.localeCompare(b.name));
       case 'bestPrice':
-        return sortByBestPrice(accessories);
+        return sortByBestPrice(toSort);
       case 'newest':
       default:
-        return sortByNewest(accessories);
+        return sortByNewest(toSort);
     }
-  }, [accessories, sortBy]);
+  }, [filteredAccessories, sortBy]);
 
   const visibleAccessories = useMemo(() => {
     return sortedAccessories.slice(0, itemsOnPage);
   }, [sortedAccessories, itemsOnPage]);
 
-  if (isLoading)
-    return (
-      <div className={s['loader-wrapper']}>
-        <Loader />
-      </div>
-    );
   return (
     <div className={s['accessories-page']}>
       <div className={s['accessories-page__container']}>
         <Breadcrumbs />
         <h1 className={s.title}>Accessories</h1>
-        <p className={s.modelsCount}>{accessories.length} models</p>
+
+        {!isLoading && (
+          <p className={s.modelsCount}>{filteredAccessories.length} models</p>
+        )}
 
         <section className={s['accessories-page__controls']}>
           <div className={s.controls}>
             <div className={s.controlsLeft}>
               <div className={s.control}>
                 <label className={s.label}>Sort by</label>
-
                 <select
                   className={s.select}
                   value={sortBy}
-                  onChange={(event) =>
-                    setSortBy(event.target.value as SortType)
-                  }
+                  onChange={(e) => setSortBy(e.target.value as SortType)}
                 >
                   <option value="newest">Newest</option>
                   <option value="alphabetically">Alphabetically</option>
@@ -76,11 +100,10 @@ export const AccessoriesPage = () => {
 
               <div className={s.control}>
                 <label className={s.label}>Items on page</label>
-
                 <select
                   className={s.select}
                   value={itemsOnPage}
-                  onChange={(event) => setItemsOnPage(+event.target.value)}
+                  onChange={(e) => setItemsOnPage(+e.target.value)}
                 >
                   <option value={16}>16</option>
                   <option value={32}>32</option>
@@ -91,26 +114,31 @@ export const AccessoriesPage = () => {
 
             <div className={s.search}>
               <label className={s.label}>Looking for something?</label>
-
               <input
                 type="text"
                 placeholder="Type here"
                 className={s.searchInput}
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
               />
             </div>
           </div>
         </section>
 
         <section className={s['accessories-page__list']}>
-          {visibleAccessories.map((accessory) => (
-            <ProductCard
-              key={accessory.id}
-              product={accessory}
-            />
-          ))}
+          {isLoading ?
+            Array.from({ length: 8 }).map((_, index) => (
+              <ProductSkeleton key={index} />
+            ))
+          : visibleAccessories.length > 0 ?
+            visibleAccessories.map((accessory) => (
+              <ProductCard
+                key={accessory.id}
+                product={accessory}
+              />
+            ))
+          : <NoResults category="accessories" />}
         </section>
-
-        <section className={s['accessories-page__pagination']}></section>
       </div>
     </div>
   );

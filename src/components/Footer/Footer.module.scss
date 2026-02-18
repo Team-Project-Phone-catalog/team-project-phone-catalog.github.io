@@ -1,9 +1,19 @@
+@use '../../styles/utils' as *;
 @import '../../styles/utils';
 
 .footer {
   border-top: 1px solid #3b3e4a;
   background: #0f1121;
   padding: 32px 16px;
+  margin-top: 56px;
+
+  @include on-tablet {
+    margin-top: 64px;
+  }
+
+  @include on-desktop {
+    margin-top: 80px;
+  }
 }
 
 .container {
@@ -13,9 +23,7 @@
 }
 
 .logo {
-  display: flex;
   height: 32px;
-  align-self: flex-start;
 }
 
 .nav {
@@ -29,7 +37,7 @@
     letter-spacing: 0.04em;
     text-transform: uppercase;
 
-    color: #f1f2f9;
+    color: #89939a;
     text-decoration: none;
 
     transition: color 0.3s ease;
@@ -68,7 +76,9 @@
   }
 }
 
-@include on-tablet {
+/* TABLETЖ */
+
+@include on-tablet() {
   .container {
     flex-direction: row;
     justify-content: space-between;
@@ -81,18 +91,26 @@
   }
 }
 
+/* DESKTOP */
+
 @include on-desktop {
   .footer {
-    padding-block: 32px;
-    padding-inline: clamp(32px, calc(32px + (100vw - 1200px) * 0.5), 152px);
+    padding: 32px 152px;
   }
 
   .container {
     max-width: 1200px;
+    position: relative;
     margin: 0 auto;
   }
 
   .nav {
     gap: 64px;
   }
+}
+
+.logoLink {
+  position: relative;
+  z-index: 5;
+  cursor: pointer;
 }

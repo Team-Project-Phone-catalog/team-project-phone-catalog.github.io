@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import './ProductGallery.scss';
 
 type Props = {
@@ -15,13 +15,6 @@ export const ProductGallery: React.FC<Props> = ({ images, name }) => {
 
   return (
     <div className="gallery">
-      <div className="gallery__main">
-        <img
-          src={`/${activeImage}`}
-          alt={name}
-        />
-      </div>
-
       <div className="gallery__thumbs">
         {images.map((img, index) => (
           <div
@@ -31,10 +24,17 @@ export const ProductGallery: React.FC<Props> = ({ images, name }) => {
           >
             <img
               src={`/${img}`}
-              alt={`${name} ${index + 1}`}
+              alt={`${name} thumbnail ${index + 1}`}
             />
           </div>
         ))}
+      </div>
+
+      <div className="gallery__main">
+        <img
+          src={`/${activeImage}`}
+          alt={name}
+        />
       </div>
     </div>
   );
