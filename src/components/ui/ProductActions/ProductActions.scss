@@ -22,6 +22,11 @@
     text-align: center;
     cursor: pointer;
     border: none;
+
+    &:disabled,
+    &.in-cart {
+      background-color: $color-surface-2;
+    }
   }
 
   &__favorites {
@@ -46,6 +51,8 @@
 
     &--active {
       background-image: url(../../../../public/img/heart-red.svg);
+      background-color: $color-surface-1;
+      border: 1px solid $color-elements;
     }
   }
 }
