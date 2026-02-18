@@ -1,46 +1,36 @@
 import { Product, ProductDetails } from '../types/Product';
 
-export const getPhones = (): Promise<Product[]> => {
-  return fetch('/api/phones.json').then((response) => {
-    return response.json();
-  });
+const BASE_URL = 'https://phone-catalog-backend-k2qc.onrender.com';
+
+export const getProducts = async (): Promise<Product[]> => {
+  const response = await fetch(`${BASE_URL}/api/products`);
+  return response.json();
 };
 
-export const getTablets = (): Promise<Product[]> => {
-  return fetch('/api/tablets.json').then((response) => {
-    return response.json();
-  });
+export const getPhones = async (): Promise<Product[]> => {
+  const products = await getProducts();
+  return products.filter((product) => product.category === 'phones');
 };
 
-export const getAccessories = (): Promise<Product[]> => {
-  return fetch('/api/accessories.json').then((response) => {
-    return response.json();
-  });
+export const getTablets = async (): Promise<Product[]> => {
+  const products = await getProducts();
+  return products.filter((product) => product.category === 'tablets');
 };
 
-export const getProducts = (): Promise<Product[]> => {
-  return fetch('/api/products.json').then((response) => {
-    return response.json();
-  });
+export const getAccessories = async (): Promise<Product[]> => {
+  const products = await getProducts();
+  return products.filter((product) => product.category === 'accessories');
 };
 
 export const getProductDetails = async (
   category: string,
   itemId: string,
 ): Promise<ProductDetails> => {
-  const response = await fetch(`/api/${category}.json`); // ← весь масив
+  const response = await fetch(`${BASE_URL}/api/products/${itemId}`);
 
   if (!response.ok) {
-    throw new Error(`Category not found: ${category}`);
-  }
-
-  const products: ProductDetails[] = await response.json();
-
-  const found = products.find((p) => p.id === itemId); // ← шукаємо по id
-
-  if (!found) {
     throw new Error(`Product not found: ${itemId}`);
   }
 
-  return found;
+  return response.json();
 };
