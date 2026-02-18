@@ -1,3 +1,5 @@
+@use '../../../styles/variables' as *;
+
 .product-actions {
   display: flex;
   justify-content: space-between;
@@ -14,8 +16,8 @@
     font-size: 14px;
     line-height: 21px;
     letter-spacing: 0;
-    color: #f1f2f9;
-    background-color: #905bff;
+    color: $color-light-1;
+    background-color: $color-accent;
     text-decoration: none;
     text-align: center;
     cursor: pointer;
@@ -26,7 +28,7 @@
     box-sizing: border-box;
     width: 40px;
     height: 40px;
-    background-color: #323542;
+    background-color: $bg-card;
     background-image: url(../../../../public/img/heart.svg);
     background-repeat: no-repeat;
     background-position: center;
@@ -34,13 +36,14 @@
     border: none;
 
     &:focus {
-      outline: 2px solid #905bff;
+      outline: 2px solid $color-accent;
       outline-offset: 2px;
     }
 
     &:focus:not(:focus-visible) {
       outline: none;
     }
+
     &--active {
       background-image: url(../../../../public/img/heart-red.svg);
     }

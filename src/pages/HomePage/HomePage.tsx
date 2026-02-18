@@ -1,5 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
+import { Link } from 'react-router-dom';
 import styles from './HomePage.module.scss';
+import { Banner } from '../../components/ui/Banner/Banner';
 import { ProductCard } from '../ProductCard';
 import {
   getAccessories,
@@ -18,9 +20,29 @@ export const HomePage: React.FC = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
+  const newestSliderRef = useRef<HTMLDivElement>(null);
+  const hotSliderRef = useRef<HTMLDivElement>(null);
+
   const allProducts = [...phones, ...tablets, ...accessories];
   const newestProducts = sortByNewest(products).slice(0, 12);
   const bestPriceProducts = sortByBestPrice(allProducts).slice(0, 12);
+
+  const scroll = (
+    ref: React.RefObject<HTMLDivElement | null>,
+    direction: 'left' | 'right',
+  ) => {
+    if (ref.current) {
+      const cardWidth =
+        ref.current.querySelector('article')?.offsetWidth || 272;
+      const gap = 16;
+      const scrollAmount = cardWidth + gap;
+
+      ref.current.scrollBy({
+        left: direction === 'left' ? -scrollAmount : scrollAmount,
+        behavior: 'smooth',
+      });
+    }
+  };
 
   useEffect(() => {
     Promise.all([
@@ -54,60 +76,37 @@ export const HomePage: React.FC = () => {
     <main className={styles.home}>
       <div className={styles.container}>
         <section className={styles.hero}>
-          <h1 className={styles.hero__title}>Welcome to Nice Gadgets store!</h1>
-
-          <div className={styles.hero__slider}>
-            <button
-              className={`${styles.hero__arrow} ${styles['hero__arrow--left']}`}
-              aria-label="Previous slide"
-            />
-
-            <div className={styles.hero__banner}>
-              <img
-                src="/img/main-banner.png"
-                alt="iPhone 14 Pro promotion"
-                className={styles['hero__banner-img']}
-              />
-            </div>
-
-            <button
-              className={`${styles.hero__arrow} ${styles['hero__arrow--right']}`}
-              aria-label="Next slide"
-            />
-          </div>
-
-          <div className={styles.hero__dots}>
-            <button
-              className={`${styles.hero__dot} ${styles['hero__dot--active']}`}
-              aria-label="Slide 1"
-            />
-            <button
-              className={styles.hero__dot}
-              aria-label="Slide 2"
-            />
-            <button
-              className={styles.hero__dot}
-              aria-label="Slide 3"
-            />
-          </div>
+          <h1 className={styles['hero__title']}>
+            Welcome to Nice Gadgets store!
+          </h1>
+          <Banner />
         </section>
 
         <section className={styles.section}>
-          <div className={styles.section__header}>
-            <h2 className={styles.section__title}>Brand new models</h2>
-            <div className={styles.section__arrows}>
+          <div className={styles['section__header']}>
+            <h2 className={styles['section__title']}>Brand new models</h2>
+            <div className={styles['section__arrows']}>
               <button
                 className={styles['arrow-btn']}
                 aria-label="Previous"
-              />
+                onClick={() => scroll(newestSliderRef, 'left')}
+              >
+                {'<'}
+              </button>
               <button
                 className={styles['arrow-btn']}
                 aria-label="Next"
-              />
+                onClick={() => scroll(newestSliderRef, 'right')}
+              >
+                {'>'}
+              </button>
             </div>
           </div>
 
-          <div className={styles['products-slider']}>
+          <div
+            className={styles['products-slider']}
+            ref={newestSliderRef}
+          >
             <div className={styles['products-slider__track']}>
               {newestProducts.map((product) => (
                 <ProductCard
@@ -120,10 +119,13 @@ export const HomePage: React.FC = () => {
         </section>
 
         <section className={styles.section}>
-          <h2 className={styles.section__title}>Shop by category</h2>
+          <h2 className={styles['section__title']}>Shop by category</h2>
 
           <div className={styles.categories}>
-            <article className={styles['category-card']}>
+            <Link
+              to="/phones"
+              className={styles['category-card']}
+            >
               <div className={styles['category-card__image-wrapper']}>
                 <img
                   src="/img/category-phones.png"
@@ -139,9 +141,12 @@ export const HomePage: React.FC = () => {
                   {phones.length} models
                 </p>
               </div>
-            </article>
+            </Link>
 
-            <article className={styles['category-card']}>
+            <Link
+              to="/tablets"
+              className={styles['category-card']}
+            >
               <div className={styles['category-card__image-wrapper']}>
                 <img
                   src="/img/category-tablets.png"
@@ -155,9 +160,12 @@ export const HomePage: React.FC = () => {
                   {tablets.length} models
                 </p>
               </div>
-            </article>
+            </Link>
 
-            <article className={styles['category-card']}>
+            <Link
+              to="/accessories"
+              className={styles['category-card']}
+            >
               <div className={styles['category-card__image-wrapper']}>
                 <img
                   src="/img/category-accessories.png"
@@ -171,26 +179,35 @@ export const HomePage: React.FC = () => {
                   {accessories.length} models
                 </p>
               </div>
-            </article>
+            </Link>
           </div>
         </section>
 
         <section className={styles.section}>
-          <div className={styles.section__header}>
-            <h2 className={styles.section__title}>Hot prices</h2>
-            <div className={styles.section__arrows}>
+          <div className={styles['section__header']}>
+            <h2 className={styles['section__title']}>Hot prices</h2>
+            <div className={styles['section__arrows']}>
               <button
                 className={styles['arrow-btn']}
                 aria-label="Previous"
-              />
+                onClick={() => scroll(hotSliderRef, 'left')}
+              >
+                {'<'}
+              </button>
               <button
                 className={styles['arrow-btn']}
                 aria-label="Next"
-              />
+                onClick={() => scroll(hotSliderRef, 'right')}
+              >
+                {'>'}
+              </button>
             </div>
           </div>
 
-          <div className={styles['products-slider']}>
+          <div
+            className={styles['products-slider']}
+            ref={hotSliderRef}
+          >
             <div className={styles['products-slider__track']}>
               {bestPriceProducts.map((product) => (
                 <ProductCard
