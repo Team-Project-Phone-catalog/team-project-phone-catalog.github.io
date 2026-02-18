@@ -13,7 +13,11 @@ export const ProductsSlider: React.FC<Props> = ({ title, products }) => {
     isAtStart: true,
     isAtEnd: false,
   });
+  const [isMoved, setIsMoved] = useState(false);
   const sliderRef = useRef<HTMLDivElement>(null);
+  const isDragging = useRef(false);
+  const startX = useRef(0);
+  const scrollLeftStart = useRef(0);
 
   const updateScrollState = () => {
     if (sliderRef.current) {
@@ -28,12 +32,48 @@ export const ProductsSlider: React.FC<Props> = ({ title, products }) => {
   const scroll = (direction: 'left' | 'right') => {
     if (sliderRef.current) {
       const card = sliderRef.current.querySelector('article');
-      const scrollAmount = (card?.offsetWidth || 272) + 16;
+      const step = (card?.offsetWidth || 272) + 16;
 
       sliderRef.current.scrollBy({
-        left: direction === 'left' ? -scrollAmount : scrollAmount,
+        left: direction === 'left' ? -step : step,
         behavior: 'smooth',
       });
+    }
+  };
+
+  const handleMouseDown = (e: React.MouseEvent) => {
+    if (!sliderRef.current) return;
+    isDragging.current = true;
+    setIsMoved(false);
+    startX.current = e.pageX - sliderRef.current.offsetLeft;
+    scrollLeftStart.current = sliderRef.current.scrollLeft;
+    sliderRef.current.style.cursor = 'grabbing';
+    sliderRef.current.style.scrollBehavior = 'auto';
+  };
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (!isDragging.current || !sliderRef.current) return;
+    const x = e.pageX - sliderRef.current.offsetLeft;
+    const distance = x - startX.current;
+
+    if (Math.abs(distance) > 5) {
+      setIsMoved(true);
+    }
+    sliderRef.current.scrollLeft = scrollLeftStart.current - distance;
+  };
+
+  const handleMouseUpOrLeave = () => {
+    isDragging.current = false;
+    if (sliderRef.current) {
+      sliderRef.current.style.cursor = 'pointer';
+      sliderRef.current.style.scrollBehavior = 'smooth';
+    }
+  };
+
+  const handleChildClick = (e: React.MouseEvent) => {
+    if (isMoved) {
+      e.preventDefault();
+      e.stopPropagation();
     }
   };
 
@@ -52,11 +92,13 @@ export const ProductsSlider: React.FC<Props> = ({ title, products }) => {
         <h2 className={styles['section__title']}>{title}</h2>
         <div className={styles['section__arrows']}>
           <button
+            type="button"
             className={`${styles['arrow-btn']} ${styles['arrow-btn--prev']}`}
             onClick={() => scroll('left')}
             disabled={scrollState.isAtStart}
           />
           <button
+            type="button"
             className={`${styles['arrow-btn']} ${styles['arrow-btn--next']}`}
             onClick={() => scroll('right')}
             disabled={scrollState.isAtEnd}
@@ -67,13 +109,21 @@ export const ProductsSlider: React.FC<Props> = ({ title, products }) => {
       <div
         className={styles['products-slider']}
         ref={sliderRef}
+        onMouseDown={handleMouseDown}
+        onMouseMove={handleMouseMove}
+        onMouseUp={handleMouseUpOrLeave}
+        onMouseLeave={handleMouseUpOrLeave}
+        onClickCapture={handleChildClick}
+        style={{ cursor: 'pointer', userSelect: 'none' }}
       >
         <div className={styles['products-slider__track']}>
           {products.map((product) => (
-            <ProductCard
+            <div
               key={product.id}
-              product={product}
-            />
+              onDragStart={(e) => e.preventDefault()}
+            >
+              <ProductCard product={product} />
+            </div>
           ))}
         </div>
       </div>
