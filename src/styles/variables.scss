@@ -10,10 +10,11 @@ $color-secondary: #75767f;
 $color-white: #ffffff;
 $color-light-1: #f1f2f9;
 $color-light-2: #e8e9ee;
+$color-accent-hover: #a378ff;
 
 /* ACCENTS */
 
-$color-accent: #4219d0;
+$color-accent: #905bff;
 $color-green: #27ae60;
 $color-red: #eb5757;
 
@@ -40,7 +41,7 @@ $transition-default: 0.3s ease;
 
 /* Primary */
 $btn-primary-bg: $color-accent;
-//$btn-primary-hover: $color-accent-hover;
+$btn-primary-hover: $color-accent-hover;
 $btn-primary-text: $color-white;
 
 /* Secondary */

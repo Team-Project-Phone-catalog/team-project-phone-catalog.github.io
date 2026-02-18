@@ -1,3 +1,4 @@
+@use '../../../../styles/variables' as *;
 @import '../../../../styles/utils';
 
 .buttonBack {
@@ -7,21 +8,21 @@
   line-height: 100%;
   font-size: 12px;
 
-  @include on-tablet {
+  @include on-tablet() {
     margin-top: 40px;
   }
 
   &Link {
     text-decoration: none;
-    color: #f1f2f9;
+    color: $color-light-1;
     font-size: 12px;
     display: flex;
     align-items: center;
     gap: 4px;
-    transition: color 0.3s;
+    transition: color $transition-default;
 
     &:hover {
-      color: #905bff;
+      color: $color-accent;
     }
 
     &::before {

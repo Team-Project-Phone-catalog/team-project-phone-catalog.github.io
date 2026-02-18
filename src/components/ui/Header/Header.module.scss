@@ -1,13 +1,9 @@
+@use '../../../styles/variables' as *;
 @import '../../../styles/utils';
-
-$color-bg: #0f1121;
-$color-border: #323542;
-$color-white: #f1f2f9;
-$color-gray: #75767f;
 
 .header {
   height: 48px;
-  background-color: $color-bg;
+  background-color: $bg-main;
   border-bottom: 1px solid $color-border;
   display: flex;
   align-items: center;
@@ -15,7 +11,7 @@ $color-gray: #75767f;
   top: 0;
   z-index: 1000;
 
-  @include on-desktop {
+  @include on-desktop() {
     height: 64px;
   }
 
@@ -36,9 +32,9 @@ $color-gray: #75767f;
   &__logo {
     display: flex;
     align-items: center;
-    padding-left: 16px;
+    padding: 0 16px;
     text-decoration: none;
-    transition: opacity 0.2s ease;
+    transition: opacity $transition-default;
 
     &:hover {
       opacity: 0.8;
@@ -50,7 +46,7 @@ $color-gray: #75767f;
       display: block;
       object-fit: contain;
 
-      @include on-desktop {
+      @include on-desktop() {
         width: 80px;
         height: 28px;
       }
@@ -60,20 +56,21 @@ $color-gray: #75767f;
   &__nav {
     display: none;
 
-    @include on-tablet {
+    @include on-tablet() {
       display: flex;
       height: 100%;
       margin-left: 32px;
     }
 
-    @include on-desktop {
+    @include on-desktop() {
       margin-left: 48px;
     }
   }
 
   &__icons {
     display: none;
-    @include on-tablet {
+
+    @include on-tablet() {
       display: flex;
     }
   }
@@ -89,12 +86,12 @@ $color-gray: #75767f;
     cursor: pointer;
     padding: 0;
 
-    @include on-tablet {
+    @include on-tablet() {
       display: none;
     }
 
     &:hover {
-      background-color: rgba($color-white, 0.05);
+      background-color: rgba($color-light-1, 0.05);
     }
   }
 }
@@ -106,11 +103,11 @@ $color-gray: #75767f;
   padding: 0;
   height: 100%;
 
-  @include on-tablet {
+  @include on-tablet() {
     gap: 32px;
   }
 
-  @include on-desktop {
+  @include on-desktop() {
     gap: 64px;
   }
 
@@ -123,20 +120,21 @@ $color-gray: #75767f;
     display: flex;
     align-items: center;
     height: 100%;
-    color: $color-gray;
+    color: $color-secondary;
     text-decoration: none;
     font-size: 12px;
     font-weight: 800;
     text-transform: uppercase;
-    transition: color 0.3s ease;
+    transition: color $transition-default;
     position: relative;
 
     &:hover {
-      color: $color-white;
+      color: $color-light-1;
     }
 
     &--active {
-      color: $color-white;
+      color: $color-light-1;
+
       &::after {
         content: '';
         position: absolute;
@@ -144,7 +142,7 @@ $color-gray: #75767f;
         left: 0;
         right: 0;
         height: 2px;
-        background-color: $color-white;
+        background-color: $color-light-1;
       }
     }
   }
@@ -158,19 +156,19 @@ $color-gray: #75767f;
   height: 100%;
   border-left: 1px solid $color-border;
   text-decoration: none;
-  transition: background-color 0.2s ease;
+  transition: background-color $transition-default;
   position: relative;
 
-  @include on-desktop {
+  @include on-desktop() {
     width: 64px;
   }
 
   &:hover {
-    background-color: rgba($color-white, 0.05);
+    background-color: rgba($color-light-1, 0.05);
   }
 
   &--active {
-    background-color: rgba($color-white, 0.1);
+    background-color: rgba($color-light-1, 0.1);
 
     &::after {
       content: '';
@@ -179,7 +177,7 @@ $color-gray: #75767f;
       left: 0;
       right: 0;
       height: 2px;
-      background-color: $color-white;
+      background-color: $color-light-1;
     }
   }
 
@@ -201,11 +199,11 @@ $color-gray: #75767f;
     display: block;
     width: 100%;
     height: 2px;
-    background-color: $color-white;
+    background-color: $color-light-1;
     border-radius: 2px;
     transition:
-      transform 0.3s ease,
-      opacity 0.2s ease;
+      transform $transition-default,
+      opacity $transition-default;
     transform-origin: center;
   }
 
