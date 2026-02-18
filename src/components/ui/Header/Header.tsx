@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import { BurgerMenu } from './BurgerMenu/BurgerMenu';
+import { CounterIcon } from './CounterIcon/CounterIcon';
 import styles from './Header.module.scss';
 import logo from './icons/logo.svg';
 import heartIcon from './icons/Heart.svg';
@@ -15,6 +16,10 @@ const navLinks = [
 
 export const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  // Тимчасові змінні
+  const favoritesCount = 8;
+  const cartCount = 100;
 
   useEffect(() => {
     if (isMenuOpen) {
@@ -80,8 +85,9 @@ export const Header = () => {
                   : styles.icon_btn
                 }
               >
-                <img
-                  src={heartIcon}
+                <CounterIcon
+                  icon={heartIcon}
+                  count={favoritesCount}
                   alt="Favorites"
                 />
               </NavLink>
@@ -93,8 +99,9 @@ export const Header = () => {
                   : styles.icon_btn
                 }
               >
-                <img
-                  src={cartIcon}
+                <CounterIcon
+                  icon={cartIcon}
+                  count={cartCount}
                   alt="Cart"
                 />
               </NavLink>
@@ -120,6 +127,8 @@ export const Header = () => {
       <BurgerMenu
         isOpen={isMenuOpen}
         onClose={() => setIsMenuOpen(false)}
+        favoritesCount={favoritesCount}
+        cartCount={cartCount}
       />
     </>
   );

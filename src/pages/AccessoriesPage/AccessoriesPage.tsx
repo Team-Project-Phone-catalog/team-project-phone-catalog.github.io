@@ -13,6 +13,8 @@ export const AccessoriesPage = () => {
   const [accessories, setAccessories] = useState<Product[]>([]);
   const [sortBy, setSortBy] = useState<SortType>('newest');
   const [itemsOnPage, setItemsOnPage] = useState(16);
+  const [currentPage, setCurrentPage] = useState(1);
+
   const [isLoading, setIsLoading] = useState(true);
 
   const [searchQuery, setSearchQuery] = useState('');
@@ -21,17 +23,30 @@ export const AccessoriesPage = () => {
   useEffect(() => {
     const loadAccessories = async () => {
       setIsLoading(true);
+
       try {
         const data = await getAccessories();
+
         setAccessories(
-          data.map((acc) => ({ ...acc, category: 'accessories' })),
+          data.map((acc) => ({
+            ...acc,
+            category: 'accessories',
+          })),
         );
       } finally {
         setTimeout(() => setIsLoading(false), 600);
       }
     };
+
     loadAccessories();
   }, []);
+
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    });
+  }, [currentPage]);
 
   useEffect(() => {
     const handler = setTimeout(() => {
@@ -43,12 +58,14 @@ export const AccessoriesPage = () => {
   useEffect(() => {
     if (searchQuery.length === 0 && debouncedQuery.length > 0) {
       setIsLoading(true);
+
       const timer = setTimeout(() => {
         setIsLoading(false);
       }, 500);
+
       return () => clearTimeout(timer);
     }
-  }, [searchQuery, debouncedQuery.length]);
+  }, [searchQuery, debouncedQuery]);
 
   const filteredAccessories = useMemo(() => {
     const query = debouncedQuery.toLowerCase().trim();
@@ -68,14 +85,20 @@ export const AccessoriesPage = () => {
     }
   }, [filteredAccessories, sortBy]);
 
+  const totalPages = Math.ceil(sortedAccessories.length / itemsOnPage);
+
   const visibleAccessories = useMemo(() => {
-    return sortedAccessories.slice(0, itemsOnPage);
-  }, [sortedAccessories, itemsOnPage]);
+    const start = (currentPage - 1) * itemsOnPage;
+    const end = start + itemsOnPage;
+
+    return sortedAccessories.slice(start, end);
+  }, [sortedAccessories, itemsOnPage, currentPage]);
 
   return (
     <div className={s['accessories-page']}>
       <div className={s['accessories-page__container']}>
         <Breadcrumbs />
+
         <h1 className={s.title}>Accessories</h1>
 
         {!isLoading && (
@@ -90,7 +113,10 @@ export const AccessoriesPage = () => {
                 <select
                   className={s.select}
                   value={sortBy}
-                  onChange={(e) => setSortBy(e.target.value as SortType)}
+                  onChange={(event) => {
+                    setSortBy(event.target.value as SortType);
+                    setCurrentPage(1);
+                  }}
                 >
                   <option value="newest">Newest</option>
                   <option value="alphabetically">Alphabetically</option>
@@ -103,7 +129,10 @@ export const AccessoriesPage = () => {
                 <select
                   className={s.select}
                   value={itemsOnPage}
-                  onChange={(e) => setItemsOnPage(+e.target.value)}
+                  onChange={(event) => {
+                    setItemsOnPage(+event.target.value);
+                    setCurrentPage(1);
+                  }}
                 >
                   <option value={16}>16</option>
                   <option value={32}>32</option>
@@ -139,6 +168,50 @@ export const AccessoriesPage = () => {
             ))
           : <NoResults category="accessories" />}
         </section>
+
+        {totalPages > 1 && (
+          <section className={s['accessories-page__pagination']}>
+            <div className={s.pagination}>
+              <button
+                disabled={currentPage === 1}
+                onClick={() => setCurrentPage((prev) => prev - 1)}
+                className={`${s.pageButton} ${s.arrow} ${s.arrowLeft}`}
+              >
+                <img
+                  src="/img/icons/arrow-right.svg"
+                  alt="Previous page"
+                />
+              </button>
+
+              {[...Array(totalPages)].map((_, index) => {
+                const page = index + 1;
+
+                return (
+                  <button
+                    key={page}
+                    onClick={() => setCurrentPage(page)}
+                    className={`${s.pageButton} ${
+                      currentPage === page ? s.active : ''
+                    }`}
+                  >
+                    {page}
+                  </button>
+                );
+              })}
+
+              <button
+                disabled={currentPage === totalPages}
+                onClick={() => setCurrentPage((prev) => prev + 1)}
+                className={`${s.pageButton} ${s.arrow}`}
+              >
+                <img
+                  src="/img/icons/arrow-right.svg"
+                  alt="Next page"
+                />
+              </button>
+            </div>
+          </section>
+        )}
       </div>
     </div>
   );

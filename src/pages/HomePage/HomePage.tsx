@@ -1,17 +1,17 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
 import styles from './HomePage.module.scss';
 import { Banner } from '../../components/ui/Banner/Banner';
-import { ProductCard } from '../ProductCard';
+import { ProductsSlider } from './components/ProductsSlider';
+import { CategorySection } from './components/CategorySection';
+import { Loader } from '../../components/ui/Loader/Loader';
 import {
   getAccessories,
   getPhones,
   getProducts,
   getTablets,
-} from '../../api/products.ts';
-import { Product } from '../../types/Product.ts';
-import { sortByBestPrice, sortByNewest } from '../../utils/productFilters.ts';
-import { Loader } from '../../components/ui/Loader/Loader.tsx';
+} from '../../api/products';
+import { Product } from '../../types/Product';
+import { sortByBestPrice, sortByNewest } from '../../utils/productFilters';
 
 export const HomePage: React.FC = () => {
   const [phones, setPhones] = useState<Product[]>([]);
@@ -20,45 +20,14 @@ export const HomePage: React.FC = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  const newestSliderRef = useRef<HTMLDivElement>(null);
-  const hotSliderRef = useRef<HTMLDivElement>(null);
-
-  const allProducts = [...phones, ...tablets, ...accessories];
-  const newestProducts = sortByNewest(products).slice(0, 12);
-  const bestPriceProducts = sortByBestPrice(allProducts).slice(0, 12);
-
-  const scroll = (
-    ref: React.RefObject<HTMLDivElement | null>,
-    direction: 'left' | 'right',
-  ) => {
-    if (ref.current) {
-      const cardWidth =
-        ref.current.querySelector('article')?.offsetWidth || 272;
-      const gap = 16;
-      const scrollAmount = cardWidth + gap;
-
-      ref.current.scrollBy({
-        left: direction === 'left' ? -scrollAmount : scrollAmount,
-        behavior: 'smooth',
-      });
-    }
-  };
-
   useEffect(() => {
-    Promise.all([
-      getPhones(),
-      getTablets(),
-      getAccessories(),
-      getProducts(),
-      new Promise((resolve) => setTimeout(resolve, 1000)),
-    ])
+    Promise.all([getPhones(), getTablets(), getAccessories(), getProducts()])
       .then(([phonesData, tabletsData, accessoriesData, productsData]) => {
         setPhones(phonesData);
         setTablets(tabletsData);
         setAccessories(accessoriesData);
         setProducts(productsData);
       })
-      .catch((err) => console.error('Error loading data:', err))
       .finally(() => setIsLoading(false));
   }, []);
 
@@ -72,6 +41,13 @@ export const HomePage: React.FC = () => {
     );
   }
 
+  const newestProducts = sortByNewest(products).slice(0, 12);
+  const hotPriceProducts = sortByBestPrice([
+    ...phones,
+    ...tablets,
+    ...accessories,
+  ]).slice(0, 12);
+
   return (
     <main className={styles.home}>
       <div className={styles.container}>
@@ -82,142 +58,21 @@ export const HomePage: React.FC = () => {
           <Banner />
         </section>
 
-        <section className={styles.section}>
-          <div className={styles['section__header']}>
-            <h2 className={styles['section__title']}>Brand new models</h2>
-            <div className={styles['section__arrows']}>
-              <button
-                className={styles['arrow-btn']}
-                aria-label="Previous"
-                onClick={() => scroll(newestSliderRef, 'left')}
-              >
-                {'<'}
-              </button>
-              <button
-                className={styles['arrow-btn']}
-                aria-label="Next"
-                onClick={() => scroll(newestSliderRef, 'right')}
-              >
-                {'>'}
-              </button>
-            </div>
-          </div>
+        <ProductsSlider
+          title="Brand new models"
+          products={newestProducts}
+        />
 
-          <div
-            className={styles['products-slider']}
-            ref={newestSliderRef}
-          >
-            <div className={styles['products-slider__track']}>
-              {newestProducts.map((product) => (
-                <ProductCard
-                  key={product.id}
-                  product={product}
-                />
-              ))}
-            </div>
-          </div>
-        </section>
+        <CategorySection
+          phonesCount={phones.length}
+          tabletsCount={tablets.length}
+          accessoriesCount={accessories.length}
+        />
 
-        <section className={styles.section}>
-          <h2 className={styles['section__title']}>Shop by category</h2>
-
-          <div className={styles.categories}>
-            <Link
-              to="/phones"
-              className={styles['category-card']}
-            >
-              <div className={styles['category-card__image-wrapper']}>
-                <img
-                  src="/img/category-phones.png"
-                  alt="Mobile phones"
-                  className={styles['category-card__image']}
-                />
-              </div>
-              <div className={styles['category-card__info']}>
-                <h3 className={styles['category-card__title']}>
-                  Mobile phones
-                </h3>
-                <p className={styles['category-card__count']}>
-                  {phones.length} models
-                </p>
-              </div>
-            </Link>
-
-            <Link
-              to="/tablets"
-              className={styles['category-card']}
-            >
-              <div className={styles['category-card__image-wrapper']}>
-                <img
-                  src="/img/category-tablets.png"
-                  alt="Tablets"
-                  className={styles['category-card__image-tablets']}
-                />
-              </div>
-              <div className={styles['category-card__info']}>
-                <h3 className={styles['category-card__title']}>Tablets</h3>
-                <p className={styles['category-card__count']}>
-                  {tablets.length} models
-                </p>
-              </div>
-            </Link>
-
-            <Link
-              to="/accessories"
-              className={styles['category-card']}
-            >
-              <div className={styles['category-card__image-wrapper']}>
-                <img
-                  src="/img/category-accessories.png"
-                  alt="Accessories"
-                  className={styles['category-card__image-access']}
-                />
-              </div>
-              <div className={styles['category-card__info']}>
-                <h3 className={styles['category-card__title']}>Accessories</h3>
-                <p className={styles['category-card__count']}>
-                  {accessories.length} models
-                </p>
-              </div>
-            </Link>
-          </div>
-        </section>
-
-        <section className={styles.section}>
-          <div className={styles['section__header']}>
-            <h2 className={styles['section__title']}>Hot prices</h2>
-            <div className={styles['section__arrows']}>
-              <button
-                className={styles['arrow-btn']}
-                aria-label="Previous"
-                onClick={() => scroll(hotSliderRef, 'left')}
-              >
-                {'<'}
-              </button>
-              <button
-                className={styles['arrow-btn']}
-                aria-label="Next"
-                onClick={() => scroll(hotSliderRef, 'right')}
-              >
-                {'>'}
-              </button>
-            </div>
-          </div>
-
-          <div
-            className={styles['products-slider']}
-            ref={hotSliderRef}
-          >
-            <div className={styles['products-slider__track']}>
-              {bestPriceProducts.map((product) => (
-                <ProductCard
-                  key={product.id}
-                  product={product}
-                />
-              ))}
-            </div>
-          </div>
-        </section>
+        <ProductsSlider
+          title="Hot prices"
+          products={hotPriceProducts}
+        />
       </div>
     </main>
   );
