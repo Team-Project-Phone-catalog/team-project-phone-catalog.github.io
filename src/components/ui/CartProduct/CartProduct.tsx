@@ -14,7 +14,7 @@ export const CartProduct: React.FC<Props> = ({
   onIncrease,
   onDecrease,
 }) => {
-  //const imageUrl = product.images?.[0] ? `/${product.images[0]}` : '/placeholder.png';
+  const imageUrl = product.images;
 
   return (
     <div className={s.item}>
@@ -28,7 +28,7 @@ export const CartProduct: React.FC<Props> = ({
 
       <div className={s.imageWrapper}>
         <img
-          src="img/phones/apple-iphone-11/black/00.webp"
+          src={imageUrl}
           alt="Apple iPhone 14 Pro"
           className={s.image}
         />
@@ -54,7 +54,7 @@ export const CartProduct: React.FC<Props> = ({
             +
           </button>
         </div>
-        <p className={s.price}>{product.priceDiscount}</p>
+        <p className={s.price}>${product.priceDiscount}</p>
       </div>
     </div>
   );

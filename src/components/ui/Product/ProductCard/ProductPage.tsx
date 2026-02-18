@@ -1,4 +1,4 @@
-import './ProductCard.scss';
+import './ProductPage.scss';
 import { ProductGallery } from '../ProductGallery/ProductGallery.tsx';
 import { ProductOptions } from '../ProductOptions/ProductOptions.tsx';
 import { ProductPurchase } from '../ProductPurchase/ProductPurchase.tsx';
@@ -8,15 +8,20 @@ import { RelatedProducts } from '../../RelatedProducts/RelatedProducts.tsx';
 import { ProductDetails } from '../../../../types/Product.ts';
 import React from 'react';
 import { ProductFeatures } from '../../ProductFeatures/ProductFeatures.tsx';
+import { useLocation } from 'react-router-dom';
+import { ScrollToTop } from '../../../ScrollToTop/ScrollToTop.tsx';
 
 type Props = {
   product: ProductDetails;
   onCapacityChange: (newItemId: string) => void;
 };
 
-export const ProductCard: React.FC<Props> = ({ product, onCapacityChange }) => {
+export const ProductPage: React.FC<Props> = ({ product, onCapacityChange }) => {
+  const location = useLocation();
+  const categoryFromUrl = location.pathname.split('/')[1];
   return (
     <div className="product-card">
+      <ScrollToTop />
       <div className="product-card__gallery">
         <ProductGallery
           images={product.images}
@@ -24,7 +29,6 @@ export const ProductCard: React.FC<Props> = ({ product, onCapacityChange }) => {
         />
       </div>
 
-      {/* Справа: Опції + Короткі характеристики (About) */}
       <div className="product-card__sidebar">
         <div className="product-card__options">
           <ProductOptions
@@ -71,7 +75,10 @@ export const ProductCard: React.FC<Props> = ({ product, onCapacityChange }) => {
       </div>
 
       <div className="product-card__related">
-        <RelatedProducts />
+        <RelatedProducts
+          category={categoryFromUrl}
+          currentProductId={product.id}
+        />
       </div>
     </div>
   );

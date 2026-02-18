@@ -18,7 +18,7 @@ export const ProductActions: React.FC<Props> = ({
     <div className="product-actions">
       <button
         type="button"
-        className="product-actions__add-to-cart"
+        className={`product-actions__add-to-cart ${isInCart ? 'in-cart' : ''}`}
         onClick={onAddToCart}
         disabled={isInCart}
       >

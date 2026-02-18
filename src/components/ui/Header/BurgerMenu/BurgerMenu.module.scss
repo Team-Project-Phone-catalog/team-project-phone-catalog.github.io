@@ -4,6 +4,7 @@ $color-bg: #0f1121;
 $color-border: #323542;
 $color-white: #f1f2f9;
 $color-gray: #75767f;
+$color-accent: #eb5757;
 
 .menu {
   position: fixed;
@@ -15,6 +16,10 @@ $color-gray: #75767f;
   z-index: 50;
   display: flex;
   flex-direction: column;
+
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
 
   transition: transform 0.3s ease-in-out;
   transform: translateX(-100%);
@@ -87,11 +92,8 @@ $color-gray: #75767f;
   align-items: center;
   border-right: 1px solid $color-border;
   position: relative;
-  transition:
-    background-color 0.2s ease,
-    opacity 0.2s ease;
-
-  opacity: 0.5;
+  transition: background-color 0.2s ease;
+  opacity: 1;
 
   &:last-child {
     border-right: none;
@@ -99,17 +101,9 @@ $color-gray: #75767f;
 
   &:hover {
     background-color: rgba($color-white, 0.05);
-    opacity: 1;
-  }
-
-  img {
-    width: 16px;
-    height: 16px;
   }
 
   &--active {
-    opacity: 1;
-
     &::after {
       content: '';
       position: absolute;
@@ -120,4 +114,59 @@ $color-gray: #75767f;
       background-color: $color-white;
     }
   }
+}
+.icon_container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  img {
+    width: 16px;
+    height: 16px;
+    display: block;
+    filter: brightness(1);
+  }
+}
+
+.icon_container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 14px;
+  height: 14px;
+}
+
+.badge {
+  position: absolute;
+  top: -7px;
+  right: -7px;
+
+  width: 14px;
+  height: 14px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background-color: $color-accent;
+  color: $color-white;
+  border: 1px solid $color-border;
+  border-radius: 50%;
+
+  padding: 0;
+  box-sizing: border-box;
+
+  font-size: 6px;
+  font-weight: 700;
+  line-height: 1;
+  text-align: center;
+
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+:global(body):has(.is-menu-open) {
+  overflow: hidden;
 }

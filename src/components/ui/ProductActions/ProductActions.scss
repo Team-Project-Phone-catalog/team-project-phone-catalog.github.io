@@ -7,6 +7,7 @@
 
   &__add-to-cart {
     display: flex;
+    border-radius: 8px;
     justify-content: center;
     align-items: center;
     flex-grow: 1;
@@ -22,10 +23,16 @@
     text-align: center;
     cursor: pointer;
     border: none;
+
+    &:disabled,
+    &.in-cart {
+      background-color: $color-surface-2;
+    }
   }
 
   &__favorites {
     box-sizing: border-box;
+    border-radius: 8px;
     width: 40px;
     height: 40px;
     background-color: $bg-card;
@@ -46,6 +53,8 @@
 
     &--active {
       background-image: url(../../../../public/img/heart-red.svg);
+      background-color: $color-surface-1;
+      border: 1px solid $color-elements;
     }
   }
 }

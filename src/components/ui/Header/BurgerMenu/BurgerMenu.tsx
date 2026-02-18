@@ -7,6 +7,8 @@ import cartIcon from '../icons/Cart.svg';
 interface Props {
   isOpen: boolean;
   onClose: () => void;
+  favoritesCount: number;
+  cartCount: number;
 }
 
 const navLinks = [
@@ -16,9 +18,16 @@ const navLinks = [
   { id: 4, name: 'Accessories', path: '/accessories' },
 ];
 
-export const BurgerMenu: React.FC<Props> = ({ isOpen, onClose }) => {
+export const BurgerMenu: React.FC<Props> = ({
+  isOpen,
+  onClose,
+  favoritesCount,
+  cartCount,
+}) => {
   return (
-    <div className={`${styles.menu} ${isOpen ? styles['menu--open'] : ''}`}>
+    <div
+      className={`${styles.menu} ${isOpen ? `${styles['menu--open']} is-menu-open` : ''}`}
+    >
       <nav className={styles.menu__nav}>
         <ul className={styles.menu__list}>
           {navLinks.map((link) => (
@@ -52,10 +61,17 @@ export const BurgerMenu: React.FC<Props> = ({ isOpen, onClose }) => {
           }
           onClick={onClose}
         >
-          <img
-            src={heartIcon}
-            alt="Favorites"
-          />
+          <div className={styles.icon_container}>
+            <img
+              src={heartIcon}
+              alt="Favorites"
+            />
+            {favoritesCount > 0 && (
+              <span className={styles.badge}>
+                {favoritesCount > 99 ? '99+' : favoritesCount}
+              </span>
+            )}
+          </div>
         </NavLink>
 
         <NavLink
@@ -67,10 +83,17 @@ export const BurgerMenu: React.FC<Props> = ({ isOpen, onClose }) => {
           }
           onClick={onClose}
         >
-          <img
-            src={cartIcon}
-            alt="Cart"
-          />
+          <div className={styles.icon_container}>
+            <img
+              src={cartIcon}
+              alt="Cart"
+            />
+            {cartCount > 0 && (
+              <span className={styles.badge}>
+                {cartCount > 99 ? '99+' : cartCount}
+              </span>
+            )}
+          </div>
         </NavLink>
       </div>
     </div>

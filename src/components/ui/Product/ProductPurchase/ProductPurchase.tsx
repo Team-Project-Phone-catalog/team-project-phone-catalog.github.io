@@ -6,15 +6,21 @@ type Props = {
   priceRegular: number;
   priceDiscount: number;
 };
+
 export const ProductPurchase: React.FC<Props> = ({
   priceRegular,
   priceDiscount,
 }) => {
+  const hasDiscount = priceDiscount < priceRegular;
+
   return (
     <div className="purchase">
       <div className="purchase-price">
         <span className="purchase-price__current">${priceDiscount}</span>
-        <span className="purchase-price__full">${priceRegular}</span>
+
+        {hasDiscount && (
+          <span className="purchase-price__full">${priceRegular}</span>
+        )}
       </div>
 
       <div className="purchase__buttons">
