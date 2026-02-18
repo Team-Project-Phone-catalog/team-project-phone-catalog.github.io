@@ -61,6 +61,7 @@ export const RelatedProducts: React.FC<Props> = ({
 
   const checkScrollPosition = () => {
     if (!sliderRef.current) return;
+
     const { scrollLeft, scrollWidth, clientWidth } = sliderRef.current;
 
     setCanScrollLeft(scrollLeft > 0);
@@ -73,10 +74,9 @@ export const RelatedProducts: React.FC<Props> = ({
 
   const scroll = (direction: 'left' | 'right') => {
     if (!sliderRef.current) return;
-    const scrollAmount = 288;
 
     sliderRef.current.scrollBy({
-      left: direction === 'left' ? -scrollAmount : scrollAmount,
+      left: direction === 'left' ? -288 : 288,
       behavior: 'smooth',
     });
   };
@@ -88,6 +88,7 @@ export const RelatedProducts: React.FC<Props> = ({
     <div className="AlsoLike">
       <div className="AlsoLike__header">
         <h3 className="AlsoLike__title">You may also like</h3>
+
         <div className="AlsoLike__arrows">
           <button
             className="AlsoLike__arrow-btn"
@@ -96,6 +97,7 @@ export const RelatedProducts: React.FC<Props> = ({
           >
             left
           </button>
+
           <button
             className="AlsoLike__arrow-btn"
             onClick={() => scroll('right')}
