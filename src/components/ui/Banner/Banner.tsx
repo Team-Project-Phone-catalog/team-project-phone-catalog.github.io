@@ -9,9 +9,7 @@ import './Banner.scss';
 export const Banner = () => {
   return (
     <div className="banner">
-      <button className="banner__arrow banner__arrow--prev swiper-btn-prev">
-        {'<'}
-      </button>
+      <button className="banner__arrow banner__arrow--prev swiper-btn-prev" />
 
       <div className="banner__slider">
         <Swiper
@@ -52,7 +50,7 @@ export const Banner = () => {
             <picture>
               <source
                 media="(max-width: 639px)"
-                srcSet="img/image 16.png"
+                srcSet="img/banner-phones.png"
               />
               <img
                 src="img/banner-phones.png"
@@ -78,9 +76,7 @@ export const Banner = () => {
         </Swiper>
       </div>
 
-      <button className="banner__arrow banner__arrow--next swiper-btn-next">
-        {'>'}
-      </button>
+      <button className="banner__arrow banner__arrow--next swiper-btn-next" />
 
       <div className="banner__pagination" />
     </div>
