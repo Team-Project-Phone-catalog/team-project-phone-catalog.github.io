@@ -1,10 +1,4 @@
-import React, {
-  useEffect,
-  useMemo,
-  useState,
-  useRef,
-  useCallback,
-} from 'react';
+import React, { useEffect, useMemo, useState, useRef } from 'react';
 import { getProducts } from '../../../api/products.ts';
 import { Product } from '../../../types/Product.ts';
 import { sortByBestPrice } from '../../../utils/productFilters.ts';
@@ -30,27 +24,20 @@ export const RelatedProducts: React.FC<Props> = ({
   useEffect(() => {
     if (!category) return;
 
-    const loadProducts = async () => {
-      try {
-        setIsLoading(true);
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setIsLoading(true);
 
-        const allProducts = await getProducts();
-
+    getProducts()
+      .then((allProducts) => {
         const categoryProducts = allProducts.filter(
           (p) =>
             p.category &&
             p.category.toLowerCase().includes(category.toLowerCase()),
         );
-
         setProducts(categoryProducts);
-      } catch (err) {
-        console.error('Error fetching products:', err);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    loadProducts();
+      })
+      .catch((err) => console.error('Error fetching products:', err))
+      .finally(() => setIsLoading(false));
   }, [category]);
 
   const recommendedProducts = useMemo(() => {
@@ -65,22 +52,20 @@ export const RelatedProducts: React.FC<Props> = ({
     return sortByBestPrice(filtered).slice(0, 12);
   }, [products, currentProductId]);
 
-  const checkScrollPosition = useCallback(() => {
+  const checkScrollPosition = () => {
     if (!sliderRef.current) return;
-
     const { scrollLeft, scrollWidth, clientWidth } = sliderRef.current;
 
     setCanScrollLeft(scrollLeft > 0);
     setCanScrollRight(Math.ceil(scrollLeft + clientWidth) < scrollWidth);
-  }, []);
+  };
 
   useEffect(() => {
     checkScrollPosition();
-  }, [recommendedProducts, checkScrollPosition]);
+  }, [recommendedProducts]);
 
   const scroll = (direction: 'left' | 'right') => {
     if (!sliderRef.current) return;
-
     const scrollAmount = 288;
 
     sliderRef.current.scrollBy({
@@ -96,22 +81,20 @@ export const RelatedProducts: React.FC<Props> = ({
     <div className="AlsoLike">
       <div className="AlsoLike__header">
         <h3 className="AlsoLike__title">You may also like</h3>
-
         <div className="AlsoLike__arrows">
           <button
             className="AlsoLike__arrow-btn"
             onClick={() => scroll('left')}
             disabled={!canScrollLeft}
           >
-            left
+            l
           </button>
-
           <button
             className="AlsoLike__arrow-btn"
             onClick={() => scroll('right')}
             disabled={!canScrollRight}
           >
-            right
+            r
           </button>
         </div>
       </div>

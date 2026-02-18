@@ -49,7 +49,7 @@ export const TabletsPage = () => {
 
       return () => clearTimeout(timer);
     }
-  }, [searchQuery]);
+  }, [searchQuery, debouncedQuery.length]);
 
   const filteredTablets = useMemo(() => {
     const query = debouncedQuery.toLowerCase().trim();

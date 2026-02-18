@@ -48,7 +48,7 @@ export const AccessoriesPage = () => {
       }, 500);
       return () => clearTimeout(timer);
     }
-  }, [searchQuery]);
+  }, [searchQuery, debouncedQuery.length]);
 
   const filteredAccessories = useMemo(() => {
     const query = debouncedQuery.toLowerCase().trim();

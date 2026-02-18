@@ -49,7 +49,7 @@ export const PhonesPage = () => {
 
       return () => clearTimeout(timer);
     }
-  }, [searchQuery]);
+  }, [searchQuery, debouncedQuery.length]);
 
   const filteredPhones = useMemo(() => {
     const query = debouncedQuery.toLowerCase().trim();
