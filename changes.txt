@@ -1844,10 +1844,10 @@ index d67ae5e..c4b53c6 100644
 +    color: $color-light-1;
    }
  }
-diff --git a/src/pages/ProductCard/ProductCard.tsx b/src/pages/ProductCard/ProductCard.tsx
+diff --git a/src/pages/ProductCard/ProductPage.tsx b/src/pages/ProductCard/ProductPage.tsx
 index 85045b9..cbbd72e 100644
---- a/src/pages/ProductCard/ProductCard.tsx
-+++ b/src/pages/ProductCard/ProductCard.tsx
+--- a/src/pages/ProductCard/ProductPage.tsx
++++ b/src/pages/ProductCard/ProductPage.tsx
 @@ -116,6 +116,7 @@ export const ProductCard: React.FC<Props> = ({ product, onFavoriteChange }) => {
              toggleFavorite();
            }}
