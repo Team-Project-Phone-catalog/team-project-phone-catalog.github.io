@@ -10,10 +10,12 @@ import { TabletsPage } from './pages/TabletsPage/TabletsPage.tsx';
 import { HomePage } from './pages/HomePage/HomePage.tsx';
 import { FavoritesPage } from './pages/FavoritesPage/FavoritesPage.tsx';
 import { ProductDetailsPage } from './pages/ProductDetailsPage/ProductDetailsPage.tsx';
+import { ScrollToTop } from './components/ScrollToTop/ScrollToTop.tsx';
 
 export const App = () => {
   return (
     <div className="App">
+      <ScrollToTop />
       <Header />
 
       <div className="container">
