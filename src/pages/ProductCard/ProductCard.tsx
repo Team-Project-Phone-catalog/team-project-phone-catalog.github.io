@@ -40,6 +40,7 @@ export const ProductCard: React.FC<Props> = ({ product, onFavoriteChange }) => {
     product.priceRegular ??
     ('fullPrice' in product ? product.fullPrice : undefined);
 
+  //@typescript-eslint/no-explicit-any
   const imagePath = 'images' in product ? product.images[0] : product.image;
   const imageUrl = imagePath ? `/${imagePath}` : null;
 

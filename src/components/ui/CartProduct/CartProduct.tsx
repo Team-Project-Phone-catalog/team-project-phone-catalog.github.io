@@ -14,7 +14,7 @@ export const CartProduct: React.FC<Props> = ({
   onIncrease,
   onDecrease,
 }) => {
-  const imageUrl = product.image;
+  const imageUrl = product.images;
 
   return (
     <div className={s.item}>

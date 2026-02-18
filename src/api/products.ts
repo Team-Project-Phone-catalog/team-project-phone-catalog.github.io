@@ -23,7 +23,7 @@ export const getAccessories = async (): Promise<Product[]> => {
 };
 
 export const getProductDetails = async (
-  category: string,
+  _category: string,
   itemId: string,
 ): Promise<ProductDetails> => {
   const response = await fetch(`${BASE_URL}/api/products/${itemId}`);
