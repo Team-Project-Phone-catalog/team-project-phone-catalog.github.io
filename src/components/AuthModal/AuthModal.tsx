@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { supabase } from '../../utils/supabaseClient';
+import styles from './AutrhModal.module.scss';
 
 interface AuthModalProps {
   isOpen: boolean;
@@ -7,60 +8,46 @@ interface AuthModalProps {
 }
 
 export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
+  const [isRegistering, setIsRegistering] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState('');
 
-  if (!isOpen) {
-    return null;
-  }
+  if (!isOpen) return null;
 
-  const handleSignUp = async (e: React.FormEvent) => {
-    e.preventDefault();
-    const cleanEmail = email.trim();
-
-    if (!cleanEmail || !password)
-      return setMessage('Будь ласка, введіть пошту та пароль!');
-    setLoading(true);
-
-    const { error } = await supabase.auth.signUp({
-      email: cleanEmail,
-      password,
+  const handleGoogleLogin = async () => {
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: 'google',
+      options: {
+        redirectTo: window.location.origin,
+      },
     });
-
-    if (error) {
-      setMessage(`Error ${error.message}`);
-    } else {
-      setMessage('Registration successful! You can now log in.');
-
-      setTimeout(() => {
-        window.location.reload();
-      }, 1500);
-    }
-    setLoading(false);
+    if (error) setMessage(`Помилка Google: ${error.message}`);
   };
 
-  const handleLogin = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const cleanEmail = email.trim();
+    if (!cleanEmail || !password) {
+      setMessage('Заповніть усі поля!');
+      return;
+    }
 
-    if (!cleanEmail || !password)
-      return setMessage('Будь ласка, введіть пошту та пароль!');
     setLoading(true);
+    setMessage('');
 
-    const { error } = await supabase.auth.signInWithPassword({
-      email: cleanEmail,
-      password,
-    });
+    const { error } =
+      isRegistering ?
+        await supabase.auth.signUp({ email: cleanEmail, password })
+      : await supabase.auth.signInWithPassword({ email: cleanEmail, password });
 
     if (error) {
-      setMessage(`Error ${error.message}`);
+      setMessage(`Помилка: ${error.message}`);
     } else {
-      setMessage("'You have successfully logged in! 🎉");
+      setMessage(isRegistering ? 'Реєстрація успішна!' : 'Вхід успішний! 🎉');
       setTimeout(() => {
         onClose();
-        setMessage('');
         window.location.reload();
       }, 1500);
     }
@@ -68,88 +55,86 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
   };
 
   return (
-    // Темний фон на весь екран
-    <div
-      style={{
-        position: 'fixed',
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
-        backgroundColor: 'rgba(0, 0, 0, 0.5)',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        zIndex: 1000, // Щоб вікно було поверх усього
-      }}
-    >
-      {/* Саме біле віконце */}
-      <div
-        style={{
-          backgroundColor: 'white',
-          padding: '30px',
-          borderRadius: '10px',
-          width: '100%',
-          maxWidth: '400px',
-          position: 'relative',
-        }}
-      >
-        {/* Кнопка закриття (хрестик) */}
+    <div className={styles.overlay}>
+      <div className={styles.modal}>
         <button
+          className={styles.closeBtn}
           onClick={onClose}
-          style={{
-            position: 'absolute',
-            top: '10px',
-            right: '15px',
-            background: 'none',
-            border: 'none',
-            fontSize: '20px',
-            cursor: 'pointer',
-          }}
+          aria-label="Закрити"
         >
           ✕
         </button>
 
-        <h2 style={{ textAlign: 'center', marginTop: 0 }}>Вхід в акаунт</h2>
+        <h2 className={styles.title}>
+          {isRegistering ? 'Створити акаунт' : 'Вхід у кабінет'}
+        </h2>
 
-        <form style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
+        <button
+          className={styles.googleBtn}
+          onClick={handleGoogleLogin}
+          type="button"
+        >
+          <img
+            src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg"
+            alt="Google Logo"
+          />
+          Продовжити з Google
+        </button>
+
+        <div className={styles.divider}>або через email</div>
+
+        <form
+          className={styles.form}
+          onSubmit={handleSubmit}
+        >
           <input
+            className={styles.input}
             type="email"
-            placeholder="Ваш Email"
+            placeholder="Email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
-            style={{ padding: '10px', fontSize: '16px' }}
           />
           <input
+            className={styles.input}
             type="password"
-            placeholder="Пароль (мінімум 6 символів)"
+            placeholder="Пароль"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
-            style={{ padding: '10px', fontSize: '16px' }}
           />
-          <div
-            style={{ display: 'flex', gap: '10px', justifyContent: 'center' }}
+
+          <button
+            className={styles.submitBtn}
+            type="submit"
+            disabled={loading}
           >
-            <button
-              onClick={handleLogin}
-              disabled={loading}
-              style={{ padding: '10px 20px', cursor: 'pointer', flex: 1 }}
-            >
-              {loading ? '...' : 'Увійти'}
-            </button>
-            <button
-              onClick={handleSignUp}
-              disabled={loading}
-              style={{ padding: '10px 20px', cursor: 'pointer', flex: 1 }}
-            >
-              Реєстрація
-            </button>
-          </div>
+            {loading ?
+              'Завантаження...'
+            : isRegistering ?
+              'Зареєструватися'
+            : 'Увійти'}
+          </button>
         </form>
+
+        <p className={styles.toggleWrapper}>
+          {isRegistering ? 'Вже маєте акаунт?' : 'Ще не маєте акаунту?'}
+          <button
+            className={styles.toggleBtn}
+            type="button"
+            onClick={() => {
+              setIsRegistering(!isRegistering);
+              setMessage('');
+            }}
+          >
+            {isRegistering ? 'Увійти' : 'Зареєструватися'}
+          </button>
+        </p>
+
         {message && (
-          <p style={{ marginTop: '15px', color: 'blue', textAlign: 'center' }}>
+          <p
+            className={`${styles.message} ${message.includes('Помилка') ? styles['message--error'] : styles['message--success']}`}
+          >
             {message}
           </p>
         )}
