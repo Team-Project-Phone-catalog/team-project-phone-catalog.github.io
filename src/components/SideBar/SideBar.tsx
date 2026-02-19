@@ -7,12 +7,29 @@ export const Sidebar = () => {
   const location = useLocation();
   const [userName, setUserName] = React.useState('');
   const [userEmail, setUserEmail] = React.useState('');
+  const [isAdmin, setIsAdmin] = React.useState(false);
 
   React.useEffect(() => {
-    supabase.auth.getUser().then(({ data }) => {
-      setUserName(data.user?.user_metadata?.full_name || '');
-      setUserEmail(data.user?.email || '');
-    });
+    const fetchUser = async () => {
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+
+      if (!user) return;
+
+      setUserName(user.user_metadata?.full_name || '');
+      setUserEmail(user.email || '');
+
+      const { data: profile } = await supabase
+        .from('profiles')
+        .select('is_admin')
+        .eq('id', user.id)
+        .single();
+
+      setIsAdmin(profile?.is_admin ?? false);
+    };
+
+    fetchUser();
   }, []);
 
   const isActive = (path: string) => location.pathname === path;
@@ -34,6 +51,15 @@ export const Sidebar = () => {
         >
           My Account
         </Link>
+
+        {isAdmin && (
+          <Link
+            to="/profile/admin"
+            className={`${styles.navItem} ${isActive('/admin') ? styles.active : ''}`}
+          >
+            Admin
+          </Link>
+        )}
 
         <Link
           to="/profile/orders"
