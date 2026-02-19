@@ -22,7 +22,6 @@ export const ProductCard: React.FC<Props> = ({ product }) => {
   const handleAddToCart = () => {
     addToCart(product as Product);
   };
-
   /* ===================== FAVORITES ===================== */
 
   const handleToggleFavorite = () => {

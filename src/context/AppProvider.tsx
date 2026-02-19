@@ -130,6 +130,11 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
 
   const getFavoritesCount = useCallback(() => favorites.length, [favorites]);
 
+  /*новое*/
+  useEffect(() => {
+    console.log('CART:', cartItems);
+  }, [cartItems]);
+
   return (
     <AppContext.Provider
       value={{
