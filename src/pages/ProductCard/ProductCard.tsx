@@ -1,37 +1,35 @@
 import './ProductCard.scss';
-import { ProductPrice } from '../../components/ui/ProductPrice/ProductPrice.tsx';
-import { ProductFeatures } from '../../components/ui/ProductFeatures/ProductFeatures.tsx';
-import { ProductActions } from '../../components/ui/ProductActions/ProductActions.tsx';
-import { Product, ProductDetails } from '../../types/Product.ts';
-import React, { useState } from 'react';
-import { useAppContext } from '../../hooks/useAppContext.ts';
+import { ProductPrice } from '../../components/ui/ProductPrice/ProductPrice';
+import { ProductFeatures } from '../../components/ui/ProductFeatures/ProductFeatures';
+import { ProductActions } from '../../components/ui/ProductActions/ProductActions';
+import { Product, ProductDetails } from '../../types/Product';
+import React from 'react';
+import { useAppContext } from '../../hooks/useAppContext';
 import { Link } from 'react-router-dom';
 import { motion } from 'motion/react';
 
 interface Props {
   product?: Product | ProductDetails;
-  onFavoriteChange?: () => void;
 }
 
-export const ProductCard: React.FC<Props> = ({ product, onFavoriteChange }) => {
-  const { addToCart, isInCart } = useAppContext();
+export const ProductCard: React.FC<Props> = ({ product }) => {
+  const { addToCart, isInCart, toggleFavorite, isFavorite } = useAppContext();
+
+  if (!product) return null;
+
+  /* ===================== CART ===================== */
 
   const handleAddToCart = () => {
-    if (!product) return;
     addToCart(product as Product);
   };
 
-  const [isFavorite, setIsFavorite] = useState(() => {
-    if (!product) return false;
-    const favorites: string[] = JSON.parse(
-      localStorage.getItem('favorites') || '[]',
-    );
-    return favorites.includes(String(product.id));
-  });
+  /* ===================== FAVORITES ===================== */
 
-  if (!product) {
-    return null;
-  }
+  const handleToggleFavorite = () => {
+    toggleFavorite(String(product.id));
+  };
+
+  /* ===================== PRICES ===================== */
 
   const currentPrice =
     product.priceDiscount ?? ('price' in product ? product.price : undefined);
@@ -40,12 +38,14 @@ export const ProductCard: React.FC<Props> = ({ product, onFavoriteChange }) => {
     product.priceRegular ??
     ('fullPrice' in product ? product.fullPrice : undefined);
 
-  let imagePath = null;
+  /* ===================== IMAGE ===================== */
+
+  let imagePath: string | null = null;
 
   if ('images' in product && product.images) {
     if (Array.isArray(product.images)) {
       imagePath = product.images[0];
-    } else if (typeof product.images === 'string') {
+    } else {
       try {
         const parsed = JSON.parse(product.images);
         imagePath = Array.isArray(parsed) ? parsed[0] : product.images;
@@ -59,7 +59,10 @@ export const ProductCard: React.FC<Props> = ({ product, onFavoriteChange }) => {
 
   const imageUrl = imagePath ? `/${imagePath}` : null;
 
+  /* ===================== ROUTING ===================== */
+
   const productId = 'itemId' in product ? product.itemId : product.id;
+
   const idString = String(productId).toLowerCase();
 
   let category = 'phones';
@@ -74,30 +77,10 @@ export const ProductCard: React.FC<Props> = ({ product, onFavoriteChange }) => {
 
   const linkTo = `/${category}/${productId}`;
 
-  const toggleFavorite = () => {
-    const favorites: string[] = JSON.parse(
-      localStorage.getItem('favorites') || '[]',
-    );
-
-    let updatedFavorites: string[];
-
-    if (favorites.includes(String(product.id))) {
-      updatedFavorites = favorites.filter((id) => id !== String(product.id));
-    } else {
-      updatedFavorites = [...favorites, String(product.id)];
-    }
-
-    localStorage.setItem('favorites', JSON.stringify(updatedFavorites));
-    setIsFavorite(!isFavorite);
-    onFavoriteChange?.();
-  };
+  /* ===================== RENDER ===================== */
 
   return (
-    <motion.div
-      className="card"
-      whileHover={{ scale: 1.02, y: -4 }}
-      transition={{ type: 'spring', stiffness: 300 }}
-    >
+    <div className="card">
       <div className="card__container">
         <Link
           to={linkTo}
@@ -105,10 +88,12 @@ export const ProductCard: React.FC<Props> = ({ product, onFavoriteChange }) => {
         >
           <div className="card__img-container">
             {imageUrl && (
-              <img
+              <motion.img
                 className="card__image"
                 src={imageUrl}
                 alt={product.name}
+                whileHover={{ scale: 1.06 }}
+                transition={{ duration: 0.3 }}
               />
             )}
           </div>
@@ -138,12 +123,12 @@ export const ProductCard: React.FC<Props> = ({ product, onFavoriteChange }) => {
           onToggleFavorite={(e) => {
             e.preventDefault();
             e.stopPropagation();
-            toggleFavorite();
+            handleToggleFavorite();
           }}
-          isFavorite={isFavorite}
+          isFavorite={isFavorite(String(product.id))}
           isInCart={isInCart(product as Product)}
         />
       </div>
-    </motion.div>
+    </div>
   );
 };

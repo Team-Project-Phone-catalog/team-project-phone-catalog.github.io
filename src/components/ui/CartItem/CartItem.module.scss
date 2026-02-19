@@ -6,6 +6,7 @@
   padding: 24px;
   width: 100%;
   background-color: $bg-main;
+  border-radius: 8px; // ← аккуратное скругление всего блока
 
   .price {
     color: $color-light-1;
@@ -46,10 +47,18 @@
     cursor: pointer;
     width: 100%;
     letter-spacing: 0;
-    transition: background-color $transition-default;
+    transition:
+      background-color $transition-default,
+      transform 0.15s ease;
+
+    border-radius: 8px; // ← скругление кнопки
 
     &:hover {
-      background-color: $color-accent;
+      background-color: $color-accent-hover;
+    }
+
+    &:active {
+      transform: scale(0.98);
     }
 
     &:disabled {

@@ -1,6 +1,6 @@
-import { Product } from './Product';
+import { BaseProduct } from './Product';
 
-export interface CartItem extends Product {
+export interface CartItem extends BaseProduct {
   quantity: number;
   itemUniqueId: string;
 }
