@@ -99,6 +99,37 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
     return cartItems.some((item) => item.itemUniqueId === itemUniqueId);
   };
 
+  //favorites
+  const [favorites, setFavorites] = useState<string[]>(() => {
+    if (typeof window === 'undefined') return [];
+
+    try {
+      const saved = localStorage.getItem('favorites');
+      return saved ? JSON.parse(saved) : [];
+    } catch (error) {
+      console.error('Failed to parse favorites:', error);
+      return [];
+    }
+  });
+
+  useEffect(() => {
+    localStorage.setItem('favorites', JSON.stringify(favorites));
+  }, [favorites]);
+
+  const toggleFavorite = (productId: string) => {
+    setFavorites((prev) =>
+      prev.includes(productId) ?
+        prev.filter((id) => id !== productId)
+      : [...prev, productId],
+    );
+  };
+
+  const isFavorite = (productId: string) => {
+    return favorites.includes(productId);
+  };
+
+  const getFavoritesCount = useCallback(() => favorites.length, [favorites]);
+
   return (
     <AppContext.Provider
       value={{
@@ -110,6 +141,11 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
         getTotalPrice,
         getTotalItems,
         isInCart,
+
+        favorites,
+        toggleFavorite,
+        isFavorite,
+        getFavoritesCount,
       }}
     >
       {children}
