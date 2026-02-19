@@ -14,6 +14,7 @@ import { ScrollToTop } from './components/ScrollToTop/ScrollToTop.tsx';
 
 import { ProfilePage } from './pages/ProfilePage/ProfilePage';
 import { HelpWidget } from './components/HelpWidget/HelpWidget';
+import { ProfileOrderPage } from './pages/ProfilePage/ProfileOrderPage/ProfileOrderPage.tsx';
 
 export const App = () => {
   return (
@@ -50,6 +51,11 @@ export const App = () => {
           <Route
             path="/profile"
             element={<ProfilePage />}
+          />
+
+          <Route
+            path="/profile/orders"
+            element={<ProfileOrderPage />}
           />
           <Route
             path="/:category/:productId"

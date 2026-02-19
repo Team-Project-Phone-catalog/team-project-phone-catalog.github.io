@@ -31,7 +31,7 @@ export const Sidebar = ({ userName, userEmail }: SidebarProps) => {
         </Link>
 
         <Link
-          to="/orders"
+          to="/profile/orders"
           className={styles.navItem}
         >
           Order

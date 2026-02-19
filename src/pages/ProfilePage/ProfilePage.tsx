@@ -63,6 +63,7 @@ export const ProfilePage = () => {
                     }
                     className={styles.userInfo__photo}
                     alt="Profile"
+                    referrerPolicy="no-referrer"
                   />
 
                   <div className={styles.userInfo__details}>

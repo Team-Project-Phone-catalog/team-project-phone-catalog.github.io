@@ -1,4 +1,5 @@
 @import '../../styles/utils.scss';
+@import '../../styles/variables';
 
 .sidebar {
   display: none;
@@ -26,14 +27,14 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      color: #31d2a2;
+      color: $color-accent;
       font-weight: 700;
     }
 
     .name {
       font-size: 14px;
       font-weight: 600;
-      color: #31d2a2;
+      color: $color-accent;
       margin: 0;
     }
 
@@ -59,17 +60,17 @@
       transition: color 0.2s;
 
       &:hover {
-        color: #31d2a2;
+        color: $color-accent-hover;
       }
 
       &.active {
-        color: #31d2a2;
+        color: $color-accent;
         font-weight: 700;
       }
 
       .badge {
-        background: #31d2a2;
-        color: #000;
+        background: $color-accent;
+        color: $color-white;
         padding: 2px 8px;
         border-radius: 12px;
         font-size: 11px;
