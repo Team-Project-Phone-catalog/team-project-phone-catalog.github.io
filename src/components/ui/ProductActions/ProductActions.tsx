@@ -1,13 +1,11 @@
 import './ProductActions.scss';
 import * as React from 'react';
-import { notify } from '../../../utils/notifications';
 
 interface Props {
   handleToggleCart: (e: React.MouseEvent) => void;
   onToggleFavorite: (e: React.MouseEvent) => void;
   isFavorite?: boolean;
   isInCart?: boolean;
-  productName?: string;
 }
 
 export const ProductActions: React.FC<Props> = ({
@@ -15,24 +13,11 @@ export const ProductActions: React.FC<Props> = ({
   onToggleFavorite,
   isFavorite,
   isInCart,
-  productName = 'Product',
 }) => {
-  /*const handleAddToCart = (e: React.MouseEvent) => {
-    if (isInCart) {
-      notify.error(`${productName} is already in the cart`);
-      return;
-    }
-    handleToggleCart(e);
-    notify.addedToCart(productName);
-  };*/
-
   const handleToggleFavorite = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
     onToggleFavorite(e);
-    if (!isFavorite) {
-      notify.addedToFavorites(productName);
-    } else {
-      notify.removedFromFavorites(productName);
-    }
   };
 
   return (
