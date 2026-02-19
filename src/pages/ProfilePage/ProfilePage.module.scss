@@ -1,0 +1,108 @@
+@import '../../styles/utils';
+
+.profileContainer {
+  // Копіюємо логіку відступів з favorites-page
+  box-sizing: border-box;
+  margin: 0 auto;
+  max-width: 1280px;
+  padding: 0 16px;
+  min-height: 50vh;
+
+  @include on-tablet {
+    padding: 0 24px;
+  }
+
+  @include on-desktop {
+    padding: 0 32px;
+  }
+
+  &__title {
+    display: block;
+    margin-top: 24px;
+    margin-bottom: 24px;
+    color: #f1f2f9; // колір як у прикладі
+    font-family: Mont, sans-serif;
+    font-weight: 800;
+    font-size: 32px;
+    line-height: 41px;
+    text-align: left; // Завжди зліва
+  }
+
+  .userInfo {
+    display: grid;
+    grid-template-columns: 1fr; // Мобілка: одна колонка
+    justify-items: center; // Центруємо контент
+    text-align: center;
+    gap: 16px;
+
+    @include on-tablet {
+      // Планшет: фото (auto) | текст (1fr)
+      grid-template-columns: auto 1fr;
+      justify-items: start;
+      text-align: left;
+      gap: 40px;
+    }
+
+    &__photo {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      object-fit: cover;
+      background-color: #313237; // заглушка, якщо фото немає
+
+      @include on-tablet {
+        grid-row: span 10; // "прошиваємо" фото через усі рядки тексту справа
+      }
+    }
+
+    &__title {
+      font-weight: 700;
+      font-size: 16px;
+      color: #f1f2f9;
+      margin-top: 12px;
+
+      @include on-tablet {
+        margin-top: 0;
+      }
+    }
+
+    &__info {
+      font-size: 14px;
+      color: #75767f; // сірий колір з вашого прикладу
+      margin-bottom: 8px;
+    }
+  }
+}
+
+.logoutButton {
+  display: block;
+  margin-top: 32px;
+  padding: 12px 32px;
+  background-color: #e74c3c;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s;
+
+  // Центрування на телефоні
+  margin-inline: auto;
+
+  @include on-tablet {
+    // На планшеті кнопка стає під текст (у другу колонку грида)
+    margin-inline: 0;
+    grid-column: 2;
+  }
+
+  &:hover {
+    background-color: #c0392b;
+  }
+}
+
+.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 200px;
+}

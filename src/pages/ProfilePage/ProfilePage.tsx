@@ -1,52 +1,87 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '../../utils/supabaseClient';
+import { User } from '@supabase/supabase-js'; // Імпортуємо тип для TS
+import styles from './ProfilePage.module.scss';
+import { Breadcrumbs } from '../../components/ui/Breadcrumbs/Breadcrumbs.tsx';
+import { Loader } from '../../components/ui/Loader/Loader.tsx';
 
 export const ProfilePage = () => {
-  const [userEmail, setUserEmail] = useState<string | null>(null);
+  const [user, setUser] = useState<User | null>(null);
   const navigate = useNavigate();
 
   useEffect(() => {
-    supabase.auth.getSession().then(({ data: { session } }) => {
+    const getUser = async () => {
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
+
       if (session?.user) {
-        setUserEmail(session.user.email ?? '');
+        setUser(session.user);
       } else {
         navigate('/');
       }
-    });
+    };
+
+    getUser();
   }, [navigate]);
 
   const handleLogout = async () => {
     await supabase.auth.signOut();
     navigate('/');
-    window.location.reload();
+  };
+
+  // Функція для гарного форматування дати
+  const formatDate = (dateString: string) => {
+    return new Date(dateString).toLocaleDateString('uk-UA', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+    });
   };
 
   return (
-    <div
-      style={{ padding: '50px 20px', textAlign: 'center', minHeight: '50vh' }}
-    >
-      <h1>Мій Профіль</h1>
-      {userEmail ?
+    <div className={styles.profileContainer}>
+      <Breadcrumbs />
+      <h1 className={styles.profileContainer__title}>Profile</h1>
+
+      {user ?
         <>
-          <p style={{ fontSize: '18px', margin: '20px 0' }}>
-            Ви увійшли як: <strong>{userEmail}</strong>
-          </p>
+          <div className={styles.userInfo}>
+            <img
+              src={
+                user.user_metadata.avatar_url ||
+                'https://via.placeholder.com/150'
+              }
+              className={styles.userInfo__photo}
+              alt="Profile"
+            />
+
+            <p className={styles.userInfo__title}>Name:</p>
+            <span className={styles.userInfo__info}>
+              {user.user_metadata.full_name || '-'}
+            </span>
+
+            <p className={styles.userInfo__title}>Email:</p>
+            <span className={styles.userInfo__info}>{user.email}</span>
+
+            <p className={styles.userInfo__title}>Created:</p>
+            <span className={styles.userInfo__info}>
+              {formatDate(user.created_at)}
+            </span>
+          </div>
+
           <button
             onClick={handleLogout}
-            style={{
-              padding: '10px 20px',
-              cursor: 'pointer',
-              backgroundColor: '#e74c3c',
-              color: 'white',
-              border: 'none',
-              borderRadius: '5px',
-            }}
+            className={styles.logoutButton}
           >
-            Вийти з акаунту
+            Log out
           </button>
         </>
-      : <p>Завантаження...</p>}
+      : <div className={styles.loading}>
+          <Loader />
+        </div>
+      }
     </div>
   );
 };

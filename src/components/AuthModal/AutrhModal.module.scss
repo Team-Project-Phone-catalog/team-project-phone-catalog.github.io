@@ -1,3 +1,6 @@
+@use '../../styles/utils' as *;
+@use '../../styles/variables' as *;
+
 .overlay {
   position: fixed;
   top: 0;
@@ -13,13 +16,15 @@
 }
 
 .modal {
-  background-color: #fff;
+  background-color: $color-black;
   padding: 40px;
   border-radius: 12px;
-  width: 100%;
-  maxwidth: 400px;
   position: relative;
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+
+  @include on-desktop {
+    width: 400px;
+  }
 }
 
 .closeBtn {
@@ -42,7 +47,7 @@
   text-align: center;
   margin-bottom: 24px;
   font-size: 24px;
-  color: #313237;
+  color: $color-white;
 }
 
 .googleBtn {
@@ -72,7 +77,7 @@
 .divider {
   text-align: center;
   margin: 16px 0;
-  color: #89939a;
+  color: $color-white;
   font-size: 14px;
   position: relative;
 
@@ -114,7 +119,7 @@
 
 .submitBtn {
   padding: 12px;
-  background-color: #313237;
+  background-color: $btn-primary-bg;
   color: #fff;
   border: none;
   border-radius: 8px;
@@ -124,7 +129,7 @@
   transition: background-color 0.2s;
 
   &:hover:not(:disabled) {
-    background-color: #4a4d58;
+    background-color: $btn-primary-hover;
   }
 
   &:disabled {
@@ -136,20 +141,20 @@
 .toggleWrapper {
   text-align: center;
   margin-top: 24px;
-  color: #89939a;
+  color: $color-white;
 }
 
 .toggleBtn {
   background: none;
   border: none;
-  color: #313237;
+  color: $btn-primary-bg;
   cursor: pointer;
   font-weight: 700;
   margin-left: 8px;
   text-decoration: underline;
 
   &:hover {
-    color: #000;
+    color: $btn-primary-hover;
   }
 }
 
