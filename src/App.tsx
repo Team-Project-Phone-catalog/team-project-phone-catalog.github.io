@@ -16,6 +16,7 @@ import { Toaster } from 'sonner';
 import { ProfilePage } from './pages/ProfilePage/ProfilePage';
 import { HelpWidget } from './components/HelpWidget/HelpWidget';
 import { ProfileOrderPage } from './pages/ProfilePage/ProfileOrderPage/ProfileOrderPage.tsx';
+import { AdminPage } from './pages/ProfilePage/AdminPage/AdminPage.tsx';
 
 export const App = () => {
   return (
@@ -70,6 +71,11 @@ export const App = () => {
           <Route
             path="/profile/orders"
             element={<ProfileOrderPage />}
+          />
+
+          <Route
+            path="/profile/admin"
+            element={<AdminPage />}
           />
           <Route
             path="/:category/:productId"
