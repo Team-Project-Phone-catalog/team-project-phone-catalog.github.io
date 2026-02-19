@@ -49,7 +49,6 @@ export const ProductOptions: React.FC<Props> = ({
             newParams.set('capacity', currentCapacity);
             newParams.set('color', clr);
 
-            // Додаємо параметри до шляху
             const targetLocation = `/${category}/${newItemId}?${newParams.toString()}`;
 
             return (
