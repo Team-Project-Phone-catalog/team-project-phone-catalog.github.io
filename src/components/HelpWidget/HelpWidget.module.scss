@@ -7,7 +7,7 @@
   width: 60px;
   height: 60px;
   border-radius: 50%;
-  border: 3px #f1f2f9;
+  border: 3px solid #f1f2f9;
 
   background: #323542;
 
@@ -24,6 +24,10 @@
 .bubble:hover {
   transform: translateY(-4px);
   box-shadow: 0 12px 25px rgba(0, 0, 0, 0.35);
+}
+
+.bubble svg {
+  display: block;
 }
 
 .badge {
