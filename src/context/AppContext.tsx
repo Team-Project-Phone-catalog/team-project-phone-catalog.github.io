@@ -6,6 +6,7 @@ export interface AppContextValue {
   cartItems: CartItem[];
   addToCart: (product: BaseProduct) => void;
   removeFromCart: (productId: string) => void;
+  toggleCart: (product: BaseProduct) => void;
   updateQuantity: (productId: string, quantity: number) => void;
   clearCart: () => void;
   getTotalPrice: () => number;

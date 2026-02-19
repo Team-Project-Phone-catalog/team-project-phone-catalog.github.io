@@ -13,23 +13,20 @@ interface Props {
 }
 
 export const ProductCard: React.FC<Props> = ({ product }) => {
-  const { addToCart, isInCart, toggleFavorite, isFavorite } = useAppContext();
+  const { toggleCart, isInCart, toggleFavorite, isFavorite } = useAppContext();
 
   if (!product) return null;
 
-  // Визначаємо ID на початку, щоб використовувати в функціях
-  const productId = 'itemId' in product ? product.itemId : product.id;
-  const stringId = String(productId);
-
   /* ===================== CART ===================== */
-  const handleAddToCart = () => {
-    // Важливо: передаємо весь об'єкт для кошика
-    addToCart(product as Product);
+  const productId = 'itemId' in product ? product.itemId : product.id;
+
+  const handleToggleCart = () => {
+    toggleCart(product);
   };
 
   /* ===================== FAVORITES ===================== */
   const handleToggleFavorite = () => {
-    toggleFavorite(stringId);
+    toggleFavorite(String(productId));
   };
 
   /* ===================== PRICES ===================== */
@@ -52,7 +49,9 @@ export const ProductCard: React.FC<Props> = ({ product }) => {
   const imageUrl = imagePath ? `/${imagePath}` : '';
 
   /* ===================== ROUTING ===================== */
-  const idString = stringId.toLowerCase();
+
+  const idString = String(productId).toLowerCase();
+
   let category = 'phones';
 
   if (idString.includes('ipad')) {
@@ -101,18 +100,17 @@ export const ProductCard: React.FC<Props> = ({ product }) => {
         />
 
         <ProductActions
-          productName={product.name}
-          onAddToCart={(e) => {
+          handleToggleCart={(e) => {
             e.preventDefault();
             e.stopPropagation();
-            handleAddToCart();
+            handleToggleCart();
           }}
           onToggleFavorite={(e) => {
             e.preventDefault();
             e.stopPropagation();
             handleToggleFavorite();
           }}
-          isFavorite={isFavorite(stringId)}
+          isFavorite={isFavorite(String(productId))}
           isInCart={isInCart(product as Product)}
         />
       </div>
