@@ -1,27 +1,34 @@
 import './ProductPurchase.scss';
 import { ProductActions } from '../../ProductActions/ProductActions.tsx';
 import React from 'react';
+import { ProductDetails } from '../../../../types/Product.ts';
+import { useAppContext } from '../../../../hooks/useAppContext.ts';
 
 type Props = {
-  productName: string;
+  product: ProductDetails;
   priceRegular: number;
   priceDiscount: number;
   isFavorite?: boolean;
   isInCart?: boolean;
-  onAddToCart: (e: React.MouseEvent) => void;
-  onToggleFavorite: (e: React.MouseEvent) => void;
+  onAddToCart?: (e: React.MouseEvent) => void;
+  onToggleFavorite?: (e: React.MouseEvent) => void;
 };
 
 export const ProductPurchase: React.FC<Props> = ({
-  productName,
+  product,
   priceRegular,
   priceDiscount,
-  isFavorite,
-  isInCart,
-  onAddToCart,
-  onToggleFavorite,
 }) => {
+  const {
+    addToCart,
+    isInCart: checkInCart,
+    toggleFavorite,
+    isFavorite: checkFavorite,
+  } = useAppContext();
+
   const hasDiscount = priceDiscount < priceRegular;
+  const inCart = checkInCart(product);
+  const favorite = checkFavorite(String(product.id));
 
   return (
     <div className="purchase">
@@ -31,14 +38,13 @@ export const ProductPurchase: React.FC<Props> = ({
           <span className="purchase-price__full">${priceRegular}</span>
         )}
       </div>
-
       <div className="purchase__buttons">
         <ProductActions
-          productName={productName}
-          onAddToCart={onAddToCart}
-          onToggleFavorite={onToggleFavorite}
-          isFavorite={isFavorite}
-          isInCart={isInCart}
+          productName={product.name}
+          onAddToCart={() => addToCart(product)}
+          onToggleFavorite={() => toggleFavorite(String(product.id))}
+          isInCart={inCart}
+          isFavorite={favorite}
         />
       </div>
     </div>

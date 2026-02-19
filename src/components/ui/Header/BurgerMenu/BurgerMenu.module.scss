@@ -24,6 +24,13 @@ $color-accent: #eb5757;
   transition: transform 0.3s ease-in-out;
   transform: translateX(-100%);
 
+  &__divider {
+    width: 40px;
+    height: 1px;
+    background-color: $color-border;
+    list-style: none;
+  }
+
   &--open {
     transform: translateX(0);
   }

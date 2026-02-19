@@ -10,6 +10,8 @@
   background-color: $bg-surface;
   position: relative;
 
+  border-radius: 12px; // ← добавлено
+
   @include on-tablet {
     display: flex;
     align-items: center;
@@ -28,6 +30,8 @@
   color: $color-secondary;
   font-size: 20px;
   cursor: pointer;
+
+  border-radius: 8px; // ← добавлено
 
   @include on-tablet {
     left: 24px;
@@ -104,6 +108,8 @@
   color: $color-light-1;
   font-size: 16px;
   cursor: pointer;
+
+  border-radius: 8px; // ← добавлено
 }
 
 .btnMinus {
@@ -114,6 +120,8 @@
   color: $color-icons;
   font-size: 16px;
   cursor: pointer;
+
+  border-radius: 8px; // ← добавлено
 }
 
 .count {

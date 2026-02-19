@@ -1,3 +1,4 @@
+@use '../../styles/variables' as *;
 @use '../../styles/utils' as *;
 
 body {
@@ -12,7 +13,10 @@ body {
   min-width: 0;
   height: 440px;
   padding: 32px;
-  background-color: #161827;
+  background-color: $color-surface-1;
+
+  border-radius: 20px;
+  overflow: hidden;
 
   @include on-tablet {
     height: 506px;
@@ -58,6 +62,6 @@ body {
     font-size: 14px;
     line-height: 21px;
     text-align: left;
-    color: #f1f2f9;
+    color: $color-light-1;
   }
 }

@@ -13,6 +13,10 @@ import { ProductDetailsPage } from './pages/ProductDetailsPage/ProductDetailsPag
 import { ScrollToTop } from './components/ScrollToTop/ScrollToTop.tsx';
 import { Toaster } from 'sonner';
 
+import { ProfilePage } from './pages/ProfilePage/ProfilePage';
+import { HelpWidget } from './components/HelpWidget/HelpWidget';
+import { ProfileOrderPage } from './pages/ProfilePage/ProfileOrderPage/ProfileOrderPage.tsx';
+
 export const App = () => {
   return (
     <div className="App">
@@ -59,6 +63,15 @@ export const App = () => {
             element={<FavoritesPage />}
           />
           <Route
+            path="/profile"
+            element={<ProfilePage />}
+          />
+
+          <Route
+            path="/profile/orders"
+            element={<ProfileOrderPage />}
+          />
+          <Route
             path="/:category/:productId"
             element={<ProductDetailsPage />}
           />
@@ -70,6 +83,7 @@ export const App = () => {
       </div>
 
       <Footer />
+      <HelpWidget />
     </div>
   );
 };

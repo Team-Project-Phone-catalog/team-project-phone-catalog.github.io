@@ -1,7 +1,7 @@
 import './ProductDetailsPage.scss';
 import { ProductPage } from '../../components/ui/Product/ProductCard/ProductPage.tsx';
 import { BackButton } from '../../components/ui/Buttons/Back/BackButton.tsx';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { ProductDetails } from '../../types/Product.ts';
 import { getProductDetails } from '../../api/products.ts';
@@ -13,7 +13,9 @@ export const ProductDetailsPage = () => {
     category: string;
     productId: string;
   }>();
+
   const navigate = useNavigate();
+  const location = useLocation();
 
   const [product, setProduct] = useState<ProductDetails | null>(null);
   const [loading, setLoading] = useState(true);
@@ -43,16 +45,35 @@ export const ProductDetailsPage = () => {
   useEffect(() => {
     if (!productId) return;
 
-    const timer = setTimeout(() => {
-      fetchProductData(productId, false);
-    }, 1000);
+    let isBackgroundUpdate = false;
 
-    return () => clearTimeout(timer);
+    if (product) {
+      const formattedCurrentColor = product.color
+        .toLowerCase()
+        .replace(/\s+/g, '-');
+      if (productId.includes(formattedCurrentColor)) {
+        isBackgroundUpdate = true;
+      }
+    }
+
+    fetchProductData(productId, isBackgroundUpdate);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [category, productId]);
 
   const handleCapacityUpdate = (newItemId: string) => {
-    fetchProductData(newItemId, true);
+    if (!category) return;
+
+    const newParams = new URLSearchParams(location.search);
+
+    const capacityMatch = newItemId.match(/-(\d+(?:gb|tb))(?:-|$)/i);
+    if (capacityMatch) {
+      newParams.set('capacity', capacityMatch[1].toUpperCase());
+    }
+
+    navigate({
+      pathname: `/${category}/${newItemId}`,
+      search: newParams.toString(),
+    });
   };
 
   if (loading) {
@@ -73,8 +94,8 @@ export const ProductDetailsPage = () => {
               Unfortunately, the product is unknown.
             </h1>
             <p className="product-not-found__text">
-              We couldnt find the product youre looking for. It may have been
-              removed or the link is outdated.
+              We couldn&apos;t find the product you&apos;re looking for. It may
+              have been removed or the link is outdated.
             </p>
             <button
               className="product-not-found__button"
@@ -98,6 +119,7 @@ export const ProductDetailsPage = () => {
       </div>
 
       <ProductPage
+        key={product.color}
         product={product}
         onCapacityChange={handleCapacityUpdate}
       />

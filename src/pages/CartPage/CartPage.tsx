@@ -12,7 +12,7 @@ export const CartPage = () => {
     getTotalPrice,
     getTotalItems,
   } = useAppContext();
-
+  console.log(cartItems);
   return (
     <div className={s.cart}>
       <BackButton />

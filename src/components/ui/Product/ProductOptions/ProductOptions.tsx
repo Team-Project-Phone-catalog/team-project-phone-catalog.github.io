@@ -1,5 +1,5 @@
 import React from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useSearchParams } from 'react-router-dom';
 import { ColorLink } from '../../ColorMap/ColorLink.tsx';
 import './ProductOptions.scss';
 
@@ -11,6 +11,8 @@ type Props = {
   capacityAvailable: string[];
   currentCapacity: string;
   onCapacityChange: (newItemId: string) => void;
+  onColorChange?: (color: string) => void;
+  onCapacitySelect?: (capacity: string) => void;
 };
 
 export const ProductOptions: React.FC<Props> = ({
@@ -20,8 +22,11 @@ export const ProductOptions: React.FC<Props> = ({
   capacityAvailable,
   currentCapacity,
   onCapacityChange,
+  onColorChange,
+  onCapacitySelect,
 }) => {
   const { category } = useParams<{ category: string }>();
+  const [searchParams] = useSearchParams();
 
   const buildItemId = (capacity: string, color: string) => {
     const formattedCapacity = capacity.toLowerCase().replace(/\s+/g, '-');
@@ -37,8 +42,14 @@ export const ProductOptions: React.FC<Props> = ({
         <ul className="product-options__list">
           {colorsAvailable.map((clr) => {
             const newItemId = buildItemId(currentCapacity, clr);
-            const targetLocation = `/${category}/${newItemId}`;
             const normalizedColor = clr.toLowerCase().replace(/\s+/g, '');
+
+            // Створюємо нові параметри для лінка
+            const newParams = new URLSearchParams(searchParams);
+            newParams.set('capacity', currentCapacity);
+            newParams.set('color', clr);
+
+            const targetLocation = `/${category}/${newItemId}?${newParams.toString()}`;
 
             return (
               <li
@@ -49,6 +60,7 @@ export const ProductOptions: React.FC<Props> = ({
                   to={targetLocation}
                   color={normalizedColor}
                   selected={currentColor === clr}
+                  onClick={() => onColorChange?.(clr)}
                 />
               </li>
             );
@@ -66,7 +78,10 @@ export const ProductOptions: React.FC<Props> = ({
             className={`product-options__ram-item ${
               currentCapacity === cap ? 'product-options__ram-item--active' : ''
             }`}
-            onClick={() => onCapacityChange(buildItemId(cap, currentColor))}
+            onClick={() => {
+              onCapacitySelect?.(cap);
+              onCapacityChange(buildItemId(cap, currentColor));
+            }}
           >
             {cap}
           </button>

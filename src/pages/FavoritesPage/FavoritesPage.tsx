@@ -1,65 +1,93 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import { ProductCard } from '../ProductCard';
 import { Product } from '../../types/Product';
 import { getAccessories, getPhones, getTablets } from '../../api/products';
+import { Breadcrumbs } from '../../components/ui/Breadcrumbs/Breadcrumbs';
+import { useAppContext } from '../../hooks/useAppContext';
+import { Loader } from '../../components/ui/Loader/Loader';
 import './FavoritesPage.scss';
-import { Breadcrumbs } from '../../components/ui/Breadcrumbs/Breadcrumbs.tsx';
 
 export const FavoritesPage: React.FC = () => {
-  const [favorites, setFavorites] = useState<Product[]>([]);
-  const [, setIsLoading] = useState(true);
+  const { favorites } = useAppContext();
+  const [allProducts, setAllProducts] = useState<Product[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
-  const loadFavorites = async () => {
-    setIsLoading(true);
-    try {
-      const favIds: string[] = JSON.parse(
-        localStorage.getItem('favorites') || '[]',
-      );
-      const [phones, tablets, accessories] = await Promise.all([
-        getPhones(),
-        getTablets(),
-        getAccessories(),
-      ]);
-      const allProducts = [...phones, ...tablets, ...accessories];
-
-      const filtered = allProducts.filter((product) =>
-        favIds.includes('' + product.id),
-      );
-
-      setFavorites(filtered);
-    } catch (error) {
-      console.error('Failed to load favorites:', error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
+  //потім прибрати
 
   useEffect(() => {
-    loadFavorites();
+    console.log('FAVORITES:', favorites);
+    console.log(
+      'ALL PRODUCTS IDS:',
+      allProducts.map((p) => p),
+    );
+  }, [favorites, allProducts]);
+
+  useEffect(() => {
+    const loadProducts = async () => {
+      setIsLoading(true);
+      try {
+        const [phones, tablets, accessories] = await Promise.all([
+          getPhones(),
+          getTablets(),
+          getAccessories(),
+        ]);
+        setAllProducts([...phones, ...tablets, ...accessories]);
+      } catch (error) {
+        console.error('Failed to load products:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    loadProducts();
   }, []);
 
+  const favoriteProducts = useMemo(() => {
+    return allProducts.filter((product) =>
+      favorites.includes(String(product.itemId)),
+    );
+  }, [allProducts, favorites]);
+
+  // Якщо йде завантаження — рендеримо ТІЛЬКИ лоадер у спеціальній обгортці
+  if (isLoading) {
+    return (
+      <div className="favorites-page__loader-wrapper">
+        <Loader />
+      </div>
+    );
+  }
+
   return (
-    <>
-      <div className="favorites-page">
-        <div className="favorites-page__container">
-          <Breadcrumbs />
-          <div className="favorites-page__text">
-            <h1 className="favorites-page__title">Favourites</h1>
-            <div className="favorites-page__items-number">
-              {favorites.length} items
-            </div>
-          </div>
+    <div className="favorites-page">
+      <div className="favorites-page__container">
+        <Breadcrumbs />
+
+        <div className="favorites-page__text">
+          <h1 className="favorites-page__title">Favourites</h1>
+          <span className="favorites-page__items-number">
+            {favoriteProducts.length} items
+          </span>
+        </div>
+
+        {favoriteProducts.length > 0 ?
           <div className="favorites-page__all-favorites">
-            {favorites.map((product) => (
+            {favoriteProducts.map((product) => (
               <ProductCard
                 key={product.id}
                 product={product}
-                onFavoriteChange={loadFavorites}
               />
             ))}
           </div>
-        </div>
+        : <div className="favorites-page__empty">
+            <h2 className="favorites-page__title">
+              Your favorites list is empty
+            </h2>
+            <p className="favorites-page__items-number">
+              Add some products to see them here!
+            </p>
+          </div>
+        }
       </div>
-    </>
+    </div>
   );
 };

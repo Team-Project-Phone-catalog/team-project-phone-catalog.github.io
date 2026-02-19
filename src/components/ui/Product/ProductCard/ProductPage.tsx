@@ -14,20 +14,11 @@ import { ScrollToTop } from '../../../ScrollToTop/ScrollToTop.tsx';
 type Props = {
   product: ProductDetails;
   onCapacityChange: (newItemId: string) => void;
-  onAddToCart: (product: ProductDetails) => void;
-  onToggleFavorite: (product: ProductDetails) => void;
-  isFavorite: boolean;
-  isInCart: boolean;
+  onColorChange?: (color: string) => void;
+  onCapacitySelect?: (capacity: string) => void;
 };
 
-export const ProductPage: React.FC<Props> = ({
-  product,
-  onCapacityChange,
-  onAddToCart,
-  onToggleFavorite,
-  isFavorite,
-  isInCart,
-}) => {
+export const ProductPage: React.FC<Props> = ({ product, onCapacityChange }) => {
   const location = useLocation();
   const categoryFromUrl = location.pathname.split('/')[1];
 
@@ -44,6 +35,7 @@ export const ProductPage: React.FC<Props> = ({
       <div className="product-card__sidebar">
         <div className="product-card__options">
           <ProductOptions
+            key={product.id}
             itemId={product.id}
             namespaceId={product.namespaceId}
             colorsAvailable={product.colorsAvailable}
@@ -53,19 +45,9 @@ export const ProductPage: React.FC<Props> = ({
             onCapacityChange={onCapacityChange}
           />
           <ProductPurchase
-            productName={product.name}
+            product={product}
             priceDiscount={product.priceDiscount}
             priceRegular={product.priceRegular}
-            onAddToCart={(e) => {
-              e.preventDefault();
-              onAddToCart(product);
-            }}
-            onToggleFavorite={(e) => {
-              e.preventDefault();
-              onToggleFavorite(product);
-            }}
-            isFavorite={isFavorite}
-            isInCart={isInCart}
           />
         </div>
 
