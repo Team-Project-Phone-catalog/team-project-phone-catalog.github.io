@@ -13,6 +13,9 @@ export interface BaseProduct {
   capacity: string;
   color: string;
   ram: string;
+  image: string;
+  price?: number;
+  fullPrice?: number;
 }
 
 export interface Product extends BaseProduct {

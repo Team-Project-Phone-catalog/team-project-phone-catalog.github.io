@@ -7,6 +7,7 @@ import logo from './icons/logo.svg';
 import heartIcon from './icons/Heart.svg';
 import cartIcon from './icons/Cart.svg';
 import userIcon from './icons/User.svg';
+import { useAppContext } from '../../../hooks/useAppContext.ts';
 
 const navLinks = [
   { id: 1, name: 'Home', path: '/' },
@@ -18,8 +19,11 @@ const navLinks = [
 export const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
+  const { getTotalItems } = useAppContext();
+
+  const cartCount = getTotalItems();
+
   const favoritesCount = 8;
-  const cartCount = 10;
 
   const toggleMenu = () => setIsMenuOpen((prev) => !prev);
   const closeMenu = () => setIsMenuOpen(false);

@@ -30,7 +30,13 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
     `${String(product.id)}_${product.color}_${product.capacity}`;
 
   const addToCart = (product: BaseProduct) => {
-    const itemUniqueId = getItemUniqueId(product);
+    const normalizedProduct = {
+      ...product,
+      priceDiscount: product.priceDiscount ?? product.price ?? 0,
+      priceRegular: product.priceRegular ?? product.fullPrice ?? 0,
+    };
+
+    const itemUniqueId = getItemUniqueId(normalizedProduct);
 
     setCartItems((prevItems) => {
       const existingItem = prevItems.find(
@@ -45,7 +51,10 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
         );
       }
 
-      return [...prevItems, { ...product, quantity: 1, itemUniqueId }];
+      return [
+        ...prevItems,
+        { ...normalizedProduct, quantity: 1, itemUniqueId },
+      ];
     });
   };
 
