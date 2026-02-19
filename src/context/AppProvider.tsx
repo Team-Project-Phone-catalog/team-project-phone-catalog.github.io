@@ -27,7 +27,7 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
   }, [cartItems]);
 
   const getItemUniqueId = (product: BaseProduct) =>
-    `${String(product.id)}_${product.color}_${product.capacity}`;
+    String('itemId' in product ? product.itemId : product.id);
 
   const addToCart = (product: BaseProduct) => {
     const normalizedProduct = {
@@ -77,22 +77,29 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
     );
   };
 
+  //новое
+  const toggleCart = (product: BaseProduct) => {
+    const itemUniqueId = getItemUniqueId(product);
+
+    if (isInCart(product)) {
+      removeFromCart(itemUniqueId);
+    } else {
+      addToCart(product);
+    }
+  };
+  //новое
+
   const clearCart = () => setCartItems([]);
 
-  const getTotalPrice = useCallback(
-    () =>
-      cartItems.reduce(
-        (total, item) =>
-          total + (item.priceDiscount ?? item.price) * item.quantity,
-        0,
-      ),
-    [cartItems],
-  );
+  const getTotalPrice = () =>
+    cartItems.reduce(
+      (total, item) =>
+        total + (item.priceDiscount ?? item.price) * item.quantity,
+      0,
+    );
 
-  const getTotalItems = useCallback(
-    () => cartItems.reduce((total, item) => total + item.quantity, 0),
-    [cartItems],
-  );
+  const getTotalItems = () =>
+    cartItems.reduce((total, item) => total + item.quantity, 0);
 
   const isInCart = (product: BaseProduct) => {
     const itemUniqueId = getItemUniqueId(product);
@@ -141,6 +148,7 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
         cartItems,
         addToCart,
         removeFromCart,
+        toggleCart,
         updateQuantity,
         clearCart,
         getTotalPrice,

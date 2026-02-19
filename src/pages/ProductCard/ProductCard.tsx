@@ -13,14 +13,15 @@ interface Props {
 }
 
 export const ProductCard: React.FC<Props> = ({ product }) => {
-  const { addToCart, isInCart, toggleFavorite, isFavorite } = useAppContext();
+  const { toggleCart, isInCart, toggleFavorite, isFavorite } = useAppContext();
 
   if (!product) return null;
 
   /* ===================== CART ===================== */
+  const productId = 'itemId' in product ? product.itemId : product.id;
 
-  const handleAddToCart = () => {
-    addToCart(product as Product);
+  const handleToggleCart = () => {
+    toggleCart(product);
   };
   /* ===================== FAVORITES ===================== */
 
@@ -59,8 +60,6 @@ export const ProductCard: React.FC<Props> = ({ product }) => {
   const imageUrl = imagePath ? `/${imagePath}` : null;
 
   /* ===================== ROUTING ===================== */
-
-  const productId = 'itemId' in product ? product.itemId : product.id;
 
   const idString = String(productId).toLowerCase();
 
@@ -126,10 +125,10 @@ export const ProductCard: React.FC<Props> = ({ product }) => {
         />
 
         <ProductActions
-          onAddToCart={(e) => {
+          handleToggleCart={(e) => {
             e.preventDefault();
             e.stopPropagation();
-            handleAddToCart();
+            handleToggleCart();
           }}
           onToggleFavorite={(e) => {
             e.preventDefault();

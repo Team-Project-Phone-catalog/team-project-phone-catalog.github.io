@@ -2,14 +2,14 @@ import './ProductActions.scss';
 import * as React from 'react';
 
 interface Props {
-  onAddToCart: (e: React.MouseEvent) => void;
+  handleToggleCart: (e: React.MouseEvent) => void;
   onToggleFavorite: (e: React.MouseEvent) => void;
   isFavorite?: boolean;
   isInCart?: boolean;
 }
 
 export const ProductActions: React.FC<Props> = ({
-  onAddToCart,
+  handleToggleCart,
   onToggleFavorite,
   isFavorite,
   isInCart,
@@ -19,8 +19,7 @@ export const ProductActions: React.FC<Props> = ({
       <button
         type="button"
         className={`product-actions__add-to-cart ${isInCart ? 'in-cart' : ''}`}
-        onClick={onAddToCart}
-        disabled={isInCart}
+        onClick={handleToggleCart}
       >
         {isInCart ? 'Added' : 'Add to cart'}
       </button>
