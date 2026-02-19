@@ -11,7 +11,9 @@ import { HomePage } from './pages/HomePage/HomePage.tsx';
 import { FavoritesPage } from './pages/FavoritesPage/FavoritesPage.tsx';
 import { ProductDetailsPage } from './pages/ProductDetailsPage/ProductDetailsPage.tsx';
 import { ScrollToTop } from './components/ScrollToTop/ScrollToTop.tsx';
-import { ProfilePage } from './pages/ProfilePage/ProfilePage.tsx';
+
+import { ProfilePage } from './pages/ProfilePage/ProfilePage';
+import { HelpWidget } from './components/HelpWidget/HelpWidget';
 
 export const App = () => {
   return (
@@ -61,6 +63,7 @@ export const App = () => {
       </div>
 
       <Footer />
+      <HelpWidget />
     </div>
   );
 };
