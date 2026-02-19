@@ -44,10 +44,7 @@ export const ProfilePage = () => {
     <div className={styles.profilePage}>
       <div className={styles.profilePage__container}>
         <div className={styles.profilePage__layout}>
-          <Sidebar
-            userName={user?.user_metadata.full_name || ''}
-            userEmail={user?.email || ''}
-          />
+          <Sidebar />
 
           <main className={styles.profilePage__content}>
             <Breadcrumbs />
