@@ -58,12 +58,10 @@ export const ProductCard: React.FC<Props> = ({ product, onFavoriteChange }) => {
   }
 
   const imageUrl = imagePath ? `/${imagePath}` : null;
-
   const productId = 'itemId' in product ? product.itemId : product.id;
   const idString = String(productId).toLowerCase();
 
   let category = 'phones';
-
   if (idString.includes('ipad')) {
     category = 'tablets';
   } else if (idString.includes('watch')) {
@@ -78,7 +76,6 @@ export const ProductCard: React.FC<Props> = ({ product, onFavoriteChange }) => {
     const favorites: string[] = JSON.parse(
       localStorage.getItem('favorites') || '[]',
     );
-
     let updatedFavorites: string[];
 
     if (favorites.includes(String(product.id))) {
@@ -130,6 +127,7 @@ export const ProductCard: React.FC<Props> = ({ product, onFavoriteChange }) => {
         />
 
         <ProductActions
+          productName={product.name}
           onAddToCart={(e) => {
             e.preventDefault();
             e.stopPropagation();

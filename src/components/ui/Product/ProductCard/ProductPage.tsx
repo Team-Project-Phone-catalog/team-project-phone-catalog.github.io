@@ -14,11 +14,23 @@ import { ScrollToTop } from '../../../ScrollToTop/ScrollToTop.tsx';
 type Props = {
   product: ProductDetails;
   onCapacityChange: (newItemId: string) => void;
+  onAddToCart: (product: ProductDetails) => void;
+  onToggleFavorite: (product: ProductDetails) => void;
+  isFavorite: boolean;
+  isInCart: boolean;
 };
 
-export const ProductPage: React.FC<Props> = ({ product, onCapacityChange }) => {
+export const ProductPage: React.FC<Props> = ({
+  product,
+  onCapacityChange,
+  onAddToCart,
+  onToggleFavorite,
+  isFavorite,
+  isInCart,
+}) => {
   const location = useLocation();
   const categoryFromUrl = location.pathname.split('/')[1];
+
   return (
     <div className="product-card">
       <ScrollToTop />
@@ -41,8 +53,19 @@ export const ProductPage: React.FC<Props> = ({ product, onCapacityChange }) => {
             onCapacityChange={onCapacityChange}
           />
           <ProductPurchase
+            productName={product.name}
             priceDiscount={product.priceDiscount}
             priceRegular={product.priceRegular}
+            onAddToCart={(e) => {
+              e.preventDefault();
+              onAddToCart(product);
+            }}
+            onToggleFavorite={(e) => {
+              e.preventDefault();
+              onToggleFavorite(product);
+            }}
+            isFavorite={isFavorite}
+            isInCart={isInCart}
           />
         </div>
 

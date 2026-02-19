@@ -3,13 +3,23 @@ import { ProductActions } from '../../ProductActions/ProductActions.tsx';
 import React from 'react';
 
 type Props = {
+  productName: string;
   priceRegular: number;
   priceDiscount: number;
+  isFavorite?: boolean;
+  isInCart?: boolean;
+  onAddToCart: (e: React.MouseEvent) => void;
+  onToggleFavorite: (e: React.MouseEvent) => void;
 };
 
 export const ProductPurchase: React.FC<Props> = ({
+  productName,
   priceRegular,
   priceDiscount,
+  isFavorite,
+  isInCart,
+  onAddToCart,
+  onToggleFavorite,
 }) => {
   const hasDiscount = priceDiscount < priceRegular;
 
@@ -17,7 +27,6 @@ export const ProductPurchase: React.FC<Props> = ({
     <div className="purchase">
       <div className="purchase-price">
         <span className="purchase-price__current">${priceDiscount}</span>
-
         {hasDiscount && (
           <span className="purchase-price__full">${priceRegular}</span>
         )}
@@ -25,8 +34,11 @@ export const ProductPurchase: React.FC<Props> = ({
 
       <div className="purchase__buttons">
         <ProductActions
-          onAddToCart={() => console.log('Added to cart')}
-          onToggleFavorite={() => console.log('Toggled favorite')}
+          productName={productName}
+          onAddToCart={onAddToCart}
+          onToggleFavorite={onToggleFavorite}
+          isFavorite={isFavorite}
+          isInCart={isInCart}
         />
       </div>
     </div>
