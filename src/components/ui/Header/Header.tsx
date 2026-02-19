@@ -169,6 +169,7 @@ export const Header = () => {
         onClose={closeMenu}
         favoritesCount={favoritesCount}
         cartCount={cartCount}
+        user={user}
       />
     </>
   );

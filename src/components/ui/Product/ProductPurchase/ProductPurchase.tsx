@@ -8,6 +8,10 @@ type Props = {
   product: ProductDetails;
   priceRegular: number;
   priceDiscount: number;
+  isFavorite?: boolean;
+  isInCart?: boolean;
+  onAddToCart?: (e: React.MouseEvent) => void;
+  onToggleFavorite?: (e: React.MouseEvent) => void;
 };
 
 export const ProductPurchase: React.FC<Props> = ({
@@ -29,7 +33,6 @@ export const ProductPurchase: React.FC<Props> = ({
     <div className="purchase">
       <div className="purchase-price">
         <span className="purchase-price__current">${priceDiscount}</span>
-
         {hasDiscount && (
           <span className="purchase-price__full">${priceRegular}</span>
         )}
@@ -40,6 +43,7 @@ export const ProductPurchase: React.FC<Props> = ({
           onToggleFavorite={() => toggleFavorite(String(product.id))}
           isInCart={inCart}
           isFavorite={favorite}
+          productName={product.name}
         />
       </div>
     </div>

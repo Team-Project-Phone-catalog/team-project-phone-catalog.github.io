@@ -1,7 +1,13 @@
 import { useState, useEffect } from 'react';
 
+interface Review {
+  id: number;
+  rating: number;
+  comment: string;
+}
+
 export function Reviews() {
-  const [reviews, setReviews] = useState(() => {
+  const [reviews, setReviews] = useState<Review[]>(() => {
     const saved = localStorage.getItem('reviews');
     return saved ? JSON.parse(saved) : [];
   });
@@ -13,12 +19,12 @@ export function Reviews() {
     localStorage.setItem('reviews', JSON.stringify(reviews));
   }, [reviews]);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
     if (!rating || !comment.trim()) return;
 
-    const newReview = {
+    const newReview: Review = {
       id: Date.now(),
       rating,
       comment,
@@ -56,7 +62,7 @@ export function Reviews() {
 
       <hr />
 
-      {reviews.map((review) => (
+      {reviews.map((review: Review) => (
         <div key={review.id}>
           {'★'.repeat(review.rating)}
           <p>{review.comment}</p>

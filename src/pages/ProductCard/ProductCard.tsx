@@ -23,41 +23,30 @@ export const ProductCard: React.FC<Props> = ({ product }) => {
   const handleToggleCart = () => {
     toggleCart(product);
   };
-  /* ===================== FAVORITES ===================== */
 
+  /* ===================== FAVORITES ===================== */
   const handleToggleFavorite = () => {
     toggleFavorite(String(productId));
   };
 
   /* ===================== PRICES ===================== */
-
   const currentPrice =
-    product.priceDiscount ?? ('price' in product ? product.price : undefined);
-
+    product.priceDiscount ?? ('price' in product ? product.price : 0);
   const fullPrice =
-    product.priceRegular ??
-    ('fullPrice' in product ? product.fullPrice : undefined);
+    product.priceRegular ?? ('fullPrice' in product ? product.fullPrice : 0);
 
   /* ===================== IMAGE ===================== */
-
   let imagePath: string | null = null;
 
   if ('images' in product && product.images) {
-    if (Array.isArray(product.images)) {
-      imagePath = product.images[0];
-    } else {
-      try {
-        const parsed = JSON.parse(product.images);
-        imagePath = Array.isArray(parsed) ? parsed[0] : product.images;
-      } catch {
-        imagePath = product.images;
-      }
-    }
+    imagePath =
+      Array.isArray(product.images) ? product.images[0] : product.images;
   } else if ('image' in product && product.image) {
     imagePath = product.image;
   }
 
-  const imageUrl = imagePath ? `/${imagePath}` : null;
+  // Якщо шлях уже містить 'img/', не додаємо косу риску або валідуємо шлях
+  const imageUrl = imagePath ? `/${imagePath}` : '';
 
   /* ===================== ROUTING ===================== */
 
@@ -70,24 +59,10 @@ export const ProductCard: React.FC<Props> = ({ product }) => {
   } else if (idString.includes('watch')) {
     category = 'accessories';
   } else if ('category' in product && product.category) {
-    category = product.category as string;
+    category = product.category;
   }
 
-  const params = new URLSearchParams();
-
-  if ('color' in product && product.color) {
-    params.set('color', product.color);
-  }
-
-  if ('capacity' in product && product.capacity) {
-    params.set('capacity', product.capacity);
-  }
-
-  const linkTo =
-    `/${category}/${productId}` +
-    (params.toString() ? `?${params.toString()}` : '');
-
-  /* ===================== RENDER ===================== */
+  const linkTo = `/${category}/${productId}`;
 
   return (
     <div className="card">

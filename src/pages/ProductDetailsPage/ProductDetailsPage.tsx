@@ -56,11 +56,7 @@ export const ProductDetailsPage = () => {
       }
     }
 
-    const timer = setTimeout(() => {
-      fetchProductData(productId, isBackgroundUpdate);
-    }, 1000);
-
-    return () => clearTimeout(timer);
+    fetchProductData(productId, isBackgroundUpdate);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [category, productId]);
 
