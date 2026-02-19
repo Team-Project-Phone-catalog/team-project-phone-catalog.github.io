@@ -75,7 +75,19 @@ export const ProductCard: React.FC<Props> = ({ product }) => {
     category = product.category as string;
   }
 
-  const linkTo = `/${category}/${productId}`;
+  const params = new URLSearchParams();
+
+  if ('color' in product && product.color) {
+    params.set('color', product.color);
+  }
+
+  if ('capacity' in product && product.capacity) {
+    params.set('capacity', product.capacity);
+  }
+
+  const linkTo =
+    `/${category}/${productId}` +
+    (params.toString() ? `?${params.toString()}` : '');
 
   /* ===================== RENDER ===================== */
 
