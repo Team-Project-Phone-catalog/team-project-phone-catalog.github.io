@@ -32,6 +32,7 @@ $color-icons: #4a4d58;
     padding: 0;
     width: 32px;
     transition: all 0.2s;
+    border-radius: 8px;
 
     &::before {
       content: '';
@@ -48,6 +49,7 @@ $color-icons: #4a4d58;
 
     &:hover {
       background-color: $color-elements;
+
       &::before {
         background-color: $color-white;
       }
@@ -55,9 +57,11 @@ $color-icons: #4a4d58;
 
     &--prev {
       grid-area: prev;
+
       &::before {
         transform: rotate(180deg);
       }
+
       @media (max-width: 639px) {
         display: none;
       }
@@ -65,6 +69,7 @@ $color-icons: #4a4d58;
 
     &--next {
       grid-area: next;
+
       @media (max-width: 639px) {
         display: none;
       }

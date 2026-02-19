@@ -34,16 +34,10 @@
     align-items: center;
     padding: 0 16px;
     text-decoration: none;
-    transition: opacity $transition-default;
-
-    &:hover {
-      opacity: 0.8;
-    }
 
     img {
       width: 64px;
       height: 22px;
-      display: block;
       object-fit: contain;
 
       @include on-desktop() {
@@ -55,24 +49,15 @@
 
   &__nav {
     display: none;
-
     @include on-tablet() {
       display: flex;
       height: 100%;
       margin-left: 32px;
     }
-
-    @include on-desktop() {
-      margin-left: 48px;
-    }
   }
 
   &__icons {
-    display: none;
-
-    @include on-tablet() {
-      display: flex;
-    }
+    display: flex;
   }
 
   &__burger {
@@ -84,14 +69,9 @@
     border: none;
     border-left: 1px solid $color-border;
     cursor: pointer;
-    padding: 0;
 
     @include on-tablet() {
       display: none;
-    }
-
-    &:hover {
-      background-color: rgba($color-light-1, 0.05);
     }
   }
 }
@@ -99,21 +79,13 @@
 .nav_list {
   display: flex;
   list-style: none;
-  margin: 0;
   padding: 0;
   height: 100%;
-
   @include on-tablet() {
     gap: 32px;
   }
-
   @include on-desktop() {
     gap: 64px;
-  }
-
-  &__item {
-    display: flex;
-    align-items: center;
   }
 
   &__link {
@@ -125,16 +97,10 @@
     font-size: 12px;
     font-weight: 800;
     text-transform: uppercase;
-    transition: color $transition-default;
     position: relative;
-
-    &:hover {
-      color: $color-light-1;
-    }
 
     &--active {
       color: $color-light-1;
-
       &::after {
         content: '';
         position: absolute;
@@ -149,27 +115,33 @@
 }
 
 .icon_btn {
-  display: flex;
+  display: none;
   justify-content: center;
   align-items: center;
   width: 48px;
   height: 100%;
   border-left: 1px solid $color-border;
   text-decoration: none;
-  transition: background-color $transition-default;
   position: relative;
+
+  @include on-tablet() {
+    display: flex;
+  }
 
   @include on-desktop() {
     width: 64px;
   }
 
-  &:hover {
-    background-color: rgba($color-light-1, 0.05);
+  &--user {
+    display: flex;
+  }
+
+  &:last-child {
+    border-right: 1px solid $color-border;
   }
 
   &--active {
     background-color: rgba($color-light-1, 0.1);
-
     &::after {
       content: '';
       position: absolute;
@@ -184,6 +156,7 @@
   img {
     width: 16px;
     height: 16px;
+    object-fit: contain;
   }
 }
 
@@ -193,30 +166,22 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  position: relative;
 
   span {
     display: block;
     width: 100%;
     height: 2px;
     background-color: $color-light-1;
-    border-radius: 2px;
-    transition:
-      transform $transition-default,
-      opacity $transition-default;
-    transform-origin: center;
+    transition: transform 0.3s;
   }
 
   &--active {
     span:nth-child(1) {
       transform: translateY(3.5px) rotate(45deg);
     }
-
     span:nth-child(2) {
       opacity: 0;
-      transform: translateX(-5px);
     }
-
     span:nth-child(3) {
       transform: translateY(-3.5px) rotate(-45deg);
     }

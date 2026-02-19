@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import { BurgerMenu } from './BurgerMenu/BurgerMenu';
 import { CounterIcon } from './CounterIcon/CounterIcon';
@@ -6,7 +6,8 @@ import styles from './Header.module.scss';
 import logo from './icons/logo.svg';
 import heartIcon from './icons/Heart.svg';
 import cartIcon from './icons/Cart.svg';
-import { useAppContext } from '../../../hooks/useAppContext';
+import userIcon from './icons/User.svg';
+import { useAppContext } from '../../../hooks/useAppContext.ts';
 
 const navLinks = [
   { id: 1, name: 'Home', path: '/' },
@@ -21,23 +22,11 @@ export const Header = () => {
   const { getTotalItems } = useAppContext();
 
   const cartCount = getTotalItems();
-  // Тимчасова змінна
+
   const favoritesCount = 8;
 
-  useEffect(() => {
-    if (isMenuOpen) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = 'unset';
-    }
-    return () => {
-      document.body.style.overflow = 'unset';
-    };
-  }, [isMenuOpen]);
-
-  const toggleMenu = () => {
-    setIsMenuOpen((prev) => !prev);
-  };
+  const toggleMenu = () => setIsMenuOpen((prev) => !prev);
+  const closeMenu = () => setIsMenuOpen(false);
 
   return (
     <>
@@ -47,7 +36,7 @@ export const Header = () => {
             <Link
               to="/"
               className={styles.header__logo}
-              onClick={() => setIsMenuOpen(false)}
+              onClick={closeMenu}
             >
               <img
                 src={logo}
@@ -80,6 +69,22 @@ export const Header = () => {
 
           <div className={styles.header__right}>
             <div className={styles.header__icons}>
+              {/* Іконка Юзера - додано клас icon_btn--user */}
+              <NavLink
+                to="/profile"
+                className={({ isActive }) =>
+                  isActive ?
+                    `${styles.icon_btn} ${styles['icon_btn--user']} ${styles['icon_btn--active']}`
+                  : `${styles.icon_btn} ${styles['icon_btn--user']}`
+                }
+                onClick={closeMenu}
+              >
+                <img
+                  src={userIcon}
+                  alt="Profile"
+                />
+              </NavLink>
+
               <NavLink
                 to="/favorites"
                 className={({ isActive }) =>
@@ -87,6 +92,7 @@ export const Header = () => {
                     `${styles.icon_btn} ${styles['icon_btn--active']}`
                   : styles.icon_btn
                 }
+                onClick={closeMenu}
               >
                 <CounterIcon
                   icon={heartIcon}
@@ -94,6 +100,7 @@ export const Header = () => {
                   alt="Favorites"
                 />
               </NavLink>
+
               <NavLink
                 to="/cart"
                 className={({ isActive }) =>
@@ -101,6 +108,7 @@ export const Header = () => {
                     `${styles.icon_btn} ${styles['icon_btn--active']}`
                   : styles.icon_btn
                 }
+                onClick={closeMenu}
               >
                 <CounterIcon
                   icon={cartIcon}
@@ -129,7 +137,7 @@ export const Header = () => {
 
       <BurgerMenu
         isOpen={isMenuOpen}
-        onClose={() => setIsMenuOpen(false)}
+        onClose={closeMenu}
         favoritesCount={favoritesCount}
         cartCount={cartCount}
       />

@@ -91,6 +91,8 @@
     background-image: url('/img/icons/arrow-down.svg');
     background-repeat: no-repeat;
     background-position: right 12px center;
+
+    border-radius: 8px;
   }
 
   .search {
@@ -113,6 +115,8 @@
 
     font-family: Mont;
     font-size: 14px;
+
+    border-radius: 8px;
   }
 
   &__list {
