@@ -19,11 +19,10 @@ const navLinks = [
 export const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  const { getTotalItems } = useAppContext();
+  const { getTotalItems, getFavoritesCount } = useAppContext();
 
   const cartCount = getTotalItems();
-
-  const favoritesCount = 8;
+  const favoritesCount = getFavoritesCount();
 
   const toggleMenu = () => setIsMenuOpen((prev) => !prev);
   const closeMenu = () => setIsMenuOpen(false);
