@@ -2,19 +2,19 @@ import { useEffect, useMemo, useState } from 'react';
 import { getAccessories } from '../../api/products';
 import { Product } from '../../types/Product';
 import { ProductCard } from '../ProductCard/ProductCard';
-import { sortByNewest, sortByBestPrice } from '../../utils/productFilters';
+import { sortProducts } from '../../utils/productFilters';
 import { SortType } from '../../types/SortType';
 import s from './AccessoriesPage.module.scss';
 import { Breadcrumbs } from '../../components/ui/Breadcrumbs/Breadcrumbs.tsx';
 import { ProductSkeleton } from '../../components/ProductSkelet/ProductSkelet.tsx';
 import { NoResults } from '../../components/ui/NoResults/NoResults.tsx';
+import { Dropdown } from '../../components/ui/Dropdown/Dropdown';
 
 export const AccessoriesPage = () => {
   const [accessories, setAccessories] = useState<Product[]>([]);
   const [sortBy, setSortBy] = useState<SortType>('newest');
-  const [itemsOnPage, setItemsOnPage] = useState(16);
+  const [itemsOnPage, setItemsOnPage] = useState(12);
   const [currentPage, setCurrentPage] = useState(1);
-
   const [isLoading, setIsLoading] = useState(true);
 
   const [searchQuery, setSearchQuery] = useState('');
@@ -23,10 +23,8 @@ export const AccessoriesPage = () => {
   useEffect(() => {
     const loadAccessories = async () => {
       setIsLoading(true);
-
       try {
         const data = await getAccessories();
-
         setAccessories(
           data.map((acc) => ({
             ...acc,
@@ -73,16 +71,7 @@ export const AccessoriesPage = () => {
   }, [accessories, debouncedQuery]);
 
   const sortedAccessories = useMemo(() => {
-    const toSort = [...filteredAccessories];
-    switch (sortBy) {
-      case 'alphabetically':
-        return toSort.sort((a, b) => a.name.localeCompare(b.name));
-      case 'bestPrice':
-        return sortByBestPrice(toSort);
-      case 'newest':
-      default:
-        return sortByNewest(toSort);
-    }
+    return sortProducts(filteredAccessories, sortBy);
   }, [filteredAccessories, sortBy]);
 
   const totalPages = Math.ceil(sortedAccessories.length / itemsOnPage);
@@ -93,6 +82,20 @@ export const AccessoriesPage = () => {
 
     return sortedAccessories.slice(start, end);
   }, [sortedAccessories, itemsOnPage, currentPage]);
+
+  const sortOptions = [
+    { label: 'Price low', value: 'priceLow' },
+    { label: 'Price high', value: 'priceHigh' },
+    { label: 'Newest', value: 'newest' },
+    { label: 'Oldest', value: 'oldest' },
+  ];
+
+  const itemsOptions = [
+    { label: '12', value: '12' },
+    { label: '24', value: '24' },
+    { label: '36', value: '36' },
+    { label: '48', value: '48' },
+  ];
 
   return (
     <div className={s['accessories-page']}>
@@ -110,34 +113,26 @@ export const AccessoriesPage = () => {
             <div className={s.controlsLeft}>
               <div className={s.control}>
                 <label className={s.label}>Sort by</label>
-                <select
-                  className={s.select}
+                <Dropdown
+                  options={sortOptions}
                   value={sortBy}
-                  onChange={(event) => {
-                    setSortBy(event.target.value as SortType);
+                  onChange={(value) => {
+                    setSortBy(value as SortType);
                     setCurrentPage(1);
                   }}
-                >
-                  <option value="newest">Newest</option>
-                  <option value="alphabetically">Alphabetically</option>
-                  <option value="bestPrice">Best price</option>
-                </select>
+                />
               </div>
 
               <div className={s.control}>
                 <label className={s.label}>Items on page</label>
-                <select
-                  className={s.select}
-                  value={itemsOnPage}
-                  onChange={(event) => {
-                    setItemsOnPage(+event.target.value);
+                <Dropdown
+                  options={itemsOptions}
+                  value={String(itemsOnPage)}
+                  onChange={(value) => {
+                    setItemsOnPage(+value);
                     setCurrentPage(1);
                   }}
-                >
-                  <option value={16}>16</option>
-                  <option value={32}>32</option>
-                  <option value={64}>64</option>
-                </select>
+                />
               </div>
             </div>
 
