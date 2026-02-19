@@ -15,15 +15,23 @@ export const HelpWidget = () => {
   const [isTyping, setIsTyping] = useState(false);
 
   const chatRef = useRef<HTMLDivElement | null>(null);
+  const bubbleRef = useRef<HTMLButtonElement | null>(null);
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
 
+  /* Автоскролл */
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages, isTyping]);
 
+  /* Закрытие при клике вне области */
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (chatRef.current && !chatRef.current.contains(event.target as Node)) {
+      if (
+        chatRef.current &&
+        !chatRef.current.contains(event.target as Node) &&
+        bubbleRef.current &&
+        !bubbleRef.current.contains(event.target as Node)
+      ) {
         setIsOpen(false);
       }
     };
@@ -37,6 +45,7 @@ export const HelpWidget = () => {
     };
   }, [isOpen]);
 
+  /* Приветственное сообщение */
   const addWelcomeMessage = () => {
     setMessages((prev) => {
       if (prev.length > 0) return prev;
@@ -51,6 +60,7 @@ export const HelpWidget = () => {
     });
   };
 
+  /* Случайные ответы */
   const getBotReply = () => {
     const replies = [
       'Thank you for your message. Our team will assist you shortly.',
@@ -61,6 +71,7 @@ export const HelpWidget = () => {
     return replies[Math.floor(Math.random() * replies.length)];
   };
 
+  /* Отправка сообщения */
   const sendMessage = () => {
     if (!input.trim()) return;
 
@@ -88,6 +99,7 @@ export const HelpWidget = () => {
     }, 1200);
   };
 
+  /* Toggle открытия / закрытия */
   const handleToggle = () => {
     setIsOpen((prev) => {
       const next = !prev;
@@ -105,6 +117,7 @@ export const HelpWidget = () => {
     <>
       {/* Bubble */}
       <button
+        ref={bubbleRef}
         className={s.bubble}
         onClick={handleToggle}
       >
@@ -124,6 +137,7 @@ export const HelpWidget = () => {
         {unreadCount > 0 && <span className={s.badge}>{unreadCount}</span>}
       </button>
 
+      {/* Chat */}
       {isOpen && (
         <div
           className={s.chat}
