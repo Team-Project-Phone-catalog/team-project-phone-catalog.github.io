@@ -2,6 +2,7 @@ import React, { useState, ReactNode, useCallback, useEffect } from 'react';
 import { BaseProduct } from '../types/Product';
 import { CartItem } from '../types/Cart';
 import { AppContext } from './AppContext';
+import { notify } from '../utils/notifications';
 
 interface AppProviderProps {
   children: ReactNode;
@@ -10,24 +11,34 @@ interface AppProviderProps {
 export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
   const [cartItems, setCartItems] = useState<CartItem[]>(() => {
     if (typeof window === 'undefined') return [];
-
     try {
       const savedCart = localStorage.getItem('cart');
       return savedCart ? JSON.parse(savedCart) : [];
-    } catch (error) {
-      console.error('Failed to parse cart from localStorage:', error);
+    } catch {
+      return [];
+    }
+  });
+
+  const [favorites, setFavorites] = useState<string[]>(() => {
+    if (typeof window === 'undefined') return [];
+    try {
+      const saved = localStorage.getItem('favorites');
+      return saved ? JSON.parse(saved) : [];
+    } catch {
       return [];
     }
   });
 
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      localStorage.setItem('cart', JSON.stringify(cartItems));
-    }
+    localStorage.setItem('cart', JSON.stringify(cartItems));
   }, [cartItems]);
 
+  useEffect(() => {
+    localStorage.setItem('favorites', JSON.stringify(favorites));
+  }, [favorites]);
+
   const getItemUniqueId = (product: BaseProduct) =>
-    `${String(product.id)}_${product.color}_${product.capacity}`;
+    String('itemId' in product ? product.itemId : product.id);
 
   const addToCart = (product: BaseProduct) => {
     const normalizedProduct = {
@@ -35,14 +46,12 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
       priceDiscount: product.priceDiscount ?? product.price ?? 0,
       priceRegular: product.priceRegular ?? product.fullPrice ?? 0,
     };
-
     const itemUniqueId = getItemUniqueId(normalizedProduct);
 
     setCartItems((prevItems) => {
       const existingItem = prevItems.find(
         (item) => item.itemUniqueId === itemUniqueId,
       );
-
       if (existingItem) {
         return prevItems.map((item) =>
           item.itemUniqueId === itemUniqueId ?
@@ -50,7 +59,6 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
           : item,
         );
       }
-
       return [
         ...prevItems,
         { ...normalizedProduct, quantity: 1, itemUniqueId },
@@ -59,9 +67,27 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
   };
 
   const removeFromCart = (itemUniqueId: string) => {
+    const itemToRemove = cartItems.find(
+      (item) => item.itemUniqueId === itemUniqueId,
+    );
+
+    if (itemToRemove) {
+      notify.removedFromCart(itemToRemove.name);
+    }
+
     setCartItems((prevItems) =>
       prevItems.filter((item) => item.itemUniqueId !== itemUniqueId),
     );
+  };
+
+  const toggleCart = (product: BaseProduct) => {
+    const itemUniqueId = getItemUniqueId(product);
+    if (isInCart(product)) {
+      removeFromCart(itemUniqueId);
+    } else {
+      addToCart(product);
+      notify.addedToCart(product.name);
+    }
   };
 
   const updateQuantity = (itemUniqueId: string, quantity: number) => {
@@ -77,63 +103,42 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
     );
   };
 
-  const clearCart = () => setCartItems([]);
+  const clearCart = () => {
+    setCartItems([]);
+  };
 
-  const getTotalPrice = useCallback(
-    () =>
-      cartItems.reduce(
-        (total, item) =>
-          total + (item.priceDiscount ?? item.price) * item.quantity,
-        0,
-      ),
-    [cartItems],
-  );
+  const getTotalPrice = () =>
+    cartItems.reduce(
+      (total, item) =>
+        total + (item.priceDiscount ?? item.price) * item.quantity,
+      0,
+    );
 
-  const getTotalItems = useCallback(
-    () => cartItems.reduce((total, item) => total + item.quantity, 0),
-    [cartItems],
-  );
+  const getTotalItems = () =>
+    cartItems.reduce((total, item) => total + item.quantity, 0);
 
   const isInCart = (product: BaseProduct) => {
     const itemUniqueId = getItemUniqueId(product);
     return cartItems.some((item) => item.itemUniqueId === itemUniqueId);
   };
 
-  //favorites
-  const [favorites, setFavorites] = useState<string[]>(() => {
-    if (typeof window === 'undefined') return [];
+  const toggleFavorite = (product: BaseProduct) => {
+    const productId = getItemUniqueId(product);
+    const isCurrentlyFavorite = favorites.includes(productId);
 
-    try {
-      const saved = localStorage.getItem('favorites');
-      return saved ? JSON.parse(saved) : [];
-    } catch (error) {
-      console.error('Failed to parse favorites:', error);
-      return [];
+    if (isCurrentlyFavorite) {
+      setFavorites((prev) => prev.filter((id) => id !== productId));
+      notify.removedFromFavorites(product.name);
+    } else {
+      setFavorites((prev) => [...prev, productId]);
+      notify.addedToFavorites(product.name);
     }
-  });
-
-  useEffect(() => {
-    localStorage.setItem('favorites', JSON.stringify(favorites));
-  }, [favorites]);
-
-  const toggleFavorite = (productId: string) => {
-    setFavorites((prev) =>
-      prev.includes(productId) ?
-        prev.filter((id) => id !== productId)
-      : [...prev, productId],
-    );
   };
 
-  const isFavorite = (productId: string) => {
-    return favorites.includes(String(productId));
-  };
+  const isFavorite = (productId: string) =>
+    favorites.includes(String(productId));
 
   const getFavoritesCount = useCallback(() => favorites.length, [favorites]);
-
-  /*новое*/
-  useEffect(() => {
-    console.log('CART:', cartItems);
-  }, [cartItems]);
 
   return (
     <AppContext.Provider
@@ -141,12 +146,12 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
         cartItems,
         addToCart,
         removeFromCart,
+        toggleCart,
         updateQuantity,
         clearCart,
         getTotalPrice,
         getTotalItems,
         isInCart,
-
         favorites,
         toggleFavorite,
         isFavorite,

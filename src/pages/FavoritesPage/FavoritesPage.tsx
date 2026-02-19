@@ -22,6 +22,8 @@ export const FavoritesPage: React.FC = () => {
     );
   }, [favorites, allProducts]);
 
+  //потім прибрати
+
   useEffect(() => {
     const loadProducts = async () => {
       setIsLoading(true);

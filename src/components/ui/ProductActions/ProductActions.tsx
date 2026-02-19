@@ -1,38 +1,23 @@
 import './ProductActions.scss';
 import * as React from 'react';
-import { notify } from '../../../utils/notifications';
 
 interface Props {
-  productName: string;
-  onAddToCart: (e: React.MouseEvent) => void;
+  handleToggleCart: (e: React.MouseEvent) => void;
   onToggleFavorite: (e: React.MouseEvent) => void;
   isFavorite?: boolean;
   isInCart?: boolean;
 }
 
 export const ProductActions: React.FC<Props> = ({
-  productName,
-  onAddToCart,
+  handleToggleCart,
   onToggleFavorite,
   isFavorite,
   isInCart,
 }) => {
-  const handleAddToCart = (e: React.MouseEvent) => {
-    if (isInCart) {
-      notify.error(`${productName} is already in the cart`);
-      return;
-    }
-    onAddToCart(e);
-    notify.addedToCart(productName);
-  };
-
   const handleToggleFavorite = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
     onToggleFavorite(e);
-    if (!isFavorite) {
-      notify.addedToFavorites(productName);
-    } else {
-      notify.removedFromFavorites(productName);
-    }
   };
 
   return (
@@ -40,7 +25,7 @@ export const ProductActions: React.FC<Props> = ({
       <button
         type="button"
         className={`product-actions__add-to-cart ${isInCart ? 'in-cart' : ''}`}
-        onClick={handleAddToCart}
+        onClick={handleToggleCart}
       >
         {isInCart ? 'Added' : 'Add to cart'}
       </button>
