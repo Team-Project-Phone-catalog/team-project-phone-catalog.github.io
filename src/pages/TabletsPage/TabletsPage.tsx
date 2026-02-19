@@ -2,17 +2,18 @@ import { useEffect, useMemo, useState } from 'react';
 import { getTablets } from '../../api/products';
 import { Product } from '../../types/Product';
 import { ProductCard } from '../ProductCard/ProductCard';
-import { sortByNewest, sortByBestPrice } from '../../utils/productFilters';
 import { SortType } from '../../types/SortType';
 import s from './TabletsPage.module.scss';
 import { Breadcrumbs } from '../../components/ui/Breadcrumbs/Breadcrumbs.tsx';
 import { ProductSkeleton } from '../../components/ProductSkelet/ProductSkelet.tsx';
 import { NoResults } from '../../components/ui/NoResults/NoResults.tsx';
+import { Dropdown } from '../../components/ui/Dropdown/Dropdown';
+import { sortProducts } from '../../utils/productFilters.ts';
 
 export const TabletsPage = () => {
   const [tablets, setTablets] = useState<Product[]>([]);
   const [sortBy, setSortBy] = useState<SortType>('newest');
-  const [itemsOnPage, setItemsOnPage] = useState(16);
+  const [itemsOnPage, setItemsOnPage] = useState(12);
   const [currentPage, setCurrentPage] = useState(1);
 
   const [isLoading, setIsLoading] = useState(true);
@@ -23,10 +24,8 @@ export const TabletsPage = () => {
   useEffect(() => {
     const loadTablets = async () => {
       setIsLoading(true);
-
       try {
         const data = await getTablets();
-
         setTablets(
           data.map((tablet) => ({
             ...tablet,
@@ -76,16 +75,7 @@ export const TabletsPage = () => {
   }, [tablets, debouncedQuery]);
 
   const sortedTablets = useMemo(() => {
-    const toSort = [...filteredTablets];
-    switch (sortBy) {
-      case 'alphabetically':
-        return toSort.sort((a, b) => a.name.localeCompare(b.name));
-      case 'bestPrice':
-        return sortByBestPrice(toSort);
-      case 'newest':
-      default:
-        return sortByNewest(toSort);
-    }
+    return sortProducts(filteredTablets, sortBy);
   }, [filteredTablets, sortBy]);
 
   const totalPages = Math.ceil(sortedTablets.length / itemsOnPage);
@@ -96,6 +86,20 @@ export const TabletsPage = () => {
 
     return sortedTablets.slice(start, end);
   }, [sortedTablets, itemsOnPage, currentPage]);
+
+  const sortOptions = [
+    { label: 'Price low', value: 'priceLow' },
+    { label: 'Price high', value: 'priceHigh' },
+    { label: 'Newest', value: 'newest' },
+    { label: 'Oldest', value: 'oldest' },
+  ];
+
+  const itemsOptions = [
+    { label: '12', value: '12' },
+    { label: '24', value: '24' },
+    { label: '36', value: '36' },
+    { label: '48', value: '48' },
+  ];
 
   return (
     <div className={s['tablets-page']}>
@@ -113,34 +117,26 @@ export const TabletsPage = () => {
             <div className={s.controlsLeft}>
               <div className={s.control}>
                 <label className={s.label}>Sort by</label>
-                <select
-                  className={s.select}
+                <Dropdown
+                  options={sortOptions}
                   value={sortBy}
-                  onChange={(event) => {
-                    setSortBy(event.target.value as SortType);
+                  onChange={(value) => {
+                    setSortBy(value as SortType);
                     setCurrentPage(1);
                   }}
-                >
-                  <option value="newest">Newest</option>
-                  <option value="alphabetically">Alphabetically</option>
-                  <option value="bestPrice">Best price</option>
-                </select>
+                />
               </div>
 
               <div className={s.control}>
                 <label className={s.label}>Items on page</label>
-                <select
-                  className={s.select}
-                  value={itemsOnPage}
-                  onChange={(event) => {
-                    setItemsOnPage(+event.target.value);
+                <Dropdown
+                  options={itemsOptions}
+                  value={String(itemsOnPage)}
+                  onChange={(value) => {
+                    setItemsOnPage(+value);
                     setCurrentPage(1);
                   }}
-                >
-                  <option value={16}>16</option>
-                  <option value={32}>32</option>
-                  <option value={64}>64</option>
-                </select>
+                />
               </div>
             </div>
 
