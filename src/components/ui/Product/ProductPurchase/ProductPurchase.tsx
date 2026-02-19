@@ -15,10 +15,11 @@ export const ProductPurchase: React.FC<Props> = ({
   priceRegular,
   priceDiscount,
 }) => {
-  const { addToCart, isInCart } = useAppContext();
+  const { addToCart, isInCart, toggleFavorite, isFavorite } = useAppContext();
 
   const hasDiscount = priceDiscount < priceRegular;
   const inCart = isInCart(product);
+  const favorite = isFavorite(product.id);
 
   return (
     <div className="purchase">
@@ -33,8 +34,9 @@ export const ProductPurchase: React.FC<Props> = ({
       <div className="purchase__buttons">
         <ProductActions
           onAddToCart={() => addToCart(product)}
-          onToggleFavorite={() => console.log('Toggled favorite')}
+          onToggleFavorite={() => toggleFavorite(product.id)}
           isInCart={inCart}
+          isFavorite={favorite}
         />
       </div>
     </div>
