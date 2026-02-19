@@ -7,6 +7,7 @@ interface Props {
   color: string;
   to: string;
   selected?: boolean;
+  onClick?: () => void;
 }
 
 export const ColorLink: React.FC<Props> = (props) => {
