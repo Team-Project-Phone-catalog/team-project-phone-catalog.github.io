@@ -12,6 +12,16 @@ export const FavoritesPage: React.FC = () => {
   const [allProducts, setAllProducts] = useState<Product[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
+  //потім прибрати
+
+  useEffect(() => {
+    console.log('FAVORITES:', favorites);
+    console.log(
+      'ALL PRODUCTS IDS:',
+      allProducts.map((p) => p),
+    );
+  }, [favorites, allProducts]);
+
   useEffect(() => {
     const loadProducts = async () => {
       setIsLoading(true);
@@ -34,7 +44,7 @@ export const FavoritesPage: React.FC = () => {
 
   const favoriteProducts = useMemo(() => {
     return allProducts.filter((product) =>
-      favorites.includes(String(product.id)),
+      favorites.includes(String(product.itemId)),
     );
   }, [allProducts, favorites]);
 

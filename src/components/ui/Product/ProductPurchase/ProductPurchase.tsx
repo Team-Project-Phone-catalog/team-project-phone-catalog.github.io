@@ -19,7 +19,7 @@ export const ProductPurchase: React.FC<Props> = ({
 
   const hasDiscount = priceDiscount < priceRegular;
   const inCart = isInCart(product);
-  const favorite = isFavorite(product.id);
+  const favorite = isFavorite(String(product.id));
 
   return (
     <div className="purchase">
@@ -30,11 +30,10 @@ export const ProductPurchase: React.FC<Props> = ({
           <span className="purchase-price__full">${priceRegular}</span>
         )}
       </div>
-
       <div className="purchase__buttons">
         <ProductActions
           onAddToCart={() => addToCart(product)}
-          onToggleFavorite={() => toggleFavorite(product.id)}
+          onToggleFavorite={() => toggleFavorite(String(product.id))}
           isInCart={inCart}
           isFavorite={favorite}
         />
