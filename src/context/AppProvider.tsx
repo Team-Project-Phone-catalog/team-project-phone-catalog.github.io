@@ -125,7 +125,7 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
   };
 
   const isFavorite = (productId: string) => {
-    return favorites.includes(productId);
+    return favorites.includes(String(productId));
   };
 
   const getFavoritesCount = useCallback(() => favorites.length, [favorites]);

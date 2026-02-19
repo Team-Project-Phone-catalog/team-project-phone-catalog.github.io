@@ -25,7 +25,7 @@ export const ProductCard: React.FC<Props> = ({ product }) => {
   /* ===================== FAVORITES ===================== */
 
   const handleToggleFavorite = () => {
-    toggleFavorite(String(product.id));
+    toggleFavorite(String(productId));
   };
 
   /* ===================== PRICES ===================== */
@@ -124,7 +124,7 @@ export const ProductCard: React.FC<Props> = ({ product }) => {
             e.stopPropagation();
             handleToggleFavorite();
           }}
-          isFavorite={isFavorite(String(product.id))}
+          isFavorite={isFavorite(String(productId))}
           isInCart={isInCart(product as Product)}
         />
       </div>

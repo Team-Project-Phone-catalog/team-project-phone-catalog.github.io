@@ -30,7 +30,6 @@ export const ProductPurchase: React.FC<Props> = ({
           <span className="purchase-price__full">${priceRegular}</span>
         )}
       </div>
-
       <div className="purchase__buttons">
         <ProductActions
           onAddToCart={() => addToCart(product)}
