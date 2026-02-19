@@ -1,20 +1,6 @@
 import { Product } from '../types/Product';
 import { SortType } from '../types/SortType';
 
-export const sortByNewest = (products: Product[]) => {
-  return [...products].sort((a, b) => (b.year ?? 0) - (a.year ?? 0));
-};
-
-export const sortByBestPrice = (products: Product[]) => {
-  return [...products].sort((a, b) => {
-    const fullA = a.fullPrice ?? a.priceRegular ?? 0;
-    const priceA = a.price ?? a.priceDiscount ?? 0;
-    const fullB = b.fullPrice ?? b.priceRegular ?? 0;
-    const priceB = b.price ?? b.priceDiscount ?? 0;
-    return fullB - priceB - (fullA - priceA);
-  });
-};
-
 export const sortProducts = (products: Product[], sortBy: SortType) => {
   const sorted = [...products];
 
@@ -30,3 +16,13 @@ export const sortProducts = (products: Product[], sortBy: SortType) => {
       return sortByNewest(sorted);
   }
 };
+
+export const sortByNewest = (products: Product[]) =>
+  [...products].sort((a, b) => (b.year ?? 0) - (a.year ?? 0));
+
+export const sortByBestPrice = (products: Product[]) =>
+  [...products].sort((a, b) => {
+    const discountA = (a.fullPrice ?? a.price ?? 0) - (a.price ?? 0);
+    const discountB = (b.fullPrice ?? b.price ?? 0) - (b.price ?? 0);
+    return discountB - discountA;
+  });
