@@ -83,7 +83,7 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
     () =>
       cartItems.reduce(
         (total, item) =>
-          total + (item.priceDiscount ?? item.priceRegular) * item.quantity,
+          total + (item.priceDiscount ?? item.price) * item.quantity,
         0,
       ),
     [cartItems],
