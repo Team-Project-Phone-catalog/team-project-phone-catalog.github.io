@@ -40,7 +40,7 @@ $color-icons: #4a4d58;
       width: 6px;
       height: 10px;
       background-color: $color-icons;
-      mask-image: url('../../../../dist/img/icons/Vector-black.svg');
+      mask-image: url('/img/icons/Vector-black.svg');
       mask-repeat: no-repeat;
       mask-position: center;
       mask-size: contain;
@@ -100,6 +100,7 @@ $color-icons: #4a4d58;
     @media (max-width: 639px) {
       height: auto;
       aspect-ratio: 1 / 1;
+      max-width: 100%;
     }
   }
 

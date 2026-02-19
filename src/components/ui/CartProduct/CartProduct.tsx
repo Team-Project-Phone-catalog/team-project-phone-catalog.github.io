@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import { CartItem } from '../../../types/Cart';
 import { ProductDetails } from '../../../types/Product';
 import s from './CartProduct.module.scss';
@@ -25,6 +26,22 @@ export const CartProduct: React.FC<Props> = ({
     product.priceRegular ??
     ('fullPrice' in product ? product.fullPrice : undefined);
 
+  const productId = 'itemId' in product ? product.itemId : product.id;
+
+  const idString = String(productId).toLowerCase();
+
+  let category = 'phones';
+
+  if (idString.includes('ipad')) {
+    category = 'tablets';
+  } else if (idString.includes('watch')) {
+    category = 'accessories';
+  } else if ('category' in product && product.category) {
+    category = product.category as string;
+  }
+
+  const linkTo = `/${category}/${productId}`;
+
   return (
     <div className={s.item}>
       <button
@@ -36,11 +53,16 @@ export const CartProduct: React.FC<Props> = ({
       </button>
 
       <div className={s.imageWrapper}>
-        <img
-          src={imageUrl}
-          alt={product.name}
-          className={s.image}
-        />
+        <Link
+          to={linkTo}
+          className="card__link"
+        >
+          <img
+            src={imageUrl}
+            alt={product.name}
+            className={s.image}
+          />
+        </Link>
       </div>
 
       <div className={s.details}>

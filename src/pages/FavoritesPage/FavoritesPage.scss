@@ -1,6 +1,14 @@
 @import '../../styles/utils.scss';
 
 .favorites-page {
+  &__loader-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: calc(100vh - 64px);
+  }
+
   &__container {
     box-sizing: border-box;
     margin: 0 auto;
@@ -16,12 +24,6 @@
     }
   }
 
-  &__history {
-    margin-bottom: 24px;
-    margin-top: 24px;
-    color: #75767f;
-  }
-
   &__text {
     display: block;
     text-align: left;
@@ -32,8 +34,7 @@
     margin-top: 24px;
     margin-bottom: 8px;
     color: #f1f2f9;
-    font-family: Mont;
-    font-style: bold;
+    font-family: Mont, sans-serif;
     font-weight: 800;
     font-size: 32px;
     line-height: 41px;
@@ -47,24 +48,20 @@
     color: #75767f;
   }
 
+  &__empty {
+    text-align: center;
+    margin-top: 60px;
+  }
+
   &__all-favorites {
     padding-bottom: 56px;
-
-    @include on-tablet {
-      padding-bottom: 64px;
-    }
-
-    @include on-desktop {
-      padding-bottom: 80px;
-    }
-
     display: grid;
     row-gap: 40px;
     column-gap: 16px;
-
     grid-template-columns: 1fr;
 
     @include on-tablet {
+      padding-bottom: 64px;
       grid-template-columns: repeat(2, 1fr);
     }
 
@@ -73,6 +70,7 @@
     }
 
     @include on-desktop {
+      padding-bottom: 80px;
       grid-template-columns: repeat(4, 1fr);
     }
 

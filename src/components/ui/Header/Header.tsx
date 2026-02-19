@@ -24,8 +24,6 @@ export const Header = () => {
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const [user, setUser] = useState<User | null>(null);
 
-  console.log('Що бачить Header:', user);
-
   const { getTotalItems, getFavoritesCount } = useAppContext();
 
   const cartCount = getTotalItems();
