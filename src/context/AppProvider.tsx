@@ -1,9 +1,4 @@
-import React, {
-  useState,
-  ReactNode,
-  useCallback,
-  useEffect,
-} from 'react';
+import React, { useState, ReactNode, useCallback, useEffect } from 'react';
 import { Product } from '../types/Product';
 import { CartItem } from '../types/Cart';
 import { AppContext } from './AppContext';
@@ -13,7 +8,6 @@ interface AppProviderProps {
 }
 
 export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
-  // ✅ Ініціалізація з localStorage
   const [cartItems, setCartItems] = useState<CartItem[]>(() => {
     if (typeof window === 'undefined') return [];
 
@@ -26,7 +20,6 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
     }
   });
 
-  // ✅ Автоматичне збереження при зміні корзини
   useEffect(() => {
     if (typeof window !== 'undefined') {
       localStorage.setItem('cart', JSON.stringify(cartItems));
@@ -46,9 +39,9 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
 
       if (existingItem) {
         return prevItems.map((item) =>
-          item.itemUniqueId === itemUniqueId
-            ? { ...item, quantity: item.quantity + 1 }
-            : item,
+          item.itemUniqueId === itemUniqueId ?
+            { ...item, quantity: item.quantity + 1 }
+          : item,
         );
       }
 
@@ -70,9 +63,7 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
 
     setCartItems((prevItems) =>
       prevItems.map((item) =>
-        item.itemUniqueId === itemUniqueId
-          ? { ...item, quantity }
-          : item,
+        item.itemUniqueId === itemUniqueId ? { ...item, quantity } : item,
       ),
     );
   };
@@ -83,7 +74,7 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
     () =>
       cartItems.reduce(
         (total, item) =>
-          total + (item.priceDiscount ?? item.priceRegular) * item.quantity,
+          total + (item.priceDiscount ?? item.price) * item.quantity,
         0,
       ),
     [cartItems],
