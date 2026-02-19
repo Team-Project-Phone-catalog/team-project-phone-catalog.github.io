@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import { BurgerMenu } from './BurgerMenu/BurgerMenu';
 import { CounterIcon } from './CounterIcon/CounterIcon';
@@ -8,6 +8,9 @@ import heartIcon from './icons/Heart.svg';
 import cartIcon from './icons/Cart.svg';
 import userIcon from './icons/User.svg';
 import { useAppContext } from '../../../hooks/useAppContext.ts';
+import { AuthModal } from '../../AuthModal/AuthModal.tsx';
+import { supabase } from '../../../utils/supabaseClient.ts';
+import { User } from '@supabase/supabase-js';
 
 const navLinks = [
   { id: 1, name: 'Home', path: '/' },
@@ -18,6 +21,10 @@ const navLinks = [
 
 export const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
+  const [user, setUser] = useState<User | null>(null);
+
+  console.log('Що бачить Header:', user);
 
   const { getTotalItems, getFavoritesCount } = useAppContext();
 
@@ -26,6 +33,20 @@ export const Header = () => {
 
   const toggleMenu = () => setIsMenuOpen((prev) => !prev);
   const closeMenu = () => setIsMenuOpen(false);
+
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setUser(session?.user ?? null);
+    });
+
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_event, session) => {
+      setUser(session?.user ?? null);
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
 
   return (
     <>
@@ -68,7 +89,6 @@ export const Header = () => {
 
           <div className={styles.header__right}>
             <div className={styles.header__icons}>
-              {/* Іконка Юзера - додано клас icon_btn--user */}
               <NavLink
                 to="/profile"
                 className={({ isActive }) =>
@@ -76,7 +96,14 @@ export const Header = () => {
                     `${styles.icon_btn} ${styles['icon_btn--user']} ${styles['icon_btn--active']}`
                   : `${styles.icon_btn} ${styles['icon_btn--user']}`
                 }
-                onClick={closeMenu}
+                onClick={(e) => {
+                  if (!user) {
+                    e.preventDefault();
+                    setIsAuthModalOpen(true);
+                  }
+
+                  closeMenu();
+                }}
               >
                 <img
                   src={userIcon}
@@ -132,6 +159,11 @@ export const Header = () => {
             </button>
           </div>
         </div>
+
+        <AuthModal
+          isOpen={isAuthModalOpen}
+          onClose={() => setIsAuthModalOpen(false)}
+        />
       </header>
 
       <BurgerMenu
