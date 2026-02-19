@@ -1,11 +1,11 @@
 import './ProductPurchase.scss';
 import { ProductActions } from '../../ProductActions/ProductActions.tsx';
 import React from 'react';
-import { Product } from '../../../../types/Product.ts';
+import { ProductDetails } from '../../../../types/Product.ts';
 import { useAppContext } from '../../../../hooks/useAppContext.ts';
 
 type Props = {
-  product: Product;
+  product: ProductDetails;
   priceRegular: number;
   priceDiscount: number;
 };
