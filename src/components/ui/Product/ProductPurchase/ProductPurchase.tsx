@@ -8,6 +8,10 @@ type Props = {
   product: ProductDetails;
   priceRegular: number;
   priceDiscount: number;
+  isFavorite?: boolean;
+  isInCart?: boolean;
+  onAddToCart?: (e: React.MouseEvent) => void;
+  onToggleFavorite?: (e: React.MouseEvent) => void;
 };
 
 export const ProductPurchase: React.FC<Props> = ({
@@ -15,23 +19,28 @@ export const ProductPurchase: React.FC<Props> = ({
   priceRegular,
   priceDiscount,
 }) => {
-  const { addToCart, isInCart, toggleFavorite, isFavorite } = useAppContext();
+  const {
+    addToCart,
+    isInCart: checkInCart,
+    toggleFavorite,
+    isFavorite: checkFavorite,
+  } = useAppContext();
 
   const hasDiscount = priceDiscount < priceRegular;
-  const inCart = isInCart(product);
-  const favorite = isFavorite(String(product.id));
+  const inCart = checkInCart(product);
+  const favorite = checkFavorite(String(product.id));
 
   return (
     <div className="purchase">
       <div className="purchase-price">
         <span className="purchase-price__current">${priceDiscount}</span>
-
         {hasDiscount && (
           <span className="purchase-price__full">${priceRegular}</span>
         )}
       </div>
       <div className="purchase__buttons">
         <ProductActions
+          productName={product.name}
           onAddToCart={() => addToCart(product)}
           onToggleFavorite={() => toggleFavorite(String(product.id))}
           isInCart={inCart}

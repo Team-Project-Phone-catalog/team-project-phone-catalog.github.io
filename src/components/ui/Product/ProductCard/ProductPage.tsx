@@ -21,6 +21,7 @@ type Props = {
 export const ProductPage: React.FC<Props> = ({ product, onCapacityChange }) => {
   const location = useLocation();
   const categoryFromUrl = location.pathname.split('/')[1];
+
   return (
     <div className="product-card">
       <ScrollToTop />

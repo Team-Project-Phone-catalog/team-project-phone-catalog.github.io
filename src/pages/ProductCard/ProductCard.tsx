@@ -17,53 +17,42 @@ export const ProductCard: React.FC<Props> = ({ product }) => {
 
   if (!product) return null;
 
-  /* ===================== CART ===================== */
+  // Визначаємо ID на початку, щоб використовувати в функціях
+  const productId = 'itemId' in product ? product.itemId : product.id;
+  const stringId = String(productId);
 
+  /* ===================== CART ===================== */
   const handleAddToCart = () => {
+    // Важливо: передаємо весь об'єкт для кошика
     addToCart(product as Product);
   };
-  /* ===================== FAVORITES ===================== */
 
+  /* ===================== FAVORITES ===================== */
   const handleToggleFavorite = () => {
-    toggleFavorite(String(productId));
+    toggleFavorite(stringId);
   };
 
   /* ===================== PRICES ===================== */
-
   const currentPrice =
-    product.priceDiscount ?? ('price' in product ? product.price : undefined);
-
+    product.priceDiscount ?? ('price' in product ? product.price : 0);
   const fullPrice =
-    product.priceRegular ??
-    ('fullPrice' in product ? product.fullPrice : undefined);
+    product.priceRegular ?? ('fullPrice' in product ? product.fullPrice : 0);
 
   /* ===================== IMAGE ===================== */
-
   let imagePath: string | null = null;
 
   if ('images' in product && product.images) {
-    if (Array.isArray(product.images)) {
-      imagePath = product.images[0];
-    } else {
-      try {
-        const parsed = JSON.parse(product.images);
-        imagePath = Array.isArray(parsed) ? parsed[0] : product.images;
-      } catch {
-        imagePath = product.images;
-      }
-    }
+    imagePath =
+      Array.isArray(product.images) ? product.images[0] : product.images;
   } else if ('image' in product && product.image) {
     imagePath = product.image;
   }
 
-  const imageUrl = imagePath ? `/${imagePath}` : null;
+  // Якщо шлях уже містить 'img/', не додаємо косу риску або валідуємо шлях
+  const imageUrl = imagePath ? `/${imagePath}` : '';
 
   /* ===================== ROUTING ===================== */
-
-  const productId = 'itemId' in product ? product.itemId : product.id;
-
-  const idString = String(productId).toLowerCase();
-
+  const idString = stringId.toLowerCase();
   let category = 'phones';
 
   if (idString.includes('ipad')) {
@@ -71,24 +60,10 @@ export const ProductCard: React.FC<Props> = ({ product }) => {
   } else if (idString.includes('watch')) {
     category = 'accessories';
   } else if ('category' in product && product.category) {
-    category = product.category as string;
+    category = product.category;
   }
 
-  const params = new URLSearchParams();
-
-  if ('color' in product && product.color) {
-    params.set('color', product.color);
-  }
-
-  if ('capacity' in product && product.capacity) {
-    params.set('capacity', product.capacity);
-  }
-
-  const linkTo =
-    `/${category}/${productId}` +
-    (params.toString() ? `?${params.toString()}` : '');
-
-  /* ===================== RENDER ===================== */
+  const linkTo = `/${category}/${productId}`;
 
   return (
     <div className="card">
@@ -126,6 +101,7 @@ export const ProductCard: React.FC<Props> = ({ product }) => {
         />
 
         <ProductActions
+          productName={product.name}
           onAddToCart={(e) => {
             e.preventDefault();
             e.stopPropagation();
@@ -136,7 +112,7 @@ export const ProductCard: React.FC<Props> = ({ product }) => {
             e.stopPropagation();
             handleToggleFavorite();
           }}
-          isFavorite={isFavorite(String(productId))}
+          isFavorite={isFavorite(stringId)}
           isInCart={isInCart(product as Product)}
         />
       </div>
