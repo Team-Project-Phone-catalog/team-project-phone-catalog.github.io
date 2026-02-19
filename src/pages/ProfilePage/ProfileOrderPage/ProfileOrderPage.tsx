@@ -65,7 +65,7 @@ export const ProfileOrderPage: React.FC = () => {
             name: item.name,
             price: item.price,
             quantity: item.quantity ?? 1,
-            image: (item.products as ProductFromDB | null)?.image || '',
+            image: (item.products as ProductFromDB[] | null)?.[0]?.image || '',
           })),
         }));
 
