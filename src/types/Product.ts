@@ -3,41 +3,40 @@ export interface DescriptionSection {
   text: string[];
 }
 
-export interface ProductDetails {
-  id: string;
-  namespaceId: string;
-  name: string;
+export interface BaseProduct {
+  id: number | string;
   category: string;
-  capacityAvailable: string[];
-  capacity: string;
+  name: string;
   priceRegular: number;
   priceDiscount: number;
-  colorsAvailable: string[];
-  color: string;
-  images: string[];
-  description: DescriptionSection[];
   screen: string;
-  resolution: string;
-  processor: string;
+  capacity: string;
+  color: string;
   ram: string;
-  camera?: string;
-  zoom?: string;
-  cell: string[];
+  image: string;
+  price?: number;
+  fullPrice?: number;
 }
 
-export interface Product {
+export interface Product extends BaseProduct {
   id: number;
-  category: string;
   itemId: string;
-  name: string;
-  priceRegular: number;
-  priceDiscount: number;
-  fullPrice?: number;
-  price?: number;
-  screen: string;
-  capacity: string;
-  color: string;
-  ram: string;
   year: number;
   image: string;
+  fullPrice?: number;
+  price?: number;
+}
+
+export interface ProductDetails extends BaseProduct {
+  id: string;
+  namespaceId: string;
+  capacityAvailable: string[];
+  colorsAvailable: string[];
+  images: string[];
+  description: DescriptionSection[];
+  resolution: string;
+  processor: string;
+  cell: string[];
+  camera?: string;
+  zoom?: string;
 }

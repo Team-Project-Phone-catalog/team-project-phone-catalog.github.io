@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import { BurgerMenu } from './BurgerMenu/BurgerMenu';
 import { CounterIcon } from './CounterIcon/CounterIcon';
@@ -6,6 +6,11 @@ import styles from './Header.module.scss';
 import logo from './icons/logo.svg';
 import heartIcon from './icons/Heart.svg';
 import cartIcon from './icons/Cart.svg';
+import userIcon from './icons/User.svg';
+import { useAppContext } from '../../../hooks/useAppContext.ts';
+import { AuthModal } from '../../AuthModal/AuthModal.tsx';
+import { supabase } from '../../../utils/supabaseClient.ts';
+import { User } from '@supabase/supabase-js';
 
 const navLinks = [
   { id: 1, name: 'Home', path: '/' },
@@ -16,25 +21,32 @@ const navLinks = [
 
 export const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
+  const [user, setUser] = useState<User | null>(null);
 
-  // Тимчасові змінні
-  const favoritesCount = 8;
-  const cartCount = 100;
+  console.log('Що бачить Header:', user);
+
+  const { getTotalItems, getFavoritesCount } = useAppContext();
+
+  const cartCount = getTotalItems();
+  const favoritesCount = getFavoritesCount();
+
+  const toggleMenu = () => setIsMenuOpen((prev) => !prev);
+  const closeMenu = () => setIsMenuOpen(false);
 
   useEffect(() => {
-    if (isMenuOpen) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = 'unset';
-    }
-    return () => {
-      document.body.style.overflow = 'unset';
-    };
-  }, [isMenuOpen]);
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setUser(session?.user ?? null);
+    });
 
-  const toggleMenu = () => {
-    setIsMenuOpen((prev) => !prev);
-  };
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_event, session) => {
+      setUser(session?.user ?? null);
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
 
   return (
     <>
@@ -44,7 +56,7 @@ export const Header = () => {
             <Link
               to="/"
               className={styles.header__logo}
-              onClick={() => setIsMenuOpen(false)}
+              onClick={closeMenu}
             >
               <img
                 src={logo}
@@ -78,12 +90,35 @@ export const Header = () => {
           <div className={styles.header__right}>
             <div className={styles.header__icons}>
               <NavLink
+                to="/profile"
+                className={({ isActive }) =>
+                  isActive ?
+                    `${styles.icon_btn} ${styles['icon_btn--user']} ${styles['icon_btn--active']}`
+                  : `${styles.icon_btn} ${styles['icon_btn--user']}`
+                }
+                onClick={(e) => {
+                  if (!user) {
+                    e.preventDefault();
+                    setIsAuthModalOpen(true);
+                  }
+
+                  closeMenu();
+                }}
+              >
+                <img
+                  src={userIcon}
+                  alt="Profile"
+                />
+              </NavLink>
+
+              <NavLink
                 to="/favorites"
                 className={({ isActive }) =>
                   isActive ?
                     `${styles.icon_btn} ${styles['icon_btn--active']}`
                   : styles.icon_btn
                 }
+                onClick={closeMenu}
               >
                 <CounterIcon
                   icon={heartIcon}
@@ -91,6 +126,7 @@ export const Header = () => {
                   alt="Favorites"
                 />
               </NavLink>
+
               <NavLink
                 to="/cart"
                 className={({ isActive }) =>
@@ -98,6 +134,7 @@ export const Header = () => {
                     `${styles.icon_btn} ${styles['icon_btn--active']}`
                   : styles.icon_btn
                 }
+                onClick={closeMenu}
               >
                 <CounterIcon
                   icon={cartIcon}
@@ -122,11 +159,16 @@ export const Header = () => {
             </button>
           </div>
         </div>
+
+        <AuthModal
+          isOpen={isAuthModalOpen}
+          onClose={() => setIsAuthModalOpen(false)}
+        />
       </header>
 
       <BurgerMenu
         isOpen={isMenuOpen}
-        onClose={() => setIsMenuOpen(false)}
+        onClose={closeMenu}
         favoritesCount={favoritesCount}
         cartCount={cartCount}
       />

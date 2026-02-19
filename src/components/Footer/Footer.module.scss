@@ -1,5 +1,4 @@
 @use '../../styles/utils' as *;
-@import '../../styles/utils';
 
 .footer {
   border-top: 1px solid #3b3e4a;
@@ -13,6 +12,7 @@
 
   @include on-desktop {
     margin-top: 80px;
+    padding: 32px 152px;
   }
 }
 
@@ -20,10 +20,28 @@
   display: flex;
   flex-direction: column;
   gap: 32px;
+
+  @include on-tablet {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  @include on-desktop {
+    max-width: 1200px;
+    position: relative;
+    margin: 0 auto;
+  }
 }
 
 .logo {
   height: 32px;
+}
+
+.logoLink {
+  position: relative;
+  z-index: 5;
+  cursor: pointer;
 }
 
 .nav {
@@ -31,15 +49,22 @@
   flex-direction: column;
   gap: 16px;
 
+  @include on-tablet {
+    flex-direction: row;
+    gap: 48px;
+  }
+
+  @include on-desktop {
+    gap: 64px;
+  }
+
   a {
     font-size: 12px;
     font-weight: 700;
     letter-spacing: 0.04em;
     text-transform: uppercase;
-
     color: #89939a;
     text-decoration: none;
-
     transition: color 0.3s ease;
 
     &:hover {
@@ -62,55 +87,20 @@
 .arrow {
   width: 32px;
   height: 32px;
-
   background: #323542;
   border: none;
-
+  border-radius: 8px;
   color: #ffffff;
   cursor: pointer;
-
-  transition: background 0.3s ease;
+  transition:
+    background 0.3s ease,
+    transform 0.2s ease;
 
   &:hover {
     background: #4219d0;
   }
-}
 
-/* TABLETЖ */
-
-@include on-tablet() {
-  .container {
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
+  &:active {
+    transform: scale(0.96);
   }
-
-  .nav {
-    flex-direction: row;
-    gap: 48px;
-  }
-}
-
-/* DESKTOP */
-
-@include on-desktop {
-  .footer {
-    padding: 32px 152px;
-  }
-
-  .container {
-    max-width: 1200px;
-    position: relative;
-    margin: 0 auto;
-  }
-
-  .nav {
-    gap: 64px;
-  }
-}
-
-.logoLink {
-  position: relative;
-  z-index: 5;
-  cursor: pointer;
 }
