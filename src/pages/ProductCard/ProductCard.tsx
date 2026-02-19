@@ -93,11 +93,7 @@ export const ProductCard: React.FC<Props> = ({ product, onFavoriteChange }) => {
   };
 
   return (
-    <motion.div
-      className="card"
-      whileHover={{ scale: 1.02, y: -4 }}
-      transition={{ type: 'spring', stiffness: 300 }}
-    >
+    <div className="card">
       <div className="card__container">
         <Link
           to={linkTo}
@@ -105,10 +101,12 @@ export const ProductCard: React.FC<Props> = ({ product, onFavoriteChange }) => {
         >
           <div className="card__img-container">
             {imageUrl && (
-              <img
+              <motion.img
                 className="card__image"
                 src={imageUrl}
                 alt={product.name}
+                whileHover={{ scale: 1.06 }}
+                transition={{ duration: 0.3 }}
               />
             )}
           </div>
@@ -144,6 +142,6 @@ export const ProductCard: React.FC<Props> = ({ product, onFavoriteChange }) => {
           isInCart={isInCart(product as Product)}
         />
       </div>
-    </motion.div>
+    </div>
   );
 };
