@@ -4,6 +4,7 @@ export interface DescriptionSection {
 }
 
 export interface BaseProduct {
+  id: number | string;
   category: string;
   name: string;
   priceRegular: number;
