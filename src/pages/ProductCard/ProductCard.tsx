@@ -17,28 +17,22 @@ export const ProductCard: React.FC<Props> = ({ product }) => {
 
   if (!product) return null;
 
-  // Визначаємо ID на початку, щоб використовувати в функціях
   const productId = 'itemId' in product ? product.itemId : product.id;
   const stringId = String(productId);
 
-  /* ===================== CART ===================== */
   const handleAddToCart = () => {
-    // Важливо: передаємо весь об'єкт для кошика
     addToCart(product as Product);
   };
 
-  /* ===================== FAVORITES ===================== */
   const handleToggleFavorite = () => {
     toggleFavorite(stringId);
   };
 
-  /* ===================== PRICES ===================== */
   const currentPrice =
     product.priceDiscount ?? ('price' in product ? product.price : 0);
   const fullPrice =
     product.priceRegular ?? ('fullPrice' in product ? product.fullPrice : 0);
 
-  /* ===================== IMAGE ===================== */
   let imagePath: string | null = null;
 
   if ('images' in product && product.images) {
@@ -48,10 +42,8 @@ export const ProductCard: React.FC<Props> = ({ product }) => {
     imagePath = product.image;
   }
 
-  // Якщо шлях уже містить 'img/', не додаємо косу риску або валідуємо шлях
   const imageUrl = imagePath ? `/${imagePath}` : '';
 
-  /* ===================== ROUTING ===================== */
   const idString = stringId.toLowerCase();
   let category = 'phones';
 
