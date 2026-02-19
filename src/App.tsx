@@ -24,13 +24,8 @@ export const App = () => {
       <Toaster
         position="bottom-right"
         richColors
-        closeButton
-        expand={true}
         toastOptions={{
-          style: {
-            borderRadius: '12px',
-            padding: '16px',
-          },
+          className: 'my-custom-toast',
         }}
       />
 
