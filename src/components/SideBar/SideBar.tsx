@@ -9,17 +9,13 @@ interface SidebarProps {
 export const Sidebar = ({ userName, userEmail }: SidebarProps) => {
   const location = useLocation();
 
-  // Функція для перевірки активного пункту меню
   const isActive = (path: string) => location.pathname === path;
 
   return (
     <aside className={styles.sidebar}>
       {/* Секція профілю */}
       <div className={styles.profileSection}>
-        <div className={styles.avatarPlaceholder}>
-          {/* Тут можна додати іконку юзера або першу літеру імені */}
-          {userName.charAt(0)}
-        </div>
+        <div className={styles.avatarPlaceholder}>{userName.charAt(0)}</div>
         <div className={styles.profileInfo}>
           <p className={styles.name}>{userName}</p>
           <p className={styles.email}>{userEmail}</p>
