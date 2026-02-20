@@ -8,6 +8,7 @@ import heartIcon from './icons/Heart.svg';
 import cartIcon from './icons/Cart.svg';
 import userIcon from './icons/User.svg';
 import { useAppContext } from '../../../hooks/useAppContext.ts';
+import { Search } from './Search/Search.tsx';
 import { AuthModal } from '../../AuthModal/AuthModal.tsx';
 import { supabase } from '../../../utils/supabaseClient.ts';
 import { User } from '@supabase/supabase-js';
@@ -101,6 +102,7 @@ export const Header = () => {
           </div>
 
           <div className={styles.header__right}>
+            <Search />
             <div className={styles.header__icons}>
               <NavLink
                 to="/profile"
