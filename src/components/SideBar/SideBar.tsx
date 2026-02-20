@@ -69,7 +69,7 @@ export const Sidebar = () => {
         </Link>
 
         <Link
-          to="/chat"
+          to="/profile/chat"
           className={`${styles.navItem} ${isActive('/chat') ? styles.active : ''}`}
         >
           <span>Chat</span>
@@ -79,15 +79,15 @@ export const Sidebar = () => {
         <div className={styles.divider}></div>
 
         <Link
-          to="/wishlist"
-          className={`${styles.navItem} ${isActive('/wishlist') ? styles.active : ''}`}
+          to="/favorites"
+          className={`${styles.navItem} ${isActive('/favorites') ? styles.active : ''}`}
         >
           <span>Wish lists</span>
           <span className={styles.count}>2</span>
         </Link>
 
         <Link
-          to="/wallet"
+          to="/profile/wallet"
           className={`${styles.navItem} ${isActive('/wallet') ? styles.active : ''}`}
         >
           Wallet

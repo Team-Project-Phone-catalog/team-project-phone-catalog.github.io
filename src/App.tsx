@@ -73,6 +73,14 @@ export const App = () => {
             element={<AdminPage />}
           />
           <Route
+            path="/profile/chat"
+            element={<h1>Chat</h1>}
+          />
+          <Route
+            path="/profile/wallet"
+            element={<h1>Wallet</h1>}
+          />
+          <Route
             path="/:category/:productId"
             element={<ProductDetailsPage />}
           />
