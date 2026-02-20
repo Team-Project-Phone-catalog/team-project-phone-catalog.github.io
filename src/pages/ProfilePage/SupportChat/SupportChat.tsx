@@ -30,10 +30,6 @@ export const SupportChat: React.FC = () => {
     });
   }, []);
 
-  useEffect(() => {
-    bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [messages]);
-
   const handleSend = async () => {
     const trimmed = text.trim();
     if (!trimmed || !userId) return;
