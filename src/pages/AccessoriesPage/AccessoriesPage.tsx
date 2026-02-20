@@ -17,9 +17,6 @@ export const AccessoriesPage = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [isLoading, setIsLoading] = useState(true);
 
-  const [searchQuery, setSearchQuery] = useState('');
-  const [debouncedQuery, setDebouncedQuery] = useState('');
-
   useEffect(() => {
     const loadAccessories = async () => {
       setIsLoading(true);
@@ -46,33 +43,9 @@ export const AccessoriesPage = () => {
     });
   }, [currentPage]);
 
-  useEffect(() => {
-    const handler = setTimeout(() => {
-      setDebouncedQuery(searchQuery);
-    }, 300);
-    return () => clearTimeout(handler);
-  }, [searchQuery]);
-
-  useEffect(() => {
-    if (searchQuery.length === 0 && debouncedQuery.length > 0) {
-      setIsLoading(true);
-
-      const timer = setTimeout(() => {
-        setIsLoading(false);
-      }, 500);
-
-      return () => clearTimeout(timer);
-    }
-  }, [searchQuery, debouncedQuery]);
-
-  const filteredAccessories = useMemo(() => {
-    const query = debouncedQuery.toLowerCase().trim();
-    return accessories.filter((acc) => acc.name.toLowerCase().includes(query));
-  }, [accessories, debouncedQuery]);
-
   const sortedAccessories = useMemo(() => {
-    return sortProducts(filteredAccessories, sortBy);
-  }, [filteredAccessories, sortBy]);
+    return sortProducts(accessories, sortBy);
+  }, [accessories, sortBy]);
 
   const totalPages = Math.ceil(sortedAccessories.length / itemsOnPage);
 
@@ -105,45 +78,32 @@ export const AccessoriesPage = () => {
         <h1 className={s.title}>Accessories</h1>
 
         {!isLoading && (
-          <p className={s.modelsCount}>{filteredAccessories.length} models</p>
+          <p className={s.modelsCount}>{accessories.length} models</p>
         )}
 
         <section className={s['accessories-page__controls']}>
           <div className={s.controls}>
-            <div className={s.controlsLeft}>
-              <div className={s.control}>
-                <label className={s.label}>Sort by</label>
-                <Dropdown
-                  options={sortOptions}
-                  value={sortBy}
-                  onChange={(value) => {
-                    setSortBy(value as SortType);
-                    setCurrentPage(1);
-                  }}
-                />
-              </div>
-
-              <div className={s.control}>
-                <label className={s.label}>Items on page</label>
-                <Dropdown
-                  options={itemsOptions}
-                  value={String(itemsOnPage)}
-                  onChange={(value) => {
-                    setItemsOnPage(+value);
-                    setCurrentPage(1);
-                  }}
-                />
-              </div>
+            <div className={s.control}>
+              <label className={s.label}>Sort by</label>
+              <Dropdown
+                options={sortOptions}
+                value={sortBy}
+                onChange={(value) => {
+                  setSortBy(value as SortType);
+                  setCurrentPage(1);
+                }}
+              />
             </div>
 
-            <div className={s.search}>
-              <label className={s.label}>Looking for something?</label>
-              <input
-                type="text"
-                placeholder="Type here"
-                className={s.searchInput}
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
+            <div className={s.control}>
+              <label className={s.label}>Items on page</label>
+              <Dropdown
+                options={itemsOptions}
+                value={String(itemsOnPage)}
+                onChange={(value) => {
+                  setItemsOnPage(+value);
+                  setCurrentPage(1);
+                }}
               />
             </div>
           </div>
@@ -185,9 +145,7 @@ export const AccessoriesPage = () => {
                   <button
                     key={page}
                     onClick={() => setCurrentPage(page)}
-                    className={`${s.pageButton} ${
-                      currentPage === page ? s.active : ''
-                    }`}
+                    className={`${s.pageButton} ${currentPage === page ? s.active : ''}`}
                   >
                     {page}
                   </button>

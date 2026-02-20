@@ -13,3 +13,7 @@ export interface Order {
   items: OrderItem[];
   total: number;
 }
+
+export interface ProductFromDB {
+  image: string;
+}

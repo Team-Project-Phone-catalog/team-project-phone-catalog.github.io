@@ -11,6 +11,7 @@ interface Props {
   favoritesCount: number;
   cartCount: number;
   user: User | null;
+  isAdmin: boolean;
 }
 
 const navLinks = [
@@ -22,7 +23,7 @@ const navLinks = [
 
 const authNavLinks = [
   { id: 5, name: 'Orders', path: 'profile/orders' },
-  { id: 6, name: 'Chat', path: 'profile//chat' },
+  { id: 6, name: 'Chat', path: 'profile/chat' },
   { id: 7, name: 'Wish List', path: 'profile/favorites' },
   { id: 8, name: 'Wallet', path: 'profile/wallet' },
 ];
@@ -33,6 +34,7 @@ export const BurgerMenu: React.FC<Props> = ({
   favoritesCount,
   cartCount,
   user,
+  isAdmin,
 }) => {
   return (
     <div
@@ -80,6 +82,22 @@ export const BurgerMenu: React.FC<Props> = ({
                   </NavLink>
                 </li>
               ))}
+
+              {isAdmin && (
+                <li className={styles.menu__item}>
+                  <NavLink
+                    to="profile/admin"
+                    className={({ isActive }) =>
+                      isActive ?
+                        `${styles.menu__link} ${styles['menu__link--active']}`
+                      : styles.menu__link
+                    }
+                    onClick={onClose}
+                  >
+                    Admin
+                  </NavLink>
+                </li>
+              )}
             </>
           )}
         </ul>

@@ -8,6 +8,7 @@ import heartIcon from './icons/Heart.svg';
 import cartIcon from './icons/Cart.svg';
 import userIcon from './icons/User.svg';
 import { useAppContext } from '../../../hooks/useAppContext.ts';
+import { Search } from './Search/Search.tsx';
 import { AuthModal } from '../../AuthModal/AuthModal.tsx';
 import { supabase } from '../../../utils/supabaseClient.ts';
 import { User } from '@supabase/supabase-js';
@@ -23,24 +24,39 @@ export const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const [user, setUser] = useState<User | null>(null);
+  const [isAdmin, setIsAdmin] = useState(false);
 
   const { getTotalItems, getFavoritesCount } = useAppContext();
-
   const cartCount = getTotalItems();
   const favoritesCount = getFavoritesCount();
 
   const toggleMenu = () => setIsMenuOpen((prev) => !prev);
   const closeMenu = () => setIsMenuOpen(false);
 
+  const fetchAdmin = async (userId: string) => {
+    const { data } = await supabase
+      .from('profiles')
+      .select('is_admin')
+      .eq('id', userId)
+      .single();
+    setIsAdmin(data?.is_admin ?? false);
+  };
+
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
       setUser(session?.user ?? null);
+      if (session?.user) fetchAdmin(session.user.id);
     });
 
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange((_event, session) => {
       setUser(session?.user ?? null);
+      if (session?.user) {
+        fetchAdmin(session.user.id);
+      } else {
+        setIsAdmin(false);
+      }
     });
 
     return () => subscription.unsubscribe();
@@ -86,6 +102,7 @@ export const Header = () => {
           </div>
 
           <div className={styles.header__right}>
+            <Search />
             <div className={styles.header__icons}>
               <NavLink
                 to="/profile"
@@ -99,7 +116,6 @@ export const Header = () => {
                     e.preventDefault();
                     setIsAuthModalOpen(true);
                   }
-
                   closeMenu();
                 }}
               >
@@ -170,6 +186,7 @@ export const Header = () => {
         favoritesCount={favoritesCount}
         cartCount={cartCount}
         user={user}
+        isAdmin={isAdmin}
       />
     </>
   );

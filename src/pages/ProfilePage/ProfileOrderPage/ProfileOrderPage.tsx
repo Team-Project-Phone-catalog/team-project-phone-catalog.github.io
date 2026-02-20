@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import styles from './ProfileOrderPage.module.scss';
 import { Sidebar } from '../../../components/SideBar/SideBar.tsx';
 import { Breadcrumbs } from '../../../components/ui/Breadcrumbs/Breadcrumbs.tsx';
-import { Order } from '../../../types/CartOrder.ts';
+import { Order, ProductFromDB } from '../../../types/CartOrder.ts';
 import { supabase } from '../../../utils/supabaseClient.ts';
 import { Loader } from '../../../components/ui/Loader/Loader.tsx';
 import { EmptyOrders } from '../../../components/ui/Profile/CartHistory/EmptyOrders/EmptyOrders.tsx';
@@ -29,18 +29,21 @@ export const ProfileOrderPage: React.FC = () => {
         .from('orders')
         .select(
           `
-                id, 
-                date,
-                status,
-                total,
-                order_items (
-                id,
-                name,
-                price,
-                image,
-                quantity
-                )
-                `,
+    id, 
+    date,
+    status,
+    total,
+    order_items (
+      id,
+      name,
+      price,
+      quantity,
+      product_id,
+      products (
+        image
+      )
+    )
+  `,
         )
         .eq('user_id', user.id)
         .order('date', { ascending: false });
@@ -57,7 +60,13 @@ export const ProfileOrderPage: React.FC = () => {
           }),
           status: order.status,
           total: order.total,
-          items: order.order_items,
+          items: order.order_items.map((item) => ({
+            id: item.id,
+            name: item.name,
+            price: item.price,
+            quantity: item.quantity ?? 1,
+            image: (item.products as ProductFromDB[] | null)?.[0]?.image || '',
+          })),
         }));
 
         setOrders(format);
