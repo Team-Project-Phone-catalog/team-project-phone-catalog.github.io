@@ -181,7 +181,6 @@ export const AdminPage: React.FC = () => {
               </table>
             </div>
 
-            {/* ── Orders ── */}
             <div
               className={styles.statCard}
               style={{ marginTop: 32 }}

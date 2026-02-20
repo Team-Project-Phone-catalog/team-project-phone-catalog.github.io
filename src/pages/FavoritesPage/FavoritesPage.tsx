@@ -7,6 +7,7 @@ import { useAppContext } from '../../hooks/useAppContext';
 import { Loader } from '../../components/ui/Loader/Loader';
 import './FavoritesPage.scss';
 import Heart from './Heart';
+import { Link } from 'react-router-dom';
 
 export const FavoritesPage: React.FC = () => {
   const { favorites } = useAppContext();
@@ -79,6 +80,12 @@ export const FavoritesPage: React.FC = () => {
             <p className="favorites-page__items-number">
               Add some products to see them here!
             </p>
+            <Link
+              to="/"
+              className="favorites-page__addToCart"
+            >
+              Shop now
+            </Link>
           </div>
         }
       </div>
