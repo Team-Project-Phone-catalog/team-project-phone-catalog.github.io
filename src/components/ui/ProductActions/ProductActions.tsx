@@ -2,25 +2,30 @@ import './ProductActions.scss';
 import * as React from 'react';
 
 interface Props {
-  onAddToCart: (e: React.MouseEvent) => void;
+  handleToggleCart: (e: React.MouseEvent) => void;
   onToggleFavorite: (e: React.MouseEvent) => void;
   isFavorite?: boolean;
   isInCart?: boolean;
 }
 
 export const ProductActions: React.FC<Props> = ({
-  onAddToCart,
+  handleToggleCart,
   onToggleFavorite,
   isFavorite,
   isInCart,
 }) => {
+  const handleToggleFavorite = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    onToggleFavorite(e);
+  };
+
   return (
     <div className="product-actions">
       <button
         type="button"
         className={`product-actions__add-to-cart ${isInCart ? 'in-cart' : ''}`}
-        onClick={onAddToCart}
-        disabled={isInCart}
+        onClick={handleToggleCart}
       >
         {isInCart ? 'Added' : 'Add to cart'}
       </button>
@@ -28,7 +33,7 @@ export const ProductActions: React.FC<Props> = ({
       <button
         type="button"
         className={`product-actions__favorites ${isFavorite ? 'product-actions__favorites--active' : ''}`}
-        onClick={onToggleFavorite}
+        onClick={handleToggleFavorite}
         aria-label={isFavorite ? 'Remove from favorites' : 'Add to favorites'}
       ></button>
     </div>

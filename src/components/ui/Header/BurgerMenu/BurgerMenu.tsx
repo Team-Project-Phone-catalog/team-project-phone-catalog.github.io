@@ -1,5 +1,6 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
+import { User } from '@supabase/supabase-js';
 import styles from './BurgerMenu.module.scss';
 import heartIcon from '../icons/Heart.svg';
 import cartIcon from '../icons/Cart.svg';
@@ -9,6 +10,8 @@ interface Props {
   onClose: () => void;
   favoritesCount: number;
   cartCount: number;
+  user: User | null;
+  isAdmin: boolean;
 }
 
 const navLinks = [
@@ -18,11 +21,20 @@ const navLinks = [
   { id: 4, name: 'Accessories', path: '/accessories' },
 ];
 
+const authNavLinks = [
+  { id: 5, name: 'Orders', path: 'profile/orders' },
+  { id: 6, name: 'Chat', path: 'profile/chat' },
+  { id: 7, name: 'Wish List', path: 'profile/favorites' },
+  { id: 8, name: 'Wallet', path: 'profile/wallet' },
+];
+
 export const BurgerMenu: React.FC<Props> = ({
   isOpen,
   onClose,
   favoritesCount,
   cartCount,
+  user,
+  isAdmin,
 }) => {
   return (
     <div
@@ -48,6 +60,46 @@ export const BurgerMenu: React.FC<Props> = ({
               </NavLink>
             </li>
           ))}
+
+          {user && (
+            <>
+              <li className={styles.menu__divider} />
+              {authNavLinks.map((link) => (
+                <li
+                  key={link.id}
+                  className={styles.menu__item}
+                >
+                  <NavLink
+                    to={link.path}
+                    className={({ isActive }) =>
+                      isActive ?
+                        `${styles.menu__link} ${styles['menu__link--active']}`
+                      : styles.menu__link
+                    }
+                    onClick={onClose}
+                  >
+                    {link.name}
+                  </NavLink>
+                </li>
+              ))}
+
+              {isAdmin && (
+                <li className={styles.menu__item}>
+                  <NavLink
+                    to="profile/admin"
+                    className={({ isActive }) =>
+                      isActive ?
+                        `${styles.menu__link} ${styles['menu__link--active']}`
+                      : styles.menu__link
+                    }
+                    onClick={onClose}
+                  >
+                    Admin
+                  </NavLink>
+                </li>
+              )}
+            </>
+          )}
         </ul>
       </nav>
 

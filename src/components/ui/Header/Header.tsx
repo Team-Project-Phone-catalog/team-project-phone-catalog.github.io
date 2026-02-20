@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import { BurgerMenu } from './BurgerMenu/BurgerMenu';
 import { CounterIcon } from './CounterIcon/CounterIcon';
@@ -9,6 +9,9 @@ import cartIcon from './icons/Cart.svg';
 import userIcon from './icons/User.svg';
 import { useAppContext } from '../../../hooks/useAppContext.ts';
 import { Search } from './Search/Search.tsx';
+import { AuthModal } from '../../AuthModal/AuthModal.tsx';
+import { supabase } from '../../../utils/supabaseClient.ts';
+import { User } from '@supabase/supabase-js';
 
 const navLinks = [
   { id: 1, name: 'Home', path: '/' },
@@ -19,14 +22,45 @@ const navLinks = [
 
 export const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
+  const [user, setUser] = useState<User | null>(null);
+  const [isAdmin, setIsAdmin] = useState(false);
 
   const { getTotalItems, getFavoritesCount } = useAppContext();
-
   const cartCount = getTotalItems();
   const favoritesCount = getFavoritesCount();
 
   const toggleMenu = () => setIsMenuOpen((prev) => !prev);
   const closeMenu = () => setIsMenuOpen(false);
+
+  const fetchAdmin = async (userId: string) => {
+    const { data } = await supabase
+      .from('profiles')
+      .select('is_admin')
+      .eq('id', userId)
+      .single();
+    setIsAdmin(data?.is_admin ?? false);
+  };
+
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setUser(session?.user ?? null);
+      if (session?.user) fetchAdmin(session.user.id);
+    });
+
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_event, session) => {
+      setUser(session?.user ?? null);
+      if (session?.user) {
+        fetchAdmin(session.user.id);
+      } else {
+        setIsAdmin(false);
+      }
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
 
   return (
     <>
@@ -77,7 +111,13 @@ export const Header = () => {
                     `${styles.icon_btn} ${styles['icon_btn--user']} ${styles['icon_btn--active']}`
                   : `${styles.icon_btn} ${styles['icon_btn--user']}`
                 }
-                onClick={closeMenu}
+                onClick={(e) => {
+                  if (!user) {
+                    e.preventDefault();
+                    setIsAuthModalOpen(true);
+                  }
+                  closeMenu();
+                }}
               >
                 <img
                   src={userIcon}
@@ -133,6 +173,11 @@ export const Header = () => {
             </button>
           </div>
         </div>
+
+        <AuthModal
+          isOpen={isAuthModalOpen}
+          onClose={() => setIsAuthModalOpen(false)}
+        />
       </header>
 
       <BurgerMenu
@@ -140,6 +185,8 @@ export const Header = () => {
         onClose={closeMenu}
         favoritesCount={favoritesCount}
         cartCount={cartCount}
+        user={user}
+        isAdmin={isAdmin}
       />
     </>
   );

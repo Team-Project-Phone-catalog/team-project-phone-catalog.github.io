@@ -13,77 +13,39 @@ interface Props {
 }
 
 export const ProductCard: React.FC<Props> = ({ product }) => {
-  const { addToCart, isInCart, toggleFavorite, isFavorite } = useAppContext();
+  const { toggleCart, isInCart, toggleFavorite, isFavorite } = useAppContext();
 
   if (!product) return null;
 
-  /* ===================== CART ===================== */
-
-  const handleAddToCart = () => {
-    addToCart(product as Product);
-  };
-
-  /* ===================== FAVORITES ===================== */
-
-  const handleToggleFavorite = () => {
-    toggleFavorite(String(product.id));
-  };
-
-  /* ===================== PRICES ===================== */
+  const productId = 'itemId' in product ? product.itemId : product.id;
+  const stringId = String(productId);
 
   const currentPrice =
-    product.priceDiscount ?? ('price' in product ? product.price : undefined);
-
+    product.priceDiscount ?? ('price' in product ? product.price : 0);
   const fullPrice =
-    product.priceRegular ??
-    ('fullPrice' in product ? product.fullPrice : undefined);
+    product.priceRegular ?? ('fullPrice' in product ? product.fullPrice : 0);
 
-  /* ===================== IMAGE ===================== */
+  const imagePath =
+    'images' in product ?
+      Array.isArray(product.images) ?
+        product.images[0]
+      : product.images
+    : 'image' in product ? product.image
+    : '';
+  const imageUrl = imagePath ? `/${imagePath}` : '';
 
-  let imagePath: string | null = null;
-
-  if ('images' in product && product.images) {
-    if (Array.isArray(product.images)) {
-      imagePath = product.images[0];
-    } else {
-      try {
-        const parsed = JSON.parse(product.images);
-        imagePath = Array.isArray(parsed) ? parsed[0] : product.images;
-      } catch {
-        imagePath = product.images;
-      }
-    }
-  } else if ('image' in product && product.image) {
-    imagePath = product.image;
-  }
-
-  const imageUrl = imagePath ? `/${imagePath}` : null;
-
-  /* ===================== ROUTING ===================== */
-
-  const productId = 'itemId' in product ? product.itemId : product.id;
-
-  const idString = String(productId).toLowerCase();
-
+  const idString = stringId.toLowerCase();
   let category = 'phones';
-
-  if (idString.includes('ipad')) {
-    category = 'tablets';
-  } else if (idString.includes('watch')) {
-    category = 'accessories';
-  } else if ('category' in product && product.category) {
-    category = product.category as string;
-  }
-
-  const linkTo = `/${category}/${productId}`;
-
-  /* ===================== RENDER ===================== */
+  if (idString.includes('ipad')) category = 'tablets';
+  else if (idString.includes('watch')) category = 'accessories';
+  else if ('category' in product && product.category)
+    category = product.category;
 
   return (
     <div className="card">
       <div className="card__container">
         <Link
-          to={linkTo}
+          to={`/${category}/${productId}`}
           className="card__link"
         >
           <div className="card__img-container">
@@ -97,35 +59,29 @@ export const ProductCard: React.FC<Props> = ({ product }) => {
               />
             )}
           </div>
-
           <div className="card__title-wrapper">
             <h2 className="card__title">{product.name}</h2>
           </div>
         </Link>
-
         <ProductPrice
           currentPrice={currentPrice}
           fullPrice={fullPrice}
         />
-
         <ProductFeatures
           screen={product.screen}
           capacity={product.capacity}
           ram={product.ram}
         />
-
         <ProductActions
-          onAddToCart={(e) => {
+          handleToggleCart={(e) => {
             e.preventDefault();
             e.stopPropagation();
-            handleAddToCart();
+            toggleCart(product as Product);
           }}
-          onToggleFavorite={(e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            handleToggleFavorite();
+          onToggleFavorite={() => {
+            toggleFavorite(product as Product);
           }}
-          isFavorite={isFavorite(String(product.id))}
+          isFavorite={isFavorite(stringId)}
           isInCart={isInCart(product as Product)}
         />
       </div>

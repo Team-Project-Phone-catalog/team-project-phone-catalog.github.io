@@ -14,11 +14,14 @@ import { ScrollToTop } from '../../../ScrollToTop/ScrollToTop.tsx';
 type Props = {
   product: ProductDetails;
   onCapacityChange: (newItemId: string) => void;
+  onColorChange?: (color: string) => void;
+  onCapacitySelect?: (capacity: string) => void;
 };
 
 export const ProductPage: React.FC<Props> = ({ product, onCapacityChange }) => {
   const location = useLocation();
   const categoryFromUrl = location.pathname.split('/')[1];
+
   return (
     <div className="product-card">
       <ScrollToTop />
@@ -32,6 +35,7 @@ export const ProductPage: React.FC<Props> = ({ product, onCapacityChange }) => {
       <div className="product-card__sidebar">
         <div className="product-card__options">
           <ProductOptions
+            key={product.id}
             itemId={product.id}
             namespaceId={product.namespaceId}
             colorsAvailable={product.colorsAvailable}

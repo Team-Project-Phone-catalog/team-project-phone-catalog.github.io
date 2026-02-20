@@ -11,10 +11,24 @@ import { HomePage } from './pages/HomePage/HomePage.tsx';
 import { FavoritesPage } from './pages/FavoritesPage/FavoritesPage.tsx';
 import { ProductDetailsPage } from './pages/ProductDetailsPage/ProductDetailsPage.tsx';
 import { ScrollToTop } from './components/ScrollToTop/ScrollToTop.tsx';
+import { Toaster } from 'sonner';
+
+import { ProfilePage } from './pages/ProfilePage/ProfilePage';
+import { HelpWidget } from './components/HelpWidget/HelpWidget';
+import { ProfileOrderPage } from './pages/ProfilePage/ProfileOrderPage/ProfileOrderPage.tsx';
+import { AdminPage } from './pages/ProfilePage/AdminPage/AdminPage.tsx';
 
 export const App = () => {
   return (
     <div className="App">
+      <Toaster
+        position="bottom-right"
+        richColors
+        toastOptions={{
+          className: 'my-custom-toast',
+        }}
+      />
+
       <ScrollToTop />
       <Header />
 
@@ -45,6 +59,20 @@ export const App = () => {
             element={<FavoritesPage />}
           />
           <Route
+            path="/profile"
+            element={<ProfilePage />}
+          />
+
+          <Route
+            path="/profile/orders"
+            element={<ProfileOrderPage />}
+          />
+
+          <Route
+            path="/profile/admin"
+            element={<AdminPage />}
+          />
+          <Route
             path="/:category/:productId"
             element={<ProductDetailsPage />}
           />
@@ -56,6 +84,7 @@ export const App = () => {
       </div>
 
       <Footer />
+      <HelpWidget />
     </div>
   );
 };
