@@ -1,4 +1,5 @@
 @import '../../styles/utils';
+@import '../../styles/variables.scss';
 
 * {
   margin: 0;
@@ -19,6 +20,35 @@
 
   @include on-desktop {
     padding: 0 32px 80px;
+  }
+
+  .emptyCart {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    margin-bottom: 8px;
+  }
+
+  .addToCart {
+    display: flex;
+    border-radius: 8px;
+    justify-content: center;
+    align-items: center;
+    flex-grow: 1;
+    width: 175px;
+    height: 40px;
+    font-family: 'Mont', 'Helvetica Neue', Arial, sans-serif;
+    font-size: 14px;
+    line-height: 21px;
+    letter-spacing: 0;
+    color: $color-light-1;
+    background-color: $color-accent;
+    text-decoration: none;
+    text-align: center;
+    cursor: pointer;
+    border: none;
   }
 
   .title {
