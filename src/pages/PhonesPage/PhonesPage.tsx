@@ -16,9 +16,6 @@ export const PhonesPage = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [isLoading, setIsLoading] = useState(true);
 
-  const [searchQuery, setSearchQuery] = useState('');
-  const [debouncedQuery, setDebouncedQuery] = useState('');
-
   useEffect(() => {
     const loadPhones = async () => {
       setIsLoading(true);
@@ -39,33 +36,8 @@ export const PhonesPage = () => {
     });
   }, [currentPage]);
 
-  useEffect(() => {
-    const handler = setTimeout(() => {
-      setDebouncedQuery(searchQuery);
-    }, 300);
-
-    return () => clearTimeout(handler);
-  }, [searchQuery]);
-
-  useEffect(() => {
-    if (searchQuery.length === 0 && debouncedQuery.length > 0) {
-      setIsLoading(true);
-
-      const timer = setTimeout(() => {
-        setIsLoading(false);
-      }, 500);
-
-      return () => clearTimeout(timer);
-    }
-  }, [searchQuery, debouncedQuery]);
-
-  const filteredPhones = useMemo(() => {
-    const query = debouncedQuery.toLowerCase().trim();
-    return phones.filter((phone) => phone.name.toLowerCase().includes(query));
-  }, [phones, debouncedQuery]);
-
   const sortedPhones = useMemo(() => {
-    const toSort = [...filteredPhones];
+    const toSort = [...phones];
     switch (sortBy) {
       case 'alphabetically':
         return toSort.sort((a, b) => a.name.localeCompare(b.name));
@@ -75,7 +47,7 @@ export const PhonesPage = () => {
       default:
         return sortByNewest(toSort);
     }
-  }, [filteredPhones, sortBy]);
+  }, [phones, sortBy]);
 
   const totalPages = Math.ceil(sortedPhones.length / itemsOnPage);
 
@@ -92,9 +64,7 @@ export const PhonesPage = () => {
         <Breadcrumbs />
         <h1 className={s.title}>Mobile phones</h1>
 
-        {!isLoading && (
-          <p className={s.modelsCount}>{filteredPhones.length} models</p>
-        )}
+        {!isLoading && <p className={s.modelsCount}>{phones.length} models</p>}
 
         <section className={s['phones-page__controls']}>
           <div className={s.controls}>
@@ -130,23 +100,6 @@ export const PhonesPage = () => {
                   <option value={64}>64</option>
                 </select>
               </div>
-            </div>
-
-            <div className={s.search}>
-              <label
-                className={s.label}
-                htmlFor="search-input"
-              >
-                Looking for something?
-              </label>
-              <input
-                id="search-input"
-                type="text"
-                placeholder="Type here"
-                className={s.searchInput}
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-              />
             </div>
           </div>
         </section>

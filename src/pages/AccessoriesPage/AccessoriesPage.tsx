@@ -14,19 +14,13 @@ export const AccessoriesPage = () => {
   const [sortBy, setSortBy] = useState<SortType>('newest');
   const [itemsOnPage, setItemsOnPage] = useState(16);
   const [currentPage, setCurrentPage] = useState(1);
-
   const [isLoading, setIsLoading] = useState(true);
-
-  const [searchQuery, setSearchQuery] = useState('');
-  const [debouncedQuery, setDebouncedQuery] = useState('');
 
   useEffect(() => {
     const loadAccessories = async () => {
       setIsLoading(true);
-
       try {
         const data = await getAccessories();
-
         setAccessories(
           data.map((acc) => ({
             ...acc,
@@ -37,7 +31,6 @@ export const AccessoriesPage = () => {
         setTimeout(() => setIsLoading(false), 600);
       }
     };
-
     loadAccessories();
   }, []);
 
@@ -48,32 +41,8 @@ export const AccessoriesPage = () => {
     });
   }, [currentPage]);
 
-  useEffect(() => {
-    const handler = setTimeout(() => {
-      setDebouncedQuery(searchQuery);
-    }, 300);
-    return () => clearTimeout(handler);
-  }, [searchQuery]);
-
-  useEffect(() => {
-    if (searchQuery.length === 0 && debouncedQuery.length > 0) {
-      setIsLoading(true);
-
-      const timer = setTimeout(() => {
-        setIsLoading(false);
-      }, 500);
-
-      return () => clearTimeout(timer);
-    }
-  }, [searchQuery, debouncedQuery]);
-
-  const filteredAccessories = useMemo(() => {
-    const query = debouncedQuery.toLowerCase().trim();
-    return accessories.filter((acc) => acc.name.toLowerCase().includes(query));
-  }, [accessories, debouncedQuery]);
-
   const sortedAccessories = useMemo(() => {
-    const toSort = [...filteredAccessories];
+    const toSort = [...accessories];
     switch (sortBy) {
       case 'alphabetically':
         return toSort.sort((a, b) => a.name.localeCompare(b.name));
@@ -83,14 +52,13 @@ export const AccessoriesPage = () => {
       default:
         return sortByNewest(toSort);
     }
-  }, [filteredAccessories, sortBy]);
+  }, [accessories, sortBy]);
 
   const totalPages = Math.ceil(sortedAccessories.length / itemsOnPage);
 
   const visibleAccessories = useMemo(() => {
     const start = (currentPage - 1) * itemsOnPage;
     const end = start + itemsOnPage;
-
     return sortedAccessories.slice(start, end);
   }, [sortedAccessories, itemsOnPage, currentPage]);
 
@@ -98,11 +66,10 @@ export const AccessoriesPage = () => {
     <div className={s['accessories-page']}>
       <div className={s['accessories-page__container']}>
         <Breadcrumbs />
-
         <h1 className={s.title}>Accessories</h1>
 
         {!isLoading && (
-          <p className={s.modelsCount}>{filteredAccessories.length} models</p>
+          <p className={s.modelsCount}>{accessories.length} models</p>
         )}
 
         <section className={s['accessories-page__controls']}>
@@ -140,17 +107,6 @@ export const AccessoriesPage = () => {
                 </select>
               </div>
             </div>
-
-            <div className={s.search}>
-              <label className={s.label}>Looking for something?</label>
-              <input
-                type="text"
-                placeholder="Type here"
-                className={s.searchInput}
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-              />
-            </div>
           </div>
         </section>
 
@@ -185,7 +141,6 @@ export const AccessoriesPage = () => {
 
               {[...Array(totalPages)].map((_, index) => {
                 const page = index + 1;
-
                 return (
                   <button
                     key={page}
@@ -206,7 +161,7 @@ export const AccessoriesPage = () => {
               >
                 <img
                   src="/img/icons/arrow-right.svg"
-                  alt="Next page"
+                  alt="Next"
                 />
               </button>
             </div>

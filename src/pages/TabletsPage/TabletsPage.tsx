@@ -14,19 +14,13 @@ export const TabletsPage = () => {
   const [sortBy, setSortBy] = useState<SortType>('newest');
   const [itemsOnPage, setItemsOnPage] = useState(16);
   const [currentPage, setCurrentPage] = useState(1);
-
   const [isLoading, setIsLoading] = useState(true);
-
-  const [searchQuery, setSearchQuery] = useState('');
-  const [debouncedQuery, setDebouncedQuery] = useState('');
 
   useEffect(() => {
     const loadTablets = async () => {
       setIsLoading(true);
-
       try {
         const data = await getTablets();
-
         setTablets(
           data.map((tablet) => ({
             ...tablet,
@@ -48,35 +42,8 @@ export const TabletsPage = () => {
     });
   }, [currentPage]);
 
-  useEffect(() => {
-    const handler = setTimeout(() => {
-      setDebouncedQuery(searchQuery);
-    }, 300);
-
-    return () => clearTimeout(handler);
-  }, [searchQuery]);
-
-  useEffect(() => {
-    if (searchQuery.length === 0 && debouncedQuery.length > 0) {
-      setIsLoading(true);
-
-      const timer = setTimeout(() => {
-        setIsLoading(false);
-      }, 500);
-
-      return () => clearTimeout(timer);
-    }
-  }, [searchQuery, debouncedQuery]);
-
-  const filteredTablets = useMemo(() => {
-    const query = debouncedQuery.toLowerCase().trim();
-    return tablets.filter((tablet) =>
-      tablet.name.toLowerCase().includes(query),
-    );
-  }, [tablets, debouncedQuery]);
-
   const sortedTablets = useMemo(() => {
-    const toSort = [...filteredTablets];
+    const toSort = [...tablets];
     switch (sortBy) {
       case 'alphabetically':
         return toSort.sort((a, b) => a.name.localeCompare(b.name));
@@ -86,7 +53,7 @@ export const TabletsPage = () => {
       default:
         return sortByNewest(toSort);
     }
-  }, [filteredTablets, sortBy]);
+  }, [tablets, sortBy]);
 
   const totalPages = Math.ceil(sortedTablets.length / itemsOnPage);
 
@@ -104,9 +71,7 @@ export const TabletsPage = () => {
 
         <h1 className={s.title}>Tablets</h1>
 
-        {!isLoading && (
-          <p className={s.modelsCount}>{filteredTablets.length} models</p>
-        )}
+        {!isLoading && <p className={s.modelsCount}>{tablets.length} models</p>}
 
         <section className={s['tablets-page__controls']}>
           <div className={s.controls}>
@@ -142,23 +107,6 @@ export const TabletsPage = () => {
                   <option value={64}>64</option>
                 </select>
               </div>
-            </div>
-
-            <div className={s.search}>
-              <label
-                className={s.label}
-                htmlFor="search-input"
-              >
-                Looking for something?
-              </label>
-              <input
-                id="search-input"
-                type="text"
-                placeholder="Type here"
-                className={s.searchInput}
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-              />
             </div>
           </div>
         </section>

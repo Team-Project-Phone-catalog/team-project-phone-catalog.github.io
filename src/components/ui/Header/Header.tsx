@@ -8,6 +8,7 @@ import heartIcon from './icons/Heart.svg';
 import cartIcon from './icons/Cart.svg';
 import userIcon from './icons/User.svg';
 import { useAppContext } from '../../../hooks/useAppContext.ts';
+import { Search } from './Search/Search.tsx';
 
 const navLinks = [
   { id: 1, name: 'Home', path: '/' },
@@ -67,8 +68,8 @@ export const Header = () => {
           </div>
 
           <div className={styles.header__right}>
+            <Search />
             <div className={styles.header__icons}>
-              {/* Іконка Юзера - додано клас icon_btn--user */}
               <NavLink
                 to="/profile"
                 className={({ isActive }) =>

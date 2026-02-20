@@ -1,10 +1,5 @@
+@use '../../../../styles/variables.scss' as *;
 @import '../../../../styles/utils';
-
-$color-bg: #0f1121;
-$color-border: #323542;
-$color-white: #f1f2f9;
-$color-gray: #75767f;
-$color-accent: #eb5757;
 
 .menu {
   position: fixed;
@@ -12,7 +7,7 @@ $color-accent: #eb5757;
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: $color-bg;
+  background-color: $color-black;
   z-index: 50;
   display: flex;
   flex-direction: column;
@@ -52,7 +47,7 @@ $color-accent: #eb5757;
     align-items: center;
     gap: 4px;
 
-    color: $color-gray;
+    color: $color-secondary;
     text-decoration: none;
     font-size: 12px;
     font-weight: 800;
@@ -61,18 +56,18 @@ $color-accent: #eb5757;
     transition: color 0.3s ease;
 
     &:hover {
-      color: $color-white;
+      color: $color-light-1;
     }
 
     &--active {
-      color: $color-white;
+      color: $color-light-1;
 
       &::after {
         content: '';
         display: block;
         width: 100%;
         height: 2px;
-        background-color: $color-white;
+        background-color: $color-light-1;
       }
     }
   }
@@ -80,7 +75,7 @@ $color-accent: #eb5757;
   &__footer {
     display: flex;
     height: 64px;
-    border-top: 1px solid $color-border;
+    border-top: 1px solid $color-surface-2;
     margin-top: auto;
   }
 }
@@ -90,7 +85,7 @@ $color-accent: #eb5757;
   display: flex;
   justify-content: center;
   align-items: center;
-  border-right: 1px solid $color-border;
+  border-right: 1px solid $color-surface-2;
   position: relative;
   transition: background-color 0.2s ease;
   opacity: 1;
@@ -100,7 +95,7 @@ $color-accent: #eb5757;
   }
 
   &:hover {
-    background-color: rgba($color-white, 0.05);
+    background-color: rgba($color-light-1, 0.05);
   }
 
   &--active {
@@ -111,7 +106,7 @@ $color-accent: #eb5757;
       left: 0;
       right: 0;
       height: 4px;
-      background-color: $color-white;
+      background-color: $color-light-1;
     }
   }
 }
@@ -150,9 +145,9 @@ $color-accent: #eb5757;
   align-items: center;
   justify-content: center;
 
-  background-color: $color-accent;
-  color: $color-white;
-  border: 1px solid $color-border;
+  background-color: $color-red;
+  color: $color-light-1;
+  border: 1px solid $color-surface-2;
   border-radius: 50%;
 
   padding: 0;
