@@ -28,7 +28,21 @@
     align-items: center;
     justify-content: center;
     gap: 16px;
-    margin-bottom: 8px;
+    margin: 0 auto;
+    flex-grow: 1;
+  }
+  .imgWrapper {
+    width: 320px;
+    height: 280px;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    img {
+      object-fit: cover;
+      transform: translate(0, 10%);
+    }
   }
 
   .addToCart {

@@ -3,7 +3,6 @@ import { CartItem } from '../../components/ui/CartItem/CartItem.tsx';
 import { CartProduct } from '../../components/ui/CartProduct/CartProduct.tsx';
 import { BackButton } from '../../components/ui/Buttons/Back/BackButton.tsx';
 import { useAppContext } from '../../hooks/useAppContext.ts';
-import EmptyCart from '../../components/ui/EmptyCart/EmptyCart.tsx';
 import { Link } from 'react-router-dom';
 
 export const CartPage = () => {
@@ -24,7 +23,13 @@ export const CartPage = () => {
       </div>
       {cartItems.length === 0 ?
         <div className={s.emptyCart}>
-          <EmptyCart />
+          <div className={s.imgWrapper}>
+            <img
+              className={s.img}
+              src="../../img/cart-zero.png"
+              alt="Empty Cart"
+            />
+          </div>
           <p>Your cart is empty</p>
           <Link
             to="/"
