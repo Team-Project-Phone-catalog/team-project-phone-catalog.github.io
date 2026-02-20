@@ -1,4 +1,3 @@
-// Міксини
 @mixin on-tablet {
   @media (min-width: 640px) {
     @content;
@@ -11,10 +10,9 @@
   }
 }
 
-// Кольори
 $color-white: #ffffff;
 $color-elements: #323542;
-$color-gray: #75767f;
+$color-icons: #4a4d58;
 $color-secondary: #89939a;
 
 .AlsoLike {
@@ -65,28 +63,58 @@ $color-secondary: #89939a;
     width: 32px;
     height: 32px;
     border: 1px solid $color-elements;
-    border-radius: 4px; // Повернув ваші квадратні кнопки з радіусом 4px
-    background: transparent;
-    color: $color-white;
+    border-radius: 8px;
+    background-color: transparent;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: all 0.2s;
-    font-size: 18px;
+    transition: all 0.2s ease;
     padding: 0;
 
+    &::after {
+      content: '';
+      display: block;
+      width: 5.33px;
+      height: 9.33px;
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: contain;
+      background-color: $color-icons;
+      mask-image: url('/img/icons/Vector-white.svg');
+      mask-repeat: no-repeat;
+      mask-position: center;
+      mask-size: contain;
+      -webkit-mask-image: url('/img/icons/Vector-white.svg');
+      -webkit-mask-repeat: no-repeat;
+      -webkit-mask-position: center;
+      -webkit-mask-size: contain;
+    }
+
+    &--left::after {
+      transform: rotate(180deg);
+    }
+
     &:hover:not(:disabled) {
-      border-color: $color-white;
+      background-color: $color-elements;
+      border-color: $color-icons;
+
+      &::after {
+        background-color: $color-white;
+      }
     }
 
     &:disabled {
-      opacity: 0.3;
       cursor: not-allowed;
+      border-color: $color-elements;
+      opacity: 0.5;
+
+      &::after {
+        background-color: $color-icons;
+      }
     }
   }
 
-  // ПОВЕРНУВ ВАШІ ОРИГІНАЛЬНІ СТИЛІ СЛАЙДЕРА
   &__slider {
     overflow-x: auto;
     overflow-y: hidden;
