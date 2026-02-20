@@ -17,6 +17,7 @@ import { ProfilePage } from './pages/ProfilePage/ProfilePage';
 import { HelpWidget } from './components/HelpWidget/HelpWidget';
 import { ProfileOrderPage } from './pages/ProfilePage/ProfileOrderPage/ProfileOrderPage.tsx';
 import { AdminPage } from './pages/ProfilePage/AdminPage/AdminPage.tsx';
+import { SupportChat } from './pages/ProfilePage/SupportChat/SupportChat.tsx';
 
 export const App = () => {
   return (
@@ -74,7 +75,7 @@ export const App = () => {
           />
           <Route
             path="/profile/chat"
-            element={<h1>Chat</h1>}
+            element={<SupportChat />}
           />
           <Route
             path="/profile/wallet"

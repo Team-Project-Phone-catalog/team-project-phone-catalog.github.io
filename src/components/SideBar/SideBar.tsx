@@ -55,7 +55,7 @@ export const Sidebar = () => {
         {isAdmin && (
           <Link
             to="/profile/admin"
-            className={`${styles.navItem} ${isActive('/admin') ? styles.active : ''}`}
+            className={`${styles.navItem} ${isActive('/profile/admin') ? styles.active : ''}`}
           >
             Admin
           </Link>
@@ -70,10 +70,10 @@ export const Sidebar = () => {
 
         <Link
           to="/profile/chat"
-          className={`${styles.navItem} ${isActive('/chat') ? styles.active : ''}`}
+          className={`${styles.navItem} ${isActive('/profile/chat') ? styles.active : ''}`}
         >
-          <span>Chat</span>
-          <span className={styles.badge}>17</span>
+          <span>Support Chat</span>
+          <span className={styles.badge}>0</span>
         </Link>
 
         <div className={styles.divider}></div>
