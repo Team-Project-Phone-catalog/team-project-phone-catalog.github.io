@@ -17,9 +17,6 @@ export const PhonesPage = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [isLoading, setIsLoading] = useState(true);
 
-  const [searchQuery, setSearchQuery] = useState('');
-  const [debouncedQuery, setDebouncedQuery] = useState('');
-
   useEffect(() => {
     const loadPhones = async () => {
       setIsLoading(true);
@@ -40,34 +37,9 @@ export const PhonesPage = () => {
     });
   }, [currentPage]);
 
-  useEffect(() => {
-    const handler = setTimeout(() => {
-      setDebouncedQuery(searchQuery);
-    }, 300);
-
-    return () => clearTimeout(handler);
-  }, [searchQuery]);
-
-  useEffect(() => {
-    if (searchQuery.length === 0 && debouncedQuery.length > 0) {
-      setIsLoading(true);
-
-      const timer = setTimeout(() => {
-        setIsLoading(false);
-      }, 500);
-
-      return () => clearTimeout(timer);
-    }
-  }, [searchQuery, debouncedQuery]);
-
-  const filteredPhones = useMemo(() => {
-    const query = debouncedQuery.toLowerCase().trim();
-    return phones.filter((phone) => phone.name.toLowerCase().includes(query));
-  }, [phones, debouncedQuery]);
-
   const sortedPhones = useMemo(() => {
-    return sortProducts(filteredPhones, sortBy);
-  }, [filteredPhones, sortBy]);
+    return sortProducts(phones, sortBy);
+  }, [phones, sortBy]);
 
   const totalPages = Math.ceil(sortedPhones.length / itemsOnPage);
 
@@ -98,52 +70,31 @@ export const PhonesPage = () => {
         <Breadcrumbs />
         <h1 className={s.title}>Mobile phones</h1>
 
-        {!isLoading && (
-          <p className={s.modelsCount}>{filteredPhones.length} models</p>
-        )}
+        {!isLoading && <p className={s.modelsCount}>{phones.length} models</p>}
 
         <section className={s['phones-page__controls']}>
           <div className={s.controls}>
-            <div className={s.controlsLeft}>
-              <div className={s.control}>
-                <label className={s.label}>Sort by</label>
-                <Dropdown
-                  options={sortOptions}
-                  value={sortBy}
-                  onChange={(value) => {
-                    setSortBy(value as SortType);
-                    setCurrentPage(1);
-                  }}
-                />
-              </div>
-
-              <div className={s.control}>
-                <label className={s.label}>Items on page</label>
-                <Dropdown
-                  options={itemsOptions}
-                  value={String(itemsOnPage)}
-                  onChange={(value) => {
-                    setItemsOnPage(+value);
-                    setCurrentPage(1);
-                  }}
-                />
-              </div>
+            <div className={s.control}>
+              <label className={s.label}>Sort by</label>
+              <Dropdown
+                options={sortOptions}
+                value={sortBy}
+                onChange={(value) => {
+                  setSortBy(value as SortType);
+                  setCurrentPage(1);
+                }}
+              />
             </div>
 
-            <div className={s.search}>
-              <label
-                className={s.label}
-                htmlFor="search-input"
-              >
-                Looking for something?
-              </label>
-              <input
-                id="search-input"
-                type="text"
-                placeholder="Type here"
-                className={s.searchInput}
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
+            <div className={s.control}>
+              <label className={s.label}>Items on page</label>
+              <Dropdown
+                options={itemsOptions}
+                value={String(itemsOnPage)}
+                onChange={(value) => {
+                  setItemsOnPage(+value);
+                  setCurrentPage(1);
+                }}
               />
             </div>
           </div>
@@ -183,9 +134,7 @@ export const PhonesPage = () => {
                   <button
                     key={page}
                     onClick={() => setCurrentPage(page)}
-                    className={`${s.pageButton} ${
-                      currentPage === page ? s.active : ''
-                    }`}
+                    className={`${s.pageButton} ${currentPage === page ? s.active : ''}`}
                   >
                     {page}
                   </button>
