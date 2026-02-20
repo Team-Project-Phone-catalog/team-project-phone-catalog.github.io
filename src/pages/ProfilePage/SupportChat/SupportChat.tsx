@@ -42,27 +42,16 @@ export const SupportChat: React.FC = () => {
 
     const isFirstMessage = messages.length === 0;
 
-    const { data } = await supabase
+    await supabase
       .from('support_messages')
-      .insert({ user_id: userId, role: 'user', text: trimmed })
-      .select()
-      .single();
-
-    if (!data) return;
-    setMessages((prev) => [...prev, data]);
+      .insert({ user_id: userId, role: 'user', text: trimmed });
 
     if (isFirstMessage) {
-      const { data: autoReply } = await supabase
-        .from('support_messages')
-        .insert({
-          user_id: userId,
-          role: 'admin',
-          text: 'Thank you for your inquiry! Wait for a response from technical support.',
-        })
-        .select()
-        .single();
-
-      if (autoReply) setMessages((prev) => [...prev, autoReply]);
+      await supabase.from('support_messages').insert({
+        user_id: userId,
+        role: 'admin',
+        text: 'Thank you for your inquiry! Wait for a response from technical support.',
+      });
     }
   };
 
