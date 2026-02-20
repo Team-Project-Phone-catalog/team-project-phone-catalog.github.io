@@ -149,6 +149,7 @@ export const AdminPage: React.FC = () => {
 
   const sendSupportMessage = async () => {
     if (!selectedUserId || !messageText.trim()) return;
+    setSending(true);
 
     const { error } = await supabase.from('support_messages').insert({
       user_id: selectedUserId,
@@ -158,7 +159,6 @@ export const AdminPage: React.FC = () => {
 
     if (!error) {
       setMessageText('');
-      await fetchConversation(selectedUserId);
     }
 
     setSending(false);

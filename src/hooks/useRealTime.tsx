@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { supabase } from '../utils/supabaseClient';
 
 export const useSupportRealtime = (
@@ -9,11 +9,17 @@ export const useSupportRealtime = (
     created_at: string;
   }) => void,
 ) => {
+  const callbackRef = useRef(onNewMessage);
+
+  useEffect(() => {
+    callbackRef.current = onNewMessage;
+  }, [onNewMessage]);
+
   useEffect(() => {
     if (!selectedUserId) return;
 
     const channel = supabase
-      .channel('support-chat')
+      .channel(`support-chat-${selectedUserId}`)
       .on(
         'postgres_changes',
         {
@@ -22,10 +28,11 @@ export const useSupportRealtime = (
           table: 'support_messages',
           filter: `user_id=eq.${selectedUserId}`,
         },
-        (payload) =>
-          onNewMessage(
+        (payload) => {
+          callbackRef.current(
             payload.new as { role: string; text: string; created_at: string },
-          ),
+          );
+        },
       )
       .subscribe();
 
