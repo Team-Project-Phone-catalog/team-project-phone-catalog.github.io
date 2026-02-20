@@ -3,6 +3,7 @@ import styles from './SupportChat.module.scss';
 import { Sidebar } from '../../../components/SideBar/SideBar.tsx';
 import { Breadcrumbs } from '../../../components/ui/Breadcrumbs/Breadcrumbs.tsx';
 import { supabase } from '../../../utils/supabaseClient.ts';
+import { useSupportRealtime } from '../../../hooks/useRealTime.tsx';
 
 interface Message {
   id: string;
@@ -29,6 +30,10 @@ export const SupportChat: React.FC = () => {
         .then(({ data }) => data && setMessages(data));
     });
   }, []);
+
+  useSupportRealtime(userId ?? '', (msg) => {
+    setMessages((prev) => [...prev, msg as Message]);
+  });
 
   const handleSend = async () => {
     const trimmed = text.trim();

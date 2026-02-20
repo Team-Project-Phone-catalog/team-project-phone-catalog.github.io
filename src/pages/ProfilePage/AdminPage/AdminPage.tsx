@@ -3,6 +3,7 @@ import styles from './AdminPage.module.scss';
 import { Sidebar } from '../../../components/SideBar/SideBar.tsx';
 import { Breadcrumbs } from '../../../components/ui/Breadcrumbs/Breadcrumbs.tsx';
 import { supabase } from '../../../utils/supabaseClient.ts';
+import { useSupportRealtime } from '../../../hooks/useRealTime.tsx';
 
 interface AdminUser {
   id: string;
@@ -108,6 +109,10 @@ export const AdminPage: React.FC = () => {
 
     fetchData();
   }, []);
+
+  useSupportRealtime(selectedUserId, (msg) => {
+    setConversation((prev) => [...prev, msg]);
+  });
 
   const toggleAdmin = async (userId: string, current: boolean) => {
     const { error } = await supabase
