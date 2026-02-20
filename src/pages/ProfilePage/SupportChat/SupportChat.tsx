@@ -34,13 +34,36 @@ export const SupportChat: React.FC = () => {
     const trimmed = text.trim();
     if (!trimmed || !userId) return;
     setText('');
+
+    const isFirstMessage = messages.length === 0;
+
     const { data } = await supabase
       .from('support_messages')
       .insert({ user_id: userId, role: 'user', text: trimmed })
       .select()
       .single();
-    if (data) setMessages((prev) => [...prev, data]);
+
+    if (!data) return;
+    setMessages((prev) => [...prev, data]);
+
+    if (isFirstMessage) {
+      const { data: autoReply } = await supabase
+        .from('support_messages')
+        .insert({
+          user_id: userId,
+          role: 'admin',
+          text: 'Thank you for your inquiry! Wait for a response from technical support.',
+        })
+        .select()
+        .single();
+
+      if (autoReply) setMessages((prev) => [...prev, autoReply]);
+    }
   };
+
+  useEffect(() => {
+    bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }, [messages]);
 
   return (
     <div className={styles.profilePage}>
