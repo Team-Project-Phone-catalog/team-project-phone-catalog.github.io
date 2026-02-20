@@ -29,6 +29,12 @@
     text-align: left;
   }
 
+  &__heart {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 8px;
+  }
+
   &__title {
     display: block;
     margin-top: 24px;

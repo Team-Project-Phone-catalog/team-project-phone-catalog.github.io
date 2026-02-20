@@ -6,23 +6,12 @@ import { Breadcrumbs } from '../../components/ui/Breadcrumbs/Breadcrumbs';
 import { useAppContext } from '../../hooks/useAppContext';
 import { Loader } from '../../components/ui/Loader/Loader';
 import './FavoritesPage.scss';
+import Heart from './Heart';
 
 export const FavoritesPage: React.FC = () => {
   const { favorites } = useAppContext();
   const [allProducts, setAllProducts] = useState<Product[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-
-  //потім прибрати
-
-  useEffect(() => {
-    console.log('FAVORITES:', favorites);
-    console.log(
-      'ALL PRODUCTS IDS:',
-      allProducts.map((p) => p),
-    );
-  }, [favorites, allProducts]);
-
-  //потім прибрати
 
   useEffect(() => {
     const loadProducts = async () => {
@@ -81,6 +70,9 @@ export const FavoritesPage: React.FC = () => {
             ))}
           </div>
         : <div className="favorites-page__empty">
+            <div className="favorites-page__heart">
+              <Heart />
+            </div>
             <h2 className="favorites-page__title">
               Your favorites list is empty
             </h2>
