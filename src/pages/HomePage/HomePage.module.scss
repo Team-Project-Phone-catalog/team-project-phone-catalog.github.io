@@ -149,7 +149,7 @@ $color-secondary: #89939a;
     transform: rotate(180deg);
   }
 
-  border-radius: 8px; // ← добавлено скругление
+  border-radius: 8px;
 
   &:hover:not(:disabled) {
     background-color: $color-elements;
