@@ -7,6 +7,7 @@ import { ProductDetails } from '../../types/Product.ts';
 import { getProductDetails } from '../../api/products.ts';
 import { Breadcrumbs } from '../../components/ui/Breadcrumbs/Breadcrumbs.tsx';
 import { Loader } from '../../components/ui/Loader/Loader.tsx';
+import { RatingsWidget } from '../../components/ui/Reviews/RatingsWidget.tsx';
 
 export const ProductDetailsPage = () => {
   const { category, productId } = useParams<{
@@ -116,6 +117,7 @@ export const ProductDetailsPage = () => {
 
       <div className="product-header">
         <h1 className="product-title">{product.name}</h1>
+        <RatingsWidget />
       </div>
 
       <ProductPage

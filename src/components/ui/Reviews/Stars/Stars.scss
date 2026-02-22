@@ -1,0 +1,24 @@
+@import '../../../../styles/variables.scss';
+
+.stars {
+  font-size: 18px;
+  display: inline-flex;
+  gap: 2px;
+
+  &__item {
+    position: relative;
+    display: inline-block;
+    color: $color-light-1;
+    line-height: 1;
+
+    &-fill {
+      position: absolute;
+      top: 0;
+      left: 0;
+      overflow: hidden;
+      color: $color-accent;
+      white-space: nowrap;
+      pointer-events: none;
+    }
+  }
+}
