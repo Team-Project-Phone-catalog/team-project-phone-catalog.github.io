@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { supabase } from '../../utils/supabaseClient';
 import styles from './AutrhModal.module.scss';
 
@@ -14,33 +14,23 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState('');
 
-  // Закриття на Escape
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') onClose();
-    };
-    if (isOpen) document.addEventListener('keydown', handleKeyDown);
-    return () => document.removeEventListener('keydown', handleKeyDown);
-  }, [isOpen, onClose]);
-
   if (!isOpen) return null;
 
   const handleGoogleLogin = async () => {
-    console.log('Saving path:', window.location.pathname); // ← перевір що зберігається
-
-    localStorage.setItem('authRedirectPath', window.location.pathname);
     const { error } = await supabase.auth.signInWithOAuth({
       provider: 'google',
-      options: { redirectTo: `${window.location.origin}/auth/callback` },
+      options: {
+        redirectTo: window.location.origin,
+      },
     });
-    if (error) setMessage(`Google error: ${error.message}`);
+    if (error) setMessage(`Помилка Google: ${error.message}`);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const cleanEmail = email.trim();
     if (!cleanEmail || !password) {
-      setMessage('Please fill in all fields!');
+      setMessage('Заповніть усі поля!');
       return;
     }
 
@@ -53,11 +43,9 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
       : await supabase.auth.signInWithPassword({ email: cleanEmail, password });
 
     if (error) {
-      setMessage(`Error: ${error.message}`);
+      setMessage(`Помилка: ${error.message}`);
     } else {
-      setMessage(
-        isRegistering ? 'Registration successful!' : 'Login successful! 🎉',
-      );
+      setMessage(isRegistering ? 'Реєстрація успішна!' : 'Вхід успішний! 🎉');
       setTimeout(() => {
         onClose();
         window.location.reload();
@@ -67,23 +55,18 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
   };
 
   return (
-    <div
-      className={styles.overlay}
-      onMouseDown={(e) => {
-        if (e.target === e.currentTarget) onClose();
-      }}
-    >
+    <div className={styles.overlay}>
       <div className={styles.modal}>
         <button
           className={styles.closeBtn}
           onClick={onClose}
-          aria-label="Close"
+          aria-label="Закрити"
         >
           ✕
         </button>
 
         <h2 className={styles.title}>
-          {isRegistering ? 'Create account' : 'Sign in'}
+          {isRegistering ? 'Створити акаунт' : 'Вхід у кабінет'}
         </h2>
 
         <button
@@ -95,10 +78,10 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
             src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg"
             alt="Google Logo"
           />
-          Continue with Google
+          Продовжити з Google
         </button>
 
-        <div className={styles.divider}>or with email</div>
+        <div className={styles.divider}>або через email</div>
 
         <form
           className={styles.form}
@@ -115,28 +98,27 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
           <input
             className={styles.input}
             type="password"
-            placeholder="Password"
+            placeholder="Пароль"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
           />
+
           <button
             className={styles.submitBtn}
             type="submit"
             disabled={loading}
           >
             {loading ?
-              'Loading...'
+              'Завантаження...'
             : isRegistering ?
-              'Register'
-            : 'Sign in'}
+              'Зареєструватися'
+            : 'Увійти'}
           </button>
         </form>
 
         <p className={styles.toggleWrapper}>
-          {isRegistering ?
-            'Already have an account?'
-          : "Don't have an account?"}
+          {isRegistering ? 'Вже маєте акаунт?' : 'Ще не маєте акаунту?'}
           <button
             className={styles.toggleBtn}
             type="button"
@@ -145,13 +127,13 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
               setMessage('');
             }}
           >
-            {isRegistering ? 'Sign in' : 'Register'}
+            {isRegistering ? 'Увійти' : 'Зареєструватися'}
           </button>
         </p>
 
         {message && (
           <p
-            className={`${styles.message} ${message.includes('Error') ? styles['message--error'] : styles['message--success']}`}
+            className={`${styles.message} ${message.includes('Помилка') ? styles['message--error'] : styles['message--success']}`}
           >
             {message}
           </p>
