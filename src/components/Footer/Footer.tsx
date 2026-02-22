@@ -31,7 +31,7 @@ export const Footer = () => {
           </a>
 
           <a href="#">CONTACTS</a>
-          <a href="#">RIGHTS</a>
+          <Link to="/rights">RIGHTS</Link>
         </nav>
 
         <div className={styles.back}>

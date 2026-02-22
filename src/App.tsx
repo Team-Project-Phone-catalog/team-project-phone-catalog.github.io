@@ -18,6 +18,7 @@ import { HelpWidget } from './components/HelpWidget/HelpWidget';
 import { ProfileOrderPage } from './pages/ProfilePage/ProfileOrderPage/ProfileOrderPage.tsx';
 import { AdminPage } from './pages/ProfilePage/AdminPage/AdminPage.tsx';
 import { SupportChat } from './pages/ProfilePage/SupportChat/SupportChat.tsx';
+import { RightsPage } from './pages/RightsPage/RightsPage.tsx';
 
 export const App = () => {
   return (
@@ -58,6 +59,10 @@ export const App = () => {
           <Route
             path="/favorites"
             element={<FavoritesPage />}
+          />
+          <Route
+            path="/rights"
+            element={<RightsPage />}
           />
           <Route
             path="/profile"
