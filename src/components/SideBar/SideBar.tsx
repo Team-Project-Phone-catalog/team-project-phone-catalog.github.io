@@ -55,7 +55,7 @@ export const Sidebar = () => {
         {isAdmin && (
           <Link
             to="/profile/admin"
-            className={`${styles.navItem} ${isActive('/admin') ? styles.active : ''}`}
+            className={`${styles.navItem} ${isActive('/profile/admin') ? styles.active : ''}`}
           >
             Admin
           </Link>
@@ -69,25 +69,25 @@ export const Sidebar = () => {
         </Link>
 
         <Link
-          to="/chat"
-          className={`${styles.navItem} ${isActive('/chat') ? styles.active : ''}`}
+          to="/profile/chat"
+          className={`${styles.navItem} ${isActive('/profile/chat') ? styles.active : ''}`}
         >
-          <span>Chat</span>
-          <span className={styles.badge}>17</span>
+          <span>Support Chat</span>
+          <span className={styles.badge}>0</span>
         </Link>
 
         <div className={styles.divider}></div>
 
         <Link
-          to="/wishlist"
-          className={`${styles.navItem} ${isActive('/wishlist') ? styles.active : ''}`}
+          to="/favorites"
+          className={`${styles.navItem} ${isActive('/favorites') ? styles.active : ''}`}
         >
           <span>Wish lists</span>
           <span className={styles.count}>2</span>
         </Link>
 
         <Link
-          to="/wallet"
+          to="/profile/wallet"
           className={`${styles.navItem} ${isActive('/wallet') ? styles.active : ''}`}
         >
           Wallet

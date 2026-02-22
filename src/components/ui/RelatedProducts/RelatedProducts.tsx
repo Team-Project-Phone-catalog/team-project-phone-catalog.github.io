@@ -91,20 +91,16 @@ export const RelatedProducts: React.FC<Props> = ({
 
         <div className="AlsoLike__arrows">
           <button
-            className="AlsoLike__arrow-btn"
+            className="AlsoLike__arrow-btn AlsoLike__arrow-btn--left"
             onClick={() => scroll('left')}
             disabled={!canScrollLeft}
-          >
-            left
-          </button>
+          />
 
           <button
-            className="AlsoLike__arrow-btn"
+            className="AlsoLike__arrow-btn AlsoLike__arrow-btn--right"
             onClick={() => scroll('right')}
             disabled={!canScrollRight}
-          >
-            right
-          </button>
+          />
         </div>
       </div>
 
