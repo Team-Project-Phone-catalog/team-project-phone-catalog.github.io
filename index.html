@@ -2,6 +2,15 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+
+    <script>
+      const redirect = sessionStorage.getItem('redirect');
+      if (redirect) {
+        sessionStorage.removeItem('redirect');
+        history.replaceState(null, '', redirect);
+      }
+    </script>
+
     <link
       rel="icon"
       href="/favicon.png"
@@ -12,6 +21,7 @@
     />
     <title>CopyPaste</title>
   </head>
+
   <body>
     <div id="root"></div>
     <script
