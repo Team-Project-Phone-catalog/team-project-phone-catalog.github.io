@@ -1,5 +1,5 @@
 import './App.css';
-import { Route, Routes } from 'react-router-dom';
+import { Route, Routes, useNavigate } from 'react-router-dom';
 import { Header } from './components/ui/Header/Header.tsx';
 import { Footer } from './components/Footer';
 import { PhonesPage } from './pages/PhonesPage/PhonesPage.tsx';
@@ -12,13 +12,45 @@ import { FavoritesPage } from './pages/FavoritesPage/FavoritesPage.tsx';
 import { ProductDetailsPage } from './pages/ProductDetailsPage/ProductDetailsPage.tsx';
 import { ScrollToTop } from './components/ScrollToTop/ScrollToTop.tsx';
 import { Toaster } from 'sonner';
-
 import { ProfilePage } from './pages/ProfilePage/ProfilePage';
 import { HelpWidget } from './components/HelpWidget/HelpWidget';
 import { ProfileOrderPage } from './pages/ProfilePage/ProfileOrderPage/ProfileOrderPage.tsx';
 import { AdminPage } from './pages/ProfilePage/AdminPage/AdminPage.tsx';
 import { SupportChat } from './pages/ProfilePage/SupportChat/SupportChat.tsx';
 import { RightsPage } from './pages/RightsPage/RightsPage.tsx';
+import { useEffect } from 'react';
+import { supabase } from './utils/supabaseClient';
+
+const AuthCallback = () => {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    console.log('URL:', window.location.href);
+    console.log('hash:', window.location.hash);
+    console.log('search:', window.location.search);
+    const redirectPath = localStorage.getItem('authRedirectPath') || '/';
+
+    supabase.auth.getSession().then(({ data }) => {
+      if (data.session) {
+        localStorage.removeItem('authRedirectPath');
+        navigate(redirectPath, { replace: true });
+        return;
+      }
+
+      const { data: listener } = supabase.auth.onAuthStateChange(
+        (event, session) => {
+          if (event === 'SIGNED_IN' && session) {
+            listener.subscription.unsubscribe();
+            localStorage.removeItem('authRedirectPath');
+            navigate(redirectPath, { replace: true });
+          }
+        },
+      );
+    });
+  }, [navigate]);
+
+  return <p style={{ padding: '2rem', textAlign: 'center' }}>Loading...</p>;
+};
 
 export const App = () => {
   return (
@@ -26,9 +58,7 @@ export const App = () => {
       <Toaster
         position="bottom-right"
         richColors
-        toastOptions={{
-          className: 'my-custom-toast',
-        }}
+        toastOptions={{ className: 'my-custom-toast' }}
       />
 
       <ScrollToTop />
@@ -68,12 +98,10 @@ export const App = () => {
             path="/profile"
             element={<ProfilePage />}
           />
-
           <Route
             path="/profile/orders"
             element={<ProfileOrderPage />}
           />
-
           <Route
             path="/profile/admin"
             element={<AdminPage />}
@@ -89,6 +117,10 @@ export const App = () => {
           <Route
             path="/:category/:productId"
             element={<ProductDetailsPage />}
+          />
+          <Route
+            path="/auth/callback"
+            element={<AuthCallback />}
           />
           <Route
             path="*"
