@@ -1,9 +1,12 @@
-import s from './CartPage.module.scss';
-import { CartItem } from '../../components/ui/CartItem/CartItem.tsx';
-import { CartProduct } from '../../components/ui/CartProduct/CartProduct.tsx';
-import { BackButton } from '../../components/ui/Buttons/Back/BackButton.tsx';
-import { useAppContext } from '../../hooks/useAppContext.ts';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
+
+import s from './CartPage.module.scss';
+import { CartItem } from '../../components/ui/CartItem/CartItem';
+import { CartProduct } from '../../components/ui/CartProduct/CartProduct';
+import { BackButton } from '../../components/ui/Buttons/Back/BackButton';
+import { useAppContext } from '../../hooks/useAppContext';
+import { CheckoutModal } from '../../components/CheckoutModal/CheckoutModal';
 
 export const CartPage = () => {
   const {
@@ -13,7 +16,13 @@ export const CartPage = () => {
     getTotalPrice,
     getTotalItems,
   } = useAppContext();
-  console.log(cartItems);
+
+  const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
+
+  const handleCheckout = () => {
+    setIsCheckoutOpen(true);
+  };
+
   return (
     <div className={s.cart}>
       <BackButton />
@@ -21,6 +30,7 @@ export const CartPage = () => {
       <div className={s.title}>
         <h1>Cart</h1>
       </div>
+
       {cartItems.length === 0 ?
         <div className={s.emptyCart}>
           <div className={s.imgWrapper}>
@@ -30,7 +40,9 @@ export const CartPage = () => {
               alt="Empty Cart"
             />
           </div>
+
           <p>Your cart is empty</p>
+
           <Link
             to="/"
             className={s.addToCart}
@@ -59,10 +71,16 @@ export const CartPage = () => {
             <CartItem
               totalPrice={getTotalPrice()}
               totalItems={getTotalItems()}
+              onCheckout={handleCheckout}
             />
           </div>
         </div>
       }
+
+      <CheckoutModal
+        isOpen={isCheckoutOpen}
+        onClose={() => setIsCheckoutOpen(false)}
+      />
     </div>
   );
 };
