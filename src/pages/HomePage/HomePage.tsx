@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import styles from './HomePage.module.scss';
 import { Banner } from '../../components/ui/Banner/Banner';
 import { ProductsSlider } from './components/ProductsSlider';
@@ -14,6 +15,7 @@ import { Product } from '../../types/Product';
 import { sortByBestPrice, sortByNewest } from '../../utils/productFilters';
 
 export const HomePage: React.FC = () => {
+  const { t } = useTranslation();
   const [phones, setPhones] = useState<Product[]>([]);
   const [tablets, setTablets] = useState<Product[]>([]);
   const [accessories, setAccessories] = useState<Product[]>([]);
@@ -52,14 +54,12 @@ export const HomePage: React.FC = () => {
     <main className={styles.home}>
       <div className={styles.container}>
         <section className={styles.hero}>
-          <h1 className={styles['hero__title']}>
-            Welcome to Nice Gadgets store!
-          </h1>
+          <h1 className={styles['hero__title']}>{t('home.title')}</h1>
           <Banner />
         </section>
 
         <ProductsSlider
-          title="Brand new models"
+          title={t('home.new_models')}
           products={newestProducts}
         />
 
@@ -70,7 +70,7 @@ export const HomePage: React.FC = () => {
         />
 
         <ProductsSlider
-          title="Hot prices"
+          title={t('home.hot_prices')}
           products={hotPriceProducts}
         />
       </div>

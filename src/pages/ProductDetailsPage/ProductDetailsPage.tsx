@@ -3,6 +3,7 @@ import { ProductPage } from '../../components/ui/Product/ProductCard/ProductPage
 import { BackButton } from '../../components/ui/Buttons/Back/BackButton.tsx';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { ProductDetails } from '../../types/Product.ts';
 import { getProductDetails } from '../../api/products.ts';
 import { Breadcrumbs } from '../../components/ui/Breadcrumbs/Breadcrumbs.tsx';
@@ -10,6 +11,7 @@ import { Loader } from '../../components/ui/Loader/Loader.tsx';
 import { RatingsWidget } from '../../components/ui/Reviews/RatingsWidget.tsx';
 
 export const ProductDetailsPage = () => {
+  const { t } = useTranslation();
   const { category, productId } = useParams<{
     category: string;
     productId: string;
@@ -92,17 +94,22 @@ export const ProductDetailsPage = () => {
           <Breadcrumbs />
           <div className="product-not-found__content">
             <h1 className="product-not-found__title">
-              Unfortunately, the product is unknown.
+              {t(
+                'product_details.not_found_title',
+                'Unfortunately, the product is unknown.',
+              )}
             </h1>
             <p className="product-not-found__text">
-              We couldn&apos;t find the product you&apos;re looking for. It may
-              have been removed or the link is outdated.
+              {t(
+                'product_details.not_found_text',
+                "We couldn't find the product you're looking for.",
+              )}
             </p>
             <button
               className="product-not-found__button"
               onClick={() => navigate(-1)}
             >
-              Go back
+              {t('product_details.back')}
             </button>
           </div>
         </div>

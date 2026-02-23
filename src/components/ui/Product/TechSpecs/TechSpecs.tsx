@@ -1,5 +1,6 @@
 import './TechSpecs.scss';
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
 type Props = {
   screen: string;
@@ -11,6 +12,7 @@ type Props = {
   zoom?: string;
   cell?: string[];
 };
+
 export const TechSpecs: React.FC<Props> = ({
   screen,
   resolution,
@@ -21,20 +23,22 @@ export const TechSpecs: React.FC<Props> = ({
   zoom,
   cell,
 }) => {
+  const { t } = useTranslation();
+
   const specs = [
-    { label: 'Screen', value: screen },
-    { label: 'Resolution', value: resolution },
-    { label: 'Processor', value: processor },
-    { label: 'RAM', value: ram },
-    { label: 'Built in memory', value: capacity },
-    { label: 'Camera', value: camera },
-    { label: 'Zoom', value: zoom },
-    { label: 'Cell', value: String(cell) },
+    { label: t('product.screen'), value: screen },
+    { label: t('product.resolution'), value: resolution },
+    { label: t('product_details.processor'), value: processor },
+    { label: t('product.ram'), value: ram },
+    { label: t('product.capacity'), value: capacity },
+    { label: t('product_details.camera'), value: camera },
+    { label: t('product_details.zoom'), value: zoom },
+    { label: t('product_details.cell'), value: cell?.join(', ') },
   ];
 
   return (
     <div className="TechSpecs">
-      <h3 className="TechSpecs__title">Tech specs</h3>
+      <h3 className="TechSpecs__title">{t('product_details.tech_specs')}</h3>
 
       {specs.map(
         (spec) =>

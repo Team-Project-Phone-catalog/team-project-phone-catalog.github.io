@@ -1,5 +1,6 @@
 import { useEffect, useState, useMemo, useRef } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { motion, AnimatePresence } from 'framer-motion';
 import Fuse from 'fuse.js';
 import { getProducts } from '../../../../api/products';
@@ -9,6 +10,7 @@ import searchIcon from '../icons/Search.svg';
 import closeIcon from '../icons/Close.svg';
 
 export const Search = () => {
+  const { t } = useTranslation();
   const [query, setQuery] = useState('');
   const [debouncedQuery, setDebouncedQuery] = useState('');
   const [products, setProducts] = useState<Product[]>([]);
@@ -137,7 +139,10 @@ export const Search = () => {
     return () => document.removeEventListener('keydown', handleKeyDown);
   }, [query, filteredItems, selectedIndex, navigate, isMobile]);
 
-  const placeholderText = isMobile ? 'Search...' : `Search (${hotkeyText})`;
+  const placeholderText =
+    isMobile ?
+      t('search.placeholder')
+    : t('search.placeholder_hotkey', { hotkey: hotkeyText });
 
   return (
     <div
@@ -163,7 +168,7 @@ export const Search = () => {
             handleClear();
           }}
           type="button"
-          aria-label="Clear search"
+          aria-label={t('search.clear')}
         >
           <AnimatePresence mode="wait">
             <motion.img
@@ -229,7 +234,7 @@ export const Search = () => {
                 ))}
               </ul>
             : <div className={styles.search__empty}>
-                No results found for &ldquo;{query}&rdquo;
+                {t('search.no_results', { query })}
               </div>
             }
           </motion.div>

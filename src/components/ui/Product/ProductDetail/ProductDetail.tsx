@@ -1,16 +1,21 @@
 import './ProductDetail.scss';
 import { DescriptionSection } from '../../../../types/Product.ts';
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
 type Props = {
   description: DescriptionSection[];
 };
 
 export const ProductDetail: React.FC<Props> = ({ description }) => {
+  const { t } = useTranslation();
+
   return (
     <div className="ProductDetail">
       <div className="ProductDetail__about">
-        <h3 className="ProductDetail__about-title">About</h3>
+        <h3 className="ProductDetail__about-title">
+          {t('product_details.about')}
+        </h3>
 
         <div className="ProductDetail__about-main">
           {description.map((section, index) => (

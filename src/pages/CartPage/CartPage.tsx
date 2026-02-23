@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 import s from './CartPage.module.scss';
 import { CartItem } from '../../components/ui/CartItem/CartItem';
@@ -9,6 +10,7 @@ import { useAppContext } from '../../hooks/useAppContext';
 import { CheckoutModal } from '../../components/CheckoutModal/CheckoutModal';
 
 export const CartPage = () => {
+  const { t } = useTranslation();
   const {
     cartItems,
     removeFromCart,
@@ -28,7 +30,7 @@ export const CartPage = () => {
       <BackButton />
 
       <div className={s.title}>
-        <h1>Cart</h1>
+        <h1>{t('cart.title')}</h1>
       </div>
 
       {cartItems.length === 0 ?
@@ -41,13 +43,13 @@ export const CartPage = () => {
             />
           </div>
 
-          <p>Your cart is empty</p>
+          <p>{t('cart.empty')}</p>
 
           <Link
             to="/"
             className={s.addToCart}
           >
-            Shop now
+            {t('cart.shop_now', 'Shop now')}
           </Link>
         </div>
       : <div className={s.cartContent}>

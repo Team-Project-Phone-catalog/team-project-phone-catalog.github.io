@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { getPhones } from '../../api/products';
 import { Product } from '../../types/Product';
 import { ProductCard } from '../ProductCard/ProductCard';
@@ -11,6 +12,7 @@ import { NoResults } from '../../components/ui/NoResults/NoResults.tsx';
 import { Dropdown } from '../../components/ui/Dropdown/Dropdown';
 
 export const PhonesPage = () => {
+  const { t } = useTranslation();
   const [phones, setPhones] = useState<Product[]>([]);
   const [sortBy, setSortBy] = useState<SortType>('newest');
   const [itemsOnPage, setItemsOnPage] = useState(12);
@@ -50,11 +52,12 @@ export const PhonesPage = () => {
     return sortedPhones.slice(start, end);
   }, [sortedPhones, itemsOnPage, currentPage]);
 
+  // Переклади для опцій сортування
   const sortOptions = [
-    { label: 'Price low', value: 'priceLow' },
-    { label: 'Price high', value: 'priceHigh' },
-    { label: 'Newest', value: 'newest' },
-    { label: 'Oldest', value: 'oldest' },
+    { label: t('catalog.price_low'), value: 'priceLow' },
+    { label: t('catalog.price_high'), value: 'priceHigh' },
+    { label: t('catalog.age'), value: 'newest' },
+    { label: t('catalog.oldest'), value: 'oldest' },
   ];
 
   const itemsOptions = [
@@ -68,14 +71,18 @@ export const PhonesPage = () => {
     <div className={s['phones-page']}>
       <div className={s['phones-page__container']}>
         <Breadcrumbs />
-        <h1 className={s.title}>Mobile phones</h1>
+        <h1 className={s.title}>{t('categories.phones')}</h1>
 
-        {!isLoading && <p className={s.modelsCount}>{phones.length} models</p>}
+        {!isLoading && (
+          <p className={s.modelsCount}>
+            {t('categories.models_count', { count: phones.length })}
+          </p>
+        )}
 
         <section className={s['phones-page__controls']}>
           <div className={s.controls}>
             <div className={s.control}>
-              <label className={s.label}>Sort by</label>
+              <label className={s.label}>{t('catalog.sort_by')}</label>
               <Dropdown
                 options={sortOptions}
                 value={sortBy}
@@ -87,7 +94,7 @@ export const PhonesPage = () => {
             </div>
 
             <div className={s.control}>
-              <label className={s.label}>Items on page</label>
+              <label className={s.label}>{t('catalog.items_on_page')}</label>
               <Dropdown
                 options={itemsOptions}
                 value={String(itemsOnPage)}

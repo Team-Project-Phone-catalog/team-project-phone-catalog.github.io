@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { supabase } from '../../utils/supabaseClient';
 import styles from '../AuthModal/AuthModal.module.scss';
 
@@ -8,6 +9,7 @@ interface AuthModalProps {
 }
 
 export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
+  const { t } = useTranslation();
   const [isRegistering, setIsRegistering] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -35,7 +37,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
     const cleanEmail = email.trim();
 
     if (!cleanEmail || !password) {
-      setMessage('Please fill in all fields!');
+      setMessage(t('auth.fill_fields'));
       return;
     }
 
@@ -51,10 +53,10 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
         });
 
     if (error) {
-      setMessage(`Error: ${error.message}`);
+      setMessage(`${t('auth.error')}: ${error.message}`);
     } else {
       setMessage(
-        isRegistering ? 'Registration successful!' : 'Login successful! 🎉',
+        isRegistering ? t('auth.reg_success') : t('auth.login_success'),
       );
 
       setTimeout(() => {
@@ -78,7 +80,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
         </button>
 
         <h2 className={styles.title}>
-          {isRegistering ? 'Create an account' : 'Sign in to your account'}
+          {isRegistering ? t('auth.create_account') : t('auth.sign_in_title')}
         </h2>
 
         <button
@@ -90,10 +92,10 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
             src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg"
             alt="Google Logo"
           />
-          Continue with Google
+          {t('auth.continue_google')}
         </button>
 
-        <div className={styles.divider}>or use email</div>
+        <div className={styles.divider}>{t('auth.or_email')}</div>
 
         <form
           className={styles.form}
@@ -102,7 +104,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
           <input
             className={styles.input}
             type="email"
-            placeholder="Email"
+            placeholder={t('auth.email')}
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
@@ -111,7 +113,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
           <input
             className={styles.input}
             type="password"
-            placeholder="Password"
+            placeholder={t('auth.password')}
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
@@ -123,17 +125,15 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
             disabled={loading}
           >
             {loading ?
-              'Loading...'
+              t('auth.loading')
             : isRegistering ?
-              'Sign up'
-            : 'Sign in'}
+              t('auth.sign_up')
+            : t('auth.sign_in')}
           </button>
         </form>
 
         <p className={styles.toggleWrapper}>
-          {isRegistering ?
-            'Already have an account?'
-          : "Don't have an account yet?"}
+          {isRegistering ? t('auth.already_have_acc') : t('auth.no_acc_yet')}
 
           <button
             className={styles.toggleBtn}
@@ -143,14 +143,14 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
               setMessage('');
             }}
           >
-            {isRegistering ? 'Sign in' : 'Sign up'}
+            {isRegistering ? t('auth.sign_in') : t('auth.sign_up')}
           </button>
         </p>
 
         {message && (
           <p
             className={`${styles.message} ${
-              message.includes('Error') ?
+              message.includes(t('auth.error')) ?
                 styles['message--error']
               : styles['message--success']
             }`}

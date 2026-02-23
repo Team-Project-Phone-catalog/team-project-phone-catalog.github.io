@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { WriteReview } from '../WriteReview.tsx/WriteReview';
 import { ReviewCard } from '../ReviewCard/ReviewCard';
 import { Stars } from '../Stars/Stars';
@@ -215,6 +216,7 @@ interface Review {
 }
 
 export const ReviewsPage = ({ onBack }: { onBack: () => void }) => {
+  const { t } = useTranslation();
   const [showWriteReview, setShowWriteReview] = useState(false);
 
   if (showWriteReview) {
@@ -225,12 +227,12 @@ export const ReviewsPage = ({ onBack }: { onBack: () => void }) => {
     <div className="reviews-page">
       <div className="reviews-page__inner">
         <div className="reviews-page__header">
-          <h1 className="reviews-page__title">Customer reviews</h1>
+          <h1 className="reviews-page__title">{t('reviews.title')}</h1>
           <button
             className="reviews-page__back"
             onClick={onBack}
           >
-            ← Back
+            ← {t('reviews.back')}
           </button>
         </div>
         <div className="reviews-page__body">
@@ -238,11 +240,11 @@ export const ReviewsPage = ({ onBack }: { onBack: () => void }) => {
             <div className="summary-panel__score-row">
               <Stars score={AVG_SCORE} />
               <span className="summary-panel__score-text">
-                {AVG_SCORE} out of 5
+                {AVG_SCORE} {t('reviews.out_of')}
               </span>
             </div>
             <p className="summary-panel__count">
-              {TOTAL_REVIEWS} global ratings
+              {TOTAL_REVIEWS} {t('reviews.global_ratings')}
             </p>
             {ratings.map((r) => (
               <div
@@ -260,15 +262,17 @@ export const ReviewsPage = ({ onBack }: { onBack: () => void }) => {
               </div>
             ))}
             <div className="summary-panel__write-section">
-              <p className="summary-panel__write-title">Review this product</p>
+              <p className="summary-panel__write-title">
+                {t('reviews.write_title')}
+              </p>
               <p className="summary-panel__write-sub">
-                Share your thoughts with other customers
+                {t('reviews.write_sub')}
               </p>
               <button
                 className="summary-panel__write-btn"
                 onClick={() => setShowWriteReview(true)}
               >
-                Write a customer review
+                {t('reviews.write_btn')}
               </button>
             </div>
           </div>

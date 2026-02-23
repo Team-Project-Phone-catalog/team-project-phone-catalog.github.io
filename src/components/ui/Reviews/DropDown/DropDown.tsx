@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import { BarRow } from '../BarRow/BarRow';
 import './DropDown.scss';
 
@@ -17,14 +18,16 @@ export const DropDown = ({
   onSeeAll: () => void;
   onClose: () => void;
 }) => {
+  const { t } = useTranslation();
+
   return (
     <div className={`dropdown${open ? ' dropdown--open' : ''}`}>
       <div className="dropdown__header">
-        <p className="dropdown__title">% of reviews by stars</p>
+        <p className="dropdown__title">{t('product_details.reviews_title')}</p>
         <button
           className="dropdown__close"
           onClick={onClose}
-          aria-label="Close"
+          aria-label={t('checkout.close')} // Використовуємо вже існуючий ключ для Close
         >
           ×
         </button>
@@ -49,7 +52,7 @@ export const DropDown = ({
           onSeeAll();
         }}
       >
-        See all customer reviews
+        {t('product_details.see_all_reviews')}
       </a>
     </div>
   );
