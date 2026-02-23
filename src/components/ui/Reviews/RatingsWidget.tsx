@@ -3,27 +3,13 @@ import './RatingsWidget.scss';
 import { Stars } from './Stars/Stars';
 import { DropDown } from './DropDown/DropDown';
 import { ReviewsPage } from './ReviewsPage/ReviewsPage';
+import { useReviews } from '../../../hooks/useReviews';
 
-interface Rating {
-  label: string;
-  pct: number;
-}
-
-const TOTAL_REVIEWS = 20;
-const AVG_SCORE = 4.45;
-
-const ratings: Rating[] = [
-  { label: '5 star', pct: 70 },
-  { label: '4 star', pct: 15 },
-  { label: '3 star', pct: 10 },
-  { label: '2 star', pct: 0 },
-  { label: '1 star', pct: 5 },
-];
-
-export const RatingsWidget = () => {
+export const RatingsWidget = ({ productId }: { productId: string }) => {
   const [open, setOpen] = useState(false);
   const [showReviews, setShowReviews] = useState(false);
   const wrapRef = useRef<HTMLDivElement>(null);
+  const { avgScore, ratings, reviews } = useReviews(productId);
 
   useEffect(() => {
     function handleClick(e: MouseEvent) {
@@ -34,20 +20,26 @@ export const RatingsWidget = () => {
     return () => document.removeEventListener('mousedown', handleClick);
   }, []);
 
-  if (showReviews) return <ReviewsPage onBack={() => setShowReviews(false)} />;
+  if (showReviews)
+    return (
+      <ReviewsPage
+        productId={productId}
+        onBack={() => setShowReviews(false)}
+      />
+    );
 
   return (
     <div
       ref={wrapRef}
       className="ratings-widget"
     >
-      <span className="ratings-widget__score">{AVG_SCORE}</span>
+      <span className="ratings-widget__score">{avgScore}</span>
       <button
         className="ratings-widget__trigger"
         onClick={() => setOpen((v) => !v)}
         aria-expanded={open}
       >
-        <Stars score={AVG_SCORE} />
+        <Stars score={avgScore} />
         <svg
           className={`ratings-widget__chevron${open ? ' ratings-widget__chevron--open' : ''}`}
           width={14}
@@ -64,7 +56,7 @@ export const RatingsWidget = () => {
           />
         </svg>
       </button>
-      <span className="ratings-widget__count">{TOTAL_REVIEWS}</span>
+      <span className="ratings-widget__count">{reviews.length}</span>
       <DropDown
         open={open}
         ratings={ratings}

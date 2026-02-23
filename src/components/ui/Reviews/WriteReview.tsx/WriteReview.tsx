@@ -1,12 +1,26 @@
 import { useState } from 'react';
 import './WriteReview.scss';
 
-export const WriteReview = ({ onBack }: { onBack: () => void }) => {
+export const WriteReview = ({
+  onBack,
+  onSubmit,
+}: {
+  onBack: () => void;
+  onSubmit: (data: {
+    name: string;
+    score: number;
+    title: string;
+    body: string;
+  }) => Promise<boolean>;
+}) => {
   const [starScore, setStarScore] = useState(0);
   const [hoverScore, setHoverScore] = useState(0);
+  const [name, setName] = useState('');
   const [title, setTitle] = useState('');
   const [body, setBody] = useState('');
   const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
+
   const starLabels = [
     '',
     'I hate it',
@@ -15,8 +29,20 @@ export const WriteReview = ({ onBack }: { onBack: () => void }) => {
     'I like it',
     'I love it',
   ];
+
   const canSubmit =
-    starScore > 0 && title.trim().length > 0 && body.length >= 20;
+    starScore > 0 &&
+    name.trim().length > 0 &&
+    title.trim().length > 0 &&
+    body.length >= 20;
+
+  async function handleSubmit() {
+    if (!canSubmit) return;
+    setLoading(true);
+    const ok = await onSubmit({ name, score: starScore, title, body });
+    setLoading(false);
+    if (ok) setSubmitted(true);
+  }
 
   if (submitted)
     return (
@@ -53,6 +79,18 @@ export const WriteReview = ({ onBack }: { onBack: () => void }) => {
           >
             ← Back
           </button>
+        </div>
+
+        <div className="write-review__section">
+          <div className="write-review__section-title">Your name</div>
+          <input
+            className="write-review__input"
+            type="text"
+            placeholder="e.g. John D."
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            maxLength={50}
+          />
         </div>
 
         <div className="write-review__section">
@@ -108,10 +146,10 @@ export const WriteReview = ({ onBack }: { onBack: () => void }) => {
         <div className="write-review__actions">
           <button
             className="write-review__submit"
-            onClick={() => canSubmit && setSubmitted(true)}
-            disabled={!canSubmit}
+            onClick={handleSubmit}
+            disabled={!canSubmit || loading}
           >
-            Submit
+            {loading ? 'Submitting...' : 'Submit'}
           </button>
           <button
             className="write-review__cancel"

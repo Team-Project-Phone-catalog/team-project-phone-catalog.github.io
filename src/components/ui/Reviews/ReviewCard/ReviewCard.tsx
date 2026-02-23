@@ -8,8 +8,6 @@ interface Review {
   score: number;
   title: string;
   date: string;
-  style: string;
-  verified: boolean;
   body: string;
 }
 

@@ -117,7 +117,7 @@ export const ProductDetailsPage = () => {
 
       <div className="product-header">
         <h1 className="product-title">{product.name}</h1>
-        <RatingsWidget />
+        <RatingsWidget productId={productId} />
       </div>
 
       <ProductPage
