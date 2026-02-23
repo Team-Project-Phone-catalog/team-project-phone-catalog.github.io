@@ -5,7 +5,7 @@ import { BurgerMenu } from './BurgerMenu/BurgerMenu';
 import { CounterIcon } from './CounterIcon/CounterIcon';
 import styles from './Header.module.scss';
 import logo from './icons/logo.svg';
-import heartIcon from './icons/Heart.svg';
+import heartIcon from '../../../assets/icons/heart.svg';
 import cartIcon from './icons/Cart.svg';
 import userIcon from './icons/User.svg';
 import { useAppContext } from '../../../hooks/useAppContext.ts';

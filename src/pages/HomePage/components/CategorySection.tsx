@@ -23,7 +23,7 @@ export const CategorySection: React.FC<Props> = ({
         >
           <div className={styles['category-card__image-wrapper']}>
             <img
-              src="/img/category-phones.png"
+              src="/img/categories/category-phones.png"
               alt="Phones"
               className={styles['category-card__image']}
             />
@@ -42,7 +42,7 @@ export const CategorySection: React.FC<Props> = ({
         >
           <div className={styles['category-card__image-wrapper']}>
             <img
-              src="/img/category-tablets.png"
+              src="/img/categories/category-tablets.png"
               alt="Tablets"
               className={styles['category-card__image-tablets']}
             />
@@ -61,7 +61,7 @@ export const CategorySection: React.FC<Props> = ({
         >
           <div className={styles['category-card__image-wrapper']}>
             <img
-              src="/img/category-accessories.png"
+              src="/img/categories/category-accessories.png"
               alt="Accessories"
               className={styles['category-card__image-access']}
             />

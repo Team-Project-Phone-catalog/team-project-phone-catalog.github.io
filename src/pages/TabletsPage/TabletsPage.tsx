@@ -129,7 +129,7 @@ export const TabletsPage = () => {
                 className={`${s.pageButton} ${s.arrow} ${s.arrowLeft}`}
               >
                 <img
-                  src="/img/icons/arrow-right.svg"
+                  src="src/assets/icons/arrow-right.svg"
                   alt="Previous page"
                 />
               </button>
@@ -154,7 +154,7 @@ export const TabletsPage = () => {
                 className={`${s.pageButton} ${s.arrow}`}
               >
                 <img
-                  src="/img/icons/arrow-right.svg"
+                  src="src/assets/icons/arrow-right.svg"
                   alt="Next page"
                 />
               </button>

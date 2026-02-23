@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom';
 import { User } from '@supabase/supabase-js';
 import { useTranslation } from 'react-i18next';
 import styles from './BurgerMenu.module.scss';
-import heartIcon from '../icons/Heart.svg';
+import heartIcon from '../../../../assets/icons/heart.svg';
 import cartIcon from '../icons/Cart.svg';
 
 interface Props {
