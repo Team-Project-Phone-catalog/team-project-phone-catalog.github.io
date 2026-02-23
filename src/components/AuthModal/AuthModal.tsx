@@ -53,8 +53,20 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
     if (error) {
       setMessage(`Error: ${error.message}`);
     } else {
+      if (isRegistering) {
+        const { error: signInError } = await supabase.auth.signInWithPassword({
+          email: cleanEmail,
+          password,
+        });
+        if (signInError) {
+          setMessage(`Registered, but login failed: ${signInError.message}`);
+          setLoading(false);
+          return;
+        }
+      }
+
       setMessage(
-        isRegistering ? 'Registration successful!' : 'Login successful! 🎉',
+        isRegistering ? 'Registration successful! 🎉' : 'Login successful! 🎉',
       );
 
       setTimeout(() => {

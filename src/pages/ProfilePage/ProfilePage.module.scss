@@ -1,8 +1,9 @@
 @import '../../styles/utils.scss';
+@import '../../styles/variables.scss';
 
 .profilePage {
   min-height: 100vh;
-  color: #f1f2f9;
+  color: $color-light-1;
 
   &__container {
     box-sizing: border-box;
@@ -78,7 +79,7 @@
 
   &__value {
     font-size: 14px;
-    color: #75767f;
+    color: $color-secondary;
     margin-bottom: 16px;
   }
 }

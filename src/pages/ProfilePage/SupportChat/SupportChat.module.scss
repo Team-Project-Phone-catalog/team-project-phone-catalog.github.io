@@ -3,7 +3,7 @@
 
 .profilePage {
   min-height: 100vh;
-  background: #0f1121;
+  background: $color-black;
 
   &__container {
     max-width: 1280px;
@@ -37,7 +37,7 @@
   }
 
   &__title {
-    color: #f1f2f9;
+    color: $color-light-1;
     font-weight: 800;
     font-size: 32px;
     line-height: 41px;
@@ -47,12 +47,11 @@
   }
 }
 
-// ── Chat ──────────────────────────────────────────────────────────────────
 .chat {
   display: flex;
   flex-direction: column;
   height: 70vh;
-  background: #161827;
+  background: $color-surface-1;
   border: 1px solid #3b3e56;
   border-radius: 16px;
   overflow: hidden;
@@ -92,7 +91,7 @@
   &--user {
     align-self: flex-end;
     background: #2e3150;
-    color: #f1f2f9;
+    color: $color-light-1;
     border-bottom-right-radius: 4px;
   }
 
@@ -130,7 +129,7 @@
   background: #1e2035;
   border: 1px solid #3b3e56;
   border-radius: 12px;
-  color: #f1f2f9;
+  color: $color-light-1;
   font-size: 14px;
   padding: 10px 14px;
   resize: none;
@@ -152,7 +151,7 @@
   border-radius: 12px;
   border: none;
   background: #5c5f7a;
-  color: #f1f2f9;
+  color: $color-light-1;
   font-size: 18px;
   cursor: pointer;
   flex-shrink: 0;

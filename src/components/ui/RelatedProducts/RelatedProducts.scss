@@ -1,3 +1,5 @@
+@use '../../../styles/variables.scss' as *;
+
 @mixin on-tablet {
   @media (min-width: 640px) {
     @content;
@@ -10,9 +12,6 @@
   }
 }
 
-$color-white: #ffffff;
-$color-elements: #323542;
-$color-icons: #4a4d58;
 $color-secondary: #89939a;
 
 .AlsoLike {
@@ -62,7 +61,7 @@ $color-secondary: #89939a;
   &__arrow-btn {
     width: 32px;
     height: 32px;
-    border: 1px solid $color-elements;
+    border: 1px solid $color-surface-2;
     border-radius: 8px;
     background-color: transparent;
     cursor: pointer;
@@ -96,7 +95,7 @@ $color-secondary: #89939a;
     }
 
     &:hover:not(:disabled) {
-      background-color: $color-elements;
+      background-color: $color-surface-2;
       border-color: $color-icons;
 
       &::after {
@@ -106,7 +105,7 @@ $color-secondary: #89939a;
 
     &:disabled {
       cursor: not-allowed;
-      border-color: $color-elements;
+      border-color: $color-surface-2;
       opacity: 0.5;
 
       &::after {
