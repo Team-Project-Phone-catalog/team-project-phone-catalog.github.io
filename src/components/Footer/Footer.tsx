@@ -42,7 +42,7 @@ export const Footer = () => {
             className={styles.scrollTop}
           >
             <img
-              src="/img/icons/Button-Top.svg"
+              src="src/assets/icons/Button-Top.svg"
               alt="Back to top"
             />
           </button>
