@@ -3,15 +3,14 @@ import { initReactI18next } from 'react-i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
 
 i18n
-  // Визначає мову користувача автоматично
   .use(LanguageDetector)
-  // Передає i18n в react-i18next
+  // Пе
   .use(initReactI18next)
   .init({
-    debug: true, // Допомагає бачити помилки в консолі під час розробки
-    fallbackLng: 'en', // Мова за замовчуванням
+    debug: true,
+    fallbackLng: 'en',
     interpolation: {
-      escapeValue: false, // Не потрібно для React (він захищає від XSS автоматично)
+      escapeValue: false,
     },
     resources: {
       en: {
