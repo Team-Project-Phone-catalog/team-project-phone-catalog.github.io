@@ -1,8 +1,9 @@
 @import '../../../styles/utils';
+@import '../../../styles/variables';
 
 .profilePage {
   min-height: 100vh;
-  background: #0f1121;
+  background: $color-black;
 
   &__container {
     max-width: 1280px;
@@ -36,7 +37,7 @@
   }
 
   &__title {
-    color: #f1f2f9;
+    color: $color-light-1;
     font-weight: 800;
     font-size: 32px;
     line-height: 41px;
@@ -50,7 +51,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: #161827;
+  background: $color-surface-1;
   border: 1px solid #3b3e56;
   border-radius: 16px;
   padding: 20px 24px;
@@ -62,7 +63,7 @@
   }
 
   &__value {
-    color: #f1f2f9;
+    color: $color-light-1;
     font-size: 28px;
     font-weight: 800;
     letter-spacing: -0.01em;
@@ -70,7 +71,7 @@
 }
 
 .tableWrap {
-  background: #161827;
+  background: $color-surface-1;
   border: 1px solid #3b3e56;
   border-radius: 16px;
   overflow: hidden;
@@ -168,7 +169,7 @@
 
     &:hover:not(:disabled) {
       background: rgba(117, 119, 139, 0.25);
-      color: #f1f2f9;
+      color: $color-light-1;
     }
 
     &:disabled {
@@ -189,14 +190,14 @@
 }
 
 .supportBlock {
-  background: #161827;
+  background: $color-surface-1;
   border: 1px solid #3b3e56;
   border-radius: 16px;
   padding: 24px;
   margin-top: 32px;
 
   &__title {
-    color: #f1f2f9;
+    color: $color-light-1;
     font-size: 18px;
     font-weight: 700;
     margin-bottom: 20px;
@@ -218,7 +219,7 @@
   }
 
   &__select {
-    background: #0f1121;
+    background: $color-black;
     border: 1px solid #3b3e56;
     border-radius: 10px;
     color: #c0c2d8;
@@ -238,13 +239,13 @@
     }
 
     option {
-      background: #161827;
+      background: $color-surface-1;
       color: #c0c2d8;
     }
   }
 
   &__textarea {
-    background: #0f1121;
+    background: $color-black;
     border: 1px solid #3b3e56;
     border-radius: 10px;
     color: #c0c2d8;
@@ -284,13 +285,13 @@
 
     &:hover {
       background: rgba(91, 110, 245, 0.3);
-      color: #f1f2f9;
+      color: $color-light-1;
     }
   }
 }
 
 .conversation {
-  background: #0f1121;
+  background: $color-black;
   border: 1px solid #3b3e56;
   border-radius: 10px;
   padding: 12px;
