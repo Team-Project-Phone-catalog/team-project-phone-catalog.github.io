@@ -91,7 +91,7 @@ export const Sidebar = () => {
 
         <Link
           to="/profile/wallet"
-          className={`${styles.navItem} ${isActive('/wallet') ? styles.active : ''}`}
+          className={`${styles.navItem} ${isActive('/profile/wallet') ? styles.active : ''}`}
         >
           Wallet
         </Link>
