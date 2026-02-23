@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { BurgerMenu } from './BurgerMenu/BurgerMenu';
 import { CounterIcon } from './CounterIcon/CounterIcon';
 import styles from './Header.module.scss';
@@ -13,14 +14,8 @@ import { AuthModal } from '../../AuthModal/AuthModal.tsx';
 import { supabase } from '../../../utils/supabaseClient.ts';
 import { User } from '@supabase/supabase-js';
 
-const navLinks = [
-  { id: 1, name: 'Home', path: '/' },
-  { id: 2, name: 'Phones', path: '/phones' },
-  { id: 3, name: 'Tablets', path: '/tablets' },
-  { id: 4, name: 'Accessories', path: '/accessories' },
-];
-
 export const Header = () => {
+  const { t, i18n } = useTranslation();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const [user, setUser] = useState<User | null>(null);
@@ -30,8 +25,19 @@ export const Header = () => {
   const cartCount = getTotalItems();
   const favoritesCount = getFavoritesCount();
 
+  const navLinks = [
+    { id: 1, name: t('nav.home'), path: '/' },
+    { id: 2, name: t('nav.phones'), path: '/phones' },
+    { id: 3, name: t('nav.tablets'), path: '/tablets' },
+    { id: 4, name: t('nav.accessories'), path: '/accessories' },
+  ];
+
   const toggleMenu = () => setIsMenuOpen((prev) => !prev);
   const closeMenu = () => setIsMenuOpen(false);
+
+  const changeLanguage = (lng: string) => {
+    i18n.changeLanguage(lng);
+  };
 
   const fetchAdmin = async (userId: string) => {
     const { data } = await supabase
@@ -102,7 +108,24 @@ export const Header = () => {
           </div>
 
           <div className={styles.header__right}>
+            <div className={styles.lang_switcher}>
+              <button
+                className={`${styles.lang_btn} ${i18n.language === 'en' ? styles['lang_btn--active'] : ''}`}
+                onClick={() => changeLanguage('en')}
+              >
+                EN
+              </button>
+              <span className={styles.lang_divider}>|</span>
+              <button
+                className={`${styles.lang_btn} ${i18n.language === 'ua' ? styles['lang_btn--active'] : ''}`}
+                onClick={() => changeLanguage('ua')}
+              >
+                UA
+              </button>
+            </div>
+
             <Search />
+
             <div className={styles.header__icons}>
               <NavLink
                 to="/profile"

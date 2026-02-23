@@ -1,6 +1,7 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { User } from '@supabase/supabase-js';
+import { useTranslation } from 'react-i18next';
 import styles from './BurgerMenu.module.scss';
 import heartIcon from '../icons/Heart.svg';
 import cartIcon from '../icons/Cart.svg';
@@ -14,20 +15,6 @@ interface Props {
   isAdmin: boolean;
 }
 
-const navLinks = [
-  { id: 1, name: 'Home', path: '/' },
-  { id: 2, name: 'Phones', path: '/phones' },
-  { id: 3, name: 'Tablets', path: '/tablets' },
-  { id: 4, name: 'Accessories', path: '/accessories' },
-];
-
-const authNavLinks = [
-  { id: 5, name: 'Orders', path: 'profile/orders' },
-  { id: 6, name: 'Chat', path: 'profile/chat' },
-  { id: 7, name: 'Wish List', path: 'profile/favorites' },
-  { id: 8, name: 'Wallet', path: 'profile/wallet' },
-];
-
 export const BurgerMenu: React.FC<Props> = ({
   isOpen,
   onClose,
@@ -36,6 +23,26 @@ export const BurgerMenu: React.FC<Props> = ({
   user,
   isAdmin,
 }) => {
+  const { t, i18n } = useTranslation();
+
+  const changeLanguage = (lng: string) => {
+    i18n.changeLanguage(lng);
+  };
+
+  const navLinks = [
+    { id: 1, name: t('nav.home'), path: '/' },
+    { id: 2, name: t('nav.phones'), path: '/phones' },
+    { id: 3, name: t('nav.tablets'), path: '/tablets' },
+    { id: 4, name: t('nav.accessories'), path: '/accessories' },
+  ];
+
+  const authNavLinks = [
+    { id: 5, name: t('nav.orders'), path: 'profile/orders' },
+    { id: 6, name: t('nav.chat'), path: 'profile/chat' },
+    { id: 7, name: t('nav.wishlist'), path: 'profile/favorites' },
+    { id: 8, name: t('nav.wallet'), path: 'profile/wallet' },
+  ];
+
   return (
     <div
       className={`${styles.menu} ${isOpen ? `${styles['menu--open']} is-menu-open` : ''}`}
@@ -94,7 +101,7 @@ export const BurgerMenu: React.FC<Props> = ({
                     }
                     onClick={onClose}
                   >
-                    Admin
+                    {t('nav.admin')}
                   </NavLink>
                 </li>
               )}
@@ -102,6 +109,22 @@ export const BurgerMenu: React.FC<Props> = ({
           )}
         </ul>
       </nav>
+
+      <div className={styles.menu__lang}>
+        <button
+          className={`${styles.lang_btn} ${i18n.language === 'en' ? styles['lang_btn--active'] : ''}`}
+          onClick={() => changeLanguage('en')}
+        >
+          English
+        </button>
+        <span className={styles.lang_divider}>|</span>
+        <button
+          className={`${styles.lang_btn} ${i18n.language === 'ua' ? styles['lang_btn--active'] : ''}`}
+          onClick={() => changeLanguage('ua')}
+        >
+          Українська
+        </button>
+      </div>
 
       <div className={styles.menu__footer}>
         <NavLink
