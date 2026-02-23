@@ -76,6 +76,44 @@
   }
 }
 
+.lang_switcher {
+  display: none;
+  align-items: center;
+  gap: 4px;
+  margin-right: 16px;
+
+  @include on-tablet() {
+    display: flex;
+  }
+}
+
+.lang_btn {
+  background: none;
+  border: none;
+  color: $color-secondary;
+  font-size: 12px;
+  font-weight: 800;
+  cursor: pointer;
+  padding: 4px;
+  transition: color 0.2s;
+
+  &:hover {
+    color: $color-light-1;
+  }
+
+  &--active {
+    color: $color-light-1;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+  }
+}
+
+.lang_divider {
+  color: $color-border;
+  font-size: 12px;
+  user-select: none;
+}
+
 .nav_list {
   display: flex;
   list-style: none;
