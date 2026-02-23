@@ -6,19 +6,13 @@ interface Rating {
   pct: number;
 }
 
-const ratings: Rating[] = [
-  { label: '5 star', pct: 70 }, // 14/20
-  { label: '4 star', pct: 15 }, // 3/20
-  { label: '3 star', pct: 10 }, // 2/20
-  { label: '2 star', pct: 0 }, // 0/20
-  { label: '1 star', pct: 5 }, // 1/20
-];
-
 export const DropDown = ({
+  ratings,
   open,
   onSeeAll,
   onClose,
 }: {
+  ratings: Rating[];
   open: boolean;
   onSeeAll: () => void;
   onClose: () => void;
@@ -41,7 +35,7 @@ export const DropDown = ({
           key={r.label}
           label={r.label}
           pct={r.pct}
-          animate={open} // просто передаем open напрямую
+          animate={open}
           onClick={onSeeAll}
         />
       ))}
