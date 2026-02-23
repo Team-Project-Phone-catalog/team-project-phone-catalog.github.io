@@ -1,3 +1,5 @@
+@use '../../styles/variables.scss' as *;
+
 .bubble {
   position: fixed;
   bottom: 24px;
@@ -7,9 +9,9 @@
   width: 60px;
   height: 60px;
   border-radius: 50%;
-  border: 3px solid #f1f2f9;
+  border: 3px solid $color-light-1;
 
-  background: #323542;
+  background: $color-surface-2;
 
   display: flex;
   align-items: center;
@@ -36,7 +38,7 @@
   right: 6px;
 
   background: white;
-  color: #323542;
+  color: $color-surface-2;
   font-size: 12px;
   padding: 2px 6px;
   border-radius: 12px;
@@ -51,7 +53,7 @@
   height: 480px;
   z-index: 9999;
 
-  background: #323542;
+  background: $color-surface-2;
   border-radius: 16px;
 
   display: flex;
@@ -128,7 +130,7 @@
 .user {
   align-self: flex-end;
   background: white;
-  color: #323542;
+  color: $color-surface-2;
 }
 
 .bot {
@@ -196,6 +198,6 @@
   width: 36px;
   height: 36px;
   background: white;
-  color: #323542;
+  color: $color-surface-2;
   cursor: pointer;
 }

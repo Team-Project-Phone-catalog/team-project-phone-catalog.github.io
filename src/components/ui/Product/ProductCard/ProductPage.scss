@@ -1,4 +1,5 @@
-@use '../../../../styles/utils' as *;
+@import '../../../../styles/variables.scss';
+@import '../../../../styles/utils';
 
 .product-card {
   border-radius: 20px;
@@ -10,7 +11,7 @@
     grid-column: 1 / -1;
     font-size: 32px;
     font-weight: 800;
-    color: #f1f2f9;
+    color: $color-light-1;
     margin: 32px 0 16px;
   }
 

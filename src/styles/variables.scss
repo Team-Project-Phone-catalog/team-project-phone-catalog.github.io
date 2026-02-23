@@ -1,66 +1,145 @@
+/* ======================================
+   CSS VARIABLES (THEME)
+   ====================================== */
+
+:root {
+  /* DARK THEME (default) */
+
+  /* PRIMARY */
+  --color-black: #0f1121;
+  --color-surface-1: #161827;
+  --color-surface-2: #323542;
+  --color-elements: #3b3e4a;
+  --color-icons: #4a4d58;
+  --color-secondary: #75767f;
+
+  --color-white: #ffffff;
+  --color-light-1: #f1f2f9;
+  // --color-light-bt: #f1f2f9;
+  --color-light-2: #e8e9ee;
+
+  /* ACCENTS */
+  --color-accent: #905bff;
+  --color-accent-hover: #a378ff;
+  --color-green: #27ae60;
+  --color-red: #eb5757;
+
+  /* SEMANTIC */
+  --text-primary: var(--color-white);
+  --text-secondary: var(--color-secondary);
+
+  --border-color: var(--color-elements);
+
+  --bg-main: var(--color-black);
+  --bg-surface: var(--color-surface-1);
+  --bg-card: var(--color-surface-2);
+
+  /* BUTTONS */
+  --btn-primary-bg: var(--color-accent);
+  --btn-primary-hover: var(--color-accent-hover);
+  --btn-primary-text: var(--color-white);
+
+  --btn-secondary-bg: var(--color-surface-2);
+  --btn-secondary-hover: var(--color-icons);
+  --btn-secondary-text: var(--color-white);
+
+  --btn-default-bg: var(--color-elements);
+  --btn-default-hover: var(--color-icons);
+  --btn-default-selected: var(--color-surface-1);
+  --btn-default-disabled: var(--color-secondary);
+
+  --btn-favorite: var(--color-red);
+  --btn-success: var(--color-green);
+
+  --btn-light-bg: var(--color-light-1);
+}
+
+/* ======================================
+   LIGHT THEME
+   ====================================== */
+
+[data-theme='light'] {
+  /* PRIMARY */
+  --color-black: #fafbfc;
+  --color-surface-1: #fafbfc;
+  // --color-surface-2: #75767f;
+  --color-elements: #75767f;
+  // --color-icons: #f70cf7;
+  --color-secondary: #75767f;
+
+  --color-white: #0f1121;
+  --color-light-1: #0f1121;
+  // --color-light-bt: #ffffff;
+  // --color-light-2: #e8e9ee;
+
+  /* SEMANTIC */
+  --text-primary: #0f1121;
+  --text-secondary: #75767f;
+
+  --border-color: #75767f;
+
+  --bg-main: #ffffff;
+  --bg-surface: #f8f9fc;
+  --bg-card: #ffffff;
+
+  /* BUTTONS */
+  --btn-secondary-bg: #f1f2f9;
+  --btn-secondary-hover: #e8e9ee;
+
+  --btn-default-bg: #ffffff;
+  --btn-default-hover: #f1f2f9;
+  --btn-default-selected: #e8e9ee;
+  --btn-default-disabled: #b4bdc3;
+}
+
 /* PRIMARY PALETTE */
+$color-black: var(--color-black);
+$color-surface-1: var(--color-surface-1);
+$color-surface-2: var(--color-surface-2);
+$color-elements: var(--color-elements);
+$color-icons: var(--color-icons);
+$color-secondary: var(--color-secondary);
 
-$color-black: #0f1121;
-$color-surface-1: #161827;
-$color-surface-2: #323542;
-$color-elements: #3b3e4a;
-$color-icons: #4a4d58;
-$color-secondary: #75767f;
-
-$color-white: #ffffff;
-$color-light-1: #f1f2f9;
-$color-light-2: #e8e9ee;
-$color-accent-hover: #a378ff;
+$color-white: var(--color-white);
+$color-light-1: var(--color-light-1);
+$color-light-2: var(--color-light-2);
+$color-accent-hover: var(--color-accent-hover);
 
 /* ACCENTS */
-
-$color-accent: #905bff;
-$color-green: #27ae60;
-$color-red: #eb5757;
+$color-accent: var(--color-accent);
+$color-green: var(--color-green);
+$color-red: var(--color-red);
 
 /* TEXT */
-
-$color-text-primary: $color-white;
-$color-text-secondary: $color-secondary;
+$color-text-primary: var(--text-primary);
+$color-text-secondary: var(--text-secondary);
 
 /* BORDERS */
-
-$color-border: $color-elements;
+$color-border: var(--border-color);
 
 /* BACKGROUNDS */
-
-$bg-main: $color-black;
-$bg-surface: $color-surface-1;
-$bg-card: $color-surface-2;
+$bg-main: var(--bg-main);
+$bg-surface: var(--bg-surface);
+$bg-card: var(--bg-card);
 
 /* TRANSITIONS */
-
 $transition-default: 0.3s ease;
 
 /* BUTTON STATES */
+$btn-primary-bg: var(--btn-primary-bg);
+$btn-primary-hover: var(--btn-primary-hover);
+$btn-primary-text: var(--btn-primary-text);
 
-/* Primary */
-$btn-primary-bg: $color-accent;
-$btn-primary-hover: $color-accent-hover;
-$btn-primary-text: $color-white;
+$btn-secondary-bg: var(--btn-secondary-bg);
+$btn-secondary-hover: var(--btn-secondary-hover);
+$btn-secondary-text: var(--btn-secondary-text);
 
-/* Secondary */
-$btn-secondary-bg: $color-surface-2;
-$btn-secondary-hover: $color-icons;
-$btn-secondary-text: $color-white;
+$btn-default-bg: var(--btn-default-bg);
+$btn-default-hover: var(--btn-default-hover);
+$btn-default-selected: var(--btn-default-selected);
+$btn-default-disabled: var(--btn-default-disabled);
 
-/* Default small square buttons (arrows) */
-$btn-default-bg: $color-elements;
-$btn-default-hover: $color-icons;
-$btn-default-selected: $color-surface-1;
-$btn-default-disabled: $color-secondary;
+$btn-favorite: var(--btn-favorite);
+$btn-success: var(--btn-success);
 
-/* Status buttons */
-$btn-favorite: $color-red;
-$btn-success: $color-green;
-
-/* Option / capacity selected */
-//$btn-option-selected: $color-option-selected;
-
-/* Light button */
-$btn-light-bg: $color-light-1;
+$btn-light-bg: var(--btn-light-bg);

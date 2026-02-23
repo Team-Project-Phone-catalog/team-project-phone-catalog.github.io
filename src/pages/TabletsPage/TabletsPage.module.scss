@@ -31,7 +31,7 @@
   .modelsCount {
     margin-bottom: 24px;
     font-size: 14px;
-    color: #75767f;
+    color: $color-secondary;
   }
 
   &__controls {
@@ -52,7 +52,7 @@
 
   .label {
     font-size: 12px;
-    color: #75767f;
+    color: $color-secondary;
   }
 
   .select {
@@ -61,8 +61,8 @@
     height: 40px;
     padding: 0 12px;
 
-    background: #323542;
-    border: 1px solid #3b3e4a;
+    background: $color-surface-2;
+    border: 1px solid $color-elements;
     color: $color-light-1;
 
     font-family: Mont;
@@ -127,8 +127,8 @@
     justify-content: center;
 
     border-radius: 50%;
-    border: 1px solid #3b3e4a;
-    background: #161827;
+    border: 1px solid $color-elements;
+    background: $color-surface-1;
     color: $color-light-1;
 
     cursor: pointer;
@@ -139,7 +139,7 @@
       transform 0.15s ease;
 
     &:hover:not(:disabled) {
-      border-color: #ffffff;
+      border-color: $color-white;
     }
 
     &:active:not(:disabled) {
@@ -154,7 +154,7 @@
 
   .arrow {
     margin: 0 8px;
-    background-color: #323542;
+    background-color: $color-surface-2;
   }
 
   .arrow img {
