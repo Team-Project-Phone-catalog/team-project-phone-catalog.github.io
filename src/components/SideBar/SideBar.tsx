@@ -2,12 +2,16 @@ import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import styles from './Sidebar.module.scss';
 import { supabase } from '../../utils/supabaseClient.ts';
+import { useAppContext } from '../../hooks/useAppContext.ts';
 
 export const Sidebar = () => {
   const location = useLocation();
   const [userName, setUserName] = React.useState('');
   const [userEmail, setUserEmail] = React.useState('');
   const [isAdmin, setIsAdmin] = React.useState(false);
+
+  const { getFavoritesCount } = useAppContext();
+  const favoritesCount = getFavoritesCount();
 
   React.useEffect(() => {
     const fetchUser = async () => {
@@ -73,7 +77,6 @@ export const Sidebar = () => {
           className={`${styles.navItem} ${isActive('/profile/chat') ? styles.active : ''}`}
         >
           <span>Support Chat</span>
-          <span className={styles.badge}>0</span>
         </Link>
 
         <div className={styles.divider}></div>
@@ -83,7 +86,7 @@ export const Sidebar = () => {
           className={`${styles.navItem} ${isActive('/favorites') ? styles.active : ''}`}
         >
           <span>Wish lists</span>
-          <span className={styles.count}>2</span>
+          <span className={styles.badge}>{favoritesCount}</span>
         </Link>
 
         <Link
