@@ -30,7 +30,7 @@ export const Footer = () => {
             GITHUB
           </a>
 
-          <a href="#">CONTACTS</a>
+          <Link to="/contacts">CONTACTS</Link>
           <Link to="/rights">RIGHTS</Link>
         </nav>
 
