@@ -2,7 +2,7 @@ import './ProductDetailsPage.scss';
 import { ProductPage } from '../../components/ui/Product/ProductCard/ProductPage.tsx';
 import { BackButton } from '../../components/ui/Buttons/Back/BackButton.tsx';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { ProductDetails } from '../../types/Product.ts';
 import { getProductDetails } from '../../api/products.ts';
 import { Breadcrumbs } from '../../components/ui/Breadcrumbs/Breadcrumbs.tsx';
@@ -21,6 +21,12 @@ export const ProductDetailsPage = () => {
   const [product, setProduct] = useState<ProductDetails | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
+
+  const [showReviews, setShowReviews] = useState(false);
+  const [scrollBeforeReviews, setScrollBeforeReviews] = useState<number | null>(
+    null,
+  );
+  const headerRef = useRef<HTMLDivElement | null>(null);
 
   const fetchProductData = (idToFetch: string, isBackgroundUpdate = false) => {
     if (!category) return;
@@ -110,20 +116,45 @@ export const ProductDetailsPage = () => {
     );
   }
 
+  const handleCloseReviews = () => {
+    setShowReviews(false);
+
+    if (scrollBeforeReviews !== null) {
+      const headerOffset = 80; // висота Header або відступ
+      setTimeout(() => {
+        window.scrollTo({
+          top: scrollBeforeReviews - headerOffset,
+          behavior: 'smooth',
+        });
+      }, 0);
+    }
+  };
+
   return (
-    <div className="product-details-page">
+    <div
+      className="product-details-page"
+      ref={headerRef}
+    >
       <Breadcrumbs />
       <BackButton />
 
       <div className="product-header">
         <h1 className="product-title">{product.name}</h1>
-        <RatingsWidget productId={productId ?? ''} />
+        <RatingsWidget
+          productId={productId ?? ''}
+          onSeeAll={() => {
+            setScrollBeforeReviews(window.scrollY);
+            setShowReviews(true);
+          }}
+        />
       </div>
 
       <ProductPage
         key={product.color}
         product={product}
         onCapacityChange={handleCapacityUpdate}
+        showReviews={showReviews}
+        onCloseReviews={handleCloseReviews}
       />
     </div>
   );

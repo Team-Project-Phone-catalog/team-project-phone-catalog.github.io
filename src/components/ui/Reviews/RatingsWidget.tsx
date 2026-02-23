@@ -2,12 +2,16 @@ import { useState, useEffect, useRef } from 'react';
 import './RatingsWidget.scss';
 import { Stars } from './Stars/Stars';
 import { DropDown } from './DropDown/DropDown';
-import { ReviewsPage } from './ReviewsPage/ReviewsPage';
 import { useReviews } from '../../../hooks/useReviews';
 
-export const RatingsWidget = ({ productId }: { productId: string }) => {
+export const RatingsWidget = ({
+  productId,
+  onSeeAll,
+}: {
+  productId: string;
+  onSeeAll: () => void;
+}) => {
   const [open, setOpen] = useState(false);
-  const [showReviews, setShowReviews] = useState(false);
   const wrapRef = useRef<HTMLDivElement>(null);
   const { avgScore, ratings, reviews } = useReviews(productId);
 
@@ -19,14 +23,6 @@ export const RatingsWidget = ({ productId }: { productId: string }) => {
     document.addEventListener('mousedown', handleClick);
     return () => document.removeEventListener('mousedown', handleClick);
   }, []);
-
-  if (showReviews)
-    return (
-      <ReviewsPage
-        productId={productId}
-        onBack={() => setShowReviews(false)}
-      />
-    );
 
   return (
     <div
@@ -62,7 +58,7 @@ export const RatingsWidget = ({ productId }: { productId: string }) => {
         ratings={ratings}
         onSeeAll={() => {
           setOpen(false);
-          setShowReviews(true);
+          onSeeAll();
         }}
         onClose={() => setOpen(false)}
       />
