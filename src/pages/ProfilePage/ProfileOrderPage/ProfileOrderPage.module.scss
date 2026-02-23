@@ -1,6 +1,13 @@
 @import '../../../styles/utils';
 @import '../../../styles/variables';
 
+.loaderWrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 60vh;
+}
+
 .profilePage {
   min-height: 100vh;
   background: $color-black;

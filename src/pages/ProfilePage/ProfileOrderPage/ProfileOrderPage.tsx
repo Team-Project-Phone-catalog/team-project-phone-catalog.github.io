@@ -79,14 +79,6 @@ export const ProfileOrderPage: React.FC = () => {
     fetchOrders();
   }, []);
 
-  if (loading) {
-    return <Loader />;
-  }
-
-  if (error) {
-    return <p>{error}</p>;
-  }
-
   return (
     <div className={styles.profilePage}>
       <div className={styles.profilePage__container}>
@@ -97,7 +89,13 @@ export const ProfileOrderPage: React.FC = () => {
             <Breadcrumbs />
             <h1 className={styles.profilePage__title}>Order History</h1>
 
-            {orders.length === 0 ?
+            {loading ?
+              <div className={styles.loaderWrapper}>
+                <Loader />
+              </div>
+            : error ?
+              <p>{error}</p>
+            : orders.length === 0 ?
               <EmptyOrders />
             : <div className={styles.orderList}>
                 {orders.map((order) => (

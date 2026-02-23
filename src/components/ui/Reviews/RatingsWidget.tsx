@@ -3,11 +3,13 @@ import './RatingsWidget.scss';
 import { Stars } from './Stars/Stars';
 import { DropDown } from './DropDown/DropDown';
 import { ReviewsPage } from './ReviewsPage/ReviewsPage';
+import { useReviews } from '../../../hooks/useReviews';
 
-export const RatingsWidget = () => {
+export const RatingsWidget = ({ productId }: { productId: string }) => {
   const [open, setOpen] = useState(false);
   const [showReviews, setShowReviews] = useState(false);
   const wrapRef = useRef<HTMLDivElement>(null);
+  const { avgScore, ratings, reviews } = useReviews(productId);
 
   useEffect(() => {
     function handleClick(e: MouseEvent) {
@@ -18,20 +20,26 @@ export const RatingsWidget = () => {
     return () => document.removeEventListener('mousedown', handleClick);
   }, []);
 
-  if (showReviews) return <ReviewsPage onBack={() => setShowReviews(false)} />;
+  if (showReviews)
+    return (
+      <ReviewsPage
+        productId={productId}
+        onBack={() => setShowReviews(false)}
+      />
+    );
 
   return (
     <div
       ref={wrapRef}
       className="ratings-widget"
     >
-      <span className="ratings-widget__score">4.7</span>
+      <span className="ratings-widget__score">{avgScore}</span>
       <button
         className="ratings-widget__trigger"
         onClick={() => setOpen((v) => !v)}
         aria-expanded={open}
       >
-        <Stars score={4.7} />
+        <Stars score={avgScore} />
         <svg
           className={`ratings-widget__chevron${open ? ' ratings-widget__chevron--open' : ''}`}
           width={14}
@@ -48,9 +56,10 @@ export const RatingsWidget = () => {
           />
         </svg>
       </button>
-      <span className="ratings-widget__count">26 634</span>
+      <span className="ratings-widget__count">{reviews.length}</span>
       <DropDown
         open={open}
+        ratings={ratings}
         onSeeAll={() => {
           setOpen(false);
           setShowReviews(true);

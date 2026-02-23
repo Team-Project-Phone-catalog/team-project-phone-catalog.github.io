@@ -18,6 +18,9 @@ import { HelpWidget } from './components/HelpWidget/HelpWidget';
 import { ProfileOrderPage } from './pages/ProfilePage/ProfileOrderPage/ProfileOrderPage.tsx';
 import { AdminPage } from './pages/ProfilePage/AdminPage/AdminPage.tsx';
 import { SupportChat } from './pages/ProfilePage/SupportChat/SupportChat.tsx';
+import { WalletPage } from './pages/ProfilePage/WalletPage/WalletPage.tsx';
+import { RightsPage } from './pages/RightsPage/RightsPage.tsx';
+import { ContactsPage } from './pages/ContactsPage/ContactsPage.tsx';
 
 export const App = () => {
   return (
@@ -79,11 +82,19 @@ export const App = () => {
           />
           <Route
             path="/profile/wallet"
-            element={<h1>Wallet</h1>}
+            element={<WalletPage />}
           />
           <Route
             path="/:category/:productId"
             element={<ProductDetailsPage />}
+          />
+          <Route
+            path="/rights"
+            element={<RightsPage />}
+          />
+          <Route
+            path="/contacts"
+            element={<ContactsPage />}
           />
           <Route
             path="*"

@@ -4,14 +4,14 @@
 }
 
 .ratings-widget {
-  font-family: 'DM Sans', sans-serif;
+  font-family: 'Mont', sans-serif;
   display: inline-flex;
   align-items: center;
   gap: 8px;
   position: relative;
 
   &__score {
-    font-family: 'Lora', serif;
+    font-family: 'Mont', sans-serif;
     font-size: 18px;
     font-weight: 600;
     color: $color-white;
