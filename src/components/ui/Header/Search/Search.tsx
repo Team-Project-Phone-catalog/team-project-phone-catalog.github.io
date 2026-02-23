@@ -76,18 +76,37 @@ export const Search = () => {
 
     const fuse = new Fuse(products, {
       keys: ['name'],
-      threshold: 0.35,
+      threshold: 0.3,
       distance: 100,
+      useExtendedSearch: true,
+      ignoreLocation: true,
     });
 
+    // РОЗШИРЕНА ЛОГІКА:
+    // Ми шукаємо двома способами одночасно:
+    // 1. Як точну фразу (щоб "apple 14" було в пріоритеті)
+    // 2. Як звичайний нечіткий пошук (щоб "aple" знаходило "apple")
+    const searchTerms = {
+      $or: [
+        { name: normalizedQuery }, // Нечіткий пошук (виправить "aple")
+        {
+          $and: normalizedQuery
+            .split(/\s+/)
+            .filter((term) => term.length > 1)
+            .map((term) => ({ name: `'${term}` })),
+        },
+      ],
+    };
+
     return fuse
-      .search(normalizedQuery)
+      .search(searchTerms)
       .map((r) => r.item)
       .slice(0, 15);
   }, [debouncedQuery, products]);
 
   const handleClear = () => {
     setQuery('');
+    setDebouncedQuery('');
     inputRef.current?.focus();
   };
 
@@ -108,6 +127,7 @@ export const Search = () => {
       if (e.key === 'Escape') {
         if (query.length > 0) {
           setQuery('');
+          setDebouncedQuery('');
           setSelectedIndex(-1);
         } else {
           inputRef.current?.blur();
@@ -129,6 +149,7 @@ export const Search = () => {
         const item = filteredItems[selectedIndex];
         navigate(`/${item.category || 'phones'}/${item.itemId || item.id}`);
         setQuery('');
+        setDebouncedQuery('');
         inputRef.current?.blur();
       }
     };
@@ -206,7 +227,10 @@ export const Search = () => {
                     <Link
                       to={`/${item.category || 'phones'}/${item.itemId || item.id}`}
                       className={styles.search__link}
-                      onClick={() => setQuery('')}
+                      onClick={() => {
+                        setQuery('');
+                        setDebouncedQuery('');
+                      }}
                     >
                       <div className={styles.search__img_wrapper}>
                         <img
