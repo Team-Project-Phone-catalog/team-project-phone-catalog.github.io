@@ -29,7 +29,7 @@ export const Breadcrumbs = () => {
         className={s.breadcrumbs__home}
       >
         <img
-          src="/src/assets/icons/Home.svg"
+          src="/src/assets/icons/home-dark.svg"
           alt="Home"
         />
       </Link>

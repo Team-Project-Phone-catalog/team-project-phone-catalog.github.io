@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import styles from './Footer.module.scss';
-import logoDark from '../ui/Header/icons/logo-dark.svg';
+import logoDark from '../../assets/logo-dark.svg';
 
 export const Footer = () => {
   const handleScrollTop = () => {
