@@ -1,7 +1,7 @@
 @import '../../../../styles/variables.scss';
 
 .write-review {
-  font-family: 'Mond', Arial, sans-serif;
+  font-family: 'Mont', Arial, sans-serif;
   background: $color-black;
   min-height: 100vh;
   padding: 16px;
@@ -123,7 +123,7 @@
     box-sizing: border-box;
     resize: vertical;
     min-height: 120px;
-    font-family: 'DM Sans', Arial, sans-serif;
+    font-family: 'Mont', Arial, sans-serif;
     color: $color-white;
     -webkit-appearance: none;
     transition:

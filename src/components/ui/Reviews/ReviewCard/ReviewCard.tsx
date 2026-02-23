@@ -25,15 +25,6 @@ export const ReviewCard = ({ review }: { review: Review }) => {
         <span className="review-card__title">{review.title}</span>
       </div>
       <p className="review-card__date">{review.date}</p>
-      <p className="review-card__meta">
-        Style: {review.style}
-        {review.verified && (
-          <>
-            {' '}
-            | <span className="review-card__verified">Verified Purchase</span>
-          </>
-        )}
-      </p>
       <p className="review-card__body">{review.body}</p>
     </div>
   );

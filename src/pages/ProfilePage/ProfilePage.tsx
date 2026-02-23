@@ -9,7 +9,22 @@ import { Sidebar } from '../../components/SideBar/SideBar.tsx';
 
 export const ProfilePage = () => {
   const [user, setUser] = useState<User | null>(null);
+  const [phone, setPhone] = useState<string | null>(null);
   const navigate = useNavigate();
+
+  const fetchPhone = async (userId: string) => {
+    const { data, error } = await supabase
+      .from('orders')
+      .select('phone')
+      .eq('user_id', userId)
+      .not('phone', 'is', null)
+      .limit(1)
+      .maybeSingle();
+
+    if (!error && data?.phone) {
+      setPhone(data.phone);
+    }
+  };
 
   useEffect(() => {
     const getUser = async () => {
@@ -19,6 +34,7 @@ export const ProfilePage = () => {
 
       if (session?.user) {
         setUser(session.user);
+        fetchPhone(session.user.id);
       } else {
         navigate('/');
       }
@@ -56,7 +72,7 @@ export const ProfilePage = () => {
                   <img
                     src={
                       user.user_metadata.avatar_url ||
-                      'https://via.placeholder.com/150'
+                      'https://cdn-icons-png.flaticon.com/512/4519/4519729.png'
                     }
                     className={styles.userInfo__photo}
                     alt="Profile"
@@ -71,6 +87,13 @@ export const ProfilePage = () => {
 
                     <p className={styles.userInfo__label}>Email:</p>
                     <span className={styles.userInfo__value}>{user.email}</span>
+
+                    {phone && (
+                      <>
+                        <p className={styles.userInfo__label}>Phone:</p>
+                        <span className={styles.userInfo__value}>{phone}</span>
+                      </>
+                    )}
 
                     <p className={styles.userInfo__label}>Created:</p>
                     <span className={styles.userInfo__value}>
