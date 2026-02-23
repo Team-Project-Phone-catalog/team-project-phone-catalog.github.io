@@ -40,7 +40,7 @@
 
     .email {
       font-size: 12px;
-      color: #75767f;
+      color: $color-secondary;
       margin: 0;
     }
   }
@@ -55,7 +55,7 @@
       justify-content: space-between;
       padding: 12px 0;
       text-decoration: none;
-      color: #f1f2f9;
+      color: $color-light-1;
       font-size: 14px;
       transition: color 0.2s;
 
@@ -78,7 +78,7 @@
       }
 
       .count {
-        color: #75767f;
+        color: $color-secondary;
       }
     }
 

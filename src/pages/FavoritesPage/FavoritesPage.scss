@@ -40,7 +40,7 @@
     display: block;
     margin-top: 24px;
     margin-bottom: 8px;
-    color: #f1f2f9;
+    color: $color-light-1;
     font-family: Mont, sans-serif;
     font-weight: 800;
     font-size: 32px;
@@ -52,7 +52,7 @@
     display: block;
     margin-bottom: 24px;
     font-size: 14px;
-    color: #75767f;
+    color: $color-secondary;
   }
 
   &__empty {

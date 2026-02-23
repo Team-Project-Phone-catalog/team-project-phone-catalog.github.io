@@ -5,7 +5,8 @@ import Fuse from 'fuse.js';
 import { getProducts } from '../../../../api/products';
 import { Product } from '../../../../types/Product';
 import styles from './Search.module.scss';
-import searchIcon from '../icons/Search.svg';
+import searchLight from '../icons/search-light.svg';
+import searchDark from '../icons/search-dark.svg';
 import closeIcon from '../icons/Close.svg';
 
 export const Search = () => {
@@ -168,7 +169,15 @@ export const Search = () => {
           <AnimatePresence mode="wait">
             <motion.img
               key={query ? 'close' : 'search'}
-              src={query ? closeIcon : searchIcon}
+              src={
+                query ? closeIcon
+                : (
+                  document.documentElement.getAttribute('data-theme') ===
+                  'light'
+                ) ?
+                  searchLight
+                : searchDark
+              }
               className={styles.search__icon}
               initial={{ opacity: 0, scale: 0.5, rotate: query ? -90 : 0 }}
               animate={{ opacity: 1, scale: 1, rotate: 0 }}
