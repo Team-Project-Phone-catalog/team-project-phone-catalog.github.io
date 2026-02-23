@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { supabase } from '../../utils/supabaseClient';
-import styles from './AutrhModal.module.scss';
+import styles from '../AuthModal/AuthModal.module.scss';
 
 interface AuthModalProps {
   isOpen: boolean;
@@ -23,14 +23,19 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
         redirectTo: window.location.origin,
       },
     });
-    if (error) setMessage(`Помилка Google: ${error.message}`);
+
+    if (error) {
+      setMessage(`Google error: ${error.message}`);
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
     const cleanEmail = email.trim();
+
     if (!cleanEmail || !password) {
-      setMessage('Заповніть усі поля!');
+      setMessage('Please fill in all fields!');
       return;
     }
 
@@ -40,17 +45,24 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
     const { error } =
       isRegistering ?
         await supabase.auth.signUp({ email: cleanEmail, password })
-      : await supabase.auth.signInWithPassword({ email: cleanEmail, password });
+      : await supabase.auth.signInWithPassword({
+          email: cleanEmail,
+          password,
+        });
 
     if (error) {
-      setMessage(`Помилка: ${error.message}`);
+      setMessage(`Error: ${error.message}`);
     } else {
-      setMessage(isRegistering ? 'Реєстрація успішна!' : 'Вхід успішний! 🎉');
+      setMessage(
+        isRegistering ? 'Registration successful!' : 'Login successful! 🎉',
+      );
+
       setTimeout(() => {
         onClose();
         window.location.reload();
       }, 1500);
     }
+
     setLoading(false);
   };
 
@@ -60,13 +72,13 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
         <button
           className={styles.closeBtn}
           onClick={onClose}
-          aria-label="Закрити"
+          aria-label="Close"
         >
           ✕
         </button>
 
         <h2 className={styles.title}>
-          {isRegistering ? 'Створити акаунт' : 'Вхід у кабінет'}
+          {isRegistering ? 'Create an account' : 'Sign in to your account'}
         </h2>
 
         <button
@@ -78,10 +90,10 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
             src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg"
             alt="Google Logo"
           />
-          Продовжити з Google
+          Continue with Google
         </button>
 
-        <div className={styles.divider}>або через email</div>
+        <div className={styles.divider}>or use email</div>
 
         <form
           className={styles.form}
@@ -95,10 +107,11 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
             onChange={(e) => setEmail(e.target.value)}
             required
           />
+
           <input
             className={styles.input}
             type="password"
-            placeholder="Пароль"
+            placeholder="Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
@@ -110,15 +123,18 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
             disabled={loading}
           >
             {loading ?
-              'Завантаження...'
+              'Loading...'
             : isRegistering ?
-              'Зареєструватися'
-            : 'Увійти'}
+              'Sign up'
+            : 'Sign in'}
           </button>
         </form>
 
         <p className={styles.toggleWrapper}>
-          {isRegistering ? 'Вже маєте акаунт?' : 'Ще не маєте акаунту?'}
+          {isRegistering ?
+            'Already have an account?'
+          : "Don't have an account yet?"}
+
           <button
             className={styles.toggleBtn}
             type="button"
@@ -127,13 +143,17 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
               setMessage('');
             }}
           >
-            {isRegistering ? 'Увійти' : 'Зареєструватися'}
+            {isRegistering ? 'Sign in' : 'Sign up'}
           </button>
         </p>
 
         {message && (
           <p
-            className={`${styles.message} ${message.includes('Помилка') ? styles['message--error'] : styles['message--success']}`}
+            className={`${styles.message} ${
+              message.includes('Error') ?
+                styles['message--error']
+              : styles['message--success']
+            }`}
           >
             {message}
           </p>
