@@ -28,4 +28,9 @@ export const notify = {
 
   error: (message: string = 'Something went wrong.') =>
     toast.error('Error', { description: message }),
+
+  success: (message: string, description?: string) =>
+    toast.success(message, {
+      description,
+    }),
 };
