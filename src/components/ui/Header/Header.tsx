@@ -4,15 +4,18 @@ import { useTranslation } from 'react-i18next';
 import { BurgerMenu } from './BurgerMenu/BurgerMenu';
 import { CounterIcon } from './CounterIcon/CounterIcon';
 import styles from './Header.module.scss';
-import logo from './icons/logo.svg';
+import logoDark from './icons/logo-dark.svg';
+import logoLight from './icons/logo-light.svg';
 import heartIcon from './icons/Heart.svg';
 import cartIcon from './icons/Cart.svg';
-import userIcon from './icons/User.svg';
+import userLight from './icons/user-light.svg';
+import userDark from './icons/user-dark.svg';
 import { useAppContext } from '../../../hooks/useAppContext.ts';
 import { Search } from './Search/Search.tsx';
 import { AuthModal } from '../../AuthModal/AuthModal.tsx';
 import { supabase } from '../../../utils/supabaseClient.ts';
 import { User } from '@supabase/supabase-js';
+import { ThemeSwitcher } from './ThemeSwitcher/ThemeSwitcher.tsx';
 
 export const Header = () => {
   const { t, i18n } = useTranslation();
@@ -34,6 +37,7 @@ export const Header = () => {
 
   const toggleMenu = () => setIsMenuOpen((prev) => !prev);
   const closeMenu = () => setIsMenuOpen(false);
+  const [theme, setTheme] = useState('dark');
 
   const changeLanguage = (lng: string) => {
     i18n.changeLanguage(lng);
@@ -68,6 +72,12 @@ export const Header = () => {
     return () => subscription.unsubscribe();
   }, []);
 
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', theme);
+  }, [theme]);
+
+  const userIcon = theme === 'light' ? userDark : userLight;
+
   return (
     <>
       <header className={styles.header}>
@@ -79,7 +89,7 @@ export const Header = () => {
               onClick={closeMenu}
             >
               <img
-                src={logo}
+                src={theme === 'light' ? logoLight : logoDark}
                 alt="Nice Gadgets"
               />
             </Link>
@@ -127,6 +137,12 @@ export const Header = () => {
             <Search />
 
             <div className={styles.header__icons}>
+              <div className={styles.header__theme}>
+                <ThemeSwitcher
+                  theme={theme}
+                  setTheme={setTheme}
+                />
+              </div>
               <NavLink
                 to="/profile"
                 className={({ isActive }) =>

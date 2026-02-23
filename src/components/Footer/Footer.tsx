@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import styles from './Footer.module.scss';
-import logo from '../../assets/logo.svg';
+import logoDark from '../ui/Header/icons/logo-dark.svg';
 
 export const Footer = () => {
   const handleScrollTop = () => {
@@ -15,7 +15,7 @@ export const Footer = () => {
           className={styles.logoLink}
         >
           <img
-            src={logo}
+            src={logoDark}
             alt="Nice Gadgets"
             className={styles.logo}
           />

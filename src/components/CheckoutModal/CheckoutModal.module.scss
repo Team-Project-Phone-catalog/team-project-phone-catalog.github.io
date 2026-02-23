@@ -1,3 +1,5 @@
+@use '../../styles/variables.scss' as *;
+
 .overlay {
   position: fixed;
   inset: 0;
@@ -129,7 +131,7 @@
 }
 
 .secondaryBtn {
-  background: #ffffff;
+  background: $color-white;
   color: #905cff;
 }
 

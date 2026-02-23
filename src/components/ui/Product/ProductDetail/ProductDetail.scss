@@ -1,10 +1,9 @@
-.ProductFeatures {
-}
+@use '../../../../styles/variables.scss' as *;
 
 .ProductDetail {
   &__about {
     &-title {
-      color: #f1f2f9;
+      color: $color-light-1;
       font-size: 20px;
       font-weight: 700;
       margin: 0;
@@ -15,7 +14,7 @@
         display: block;
         height: 1px;
         width: 100%;
-        background-color: #3b3e4a;
+        background-color: $color-elements;
         margin-top: 16px;
       }
     }
@@ -24,7 +23,7 @@
       margin-top: 32px;
 
       &-title {
-        color: #f1f2f9;
+        color: $color-light-1;
         font-size: 16px;
         font-weight: 700;
         line-height: 100%;
