@@ -6,21 +6,39 @@ import { ProductDetail } from '../ProductDetail/ProductDetail.tsx';
 import { TechSpecs } from '../TechSpecs/TechSpecs.tsx';
 import { RelatedProducts } from '../../RelatedProducts/RelatedProducts.tsx';
 import { ProductDetails } from '../../../../types/Product.ts';
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 import { ProductFeatures } from '../../ProductFeatures/ProductFeatures.tsx';
 import { useLocation } from 'react-router-dom';
 import { ScrollToTop } from '../../../ScrollToTop/ScrollToTop.tsx';
+import { ReviewsPage } from '../../Reviews/ReviewsPage/ReviewsPage.tsx';
 
 type Props = {
   product: ProductDetails;
   onCapacityChange: (newItemId: string) => void;
   onColorChange?: (color: string) => void;
   onCapacitySelect?: (capacity: string) => void;
+  showReviews: boolean;
+  onCloseReviews: () => void;
 };
 
-export const ProductPage: React.FC<Props> = ({ product, onCapacityChange }) => {
+export const ProductPage: React.FC<Props> = ({
+  product,
+  onCapacityChange,
+  showReviews,
+  onCloseReviews,
+}) => {
   const location = useLocation();
   const categoryFromUrl = location.pathname.split('/')[1];
+  const reviewsRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    if (showReviews && reviewsRef.current) {
+      reviewsRef.current.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start',
+      });
+    }
+  }, [showReviews]);
 
   return (
     <div className="product-card">
@@ -78,6 +96,18 @@ export const ProductPage: React.FC<Props> = ({ product, onCapacityChange }) => {
           cell={product.cell}
         />
       </div>
+
+      {showReviews && (
+        <div
+          ref={reviewsRef}
+          className="product-card__reviews"
+        >
+          <ReviewsPage
+            productId={product.id}
+            onBack={onCloseReviews}
+          />
+        </div>
+      )}
 
       <div className="product-card__related">
         <RelatedProducts
