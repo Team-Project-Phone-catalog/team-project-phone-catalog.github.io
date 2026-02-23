@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styles from './ProfileOrderPage.module.scss';
-import { Sidebar } from '../../../components/SideBar/SideBar.tsx';
+import { Sidebar } from '../../../components/layout/SideBar';
 import { Breadcrumbs } from '../../../components/ui/Breadcrumbs/Breadcrumbs.tsx';
 import { Order, ProductFromDB } from '../../../types/CartOrder.ts';
 import { supabase } from '../../../utils/supabaseClient.ts';
