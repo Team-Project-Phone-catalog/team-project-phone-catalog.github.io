@@ -81,14 +81,9 @@ export const Search = () => {
       useExtendedSearch: true,
       ignoreLocation: true,
     });
-
-    // РОЗШИРЕНА ЛОГІКА:
-    // Ми шукаємо двома способами одночасно:
-    // 1. Як точну фразу (щоб "apple 14" було в пріоритеті)
-    // 2. Як звичайний нечіткий пошук (щоб "aple" знаходило "apple")
     const searchTerms = {
       $or: [
-        { name: normalizedQuery }, // Нечіткий пошук (виправить "aple")
+        { name: normalizedQuery },
         {
           $and: normalizedQuery
             .split(/\s+/)
