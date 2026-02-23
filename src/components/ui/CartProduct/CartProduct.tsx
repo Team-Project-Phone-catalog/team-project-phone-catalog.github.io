@@ -49,7 +49,7 @@ export const CartProduct: React.FC<Props> = ({
         type="button"
         onClick={onRemove}
       >
-        x
+        ✕
       </button>
 
       <div className={s.imageWrapper}>
