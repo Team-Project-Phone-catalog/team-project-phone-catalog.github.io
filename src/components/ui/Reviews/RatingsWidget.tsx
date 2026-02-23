@@ -4,6 +4,22 @@ import { Stars } from './Stars/Stars';
 import { DropDown } from './DropDown/DropDown';
 import { ReviewsPage } from './ReviewsPage/ReviewsPage';
 
+interface Rating {
+  label: string;
+  pct: number;
+}
+
+const TOTAL_REVIEWS = 20;
+const AVG_SCORE = 4.45;
+
+const ratings: Rating[] = [
+  { label: '5 star', pct: 70 },
+  { label: '4 star', pct: 15 },
+  { label: '3 star', pct: 10 },
+  { label: '2 star', pct: 0 },
+  { label: '1 star', pct: 5 },
+];
+
 export const RatingsWidget = () => {
   const [open, setOpen] = useState(false);
   const [showReviews, setShowReviews] = useState(false);
@@ -25,13 +41,13 @@ export const RatingsWidget = () => {
       ref={wrapRef}
       className="ratings-widget"
     >
-      <span className="ratings-widget__score">4.7</span>
+      <span className="ratings-widget__score">{AVG_SCORE}</span>
       <button
         className="ratings-widget__trigger"
         onClick={() => setOpen((v) => !v)}
         aria-expanded={open}
       >
-        <Stars score={4.7} />
+        <Stars score={AVG_SCORE} />
         <svg
           className={`ratings-widget__chevron${open ? ' ratings-widget__chevron--open' : ''}`}
           width={14}
@@ -48,9 +64,10 @@ export const RatingsWidget = () => {
           />
         </svg>
       </button>
-      <span className="ratings-widget__count">26 634</span>
+      <span className="ratings-widget__count">{TOTAL_REVIEWS}</span>
       <DropDown
         open={open}
+        ratings={ratings}
         onSeeAll={() => {
           setOpen(false);
           setShowReviews(true);
