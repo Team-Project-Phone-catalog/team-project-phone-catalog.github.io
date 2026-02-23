@@ -10,7 +10,7 @@
   background-color: $bg-surface;
   position: relative;
 
-  border-radius: 12px; // ← добавлено
+  border-radius: 12px;
 
   @include on-tablet {
     display: flex;
@@ -28,13 +28,13 @@
   background: none;
   border: none;
   color: $color-secondary;
-  font-size: 20px;
+  font-size: 16px;
   cursor: pointer;
 
-  border-radius: 8px; // ← добавлено
+  border-radius: 8px;
 
   @include on-tablet {
-    left: 24px;
+    left: 15px;
     top: 50%;
   }
 }
@@ -109,7 +109,7 @@
   font-size: 16px;
   cursor: pointer;
 
-  border-radius: 8px; // ← добавлено
+  border-radius: 8px;
 }
 
 .btnMinus {
@@ -121,7 +121,7 @@
   font-size: 16px;
   cursor: pointer;
 
-  border-radius: 8px; // ← добавлено
+  border-radius: 8px;
 }
 
 .count {
