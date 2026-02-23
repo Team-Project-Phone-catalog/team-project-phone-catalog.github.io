@@ -29,21 +29,21 @@ export const ProfileOrderPage: React.FC = () => {
         .from('orders')
         .select(
           `
-    id, 
-    date,
-    status,
-    total,
-    order_items (
-      id,
-      name,
-      price,
-      quantity,
-      product_id,
-      products (
-        image
-      )
-    )
-  `,
+            id,
+            date,
+            status,
+            total,
+            order_items (
+              id,
+              name,
+              price,
+              quantity,
+              product_id,
+              products (
+                image
+              )
+            )
+          `,
         )
         .eq('user_id', user.id)
         .order('date', { ascending: false });
@@ -65,20 +65,24 @@ export const ProfileOrderPage: React.FC = () => {
             name: item.name,
             price: item.price,
             quantity: item.quantity ?? 1,
-            image: (item.products as ProductFromDB[] | null)?.[0]?.image || '',
+            image:
+              (item.products as unknown as ProductFromDB | null)?.image || '',
           })),
         }));
 
         setOrders(format);
       }
+
       setLoading(false);
     };
+
     fetchOrders();
   }, []);
 
   if (loading) {
-    <Loader />;
+    return <Loader />;
   }
+
   if (error) {
     return <p>{error}</p>;
   }
