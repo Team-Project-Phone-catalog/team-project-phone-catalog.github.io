@@ -38,11 +38,13 @@ export const Footer = () => {
           <span>Back to top</span>
 
           <button
-            type="button"
             onClick={handleScrollTop}
-            className={styles.arrow}
+            className={styles.scrollTop}
           >
-            ↑
+            <img
+              src="/img/icons/Button-Top.svg"
+              alt="Back to top"
+            />
           </button>
         </div>
       </div>
