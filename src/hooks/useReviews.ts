@@ -71,8 +71,8 @@ export function useReviews(productId: string) {
   const avgScore =
     reviews.length ?
       Math.round(
-        (reviews.reduce((s, r) => s + r.score, 0) / reviews.length) * 10,
-      ) / 10
+        (reviews.reduce((s, r) => s + r.score, 0) / reviews.length) * 100,
+      ) / 100
     : 0;
 
   const ratings = [5, 4, 3, 2, 1].map((star) => ({

@@ -10,13 +10,21 @@ import { ProductSkeleton } from '../../components/product/ProductSkelet/ProductS
 import { NoResults } from '../../components/ui/NoResults/NoResults.tsx';
 import { Dropdown } from '../../components/ui/Dropdown/Dropdown';
 import { usePagination } from '../../hooks/usePagination.ts';
+import { usePaginationWithParams } from '../../hooks/usePaginationWithParams.ts';
 
 export const PhonesPage = () => {
   const [phones, setPhones] = useState<Product[]>([]);
-  const [sortBy, setSortBy] = useState<SortType>('newest');
-  const [itemsOnPage, setItemsOnPage] = useState(12);
-  const [currentPage, setCurrentPage] = useState(1);
   const [isLoading, setIsLoading] = useState(true);
+  const {
+    sortBy,
+    itemsOnPage,
+    currentPage,
+    changeSort,
+    changeItems,
+    changePage,
+  } = usePaginationWithParams({
+    basePath: '/phones',
+  });
 
   useEffect(() => {
     const loadPhones = async () => {
@@ -84,10 +92,7 @@ export const PhonesPage = () => {
               <Dropdown
                 options={sortOptions}
                 value={sortBy}
-                onChange={(value) => {
-                  setSortBy(value as SortType);
-                  setCurrentPage(1);
-                }}
+                onChange={(value) => changeSort(value as SortType)}
               />
             </div>
 
@@ -96,10 +101,7 @@ export const PhonesPage = () => {
               <Dropdown
                 options={itemsOptions}
                 value={String(itemsOnPage)}
-                onChange={(value) => {
-                  setItemsOnPage(+value);
-                  setCurrentPage(1);
-                }}
+                onChange={(value) => changeItems(+value)}
               />
             </div>
           </div>
@@ -123,7 +125,7 @@ export const PhonesPage = () => {
             <div className={s.pagination}>
               <button
                 disabled={currentPage === 1}
-                onClick={() => setCurrentPage((prev) => prev - 1)}
+                onClick={() => changePage(currentPage - 1)}
                 className={`${s.pageButton} ${s.arrow} ${s.arrowLeft}`}
               >
                 <img
@@ -147,7 +149,7 @@ export const PhonesPage = () => {
                 return (
                   <button
                     key={page}
-                    onClick={() => setCurrentPage(page as number)}
+                    onClick={() => changePage(page)}
                     className={`${s.pageButton} ${
                       currentPage === page ? s.active : ''
                     }`}
@@ -159,7 +161,7 @@ export const PhonesPage = () => {
 
               <button
                 disabled={currentPage === totalPages}
-                onClick={() => setCurrentPage((prev) => prev + 1)}
+                onClick={() => changePage(currentPage + 1)}
                 className={`${s.pageButton} ${s.arrow}`}
               >
                 <img
