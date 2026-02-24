@@ -129,12 +129,13 @@
 
   .arrow {
     margin: 0 8px;
-    background-color: $bg-card;
   }
 
   .arrow img {
     width: 16px;
     height: 16px;
+    filter: $icon-filter;
+    transition: filter $transition-default;
   }
 
   .arrowLeft img {

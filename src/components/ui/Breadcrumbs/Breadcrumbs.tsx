@@ -1,5 +1,6 @@
 import { Link, useLocation, useParams } from 'react-router-dom';
 import s from './Breadcrumbs.module.scss';
+import homeIcon from '../../../assets/icons/home.svg';
 
 export const Breadcrumbs = () => {
   const location = useLocation();
@@ -29,8 +30,9 @@ export const Breadcrumbs = () => {
         className={s.breadcrumbs__home}
       >
         <img
-          src="/src/assets/icons/home-dark.svg"
+          src={homeIcon}
           alt="Home"
+          className={s.breadcrumbs__icon}
         />
       </Link>
 

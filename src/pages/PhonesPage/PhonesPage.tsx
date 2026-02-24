@@ -10,6 +10,7 @@ import { ProductSkeleton } from '../../components/ProductSkelet/ProductSkelet.ts
 import { NoResults } from '../../components/ui/NoResults/NoResults.tsx';
 import { Dropdown } from '../../components/ui/Dropdown/Dropdown';
 import { usePagination } from '../../hooks/usePagination.ts';
+import arrowRight from '../../assets/icons/arrow-right.svg';
 
 export const PhonesPage = () => {
   const [phones, setPhones] = useState<Product[]>([]);
@@ -127,7 +128,7 @@ export const PhonesPage = () => {
                 className={`${s.pageButton} ${s.arrow} ${s.arrowLeft}`}
               >
                 <img
-                  src="src/assets/icons/arrow-right.svg"
+                  src={arrowRight}
                   alt="Previous page"
                 />
               </button>
@@ -163,7 +164,7 @@ export const PhonesPage = () => {
                 className={`${s.pageButton} ${s.arrow}`}
               >
                 <img
-                  src="src/assets/icons/arrow-right.svg"
+                  src={arrowRight}
                   alt="Next page"
                 />
               </button>

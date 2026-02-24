@@ -33,6 +33,7 @@
   border-radius: 8px;
 
   overflow: hidden;
+  z-index: 1;
 }
 
 .dropdown__item {
@@ -41,12 +42,12 @@
   transition: background $transition-default;
 
   &:hover {
-    background: $color-elements;
+    background: $bg-card;
   }
 }
 
 .active {
-  background: $color-elements;
+  background: $bg-card;
 }
 
 .arrow {
