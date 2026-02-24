@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import styles from './AdminPage.module.scss';
-import { Sidebar } from '../../../components/layout/SideBar';
-import { Breadcrumbs } from '../../../components/ui/Breadcrumbs/Breadcrumbs.tsx';
-import { supabase } from '../../../utils/supabaseClient.ts';
-import { useSupportRealtime } from '../../../hooks/useRealTime.tsx';
+import { Sidebar } from '@components/layout/SideBar';
+import { Breadcrumbs } from '@components/ui/Breadcrumbs/Breadcrumbs';
+import { supabase } from '@utils/supabaseClient';
+import { useSupportRealtime } from '@hooks/useRealTime';
 
 interface AdminUser {
   id: string;
@@ -21,6 +22,7 @@ interface AdminOrder {
 }
 
 export const AdminPage: React.FC = () => {
+  const { t } = useTranslation();
   const [users, setUsers] = useState<AdminUser[]>([]);
   const [orders, setOrders] = useState<AdminOrder[]>([]);
   const [loading, setLoading] = useState(true);
@@ -87,7 +89,6 @@ export const AdminPage: React.FC = () => {
 
       if (!supportUserError && supportUserData && profilesData) {
         const activeIds = new Set(supportUserData.map((m) => m.user_id));
-
         setSupportUsers(
           profilesData
             .filter((p) => activeIds.has(p.id))
@@ -103,10 +104,8 @@ export const AdminPage: React.FC = () => {
             })),
         );
       }
-
       setLoading(false);
     };
-
     fetchData();
   }, []);
 
@@ -119,7 +118,6 @@ export const AdminPage: React.FC = () => {
       .from('profiles')
       .update({ is_admin: !current })
       .eq('id', userId);
-
     if (!error) {
       setUsers((prev) =>
         prev.map((u) => (u.id === userId ? { ...u, is_admin: !current } : u)),
@@ -133,15 +131,12 @@ export const AdminPage: React.FC = () => {
       .select('role, text, created_at')
       .eq('user_id', userId)
       .order('created_at', { ascending: true });
-
     if (data) setConversation(data);
   };
 
   const deleteUser = async (userId: string) => {
-    if (!confirm('Are you sure you want to delete this user?')) return;
-
+    if (!confirm(t('admin.confirm_delete'))) return;
     const { error } = await supabase.from('profiles').delete().eq('id', userId);
-
     if (!error) {
       setUsers((prev) => prev.filter((u) => u.id !== userId));
     }
@@ -150,21 +145,16 @@ export const AdminPage: React.FC = () => {
   const sendSupportMessage = async () => {
     if (!selectedUserId || !messageText.trim()) return;
     setSending(true);
-
     const { error } = await supabase.from('support_messages').insert({
       user_id: selectedUserId,
       role: 'admin',
       text: messageText.trim(),
     });
-
-    if (!error) {
-      setMessageText('');
-    }
-
+    if (!error) setMessageText('');
     setSending(false);
   };
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) return <p>{t('auth.loading')}</p>;
   if (error) return <p>{error}</p>;
 
   return (
@@ -172,26 +162,32 @@ export const AdminPage: React.FC = () => {
       <div className={styles.profilePage__container}>
         <div className={styles.profilePage__layout}>
           <Sidebar />
-
           <main className={styles.profilePage__content}>
             <Breadcrumbs />
-            <h1 className={styles.profilePage__title}>Admin Panel</h1>
-
-            {/* ── Users ── */}
+            <h1 className={styles.profilePage__title}>{t('admin.title')}</h1>
             <div className={styles.statCard}>
-              <span className={styles.statCard__label}>Total Users</span>
+              <span className={styles.statCard__label}>
+                {t('admin.total_users')}
+              </span>
               <span className={styles.statCard__value}>{users.length}</span>
             </div>
-
             <div className={styles.tableWrap}>
               <table className={styles.table}>
                 <thead>
                   <tr>
-                    <th className={styles.table__th}>ID</th>
-                    <th className={styles.table__th}>Email</th>
-                    <th className={styles.table__th}>Registered</th>
-                    <th className={styles.table__th}>Role</th>
-                    <th className={styles.table__th}>Actions</th>
+                    <th className={styles.table__th}>{t('admin.table_id')}</th>
+                    <th className={styles.table__th}>
+                      {t('admin.table_email')}
+                    </th>
+                    <th className={styles.table__th}>
+                      {t('admin.table_registered')}
+                    </th>
+                    <th className={styles.table__th}>
+                      {t('admin.table_role')}
+                    </th>
+                    <th className={styles.table__th}>
+                      {t('admin.table_actions')}
+                    </th>
                   </tr>
                 </thead>
                 <tbody>
@@ -220,19 +216,17 @@ export const AdminPage: React.FC = () => {
                             className={styles.actions__btn}
                             onClick={() => toggleAdmin(user.id, user.is_admin)}
                             disabled={user.id === currentUserId}
-                            title={
-                              user.is_admin ? 'Remove admin' : 'Make admin'
-                            }
                           >
-                            {user.is_admin ? 'Remove Admin' : 'Make Admin'}
+                            {user.is_admin ?
+                              t('admin.btn_remove_admin')
+                            : t('admin.btn_make_admin')}
                           </button>
                           <button
                             className={`${styles.actions__btn} ${styles.actions__btn_danger}`}
                             onClick={() => deleteUser(user.id)}
                             disabled={user.id === currentUserId}
-                            title="Delete user"
                           >
-                            Delete
+                            {t('admin.btn_delete')}
                           </button>
                         </div>
                       </td>
@@ -241,24 +235,32 @@ export const AdminPage: React.FC = () => {
                 </tbody>
               </table>
             </div>
-
             <div
               className={styles.statCard}
               style={{ marginTop: 32 }}
             >
-              <span className={styles.statCard__label}>Total Orders</span>
+              <span className={styles.statCard__label}>
+                {t('admin.total_orders')}
+              </span>
               <span className={styles.statCard__value}>{orders.length}</span>
             </div>
-
             <div className={styles.tableWrap}>
               <table className={styles.table}>
                 <thead>
                   <tr>
-                    <th className={styles.table__th}>Order ID</th>
-                    <th className={styles.table__th}>User ID</th>
-                    <th className={styles.table__th}>Status</th>
-                    <th className={styles.table__th}>Total</th>
-                    <th className={styles.table__th}>Date</th>
+                    <th className={styles.table__th}>
+                      {t('checkout.summary')} ID
+                    </th>
+                    <th className={styles.table__th}>{t('admin.table_id')}</th>
+                    <th className={styles.table__th}>
+                      {t('admin.table_status')}
+                    </th>
+                    <th className={styles.table__th}>
+                      {t('admin.table_total')}
+                    </th>
+                    <th className={styles.table__th}>
+                      {t('admin.table_date')}
+                    </th>
                   </tr>
                 </thead>
                 <tbody>
@@ -279,15 +281,9 @@ export const AdminPage: React.FC = () => {
                       </td>
                       <td className={styles.table__td}>
                         <span
-                          className={`${styles.badge} ${
-                            order.status === 'delivered' ?
-                              styles.badge_delivered
-                            : order.status === 'processing' ?
-                              styles.badge_processing
-                            : styles.badge_cancelled
-                          }`}
+                          className={`${styles.badge} ${styles[`badge_${order.status}`]}`}
                         >
-                          {order.status}
+                          {t(`orders.status_${order.status}`)}
                         </span>
                       </td>
                       <td className={styles.table__td}>
@@ -299,24 +295,24 @@ export const AdminPage: React.FC = () => {
                 </tbody>
               </table>
             </div>
-
-            {/* ── Support Message ── */}
             <div
               className={styles.statCard}
               style={{ marginTop: 32 }}
             >
-              <span className={styles.statCard__label}>Support Messages</span>
-              <span className={styles.statCard__value}>0</span>
+              <span className={styles.statCard__label}>
+                {t('admin.support_messages')}
+              </span>
+              <span className={styles.statCard__value}>
+                {supportUsers.length}
+              </span>
             </div>
-
             <div className={styles.supportBlock}>
               <h2 className={styles.supportBlock__title}>
-                Send Support Message
+                {t('admin.reply_title')}
               </h2>
-
               <div className={styles.supportBlock__field}>
                 <label className={styles.supportBlock__label}>
-                  Reply to user
+                  {t('admin.reply_to')}
                 </label>
                 <select
                   className={styles.supportBlock__select}
@@ -326,7 +322,7 @@ export const AdminPage: React.FC = () => {
                     fetchConversation(e.target.value);
                   }}
                 >
-                  <option value="">— Select user —</option>
+                  <option value="">{t('admin.select_user')}</option>
                   {supportUsers.map((user) => (
                     <option
                       key={user.id}
@@ -337,20 +333,17 @@ export const AdminPage: React.FC = () => {
                   ))}
                 </select>
               </div>
-
               {conversation.length > 0 && (
                 <div className={styles.conversation}>
                   {conversation.map((msg, i) => (
                     <div
                       key={i}
-                      className={`${styles.conversation__msg} ${
-                        msg.role === 'admin' ?
-                          styles.conversation__msg_admin
-                        : styles.conversation__msg_user
-                      }`}
+                      className={`${styles.conversation__msg} ${msg.role === 'admin' ? styles.conversation__msg_admin : styles.conversation__msg_user}`}
                     >
                       <span className={styles.conversation__role}>
-                        {msg.role === 'admin' ? 'You' : 'User'}
+                        {msg.role === 'admin' ?
+                          t('admin.you')
+                        : t('admin.user')}
                       </span>
                       <p className={styles.conversation__text}>{msg.text}</p>
                       <span className={styles.conversation__time}>
@@ -363,25 +356,25 @@ export const AdminPage: React.FC = () => {
                   ))}
                 </div>
               )}
-
               <div className={styles.supportBlock__field}>
-                <label className={styles.supportBlock__label}>Message</label>
+                <label className={styles.supportBlock__label}>
+                  {t('admin.table_actions')}
+                </label>
                 <textarea
                   className={styles.supportBlock__textarea}
                   value={messageText}
                   onChange={(e) => setMessageText(e.target.value)}
-                  placeholder="Type your support message here..."
+                  placeholder={t('admin.placeholder')}
                   rows={5}
                 />
               </div>
-
               <div className={styles.supportBlock__footer}>
                 <button
                   className={styles.supportBlock__submit}
                   disabled={sending || !selectedUserId || !messageText}
                   onClick={sendSupportMessage}
                 >
-                  Send Message
+                  {t('admin.send')}
                 </button>
               </div>
             </div>

@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import styles from '../HomePage.module.scss';
 
 interface Props {
@@ -13,9 +14,11 @@ export const CategorySection: React.FC<Props> = ({
   tabletsCount,
   accessoriesCount,
 }) => {
+  const { t } = useTranslation();
+
   return (
     <section className={styles.section}>
-      <h2 className={styles['section__title']}>Shop by category</h2>
+      <h2 className={styles['section__title']}>{t('home.shop_category')}</h2>
       <div className={styles.categories}>
         <Link
           to="/phones"
@@ -29,9 +32,11 @@ export const CategorySection: React.FC<Props> = ({
             />
           </div>
           <div className={styles['category-card__info']}>
-            <h3 className={styles['category-card__title']}>Mobile phones</h3>
+            <h3 className={styles['category-card__title']}>
+              {t('categories.phones')}
+            </h3>
             <p className={styles['category-card__count']}>
-              {phonesCount} models
+              {t('categories.models_count', { count: phonesCount })}
             </p>
           </div>
         </Link>
@@ -48,9 +53,11 @@ export const CategorySection: React.FC<Props> = ({
             />
           </div>
           <div className={styles['category-card__info']}>
-            <h3 className={styles['category-card__title']}>Tablets</h3>
+            <h3 className={styles['category-card__title']}>
+              {t('categories.tablets')}
+            </h3>
             <p className={styles['category-card__count']}>
-              {tabletsCount} models
+              {t('categories.models_count', { count: tabletsCount })}
             </p>
           </div>
         </Link>
@@ -67,9 +74,11 @@ export const CategorySection: React.FC<Props> = ({
             />
           </div>
           <div className={styles['category-card__info']}>
-            <h3 className={styles['category-card__title']}>Accessories</h3>
+            <h3 className={styles['category-card__title']}>
+              {t('categories.accessories')}
+            </h3>
             <p className={styles['category-card__count']}>
-              {accessoriesCount} models
+              {t('categories.models_count', { count: accessoriesCount })}
             </p>
           </div>
         </Link>

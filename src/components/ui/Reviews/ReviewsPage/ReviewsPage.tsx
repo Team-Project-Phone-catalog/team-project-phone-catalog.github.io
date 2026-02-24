@@ -1,9 +1,9 @@
 import { useState } from 'react';
-import { WriteReview } from '../WriteReview/WriteReview';
-import { ReviewCard } from '../ReviewCard/ReviewCard';
-import { Stars } from '../Stars/Stars';
+import { WriteReview } from '../../../product/Reviews/WriteReview/WriteReview';
+import { ReviewCard } from '../../../product/Reviews/ReviewCard/ReviewCard';
+import { Stars } from '../../../product/Reviews/Stars/Stars';
 import './ReviewsPage.scss';
-import { useReviews } from '@hooks/useReviews';
+import { useReviews } from '../../../../hooks/useReviews';
 
 export const ReviewsPage = ({
   onBack,

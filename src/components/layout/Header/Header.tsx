@@ -1,21 +1,21 @@
 import { useEffect, useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { BurgerMenu } from './BurgerMenu/BurgerMenu.tsx';
-import { CounterIcon } from './CounterIcon/CounterIcon.tsx';
+import { BurgerMenu } from './BurgerMenu/BurgerMenu';
+import { CounterIcon } from './CounterIcon/CounterIcon';
 import styles from './Header.module.scss';
-import logoDark from '../../../assets/logo-dark.svg';
-import logoLight from '../../../assets/logo-light.svg';
-import heartIcon from '../../../assets/icons/heart-dark.svg';
-import cartIcon from '../../../assets/icons/cart-dark.svg';
-import userLight from '../../../assets/icons/user-light.svg';
-import userDark from '../../../assets/icons/user-dark.svg';
-import { useAppContext } from '../../../hooks/useAppContext.ts';
-import { Search } from './Search/Search.tsx';
-import { AuthModal } from '../../common/AuthModal';
-import { supabase } from '../../../utils/supabaseClient.ts';
+import logoDark from '@assets/logo-dark.svg';
+import logoLight from '@assets/logo-light.svg';
+import heartIcon from '@assets/icons/heart-dark.svg';
+import cartIcon from '@assets/icons/cart-dark.svg';
+import userLight from '@assets/icons/user-light.svg';
+import userDark from '@assets/icons/user-dark.svg';
+import { useAppContext } from '@hooks/useAppContext';
+import { Search } from './Search/Search';
+import { AuthModal } from '@components/common/AuthModal';
+import { supabase } from '@utils/supabaseClient';
 import { User } from '@supabase/supabase-js';
-import { ThemeSwitcher } from './ThemeSwitcher/ThemeSwitcher.tsx';
+import { ThemeSwitcher } from './ThemeSwitcher/ThemeSwitcher';
 
 export const Header = () => {
   const { t, i18n } = useTranslation();

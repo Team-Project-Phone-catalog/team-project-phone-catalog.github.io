@@ -2,9 +2,9 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
 
-import { useAppContext } from '../../../hooks/useAppContext';
-import { supabase } from '../../../utils/supabaseClient';
-import { notify } from '../../../utils/notifications';
+import { useAppContext } from '@hooks/useAppContext';
+import { supabase } from '@utils/supabaseClient';
+import { notify } from '@utils/notifications';
 
 import styles from './CheckoutModal.module.scss';
 
@@ -18,6 +18,7 @@ type DeliveryMethod = 'home';
 type PaymentMethod = 'card' | 'paypal' | 'cod';
 
 export const CheckoutModal: React.FC<Props> = ({ isOpen, onClose }) => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const stripe = useStripe();
   const elements = useElements();
@@ -29,7 +30,6 @@ export const CheckoutModal: React.FC<Props> = ({ isOpen, onClose }) => {
 
   const [fullName, setFullName] = useState('');
   const [phone, setPhone] = useState('');
-
   const [deliveryMethod, setDeliveryMethod] = useState<DeliveryMethod>('home');
   const [address, setAddress] = useState('');
 
@@ -44,7 +44,6 @@ export const CheckoutModal: React.FC<Props> = ({ isOpen, onClose }) => {
 
   useEffect(() => {
     if (!isOpen) return;
-
     setStep(1);
     setFullName('');
     setPhone('');
@@ -58,13 +57,11 @@ export const CheckoutModal: React.FC<Props> = ({ isOpen, onClose }) => {
 
   useEffect(() => {
     if (!successOrderId) return;
-
-    const t = window.setTimeout(() => {
+    const timeout = window.setTimeout(() => {
       onClose();
       navigate('/profile/orders');
     }, 1600);
-
-    return () => window.clearTimeout(t);
+    return () => window.clearTimeout(timeout);
   }, [successOrderId, navigate, onClose]);
 
   useEffect(() => {
@@ -152,14 +149,12 @@ export const CheckoutModal: React.FC<Props> = ({ isOpen, onClose }) => {
     try {
       const { data: userData, error: userError } =
         await supabase.auth.getUser();
-
       if (userError) {
         notify.error('You must be logged in to place an order.');
         return;
       }
 
       const userId = userData.user.id;
-
       const orderPayload = {
         user_id: userId,
         status: 'processing',
@@ -177,7 +172,6 @@ export const CheckoutModal: React.FC<Props> = ({ isOpen, onClose }) => {
         .insert([orderPayload])
         .select()
         .single();
-
       if (orderError) {
         notify.error(orderError.message);
         return;
@@ -195,7 +189,6 @@ export const CheckoutModal: React.FC<Props> = ({ isOpen, onClose }) => {
       const { error: itemsError } = await supabase
         .from('order_items')
         .insert(itemsPayload);
-
       if (itemsError) {
         notify.error(itemsError.message);
         return;
@@ -311,14 +304,13 @@ export const CheckoutModal: React.FC<Props> = ({ isOpen, onClose }) => {
   const renderSuccess = () => (
     <div className={styles.successScreen}>
       <div className={styles.successIcon}>✓</div>
-      <h2 className={styles.successTitle}>Payment successful</h2>
+      <h2 className={styles.successTitle}>{t('checkout.success_title')}</h2>
       <p className={styles.successText}>
-        Your order has been created
+        {t('checkout.success_text')}
         {successOrderId ? ` (#${successOrderId})` : ''}.
         <br />
-        Redirecting you to your orders...
+        {t('checkout.redirecting')}
       </p>
-
       <div className={styles.successActions}>
         <button
           type="button"
@@ -328,15 +320,14 @@ export const CheckoutModal: React.FC<Props> = ({ isOpen, onClose }) => {
             navigate('/profile/orders');
           }}
         >
-          View orders
+          {t('checkout.view_orders')}
         </button>
-
         <button
           type="button"
           className={styles.secondaryBtn}
           onClick={onClose}
         >
-          Close
+          {t('checkout.close')}
         </button>
       </div>
     </div>
@@ -356,8 +347,7 @@ export const CheckoutModal: React.FC<Props> = ({ isOpen, onClose }) => {
         >
           ✕
         </button>
-
-        <h1 className={styles.title}>Checkout</h1>
+        <h1 className={styles.title}>{t('checkout.title')}</h1>
 
         {successOrderId ?
           renderSuccess()
@@ -366,14 +356,13 @@ export const CheckoutModal: React.FC<Props> = ({ isOpen, onClose }) => {
               {/* STEP 1 */}
               <div className={styles.stepBlock}>
                 <div className={styles.stepHeader}>
-                  <h2>Your details</h2>
+                  <h2>{t('checkout.details')}</h2>
                 </div>
-
                 {step === 1 && (
                   <div className={styles.stepContent}>
                     <input
                       className={styles.input}
-                      placeholder="Full name *"
+                      placeholder={t('checkout.full_name')}
                       value={fullName}
                       maxLength={60}
                       onChange={(e) => {
@@ -391,7 +380,7 @@ export const CheckoutModal: React.FC<Props> = ({ isOpen, onClose }) => {
 
                     <input
                       className={styles.input}
-                      placeholder="Phone number *"
+                      placeholder={t('checkout.phone')}
                       value={phone}
                       inputMode="tel"
                       maxLength={16}
@@ -408,14 +397,13 @@ export const CheckoutModal: React.FC<Props> = ({ isOpen, onClose }) => {
                         setPhone(value.startsWith('+') ? `+${digits}` : digits);
                       }}
                     />
-
                     <button
                       type="button"
                       className={styles.primaryBtn}
                       onClick={() => setStep(2)}
                       disabled={!isStep1Valid}
                     >
-                      Continue
+                      {t('checkout.continue')}
                     </button>
                   </div>
                 )}
@@ -423,9 +411,8 @@ export const CheckoutModal: React.FC<Props> = ({ isOpen, onClose }) => {
 
               <div className={styles.stepBlock}>
                 <div className={styles.stepHeader}>
-                  <h2>Delivery</h2>
+                  <h2>{t('checkout.delivery')}</h2>
                 </div>
-
                 {step === 2 && (
                   <div className={styles.stepContent}>
                     <input
@@ -448,15 +435,14 @@ export const CheckoutModal: React.FC<Props> = ({ isOpen, onClose }) => {
                       onClick={() => setStep(3)}
                       disabled={!isStep2Valid}
                     >
-                      Continue
+                      {t('checkout.continue')}
                     </button>
-
                     <button
                       type="button"
                       className={styles.secondaryBtn}
                       onClick={() => setStep(1)}
                     >
-                      Back
+                      {t('checkout.back')}
                     </button>
                   </div>
                 )}
@@ -464,9 +450,8 @@ export const CheckoutModal: React.FC<Props> = ({ isOpen, onClose }) => {
 
               <div className={styles.stepBlock}>
                 <div className={styles.stepHeader}>
-                  <h2>Payment</h2>
+                  <h2>{t('checkout.payment')}</h2>
                 </div>
-
                 {step === 3 && (
                   <div className={styles.stepContent}>
                     <div className={styles.dropdown}>
@@ -552,33 +537,27 @@ export const CheckoutModal: React.FC<Props> = ({ isOpen, onClose }) => {
                       disabled={loading || !isStep3Valid}
                     >
                       {loading ?
-                        'Processing...'
+                        t('checkout.processing')
                       : paymentMethod === 'card' ?
-                        'Pay & place order'
-                      : 'Place order'}
+                        t('checkout.pay_order')
+                      : t('checkout.place_order')}
                     </button>
-
                     <button
                       type="button"
                       className={styles.secondaryBtn}
                       onClick={() => setStep(2)}
                       disabled={loading}
                     >
-                      Back
+                      {t('checkout.back')}
                     </button>
-
-                    <p className={styles.terms}>
-                      By confirming the order, you agree to the Terms and
-                      Conditions.
-                    </p>
+                    <p className={styles.terms}>{t('checkout.terms')}</p>
                   </div>
                 )}
               </div>
             </div>
 
             <div className={styles.summary}>
-              <h2>Order summary</h2>
-
+              <h2>{t('checkout.summary')}</h2>
               {cartItems.map((item) => (
                 <div
                   key={item.itemUniqueId}
@@ -592,11 +571,8 @@ export const CheckoutModal: React.FC<Props> = ({ isOpen, onClose }) => {
                   </div>
                 </div>
               ))}
-
               <div className={styles.totalBlock}>
-                <p>
-                  {totalItems} {totalItems === 1 ? 'item' : 'items'}
-                </p>
+                <p>{t('cart.total_items', { count: totalItems })}</p>
                 <h3>${totalPrice}</h3>
               </div>
             </div>

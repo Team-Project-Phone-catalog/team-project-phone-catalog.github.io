@@ -1,19 +1,35 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { supabase } from '../../utils/supabaseClient';
-import { Loader } from '../ui/Loader/Loader.tsx';
+import { supabase } from '@utils/supabaseClient';
+import { Loader } from '@components/ui/Loader/Loader';
 
 export const AuthCallbackPage = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
     const handleCallback = async () => {
-      await supabase.auth.getSession();
-      navigate('/profile');
+      try {
+        await supabase.auth.getSession();
+        navigate('/profile');
+      } catch (error) {
+        console.error('Error during auth callback:', error);
+        navigate('/');
+      }
     };
 
     handleCallback();
   }, [navigate]);
 
-  return <Loader />;
+  return (
+    <div
+      style={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: '100vh',
+      }}
+    >
+      <Loader />
+    </div>
+  );
 };

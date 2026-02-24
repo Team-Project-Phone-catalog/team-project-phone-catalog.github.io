@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import s from './HelpWidget.module.scss';
 
 type Message = {
@@ -8,6 +9,7 @@ type Message = {
 };
 
 export const HelpWidget = () => {
+  const { t } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState('');
@@ -18,12 +20,10 @@ export const HelpWidget = () => {
   const bubbleRef = useRef<HTMLButtonElement | null>(null);
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
 
-  /* Автоскролл */
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages, isTyping]);
 
-  /* Закрытие при клике вне области */
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
@@ -45,7 +45,6 @@ export const HelpWidget = () => {
     };
   }, [isOpen]);
 
-  /* Приветственное сообщение */
   const addWelcomeMessage = () => {
     setMessages((prev) => {
       if (prev.length > 0) return prev;
@@ -53,25 +52,21 @@ export const HelpWidget = () => {
       return [
         {
           id: Date.now(),
-          text: 'Hello! How can I help you today?',
+          text: t('help_widget.welcome'),
           sender: 'bot',
         },
       ];
     });
   };
 
-  /* Случайные ответы */
   const getBotReply = () => {
-    const replies = [
-      'Thank you for your message. Our team will assist you shortly.',
-      'Could you please provide more details?',
-      'We are checking this for you.',
-    ];
-
+    // Отримуємо масив відповідей з i18n
+    const replies = t('help_widget.bot_replies', {
+      returnObjects: true,
+    }) as string[];
     return replies[Math.floor(Math.random() * replies.length)];
   };
 
-  /* Отправка сообщения */
   const sendMessage = () => {
     if (!input.trim()) return;
 
@@ -99,7 +94,6 @@ export const HelpWidget = () => {
     }, 1200);
   };
 
-  /* Toggle открытия / закрытия */
   const handleToggle = () => {
     setIsOpen((prev) => {
       const next = !prev;
@@ -115,7 +109,6 @@ export const HelpWidget = () => {
 
   return (
     <>
-      {/* Bubble */}
       <button
         ref={bubbleRef}
         className={s.bubble}
@@ -137,14 +130,13 @@ export const HelpWidget = () => {
         {unreadCount > 0 && <span className={s.badge}>{unreadCount}</span>}
       </button>
 
-      {/* Chat */}
       {isOpen && (
         <div
           className={s.chat}
           ref={chatRef}
         >
           <div className={s.header}>
-            <span>Support</span>
+            <span>{t('help_widget.title')}</span>
 
             <button
               className={s.close}
@@ -204,7 +196,7 @@ export const HelpWidget = () => {
             <input
               value={input}
               onChange={(e) => setInput(e.target.value)}
-              placeholder="Enter your message..."
+              placeholder={t('help_widget.placeholder')}
               onKeyDown={(e) => e.key === 'Enter' && sendMessage()}
             />
             <button onClick={sendMessage}>➤</button>

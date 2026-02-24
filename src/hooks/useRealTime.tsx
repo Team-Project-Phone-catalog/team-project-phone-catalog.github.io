@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import { supabase } from '../utils/supabaseClient';
+import { supabase } from '@utils/supabaseClient';
 
 export const useSupportRealtime = (
   selectedUserId: string,

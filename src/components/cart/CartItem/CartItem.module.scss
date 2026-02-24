@@ -1,6 +1,5 @@
-@use '../../../styles/variables' as *;
-@import '../../../styles/utils';
-
+@use '@styles/variables' as *;
+@use '@styles/utils' as *;
 .block {
   border: 1px solid $color-border;
   padding: 24px;

@@ -1,5 +1,5 @@
-@import '../../styles/utils';
-@import '../../styles/variables.scss';
+@use '@styles/utils' as *;
+@use '@styles/variables' as *;
 
 * {
   margin: 0;

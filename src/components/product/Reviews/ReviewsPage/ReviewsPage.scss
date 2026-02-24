@@ -1,4 +1,4 @@
-@import '../../../../styles/variables.scss';
+@use '@styles/variables' as *;
 
 .reviews-page {
   font-family: 'Mond', Arial, sans-serif;
