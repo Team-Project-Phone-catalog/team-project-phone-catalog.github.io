@@ -1,7 +1,7 @@
 import './App.css';
 import { Route, Routes } from 'react-router-dom';
-import { Header } from './components/ui/Header/Header.tsx';
-import { Footer } from './components/Footer';
+import { Header } from './components/layout/Header/Header.tsx';
+import { Footer } from './components/layout/Footer';
 import { PhonesPage } from './pages/PhonesPage/PhonesPage.tsx';
 import { AccessoriesPage } from './pages/AccessoriesPage/AccessoriesPage.tsx';
 import { CartPage } from './pages/CartPage/CartPage.tsx';
@@ -10,14 +10,17 @@ import { TabletsPage } from './pages/TabletsPage/TabletsPage.tsx';
 import { HomePage } from './pages/HomePage/HomePage.tsx';
 import { FavoritesPage } from './pages/FavoritesPage/FavoritesPage.tsx';
 import { ProductDetailsPage } from './pages/ProductDetailsPage/ProductDetailsPage.tsx';
-import { ScrollToTop } from './components/ScrollToTop/ScrollToTop.tsx';
+import { ScrollToTop } from './components/common/ScrollToTop/ScrollToTop.tsx';
 import { Toaster } from 'sonner';
 
 import { ProfilePage } from './pages/ProfilePage/ProfilePage';
-import { HelpWidget } from './components/HelpWidget/HelpWidget';
+import { HelpWidget } from './components/common/HelpWidget/HelpWidget.tsx';
 import { ProfileOrderPage } from './pages/ProfilePage/ProfileOrderPage/ProfileOrderPage.tsx';
 import { AdminPage } from './pages/ProfilePage/AdminPage/AdminPage.tsx';
 import { SupportChat } from './pages/ProfilePage/SupportChat/SupportChat.tsx';
+import { WalletPage } from './pages/ProfilePage/WalletPage/WalletPage.tsx';
+import { RightsPage } from './pages/RightsPage/RightsPage.tsx';
+import { ContactsPage } from './pages/ContactsPage/ContactsPage.tsx';
 
 export const App = () => {
   return (
@@ -79,11 +82,19 @@ export const App = () => {
           />
           <Route
             path="/profile/wallet"
-            element={<h1>Wallet</h1>}
+            element={<WalletPage />}
           />
           <Route
             path="/:category/:productId"
             element={<ProductDetailsPage />}
+          />
+          <Route
+            path="/rights"
+            element={<RightsPage />}
+          />
+          <Route
+            path="/contacts"
+            element={<ContactsPage />}
           />
           <Route
             path="*"

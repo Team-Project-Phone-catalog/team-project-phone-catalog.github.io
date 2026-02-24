@@ -3,11 +3,12 @@ import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
 import s from './CartPage.module.scss';
-import { CartItem } from '../../components/ui/CartItem/CartItem';
-import { CartProduct } from '../../components/ui/CartProduct/CartProduct';
+import { CartItem } from '../../components/cart/CartItem/CartItem';
+import { CartProduct } from '../../components/cart/CartProduct/CartProduct';
 import { BackButton } from '../../components/ui/Buttons/Back/BackButton';
 import { useAppContext } from '../../hooks/useAppContext';
-import { CheckoutModal } from '../../components/CheckoutModal/CheckoutModal';
+import { CheckoutModal } from '../../components/common/CheckoutModal';
+import cartZeroImg from '../../assets/cart-zero.png';
 
 export const CartPage = () => {
   const { t } = useTranslation();
@@ -38,7 +39,7 @@ export const CartPage = () => {
           <div className={s.imgWrapper}>
             <img
               className={s.img}
-              src="../../img/cart-zero.png"
+              src={cartZeroImg}
               alt="Empty Cart"
             />
           </div>

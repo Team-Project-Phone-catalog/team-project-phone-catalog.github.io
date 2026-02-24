@@ -53,7 +53,7 @@ export const Dropdown: React.FC<Props> = ({ options, value, onChange }) => {
           })}
         >
           <img
-            src="/img/icons/arrow-down.svg"
+            src="/src/assets/icons/arrow-down.svg"
             alt="Previous page"
           />
         </span>

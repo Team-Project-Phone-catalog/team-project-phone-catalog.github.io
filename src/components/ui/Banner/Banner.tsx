@@ -36,10 +36,10 @@ export const Banner = () => {
             <picture>
               <source
                 media="(max-width: 639px)"
-                srcSet="/img/phone-1.png"
+                srcSet="/img/banners/banner-phone-1.png"
               />
               <img
-                src="/img/banner-1.png"
+                src="/img/banners/banner-desktop-1.png"
                 alt="iPhone 14 Pro"
                 className="banner__image"
               />
@@ -50,10 +50,10 @@ export const Banner = () => {
             <picture>
               <source
                 media="(max-width: 639px)"
-                srcSet="/img/phone-2.png"
+                srcSet="/img/banners/banner-phone-2.png"
               />
               <img
-                src="/img/banner-2.png"
+                src="/img/banners/banner-desktop-2.png"
                 alt="New Models"
                 className="banner__image"
               />
@@ -64,10 +64,10 @@ export const Banner = () => {
             <picture>
               <source
                 media="(max-width: 639px)"
-                srcSet="/img/phone-4.png"
+                srcSet="/img/banners/banner-phone-3.png"
               />
               <img
-                src="/img/banner-3.png"
+                src="/img/banners/banner-desktop-3.png"
                 alt="Tablets"
                 className="banner__image"
               />
@@ -78,10 +78,10 @@ export const Banner = () => {
             <picture>
               <source
                 media="(max-width: 639px)"
-                srcSet="/img/phone-6.png"
+                srcSet="/img/banners/banner-phone-4.png"
               />
               <img
-                src="/img/banner-4.png"
+                src="/img/banners/banner-desktop-4.png"
                 alt="Accessories"
                 className="banner__image"
               />

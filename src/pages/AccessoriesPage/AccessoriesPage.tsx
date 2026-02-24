@@ -2,12 +2,12 @@ import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { getAccessories } from '../../api/products';
 import { Product } from '../../types/Product';
-import { ProductCard } from '../ProductCard/ProductCard';
+import { ProductCard } from '../../components/product/ProductCard/ProductCard.tsx';
 import { sortProducts } from '../../utils/productFilters';
 import { SortType } from '../../types/SortType';
 import s from './AccessoriesPage.module.scss';
 import { Breadcrumbs } from '../../components/ui/Breadcrumbs/Breadcrumbs.tsx';
-import { ProductSkeleton } from '../../components/ProductSkelet/ProductSkelet.tsx';
+import { ProductSkeleton } from '../../components/product/ProductSkelet/ProductSkelet.tsx';
 import { NoResults } from '../../components/ui/NoResults/NoResults.tsx';
 import { Dropdown } from '../../components/ui/Dropdown/Dropdown';
 
@@ -137,7 +137,7 @@ export const AccessoriesPage = () => {
                 className={`${s.pageButton} ${s.arrow} ${s.arrowLeft}`}
               >
                 <img
-                  src="/img/icons/arrow-right.svg"
+                  src="src/assets/icons/arrow-right.svg"
                   alt="Previous page"
                 />
               </button>
@@ -162,7 +162,7 @@ export const AccessoriesPage = () => {
                 className={`${s.pageButton} ${s.arrow}`}
               >
                 <img
-                  src="/img/icons/arrow-right.svg"
+                  src="src/assets/icons/arrow-right.svg"
                   alt="Next page"
                 />
               </button>

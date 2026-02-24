@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ProductCard } from '../ProductCard';
+import { ProductCard } from '../../components/product/ProductCard';
 import { Product } from '../../types/Product';
 import { getAccessories, getPhones, getTablets } from '../../api/products';
 import { Breadcrumbs } from '../../components/ui/Breadcrumbs/Breadcrumbs';

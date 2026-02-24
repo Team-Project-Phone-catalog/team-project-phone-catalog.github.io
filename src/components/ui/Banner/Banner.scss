@@ -1,6 +1,4 @@
-$color-white: #ffffff;
-$color-elements: #323542;
-$color-icons: #4a4d58;
+@use '../../../styles/variables.scss' as *;
 
 .banner {
   display: grid;
@@ -27,7 +25,7 @@ $color-icons: #4a4d58;
     align-items: center;
     justify-content: center;
     background-color: transparent;
-    border: 1px solid $color-elements;
+    border: 1px solid $color-surface-2;
     cursor: pointer;
     padding: 0;
     width: 32px;
@@ -40,7 +38,7 @@ $color-icons: #4a4d58;
       width: 6px;
       height: 10px;
       background-color: $color-icons;
-      mask-image: url('/img/icons/Vector-black.svg');
+      mask-image: url('/src/assets/icons/vector-black.svg');
       mask-repeat: no-repeat;
       mask-position: center;
       mask-size: contain;
@@ -48,7 +46,7 @@ $color-icons: #4a4d58;
     }
 
     &:hover {
-      background-color: $color-elements;
+      background-color: $color-surface-2;
 
       &::before {
         background-color: $color-white;
@@ -116,7 +114,7 @@ $color-icons: #4a4d58;
       width: 14px !important;
       height: 4px !important;
       border-radius: 2px !important;
-      background: $color-elements !important;
+      background: $color-surface-2 !important;
       opacity: 1 !important;
       transition: all 0.3s !important;
       cursor: pointer;

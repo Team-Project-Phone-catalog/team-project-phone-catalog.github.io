@@ -1,4 +1,5 @@
 @import '../../../styles/utils';
+@import '../../../styles/variables';
 
 .loaderWrapper {
   display: flex;
@@ -9,7 +10,7 @@
 
 .profilePage {
   min-height: 100vh;
-  background: #0f1121;
+  background: $color-black;
 
   &__container {
     max-width: 1280px;
@@ -43,7 +44,7 @@
   }
 
   &__title {
-    color: #f1f2f9;
+    color: $color-light-1;
     font-weight: 800;
     font-size: 32px;
     line-height: 41px;
@@ -62,7 +63,7 @@
 
 // ── order card ────────────────────────────────────────────────────────────
 .orderCard {
-  background: #161827;
+  background: $color-surface-1;
   border: 1px solid #3b3e56;
   border-radius: 16px;
   overflow: hidden;
@@ -87,7 +88,7 @@
   }
 
   &__id {
-    color: #f1f2f9;
+    color: $color-light-1;
     font-weight: 700;
     font-size: 14px;
   }
@@ -139,7 +140,7 @@
   }
 
   &__total {
-    color: #f1f2f9;
+    color: $color-light-1;
     font-weight: 800;
     font-size: 20px;
   }
@@ -166,7 +167,7 @@
   }
 
   &__name {
-    color: #f1f2f9;
+    color: $color-light-1;
     font-size: 14px;
     font-weight: 600;
     line-height: 1.4;
@@ -179,14 +180,13 @@
   }
 
   &__price {
-    color: #f1f2f9;
+    color: $color-light-1;
     font-weight: 700;
     font-size: 14px;
     white-space: nowrap;
   }
 }
 
-// ── empty state ───────────────────────────────────────────────────────────
 .emptyOrders {
   display: flex;
   flex-direction: column;
@@ -202,7 +202,7 @@
   }
 
   &__text {
-    color: #f1f2f9;
+    color: $color-light-1;
     font-size: 18px;
     font-weight: 700;
   }

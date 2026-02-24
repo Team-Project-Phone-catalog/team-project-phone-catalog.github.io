@@ -2,14 +2,15 @@ import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { getPhones } from '../../api/products';
 import { Product } from '../../types/Product';
-import { ProductCard } from '../ProductCard/ProductCard';
+import { ProductCard } from '../../components/product/ProductCard/ProductCard.tsx';
 import { sortProducts } from '../../utils/productFilters';
 import { SortType } from '../../types/SortType';
 import s from './PhonesPage.module.scss';
 import { Breadcrumbs } from '../../components/ui/Breadcrumbs/Breadcrumbs.tsx';
-import { ProductSkeleton } from '../../components/ProductSkelet/ProductSkelet.tsx';
+import { ProductSkeleton } from '../../components/product/ProductSkelet/ProductSkelet.tsx';
 import { NoResults } from '../../components/ui/NoResults/NoResults.tsx';
 import { Dropdown } from '../../components/ui/Dropdown/Dropdown';
+import { usePagination } from '../../hooks/usePagination.ts';
 
 export const PhonesPage = () => {
   const { t } = useTranslation();
@@ -29,6 +30,7 @@ export const PhonesPage = () => {
         setTimeout(() => setIsLoading(false), 600);
       }
     };
+
     loadPhones();
   }, []);
 
@@ -44,6 +46,8 @@ export const PhonesPage = () => {
   }, [phones, sortBy]);
 
   const totalPages = Math.ceil(sortedPhones.length / itemsOnPage);
+
+  const paginationPages = usePagination(currentPage, totalPages);
 
   const visiblePhones = useMemo(() => {
     const start = (currentPage - 1) * itemsOnPage;
@@ -129,19 +133,30 @@ export const PhonesPage = () => {
                 className={`${s.pageButton} ${s.arrow} ${s.arrowLeft}`}
               >
                 <img
-                  src="/img/icons/arrow-right.svg"
+                  src="src/assets/icons/arrow-right.svg"
                   alt="Previous page"
                 />
               </button>
 
-              {[...Array(totalPages)].map((_, index) => {
-                const page = index + 1;
+              {paginationPages.map((page: number | string, index: number) => {
+                if (page === '...') {
+                  return (
+                    <span
+                      key={`dots-${index}`}
+                      className={s.dots}
+                    >
+                      ...
+                    </span>
+                  );
+                }
 
                 return (
                   <button
                     key={page}
-                    onClick={() => setCurrentPage(page)}
-                    className={`${s.pageButton} ${currentPage === page ? s.active : ''}`}
+                    onClick={() => setCurrentPage(page as number)}
+                    className={`${s.pageButton} ${
+                      currentPage === page ? s.active : ''
+                    }`}
                   >
                     {page}
                   </button>
@@ -154,7 +169,7 @@ export const PhonesPage = () => {
                 className={`${s.pageButton} ${s.arrow}`}
               >
                 <img
-                  src="/img/icons/arrow-right.svg"
+                  src="src/assets/icons/arrow-right.svg"
                   alt="Next page"
                 />
               </button>
