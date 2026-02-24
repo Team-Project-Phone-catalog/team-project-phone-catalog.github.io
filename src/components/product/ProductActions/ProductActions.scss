@@ -23,6 +23,11 @@
     text-align: center;
     cursor: pointer;
     border: none;
+    transition: background-color $transition-default;
+
+    &:hover:not(:disabled):not(.in-cart) {
+      background-color: $btn-primary-hover;
+    }
 
     &:disabled,
     &.in-cart {
