@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { getAccessories } from '../../api/products';
 import { Product } from '../../types/Product';
 import { ProductCard } from '../../components/product/ProductCard/ProductCard.tsx';
@@ -12,6 +13,7 @@ import { Dropdown } from '../../components/ui/Dropdown/Dropdown';
 import { usePaginationWithParams } from '../../hooks/usePaginationWithParams';
 
 export const AccessoriesPage = () => {
+  const { t } = useTranslation();
   const [accessories, setAccessories] = useState<Product[]>([]);
 
   const {
@@ -67,10 +69,10 @@ export const AccessoriesPage = () => {
   }, [sortedAccessories, itemsOnPage, currentPage]);
 
   const sortOptions = [
-    { label: 'Price low', value: 'priceLow' },
-    { label: 'Price high', value: 'priceHigh' },
-    { label: 'Newest', value: 'newest' },
-    { label: 'Oldest', value: 'oldest' },
+    { label: t('catalog.price_low'), value: 'priceLow' },
+    { label: t('catalog.price_high'), value: 'priceHigh' },
+    { label: t('catalog.age'), value: 'newest' },
+    { label: t('catalog.oldest'), value: 'oldest' },
   ];
 
   const itemsOptions = [
@@ -85,16 +87,18 @@ export const AccessoriesPage = () => {
       <div className={s['accessories-page__container']}>
         <Breadcrumbs />
 
-        <h1 className={s.title}>Accessories</h1>
+        <h1 className={s.title}>{t('nav.accessories')}</h1>
 
         {!isLoading && (
-          <p className={s.modelsCount}>{accessories.length} models</p>
+          <p className={s.modelsCount}>
+            {t('categories.models_count', { count: accessories.length })}
+          </p>
         )}
 
         <section className={s['accessories-page__controls']}>
           <div className={s.controls}>
             <div className={s.control}>
-              <label className={s.label}>Sort by</label>
+              <label className={s.label}>{t('catalog.sort_by')}</label>
               <Dropdown
                 options={sortOptions}
                 value={sortBy}
@@ -105,7 +109,7 @@ export const AccessoriesPage = () => {
             </div>
 
             <div className={s.control}>
-              <label className={s.label}>Items on page</label>
+              <label className={s.label}>{t('catalog.items_on_page')}</label>
               <Dropdown
                 options={itemsOptions}
                 value={String(itemsOnPage)}

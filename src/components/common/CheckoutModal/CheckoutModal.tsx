@@ -1,10 +1,9 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-
+import { useTranslation } from 'react-i18next';
 import { useAppContext } from '../../../hooks/useAppContext';
 import { supabase } from '../../../utils/supabaseClient';
 import { notify } from '../../../utils/notifications';
-
 import styles from './CheckoutModal.module.scss';
 
 interface Props {
@@ -17,25 +16,21 @@ type DeliveryMethod = 'home' | 'pickup';
 type PaymentMethod = 'card' | 'paypal' | 'cod';
 
 export const CheckoutModal: React.FC<Props> = ({ isOpen, onClose }) => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
-
   const { cartItems, getTotalPrice, getTotalItems, clearCart } =
     useAppContext();
 
   const [step, setStep] = useState<Step>(1);
-
   const [fullName, setFullName] = useState('');
   const [phone, setPhone] = useState('');
-
   const [deliveryMethod, setDeliveryMethod] = useState<DeliveryMethod>('home');
   const [address, setAddress] = useState('');
   const [pickupPoint, setPickupPoint] = useState('');
-
   const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>('card');
   const [cardNumber, setCardNumber] = useState('');
   const [cardExpiry, setCardExpiry] = useState('');
   const [cardCvc, setCardCvc] = useState('');
-
   const [loading, setLoading] = useState(false);
   const [successOrderId, setSuccessOrderId] = useState<string | null>(null);
 
@@ -44,7 +39,6 @@ export const CheckoutModal: React.FC<Props> = ({ isOpen, onClose }) => {
 
   useEffect(() => {
     if (!isOpen) return;
-
     setStep(1);
     setFullName('');
     setPhone('');
@@ -61,19 +55,16 @@ export const CheckoutModal: React.FC<Props> = ({ isOpen, onClose }) => {
 
   useEffect(() => {
     if (!successOrderId) return;
-
-    const t = window.setTimeout(() => {
+    const timeout = window.setTimeout(() => {
       onClose();
       navigate('/profile/orders');
     }, 1600);
-
-    return () => window.clearTimeout(t);
+    return () => window.clearTimeout(timeout);
   }, [successOrderId, navigate, onClose]);
 
   if (!isOpen) return null;
 
   const isStep1Valid = fullName.trim().length >= 2 && phone.trim().length >= 6;
-
   const isStep2Valid =
     deliveryMethod === 'home' ?
       address.trim().length >= 6
@@ -81,16 +72,14 @@ export const CheckoutModal: React.FC<Props> = ({ isOpen, onClose }) => {
 
   const isCardValid = (() => {
     if (paymentMethod !== 'card') return true;
-
     const digits = cardNumber.replace(/\s/g, '');
     const expiry = cardExpiry.trim();
     const cvc = cardCvc.trim();
-
-    const isDigitsOk = /^\d{16}$/.test(digits);
-    const isExpiryOk = /^(0[1-9]|1[0-2])\/\d{2}$/.test(expiry);
-    const isCvcOk = /^\d{3,4}$/.test(cvc);
-
-    return isDigitsOk && isExpiryOk && isCvcOk;
+    return (
+      /^\d{16}$/.test(digits) &&
+      /^(0[1-9]|1[0-2])\/\d{2}$/.test(expiry) &&
+      /^\d{3,4}$/.test(cvc)
+    );
   })();
 
   const isStep3Valid = Boolean(paymentMethod) && isCardValid;
@@ -108,56 +97,48 @@ export const CheckoutModal: React.FC<Props> = ({ isOpen, onClose }) => {
 
   const handleCreateOrder = async () => {
     if (cartItems.length === 0) {
-      notify.error('Your cart is empty.');
+      notify.error(t('checkout.error_empty'));
       return;
     }
-
     if (!isStep1Valid) {
-      notify.error('Please fill in your name and phone.');
+      notify.error(t('checkout.error_details'));
       setStep(1);
       return;
     }
-
     if (!isStep2Valid) {
       notify.error(
         deliveryMethod === 'home' ?
-          'Please enter your delivery address.'
-        : 'Please enter a pick-up point.',
+          t('checkout.error_address')
+        : t('checkout.error_pickup'),
       );
       setStep(2);
       return;
     }
-
     if (!isStep3Valid) {
-      notify.error('Please check your payment details.');
+      notify.error(t('checkout.error_payment'));
       setStep(3);
       return;
     }
 
     setLoading(true);
-
     try {
       const { data: userData, error: userError } =
         await supabase.auth.getUser();
-
       if (userError) {
         notify.error(userError.message);
         return;
       }
-
       if (!userData.user) {
-        notify.error('You must be logged in to place an order.');
+        notify.error(t('checkout.error_login'));
         return;
       }
 
       const userId = userData.user.id;
-
       const orderPayload = {
         user_id: userId,
         status: 'processing',
         total: totalPrice,
         date: new Date(),
-
         full_name: fullName.trim(),
         phone: phone.trim(),
         delivery_method: deliveryMethod,
@@ -171,9 +152,7 @@ export const CheckoutModal: React.FC<Props> = ({ isOpen, onClose }) => {
         .insert([orderPayload])
         .select()
         .single();
-
       if (orderError) {
-        console.error(orderError);
         notify.error(orderError.message);
         return;
       }
@@ -190,23 +169,16 @@ export const CheckoutModal: React.FC<Props> = ({ isOpen, onClose }) => {
       const { error: itemsError } = await supabase
         .from('order_items')
         .insert(itemsPayload);
-
       if (itemsError) {
-        console.error(itemsError);
         notify.error(itemsError.message);
         return;
       }
 
       clearCart();
       setSuccessOrderId(String(order.id));
-
-      notify.success(
-        'Order placed successfully',
-        'Redirecting you to your orders...',
-      );
-    } catch (e) {
-      console.error(e);
-      notify.error('Something went wrong. Please try again.');
+      notify.success(t('checkout.success_notify'), t('checkout.redirecting'));
+    } catch {
+      notify.error(t('checkout.error_general'));
     } finally {
       setLoading(false);
     }
@@ -215,14 +187,13 @@ export const CheckoutModal: React.FC<Props> = ({ isOpen, onClose }) => {
   const renderSuccess = () => (
     <div className={styles.successScreen}>
       <div className={styles.successIcon}>✓</div>
-      <h2 className={styles.successTitle}>Payment successful</h2>
+      <h2 className={styles.successTitle}>{t('checkout.success_title')}</h2>
       <p className={styles.successText}>
-        Your order has been created
+        {t('checkout.success_text')}
         {successOrderId ? ` (#${successOrderId})` : ''}.
         <br />
-        Redirecting you to your orders...
+        {t('checkout.redirecting')}
       </p>
-
       <div className={styles.successActions}>
         <button
           type="button"
@@ -232,15 +203,14 @@ export const CheckoutModal: React.FC<Props> = ({ isOpen, onClose }) => {
             navigate('/profile/orders');
           }}
         >
-          View orders
+          {t('checkout.view_orders')}
         </button>
-
         <button
           type="button"
           className={styles.secondaryBtn}
           onClick={onClose}
         >
-          Close
+          {t('checkout.close')}
         </button>
       </div>
     </div>
@@ -260,8 +230,7 @@ export const CheckoutModal: React.FC<Props> = ({ isOpen, onClose }) => {
         >
           ✕
         </button>
-
-        <h1 className={styles.title}>Checkout</h1>
+        <h1 className={styles.title}>{t('checkout.title')}</h1>
 
         {successOrderId ?
           renderSuccess()
@@ -269,31 +238,29 @@ export const CheckoutModal: React.FC<Props> = ({ isOpen, onClose }) => {
             <div className={styles.formSection}>
               <div className={styles.stepBlock}>
                 <div className={styles.stepHeader}>
-                  <h2>Your details</h2>
+                  <h2>{t('checkout.details')}</h2>
                 </div>
-
                 {step === 1 && (
                   <div className={styles.stepContent}>
                     <input
                       className={styles.input}
-                      placeholder="Full name *"
+                      placeholder={t('checkout.full_name')}
                       value={fullName}
                       onChange={(e) => setFullName(e.target.value)}
                     />
                     <input
                       className={styles.input}
-                      placeholder="Phone number *"
+                      placeholder={t('checkout.phone')}
                       value={phone}
                       onChange={(e) => setPhone(e.target.value)}
                     />
-
                     <button
                       type="button"
                       className={styles.primaryBtn}
                       onClick={() => setStep(2)}
                       disabled={!isStep1Valid}
                     >
-                      Continue
+                      {t('checkout.continue')}
                     </button>
                   </div>
                 )}
@@ -301,9 +268,8 @@ export const CheckoutModal: React.FC<Props> = ({ isOpen, onClose }) => {
 
               <div className={styles.stepBlock}>
                 <div className={styles.stepHeader}>
-                  <h2>Delivery</h2>
+                  <h2>{t('checkout.delivery')}</h2>
                 </div>
-
                 {step === 2 && (
                   <div className={styles.stepContent}>
                     <select
@@ -313,40 +279,39 @@ export const CheckoutModal: React.FC<Props> = ({ isOpen, onClose }) => {
                         setDeliveryMethod(e.target.value as DeliveryMethod)
                       }
                     >
-                      <option value="home">Home address</option>
-                      <option value="pickup">Pick-up point</option>
+                      <option value="home">{t('checkout.home_address')}</option>
+                      <option value="pickup">
+                        {t('checkout.pickup_point')}
+                      </option>
                     </select>
-
-                    {deliveryMethod === 'home' ?
-                      <input
-                        className={styles.input}
-                        placeholder="Delivery address *"
-                        value={address}
-                        onChange={(e) => setAddress(e.target.value)}
-                      />
-                    : <input
-                        className={styles.input}
-                        placeholder="Pick-up point / locker / store *"
-                        value={pickupPoint}
-                        onChange={(e) => setPickupPoint(e.target.value)}
-                      />
-                    }
-
+                    <input
+                      className={styles.input}
+                      placeholder={
+                        deliveryMethod === 'home' ?
+                          t('checkout.address_placeholder')
+                        : t('checkout.pickup_placeholder')
+                      }
+                      value={deliveryMethod === 'home' ? address : pickupPoint}
+                      onChange={(e) =>
+                        deliveryMethod === 'home' ?
+                          setAddress(e.target.value)
+                        : setPickupPoint(e.target.value)
+                      }
+                    />
                     <button
                       type="button"
                       className={styles.primaryBtn}
                       onClick={() => setStep(3)}
                       disabled={!isStep2Valid}
                     >
-                      Continue
+                      {t('checkout.continue')}
                     </button>
-
                     <button
                       type="button"
                       className={styles.secondaryBtn}
                       onClick={() => setStep(1)}
                     >
-                      Back
+                      {t('checkout.back')}
                     </button>
                   </div>
                 )}
@@ -354,9 +319,8 @@ export const CheckoutModal: React.FC<Props> = ({ isOpen, onClose }) => {
 
               <div className={styles.stepBlock}>
                 <div className={styles.stepHeader}>
-                  <h2>Payment</h2>
+                  <h2>{t('checkout.payment')}</h2>
                 </div>
-
                 {step === 3 && (
                   <div className={styles.stepContent}>
                     <select
@@ -366,37 +330,34 @@ export const CheckoutModal: React.FC<Props> = ({ isOpen, onClose }) => {
                         setPaymentMethod(e.target.value as PaymentMethod)
                       }
                     >
-                      <option value="card">Credit / Debit Card</option>
-                      <option value="paypal">PayPal (demo)</option>
-                      <option value="cod">Cash on delivery</option>
+                      <option value="card">{t('checkout.card')}</option>
+                      <option value="paypal">{t('checkout.paypal')}</option>
+                      <option value="cod">{t('checkout.cod')}</option>
                     </select>
-
                     {paymentMethod === 'card' && (
                       <div className={styles.cardFields}>
                         <input
                           className={styles.input}
-                          placeholder="Card number"
+                          placeholder={t('checkout.card_number')}
                           value={cardNumber}
                           onChange={(e) =>
                             setCardNumber(formatCardNumber(e.target.value))
                           }
                           inputMode="numeric"
                         />
-
                         <div className={styles.cardRow}>
                           <input
                             className={styles.input}
-                            placeholder="MM/YY"
+                            placeholder={t('checkout.expiry')}
                             value={cardExpiry}
                             onChange={(e) =>
                               setCardExpiry(formatExpiry(e.target.value))
                             }
                             inputMode="numeric"
                           />
-
                           <input
                             className={styles.input}
-                            placeholder="CVC"
+                            placeholder={t('checkout.cvc')}
                             value={cardCvc}
                             onChange={(e) =>
                               setCardCvc(
@@ -415,33 +376,27 @@ export const CheckoutModal: React.FC<Props> = ({ isOpen, onClose }) => {
                       disabled={loading || !isStep3Valid}
                     >
                       {loading ?
-                        'Processing...'
+                        t('checkout.processing')
                       : paymentMethod === 'card' ?
-                        'Pay & place order'
-                      : 'Place order'}
+                        t('checkout.pay_order')
+                      : t('checkout.place_order')}
                     </button>
-
                     <button
                       type="button"
                       className={styles.secondaryBtn}
                       onClick={() => setStep(2)}
                       disabled={loading}
                     >
-                      Back
+                      {t('checkout.back')}
                     </button>
-
-                    <p className={styles.terms}>
-                      By confirming the order, you agree to the Terms and
-                      Conditions.
-                    </p>
+                    <p className={styles.terms}>{t('checkout.terms')}</p>
                   </div>
                 )}
               </div>
             </div>
 
             <div className={styles.summary}>
-              <h2>Order summary</h2>
-
+              <h2>{t('checkout.summary')}</h2>
               {cartItems.map((item) => (
                 <div
                   key={item.itemUniqueId}
@@ -455,11 +410,8 @@ export const CheckoutModal: React.FC<Props> = ({ isOpen, onClose }) => {
                   </div>
                 </div>
               ))}
-
               <div className={styles.totalBlock}>
-                <p>
-                  {totalItems} {totalItems === 1 ? 'item' : 'items'}
-                </p>
+                <p>{t('cart.total_items', { count: totalItems })}</p>
                 <h3>${totalPrice}</h3>
               </div>
             </div>

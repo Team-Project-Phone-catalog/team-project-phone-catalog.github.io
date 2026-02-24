@@ -1,5 +1,6 @@
 import s from './CartItem.module.scss';
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
 interface Props {
   totalPrice: number;
@@ -12,13 +13,13 @@ export const CartItem: React.FC<Props> = ({
   totalItems,
   onCheckout,
 }) => {
+  const { t } = useTranslation();
+
   return (
     <div className={s.block}>
       <h2 className={s.price}>${totalPrice}</h2>
 
-      <p className={s.info}>
-        Total for {totalItems} {totalItems === 1 ? 'item' : 'items'}
-      </p>
+      <p className={s.info}>{t('cart.total_items', { count: totalItems })}</p>
 
       <div className={s.button}>
         <button
@@ -26,7 +27,7 @@ export const CartItem: React.FC<Props> = ({
           className={s.buttonCheck}
           onClick={onCheckout}
         >
-          Checkout
+          {t('cart.checkout')}
         </button>
       </div>
     </div>

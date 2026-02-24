@@ -8,12 +8,28 @@ export const AuthCallbackPage = () => {
 
   useEffect(() => {
     const handleCallback = async () => {
-      await supabase.auth.getSession();
-      navigate('/profile');
+      try {
+        await supabase.auth.getSession();
+        navigate('/profile');
+      } catch (error) {
+        console.error('Error during auth callback:', error);
+        navigate('/');
+      }
     };
 
     handleCallback();
   }, [navigate]);
 
-  return <Loader />;
+  return (
+    <div
+      style={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: '100vh',
+      }}
+    >
+      <Loader />
+    </div>
+  );
 };

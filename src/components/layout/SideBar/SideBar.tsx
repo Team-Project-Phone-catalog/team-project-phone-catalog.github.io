@@ -1,10 +1,12 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import { useTranslation } from 'react-i18next'; // Додано
 import styles from './Sidebar.module.scss';
 import { supabase } from '../../../utils/supabaseClient.ts';
 import { useAppContext } from '../../../hooks/useAppContext.ts';
 
 export const Sidebar = () => {
+  const { t } = useTranslation(); // Додано
   const location = useLocation();
   const [userName, setUserName] = React.useState('');
   const [userEmail, setUserEmail] = React.useState('');
@@ -41,9 +43,13 @@ export const Sidebar = () => {
   return (
     <aside className={styles.sidebar}>
       <div className={styles.profileSection}>
-        <div className={styles.avatarPlaceholder}>{userName.charAt(0)}</div>
+        <div className={styles.avatarPlaceholder}>
+          {userName ? userName.charAt(0) : '?'}
+        </div>
         <div className={styles.profileInfo}>
-          <p className={styles.name}>{userName}</p>
+          <p className={styles.name}>
+            {userName || t('profile_sidebar.guest')}
+          </p>
           <p className={styles.email}>{userEmail}</p>
         </div>
       </div>
@@ -53,7 +59,7 @@ export const Sidebar = () => {
           to="/profile"
           className={`${styles.navItem} ${isActive('/profile') ? styles.active : ''}`}
         >
-          My Account
+          {t('profile_sidebar.account')}
         </Link>
 
         {isAdmin && (
@@ -61,7 +67,7 @@ export const Sidebar = () => {
             to="/profile/admin"
             className={`${styles.navItem} ${isActive('/profile/admin') ? styles.active : ''}`}
           >
-            Admin
+            {t('profile_sidebar.admin')}
           </Link>
         )}
 
@@ -69,14 +75,14 @@ export const Sidebar = () => {
           to="/profile/orders"
           className={`${styles.navItem} ${isActive('/profile/orders') ? styles.active : ''}`}
         >
-          Order
+          {t('profile_sidebar.orders')}
         </Link>
 
         <Link
           to="/profile/chat"
           className={`${styles.navItem} ${isActive('/profile/chat') ? styles.active : ''}`}
         >
-          <span>Support Chat</span>
+          <span>{t('profile_sidebar.chat')}</span>
         </Link>
 
         <div className={styles.divider}></div>
@@ -85,7 +91,7 @@ export const Sidebar = () => {
           to="/favorites"
           className={`${styles.navItem} ${isActive('/favorites') ? styles.active : ''}`}
         >
-          <span>Wish lists</span>
+          <span>{t('profile_sidebar.wishlist')}</span>
           <span className={styles.badge}>{favoritesCount}</span>
         </Link>
 
@@ -93,7 +99,7 @@ export const Sidebar = () => {
           to="/profile/wallet"
           className={`${styles.navItem} ${isActive('/profile/wallet') ? styles.active : ''}`}
         >
-          Wallet
+          {t('profile_sidebar.wallet')}
         </Link>
       </nav>
     </aside>

@@ -1,5 +1,6 @@
 import './ProductActions.scss';
 import * as React from 'react';
+import { useTranslation } from 'react-i18next';
 
 interface Props {
   handleToggleCart: (e: React.MouseEvent) => void;
@@ -14,6 +15,8 @@ export const ProductActions: React.FC<Props> = ({
   isFavorite,
   isInCart,
 }) => {
+  const { t } = useTranslation();
+
   const handleToggleFavorite = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
@@ -27,14 +30,18 @@ export const ProductActions: React.FC<Props> = ({
         className={`product-actions__add-to-cart ${isInCart ? 'in-cart' : ''}`}
         onClick={handleToggleCart}
       >
-        {isInCart ? 'Added' : 'Add to cart'}
+        {isInCart ? t('product.added') : t('product.add_to_cart')}
       </button>
 
       <button
         type="button"
         className={`product-actions__favorites ${isFavorite ? 'product-actions__favorites--active' : ''}`}
         onClick={handleToggleFavorite}
-        aria-label={isFavorite ? 'Remove from favorites' : 'Add to favorites'}
+        aria-label={
+          isFavorite ?
+            t('product.remove_favorite', 'Remove from favorites')
+          : t('product.add_favorite', 'Add to favorites')
+        }
       ></button>
     </div>
   );
