@@ -1,12 +1,12 @@
 import { useEffect, useMemo, useState } from 'react';
 import { getAccessories } from '../../api/products';
 import { Product } from '../../types/Product';
-import { ProductCard } from '../ProductCard/ProductCard';
+import { ProductCard } from '../../components/product/ProductCard/ProductCard.tsx';
 import { sortProducts } from '../../utils/productFilters';
 import { SortType } from '../../types/SortType';
 import s from './AccessoriesPage.module.scss';
 import { Breadcrumbs } from '../../components/ui/Breadcrumbs/Breadcrumbs.tsx';
-import { ProductSkeleton } from '../../components/ProductSkelet/ProductSkelet.tsx';
+import { ProductSkeleton } from '../../components/product/ProductSkelet/ProductSkelet.tsx';
 import { NoResults } from '../../components/ui/NoResults/NoResults.tsx';
 import { Dropdown } from '../../components/ui/Dropdown/Dropdown';
 

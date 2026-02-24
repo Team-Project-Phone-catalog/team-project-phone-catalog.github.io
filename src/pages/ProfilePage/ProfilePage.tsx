@@ -5,7 +5,7 @@ import { User } from '@supabase/supabase-js';
 import styles from './ProfilePage.module.scss';
 import { Breadcrumbs } from '../../components/ui/Breadcrumbs/Breadcrumbs.tsx';
 import { Loader } from '../../components/ui/Loader/Loader.tsx';
-import { Sidebar } from '../../components/SideBar/SideBar.tsx';
+import { Sidebar } from '../../components/layout/SideBar';
 
 export const ProfilePage = () => {
   const [user, setUser] = useState<User | null>(null);

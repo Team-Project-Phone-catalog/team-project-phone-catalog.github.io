@@ -1,5 +1,5 @@
 import './ProductDetailsPage.scss';
-import { ProductPage } from '../../components/ui/Product/ProductCard/ProductPage.tsx';
+import { ProductPage } from '../../components/product/ProductPage';
 import { BackButton } from '../../components/ui/Buttons/Back/BackButton.tsx';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { useEffect, useRef, useState } from 'react';
@@ -7,7 +7,7 @@ import { ProductDetails } from '../../types/Product.ts';
 import { getProductDetails } from '../../api/products.ts';
 import { Breadcrumbs } from '../../components/ui/Breadcrumbs/Breadcrumbs.tsx';
 import { Loader } from '../../components/ui/Loader/Loader.tsx';
-import { RatingsWidget } from '../../components/ui/Reviews/RatingsWidget.tsx';
+import { RatingsWidget } from '../../components/product/Reviews/RatingsWidget.tsx';
 
 export const ProductDetailsPage = () => {
   const { category, productId } = useParams<{
