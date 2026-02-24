@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { ProductCard } from '@components/product/ProductCard';
 import { Product } from '@/types/Product';
@@ -11,6 +12,7 @@ import Heart from './Heart';
 import './FavoritesPage.scss';
 
 export const FavoritesPage: React.FC = () => {
+  const { t } = useTranslation();
   const { favorites } = useAppContext();
   const [allProducts, setAllProducts] = useState<Product[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -41,7 +43,6 @@ export const FavoritesPage: React.FC = () => {
     );
   }, [allProducts, favorites]);
 
-  // Якщо йде завантаження — рендеримо ТІЛЬКИ лоадер у спеціальній обгортці
   if (isLoading) {
     return (
       <div className="favorites-page__loader-wrapper">
@@ -56,9 +57,11 @@ export const FavoritesPage: React.FC = () => {
         <Breadcrumbs />
 
         <div className="favorites-page__text">
-          <h1 className="favorites-page__title">Favourites</h1>
+          <h1 className="favorites-page__title">
+            {t('nav.favourites', 'Favourites')}
+          </h1>
           <span className="favorites-page__items-number">
-            {favoriteProducts.length} items
+            {t('cart.total_items', { count: favoriteProducts.length })}
           </span>
         </div>
 
@@ -76,16 +79,19 @@ export const FavoritesPage: React.FC = () => {
               <Heart />
             </div>
             <h2 className="favorites-page__title">
-              Your favorites list is empty
+              {t('favourites.empty_title', 'Your favorites list is empty')}
             </h2>
             <p className="favorites-page__items-number">
-              Add some products to see them here!
+              {t(
+                'favourites.empty_text',
+                'Add some products to see them here!',
+              )}
             </p>
             <Link
               to="/"
               className="favorites-page__addToCart"
             >
-              Shop now
+              {t('cart.shop_now')}
             </Link>
           </div>
         }

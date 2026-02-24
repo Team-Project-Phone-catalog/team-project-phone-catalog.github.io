@@ -1,5 +1,5 @@
 import './App.css';
-import { Route, Routes } from 'react-router-dom';
+import { Route, Routes, Navigate } from 'react-router-dom';
 import { Toaster } from 'sonner';
 
 // Layout & Common
@@ -49,16 +49,45 @@ export const App = () => {
           />
           <Route
             path="/phones"
-            element={<PhonesPage />}
+            element={
+              <Navigate
+                to="/phones/12/newest/1"
+                replace
+              />
+            }
           />
           <Route
             path="/tablets"
-            element={<TabletsPage />}
+            element={
+              <Navigate
+                to="/tablets/12/newest/1"
+                replace
+              />
+            }
           />
           <Route
             path="/accessories"
+            element={
+              <Navigate
+                to="/accessories/12/newest/1"
+                replace
+              />
+            }
+          />
+
+          <Route
+            path="/phones/:items/:sort/:page"
+            element={<PhonesPage />}
+          />
+          <Route
+            path="/tablets/:items/:sort/:page"
+            element={<TabletsPage />}
+          />
+          <Route
+            path="/accessories/:items/:sort/:page"
             element={<AccessoriesPage />}
           />
+
           <Route
             path="/cart"
             element={<CartPage />}

@@ -53,7 +53,6 @@ export const ProductPage: React.FC<Props> = ({
           name={product.name}
         />
       </div>
-
       <div className="product-card__sidebar">
         <div className="product-card__options">
           <ProductOptions
@@ -72,7 +71,6 @@ export const ProductPage: React.FC<Props> = ({
             priceRegular={product.priceRegular}
           />
         </div>
-
         <div className="product-card__about">
           <ProductFeatures
             screen={product.screen}
@@ -83,11 +81,9 @@ export const ProductPage: React.FC<Props> = ({
           />
         </div>
       </div>
-
       <div className="product-card__description">
         <ProductDetail description={product.description} />
       </div>
-
       <div className="product-card__tech-specs">
         <TechSpecs
           screen={product.screen}

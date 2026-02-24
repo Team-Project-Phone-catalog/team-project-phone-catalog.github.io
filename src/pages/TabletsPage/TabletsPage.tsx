@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { getTablets } from '@api/products';
 import { Product } from '@/types/Product';
 import { ProductCard } from '@components/product/ProductCard/ProductCard';
@@ -8,14 +9,23 @@ import { Breadcrumbs } from '@components/ui/Breadcrumbs/Breadcrumbs';
 import { ProductSkeleton } from '@components/product/ProductSkelet/ProductSkelet';
 import { Dropdown } from '@components/ui/Dropdown/Dropdown';
 import { sortProducts } from '@utils/productFilters';
+import { usePaginationWithParams } from '@hooks/usePaginationWithParams';
 import arrowIcon from '@assets/icons/arrow-right.svg';
 
 export const TabletsPage = () => {
+  const { t } = useTranslation();
   const [tablets, setTablets] = useState<Product[]>([]);
-  const [sortBy, setSortBy] = useState<SortType>('newest');
-  const [itemsOnPage, setItemsOnPage] = useState(12);
-  const [currentPage, setCurrentPage] = useState(1);
   const [isLoading, setIsLoading] = useState(true);
+  const {
+    sortBy,
+    itemsOnPage,
+    currentPage,
+    changeSort,
+    changeItems,
+    changePage,
+  } = usePaginationWithParams({
+    basePath: '/tablets',
+  });
 
   useEffect(() => {
     const loadTablets = async () => {
@@ -59,10 +69,10 @@ export const TabletsPage = () => {
   }, [sortedTablets, itemsOnPage, currentPage]);
 
   const sortOptions = [
-    { label: 'Price low', value: 'priceLow' },
-    { label: 'Price high', value: 'priceHigh' },
-    { label: 'Newest', value: 'newest' },
-    { label: 'Oldest', value: 'oldest' },
+    { label: t('catalog.price_low'), value: 'priceLow' },
+    { label: t('catalog.price_high'), value: 'priceHigh' },
+    { label: t('catalog.age'), value: 'newest' },
+    { label: t('catalog.oldest'), value: 'oldest' },
   ];
 
   const itemsOptions = [
@@ -77,33 +87,31 @@ export const TabletsPage = () => {
       <div className={s['tablets-page__container']}>
         <Breadcrumbs />
 
-        <h1 className={s.title}>Tablets</h1>
+        <h1 className={s.title}>{t('nav.tablets')}</h1>
 
-        {!isLoading && <p className={s.modelsCount}>{tablets.length} models</p>}
+        {!isLoading && (
+          <p className={s.modelsCount}>
+            {t('categories.models_count', { count: tablets.length })}
+          </p>
+        )}
 
         <section className={s['tablets-page__controls']}>
           <div className={s.controls}>
             <div className={s.control}>
-              <label className={s.label}>Sort by</label>
+              <label className={s.label}>{t('catalog.sort_by')}</label>
               <Dropdown
                 options={sortOptions}
                 value={sortBy}
-                onChange={(value) => {
-                  setSortBy(value as SortType);
-                  setCurrentPage(1);
-                }}
+                onChange={(value) => changeSort(value as SortType)}
               />
             </div>
 
             <div className={s.control}>
-              <label className={s.label}>Items on page</label>
+              <label className={s.label}>{t('catalog.items_on_page')}</label>
               <Dropdown
                 options={itemsOptions}
                 value={String(itemsOnPage)}
-                onChange={(value) => {
-                  setItemsOnPage(+value);
-                  setCurrentPage(1);
-                }}
+                onChange={(value) => changeItems(+value)}
               />
             </div>
           </div>
@@ -126,7 +134,7 @@ export const TabletsPage = () => {
             <div className={s.pagination}>
               <button
                 disabled={currentPage === 1}
-                onClick={() => setCurrentPage((prev) => prev - 1)}
+                onClick={() => changePage(currentPage - 1)}
                 className={`${s.pageButton} ${s.arrow} ${s.arrowLeft}`}
               >
                 <img
@@ -140,7 +148,7 @@ export const TabletsPage = () => {
                 return (
                   <button
                     key={page}
-                    onClick={() => setCurrentPage(page)}
+                    onClick={() => changePage(page)}
                     className={`${s.pageButton} ${currentPage === page ? s.active : ''}`}
                   >
                     {page}
@@ -150,7 +158,7 @@ export const TabletsPage = () => {
 
               <button
                 disabled={currentPage === totalPages}
-                onClick={() => setCurrentPage((prev) => prev + 1)}
+                onClick={() => changePage(currentPage + 1)}
                 className={`${s.pageButton} ${s.arrow}`}
               >
                 <img

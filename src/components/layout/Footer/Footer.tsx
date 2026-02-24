@@ -1,8 +1,11 @@
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import styles from './Footer.module.scss';
 import logoDark from '@assets/logo-dark.svg';
 
 export const Footer = () => {
+  const { t } = useTranslation();
+
   const handleScrollTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -27,15 +30,15 @@ export const Footer = () => {
             target="_blank"
             rel="noopener noreferrer"
           >
-            GITHUB
+            {t('footer.github')}
           </a>
 
-          <Link to="/contacts">CONTACTS</Link>
-          <Link to="/rights">RIGHTS</Link>
+          <Link to="/contacts">{t('footer.contacts')}</Link>
+          <Link to="/rights">{t('footer.rights')}</Link>
         </nav>
 
         <div className={styles.back}>
-          <span>Back to top</span>
+          <span>{t('footer.back_to_top')}</span>
 
           <button
             onClick={handleScrollTop}

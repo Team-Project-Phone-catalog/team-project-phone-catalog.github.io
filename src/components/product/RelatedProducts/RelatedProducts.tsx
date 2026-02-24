@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo, useState, useRef } from 'react';
+import { useTranslation } from 'react-i18next';
 import { getProducts } from '@api/products';
 import { Product } from '@/types/Product';
 import { sortByBestPrice } from '@utils/productFilters';
@@ -14,6 +15,7 @@ export const RelatedProducts: React.FC<Props> = ({
   category,
   currentProductId,
 }) => {
+  const { t } = useTranslation(); // Додано
   const [products, setProducts] = useState<Product[]>([]);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -87,19 +89,22 @@ export const RelatedProducts: React.FC<Props> = ({
   return (
     <div className="AlsoLike">
       <div className="AlsoLike__header">
-        <h3 className="AlsoLike__title">You may also like</h3>
+        {/* Замінено на переклад */}
+        <h3 className="AlsoLike__title">{t('product_details.recommend')}</h3>
 
         <div className="AlsoLike__arrows">
           <button
             className="AlsoLike__arrow-btn AlsoLike__arrow-btn--left"
             onClick={() => scroll('left')}
             disabled={!canScrollLeft}
+            aria-label="Previous"
           />
 
           <button
             className="AlsoLike__arrow-btn AlsoLike__arrow-btn--right"
             onClick={() => scroll('right')}
             disabled={!canScrollRight}
+            aria-label="Next"
           />
         </div>
       </div>

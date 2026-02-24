@@ -1,5 +1,6 @@
 import React from 'react';
 import { useParams, useSearchParams } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { ColorLink } from '../ColorMap/ColorLink.tsx';
 import './ProductOptions.scss';
 
@@ -25,6 +26,7 @@ export const ProductOptions: React.FC<Props> = ({
   onColorChange,
   onCapacitySelect,
 }) => {
+  const { t } = useTranslation();
   const { category } = useParams<{ category: string }>();
   const [searchParams] = useSearchParams();
 
@@ -36,7 +38,9 @@ export const ProductOptions: React.FC<Props> = ({
 
   return (
     <div className="product-options">
-      <div className="product-options__title">Available colors</div>
+      <div className="product-options__title">
+        {t('product_details.colors', 'Available colors')}
+      </div>
 
       <div className="product-options__colors">
         <ul className="product-options__list">
@@ -44,7 +48,6 @@ export const ProductOptions: React.FC<Props> = ({
             const newItemId = buildItemId(currentCapacity, clr);
             const normalizedColor = clr.toLowerCase().replace(/\s+/g, '');
 
-            // Створюємо нові параметри для лінка
             const newParams = new URLSearchParams(searchParams);
             newParams.set('capacity', currentCapacity);
             newParams.set('color', clr);
@@ -68,7 +71,9 @@ export const ProductOptions: React.FC<Props> = ({
         </ul>
       </div>
 
-      <div className="product-options__title--capacity">Select capacity</div>
+      <div className="product-options__title--capacity">
+        {t('product_details.select_capacity', 'Select capacity')}
+      </div>
 
       <div className="product-options__ram">
         {capacityAvailable.map((cap) => (
