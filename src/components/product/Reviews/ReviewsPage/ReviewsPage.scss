@@ -3,12 +3,6 @@
 .reviews-page {
   font-family: 'Mond', Arial, sans-serif;
   background: $color-black;
-  min-height: 100vh;
-
-  &__inner {
-    max-width: 1100px;
-    margin: 0 auto;
-  }
 
   &__header {
     display: flex;
