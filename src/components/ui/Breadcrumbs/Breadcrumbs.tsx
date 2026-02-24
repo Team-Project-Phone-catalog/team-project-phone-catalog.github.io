@@ -18,6 +18,13 @@ export const Breadcrumbs = () => {
     if (category === 'tablets') return 'nav.tablets';
     if (category === 'accessories') return 'nav.accessories';
     if (category === 'favourites') return 'nav.favourites';
+
+    if (category === 'profile') return 'profile.title';
+    if (category === 'cart') return 'cart.title';
+    if (category === 'checkout') return 'checkout.title';
+    if (category === 'orders') return 'orders.title';
+    if (category === 'admin') return 'admin.title';
+
     return category;
   };
 
