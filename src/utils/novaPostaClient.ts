@@ -9,18 +9,20 @@ export interface Warehouse {
   Ref: string;
   Description: string;
   Number: string;
-  Address: string;
-  Phone: string;
+  Phone?: string;
 }
 
 interface NovaPostaResponse<T> {
   success: boolean;
-  data: T | T[];
+  data: T[];
   errors?: string[];
   warningsCodes?: string[];
 }
 
-// Универсальный вызов Edge Function
+// ======================
+// 🔥 Виклик Edge Function
+// ======================
+
 async function callNovaPostaAPI<T>(
   method: string,
   properties: Record<string, unknown>,
@@ -33,29 +35,42 @@ async function callNovaPostaAPI<T>(
   );
 
   if (error) {
-    console.error('Nova Poshta API call failed:', error);
+    console.error('Edge Function error:', error);
     throw error;
+  }
+
+  if (!data) {
+    throw new Error('Empty response from Edge Function');
   }
 
   return data as NovaPostaResponse<T>;
 }
 
-// Получить список городов
+// ======================
+// 📍 Отримати міста
+// ======================
+
 export async function getCities(): Promise<City[]> {
   try {
-    const data = await callNovaPostaAPI<City>('getCities', {});
+    const response = await callNovaPostaAPI<City>('getCities', {});
 
-    if (!data.success) {
-      console.error('Nova Poshta error:', data.errors?.[0]);
+    console.log('NOVA RESPONSE:', response); // 👈 ДОДАЙ ЦЕ
+
+    if (!response.success) {
+      console.error(response.errors);
       return [];
     }
 
-    return Array.isArray(data.data) ? data.data : [data.data];
+    return response.data ?? [];
   } catch (error) {
-    console.error('Error fetching cities:', error);
+    console.error('getCities error:', error);
     return [];
   }
 }
+
+// ======================
+// 📦 Отримати відділення
+// ======================
 
 interface GetWarehouses {
   cityRef: string;
@@ -64,62 +79,66 @@ interface GetWarehouses {
   page?: string;
 }
 
-// Получить отделения по городу
 export async function getWarehouses(
   params: GetWarehouses,
 ): Promise<Warehouse[]> {
   try {
-    const data = await callNovaPostaAPI<Warehouse>('getWarehouses', {
+    const response = await callNovaPostaAPI<Warehouse>('getWarehouses', {
       CityRef: params.cityRef,
-      Language: params.language || 'UA',
-      Page: params.page || '1',
-      Limit: params.pageSize || '100',
+      Language: params.language ?? 'UA',
+      Page: params.page ?? '1',
+      Limit: params.pageSize ?? '100',
     });
 
-    if (!data.success) {
-      console.error('Nova Poshta error:', data.errors?.[0]);
+    if (!response.success) {
+      console.error(response.errors);
       return [];
     }
 
-    return Array.isArray(data.data) ? data.data : [data.data];
+    return response.data ?? [];
   } catch (error) {
-    console.error('Error fetching warehouses:', error);
+    console.error('getWarehouses error:', error);
     return [];
   }
 }
 
+// ======================
+// 💰 Вартість доставки
+// ======================
+
 interface GetDeliveryPrice {
-  cityDeliveryRef: string;
+  citySenderRef: string;
   cityRecipientRef: string;
   serviceType?: string;
 }
 
-// Получить стоимость доставки
 export async function getDeliveryPrice(params: GetDeliveryPrice): Promise<{
   Cost: string;
-  EstimatedDeliveryDay: string;
+  EstimatedDeliveryDate: string;
 }> {
   try {
-    const data = await callNovaPostaAPI<{
+    const response = await callNovaPostaAPI<{
       Cost: string;
-      EstimatedDeliveryDay: string;
+      EstimatedDeliveryDate: string;
     }>('getDocumentPrice', {
-      CitySender: params.cityDeliveryRef,
+      CitySender: params.citySenderRef,
       CityRecipient: params.cityRecipientRef,
       Weight: '0.5',
-      ServiceType: params.serviceType || 'WarehouseWarehouse',
+      ServiceType: params.serviceType ?? 'WarehouseWarehouse',
+      CargoType: 'Cargo',
+      Cost: '500',
     });
 
-    if (!data.success) {
-      console.error('Nova Poshta error:', data.errors?.[0]);
-      return { Cost: '0', EstimatedDeliveryDay: '3-5' };
+    if (!response.success) {
+      console.error(response.errors);
+      return { Cost: '0', EstimatedDeliveryDate: '—' };
     }
 
-    const result = Array.isArray(data.data) ? data.data[0] : data.data;
+    const result = response.data?.[0];
 
-    return result || { Cost: '0', EstimatedDeliveryDay: '3-5' };
+    return result ?? { Cost: '0', EstimatedDeliveryDate: '—' };
   } catch (error) {
-    console.error('Error fetching delivery price:', error);
-    return { Cost: '0', EstimatedDeliveryDay: '3-5' };
+    console.error('getDeliveryPrice error:', error);
+    return { Cost: '0', EstimatedDeliveryDate: '—' };
   }
 }

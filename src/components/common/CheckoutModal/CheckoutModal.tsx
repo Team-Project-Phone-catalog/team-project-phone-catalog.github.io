@@ -268,7 +268,7 @@ export const CheckoutModal: React.FC<Props> = ({ isOpen, onClose }) => {
 
       const itemsPayload = cartItems.map((item) => ({
         order_id: order.id,
-        product_id: item.id,
+        product_id: Number(item.id),
         name: item.name,
         price: item.priceDiscount ?? item.price,
         image: item.image ?? null,
@@ -634,7 +634,7 @@ export const CheckoutModal: React.FC<Props> = ({ isOpen, onClose }) => {
                               {loadingWarehouses ?
                                 'Loading warehouses...'
                               : selectedWarehouse ?
-                                `#${selectedWarehouse.Number} - ${selectedWarehouse.Address}`
+                                `№${selectedWarehouse.Number} — ${selectedWarehouse.Description}`
                               : 'Select depot *'}
 
                               {!loadingWarehouses && (
@@ -664,17 +664,18 @@ export const CheckoutModal: React.FC<Props> = ({ isOpen, onClose }) => {
                                       setWarehousesOpen(false);
                                     }}
                                   >
-                                    <div>
-                                      #{warehouse.Number} - {warehouse.Address}
-                                    </div>
-                                    <div
-                                      style={{
-                                        fontSize: '12px',
-                                        color: '#999',
-                                      }}
-                                    >
-                                      {warehouse.Phone}
-                                    </div>
+                                    <div>{warehouse.Description}</div>
+
+                                    {warehouse.Phone && (
+                                      <div
+                                        style={{
+                                          fontSize: '12px',
+                                          color: '#999',
+                                        }}
+                                      >
+                                        {warehouse.Phone}
+                                      </div>
+                                    )}
                                   </div>
                                 ))}
                               </div>
