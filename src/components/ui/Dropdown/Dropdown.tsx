@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import classNames from 'classnames';
 import s from './Dropdown.module.scss';
+import arrowDownIcon from '@/assets/icons/arrow-down.svg';
 
 type Option = {
   label: string;
@@ -53,7 +54,7 @@ export const Dropdown: React.FC<Props> = ({ options, value, onChange }) => {
           })}
         >
           <img
-            src="/src/assets/icons/arrow-down.svg"
+            src={arrowDownIcon}
             alt="Previous page"
           />
         </span>

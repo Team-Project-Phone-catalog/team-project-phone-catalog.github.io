@@ -1,12 +1,12 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { useTranslation } from 'react-i18next'; // Додано
+import { useTranslation } from 'react-i18next';
 import styles from './Sidebar.module.scss';
 import { supabase } from '@utils/supabaseClient';
 import { useAppContext } from '@hooks/useAppContext';
 
 export const Sidebar = () => {
-  const { t } = useTranslation(); // Додано
+  const { t } = useTranslation();
   const location = useLocation();
   const [userName, setUserName] = React.useState('');
   const [userEmail, setUserEmail] = React.useState('');

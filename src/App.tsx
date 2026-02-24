@@ -1,5 +1,9 @@
 import './App.css';
 import { Route, Routes, Navigate } from 'react-router-dom';
+
+import { loadStripe } from '@stripe/stripe-js';
+import { Elements } from '@stripe/react-stripe-js';
+
 import { Header } from './components/layout/Header/Header.tsx';
 import { Footer } from './components/layout/Footer';
 import { PhonesPage } from './pages/PhonesPage/PhonesPage.tsx';
@@ -12,9 +16,6 @@ import { FavoritesPage } from './pages/FavoritesPage/FavoritesPage.tsx';
 import { ProductDetailsPage } from './pages/ProductDetailsPage/ProductDetailsPage.tsx';
 import { ScrollToTop } from './components/common/ScrollToTop/ScrollToTop.tsx';
 import { Toaster } from 'sonner';
-
-import { loadStripe } from '@stripe/stripe-js';
-import { Elements } from '@stripe/react-stripe-js';
 
 import { ProfilePage } from './pages/ProfilePage/ProfilePage';
 import { HelpWidget } from './components/common/HelpWidget/HelpWidget.tsx';
@@ -48,7 +49,6 @@ export const App = () => {
               path="/"
               element={<HomePage />}
             />
-
             <Route
               path="/phones"
               element={

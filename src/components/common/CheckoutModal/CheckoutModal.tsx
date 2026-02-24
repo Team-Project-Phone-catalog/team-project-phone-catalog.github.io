@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
+import arrowDownIcon from '@/assets/icons/arrow-down.svg';
 
 import { useAppContext } from '@hooks/useAppContext';
 import { supabase } from '@utils/supabaseClient';
@@ -470,7 +471,7 @@ export const CheckoutModal: React.FC<Props> = ({ isOpen, onClose }) => {
                         <span className={styles._arrow}>
                           <img
                             alt="Previous page"
-                            src="/src/assets/icons/arrow-down.svg"
+                            src={arrowDownIcon}
                           />
                         </span>
                       </button>
