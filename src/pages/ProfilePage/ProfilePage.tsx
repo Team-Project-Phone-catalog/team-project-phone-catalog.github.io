@@ -1,13 +1,15 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { supabase } from '../../utils/supabaseClient';
+import { useTranslation } from 'react-i18next';
+import { supabase } from '@utils/supabaseClient';
 import { User } from '@supabase/supabase-js';
 import styles from './ProfilePage.module.scss';
-import { Breadcrumbs } from '../../components/ui/Breadcrumbs/Breadcrumbs.tsx';
-import { Loader } from '../../components/ui/Loader/Loader.tsx';
-import { Sidebar } from '../../components/SideBar/SideBar.tsx';
+import { Breadcrumbs } from '@components/ui/Breadcrumbs/Breadcrumbs';
+import { Loader } from '@components/ui/Loader/Loader';
+import { Sidebar } from '@components/layout/SideBar';
 
 export const ProfilePage = () => {
+  const { t, i18n } = useTranslation();
   const [user, setUser] = useState<User | null>(null);
   const [phone, setPhone] = useState<string | null>(null);
   const navigate = useNavigate();
@@ -20,10 +22,7 @@ export const ProfilePage = () => {
       .not('phone', 'is', null)
       .limit(1)
       .maybeSingle();
-
-    if (!error && data?.phone) {
-      setPhone(data.phone);
-    }
+    if (!error && data?.phone) setPhone(data.phone);
   };
 
   useEffect(() => {
@@ -31,7 +30,6 @@ export const ProfilePage = () => {
       const {
         data: { session },
       } = await supabase.auth.getSession();
-
       if (session?.user) {
         setUser(session.user);
         fetchPhone(session.user.id);
@@ -39,7 +37,6 @@ export const ProfilePage = () => {
         navigate('/');
       }
     };
-
     getUser();
   }, [navigate]);
 
@@ -49,11 +46,14 @@ export const ProfilePage = () => {
   };
 
   const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString('uk-UA', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
-    });
+    return new Date(dateString).toLocaleDateString(
+      i18n.language === 'ua' ? 'uk-UA' : 'en-GB',
+      {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+      },
+    );
   };
 
   return (
@@ -61,11 +61,9 @@ export const ProfilePage = () => {
       <div className={styles.profilePage__container}>
         <div className={styles.profilePage__layout}>
           <Sidebar />
-
           <main className={styles.profilePage__content}>
             <Breadcrumbs />
-            <h1 className={styles.profilePage__title}>Profile</h1>
-
+            <h1 className={styles.profilePage__title}>{t('profile.title')}</h1>
             {user ?
               <div className={styles.userInfoWrapper}>
                 <div className={styles.userInfo}>
@@ -78,33 +76,36 @@ export const ProfilePage = () => {
                     alt="Profile"
                     referrerPolicy="no-referrer"
                   />
-
                   <div className={styles.userInfo__details}>
-                    <p className={styles.userInfo__label}>Name:</p>
+                    <p className={styles.userInfo__label}>
+                      {t('profile.name')}:
+                    </p>
                     <span className={styles.userInfo__value}>
                       {user.user_metadata.full_name || '-'}
                     </span>
-
-                    <p className={styles.userInfo__label}>Email:</p>
+                    <p className={styles.userInfo__label}>
+                      {t('profile.email')}:
+                    </p>
                     <span className={styles.userInfo__value}>{user.email}</span>
-
                     {phone && (
                       <>
-                        <p className={styles.userInfo__label}>Phone:</p>
+                        <p className={styles.userInfo__label}>
+                          {t('profile.phone')}:
+                        </p>
                         <span className={styles.userInfo__value}>{phone}</span>
                       </>
                     )}
-
-                    <p className={styles.userInfo__label}>Created:</p>
+                    <p className={styles.userInfo__label}>
+                      {t('profile.created')}:
+                    </p>
                     <span className={styles.userInfo__value}>
                       {formatDate(user.created_at)}
                     </span>
-
                     <button
                       onClick={handleLogout}
                       className={styles.logoutButton}
                     >
-                      Log out
+                      {t('profile.logout')}
                     </button>
                   </div>
                 </div>

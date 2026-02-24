@@ -1,0 +1,48 @@
+@use '@styles/variables' as *;
+
+.reviews-page {
+  font-family: 'Mond', Arial, sans-serif;
+  background: $color-black;
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+    gap: 8px;
+    border-bottom: 1px solid $color-elements;
+    padding-bottom: 16px;
+  }
+
+  &__title {
+    font-size: 20px;
+    font-weight: 700;
+    color: $color-white;
+    @media (max-width: 480px) {
+      font-size: 17px;
+    }
+  }
+
+  &__back {
+    font-size: 13px;
+    color: $color-accent;
+    background: none;
+    border: none;
+    cursor: pointer;
+    white-space: nowrap;
+    padding: 0;
+    transition: color $transition-default;
+    &:hover {
+      color: $color-accent-hover;
+      text-decoration: underline;
+    }
+  }
+
+  &__body {
+    display: flex;
+    gap: 32px;
+    align-items: flex-start;
+    flex-wrap: wrap;
+  }
+}

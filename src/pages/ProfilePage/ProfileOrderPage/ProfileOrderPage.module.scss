@@ -1,6 +1,5 @@
-@import '../../../styles/utils';
-@import '../../../styles/variables';
-
+@use '@styles/utils' as *;
+@use '@styles/variables' as *;
 .loaderWrapper {
   display: flex;
   justify-content: center;
