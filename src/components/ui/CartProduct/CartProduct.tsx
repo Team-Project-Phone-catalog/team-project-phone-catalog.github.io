@@ -49,7 +49,11 @@ export const CartProduct: React.FC<Props> = ({
         type="button"
         onClick={onRemove}
       >
-        x
+        <img
+          src="../../../img/icons/close.svg"
+          alt="Remove"
+          className={s.removeIcon}
+        />
       </button>
 
       <div className={s.imageWrapper}>
@@ -75,7 +79,11 @@ export const CartProduct: React.FC<Props> = ({
             className={s.btnMinus}
             onClick={onDecrease}
           >
-            -
+            <img
+              src="../../../img/icons/minus.svg"
+              alt="Remove"
+              className={s.minusIcon}
+            />
           </button>
           <span className={s.count}>
             {'quantity' in product ? product.quantity : 1}
@@ -84,7 +92,11 @@ export const CartProduct: React.FC<Props> = ({
             className={s.btnPlus}
             onClick={onIncrease}
           >
-            +
+            <img
+              src="../../../img/icons/plus.svg"
+              alt="Remove"
+              className={s.plusIcon}
+            />
           </button>
         </div>
         <p className={s.price}>${currentPrice || fullPrice}</p>
