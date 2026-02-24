@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from './OrderCard.module.scss';
-import { Order } from '../../../../../types/CartOrder.ts';
+import { Order } from '@/types/CartOrder';
 
 const statusLabel: Record<Order['status'], string> = {
   delivered: 'Delivered',

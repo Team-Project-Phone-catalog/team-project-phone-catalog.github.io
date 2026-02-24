@@ -2,12 +2,12 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import s from './CartPage.module.scss';
-import { CartItem } from '../../components/cart/CartItem/CartItem';
-import { CartProduct } from '../../components/cart/CartProduct/CartProduct';
-import { BackButton } from '../../components/ui/Buttons/Back/BackButton';
-import { useAppContext } from '../../hooks/useAppContext';
-import { CheckoutModal } from '../../components/common/CheckoutModal';
-import cartZeroImg from '../../assets/cart-zero.png';
+import { CartItem } from '@components/cart/CartItem/CartItem';
+import { CartProduct } from '@components/cart/CartProduct/CartProduct';
+import { BackButton } from '@components/ui/Buttons/Back/BackButton';
+import { useAppContext } from '@hooks/useAppContext';
+import { CheckoutModal } from '@components/common/CheckoutModal';
+import cartZeroImg from '@assets/cart-zero.png';
 
 export const CartPage = () => {
   const {

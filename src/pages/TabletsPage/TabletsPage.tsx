@@ -1,14 +1,14 @@
 import { useEffect, useMemo, useState } from 'react';
-import { getTablets } from '../../api/products';
-import { Product } from '../../types/Product';
-import { ProductCard } from '../../components/product/ProductCard/ProductCard.tsx';
-import { SortType } from '../../types/SortType';
+import { getTablets } from '@api/products';
+import { Product } from '@/types/Product';
+import { ProductCard } from '@components/product/ProductCard/ProductCard';
+import { SortType } from '@/types/SortType';
 import s from './TabletsPage.module.scss';
-import { Breadcrumbs } from '../../components/ui/Breadcrumbs/Breadcrumbs.tsx';
-import { ProductSkeleton } from '../../components/product/ProductSkelet/ProductSkelet.tsx';
-import { NoResults } from '../../components/ui/NoResults/NoResults.tsx';
-import { Dropdown } from '../../components/ui/Dropdown/Dropdown';
-import { sortProducts } from '../../utils/productFilters.ts';
+import { Breadcrumbs } from '@components/ui/Breadcrumbs/Breadcrumbs';
+import { ProductSkeleton } from '@components/product/ProductSkelet/ProductSkelet';
+import { Dropdown } from '@components/ui/Dropdown/Dropdown';
+import { sortProducts } from '@utils/productFilters';
+import arrowIcon from '@assets/icons/arrow-right.svg';
 
 export const TabletsPage = () => {
   const [tablets, setTablets] = useState<Product[]>([]);
@@ -28,6 +28,8 @@ export const TabletsPage = () => {
             category: 'tablets',
           })),
         );
+      } catch (error) {
+        console.error('Failed to fetch tablets:', error);
       } finally {
         setTimeout(() => setIsLoading(false), 600);
       }
@@ -110,14 +112,13 @@ export const TabletsPage = () => {
         <section className={s['tablets-page__list']}>
           {isLoading ?
             Array.from({ length: 8 }).map((_, i) => <ProductSkeleton key={i} />)
-          : visibleTablets.length > 0 ?
-            visibleTablets.map((tablet) => (
+          : visibleTablets.map((tablet) => (
               <ProductCard
                 key={tablet.id}
                 product={tablet}
               />
             ))
-          : <NoResults category="tablets" />}
+          }
         </section>
 
         {totalPages > 1 && (
@@ -129,14 +130,13 @@ export const TabletsPage = () => {
                 className={`${s.pageButton} ${s.arrow} ${s.arrowLeft}`}
               >
                 <img
-                  src="src/assets/icons/arrow-right.svg"
+                  src={arrowIcon}
                   alt="Previous page"
                 />
               </button>
 
               {[...Array(totalPages)].map((_, index) => {
                 const page = index + 1;
-
                 return (
                   <button
                     key={page}
@@ -154,7 +154,7 @@ export const TabletsPage = () => {
                 className={`${s.pageButton} ${s.arrow}`}
               >
                 <img
-                  src="src/assets/icons/arrow-right.svg"
+                  src={arrowIcon}
                   alt="Next page"
                 />
               </button>

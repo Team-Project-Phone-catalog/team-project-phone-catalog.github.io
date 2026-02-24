@@ -1,5 +1,5 @@
 import './ProductDetail.scss';
-import { DescriptionSection } from '../../../types/Product.ts';
+import { DescriptionSection } from '@/types/Product';
 import React from 'react';
 
 type Props = {

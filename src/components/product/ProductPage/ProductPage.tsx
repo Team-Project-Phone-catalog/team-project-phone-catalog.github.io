@@ -1,16 +1,20 @@
-import './ProductPage.scss';
-import { ProductGallery } from '../ProductGallery/ProductGallery.tsx';
-import { ProductOptions } from '../ProductOptions/ProductOptions.tsx';
-import { ProductPurchase } from '../ProductPurchase/ProductPurchase.tsx';
-import { ProductDetail } from '../ProductDetail';
-import { TechSpecs } from '../TechSpecs/TechSpecs.tsx';
-import { RelatedProducts } from '../RelatedProducts/RelatedProducts.tsx';
-import { ProductDetails } from '../../../types/Product.ts';
 import React, { useRef, useEffect } from 'react';
-import { ProductFeatures } from '../ProductFeatures';
 import { useLocation } from 'react-router-dom';
-import { ScrollToTop } from '../../common/ScrollToTop/ScrollToTop.tsx';
-import { ReviewsPage } from '../Reviews/ReviewsPage';
+
+import './ProductPage.scss';
+
+import { ProductGallery } from '@components/product/ProductGallery/ProductGallery';
+import { ProductOptions } from '@components/product/ProductOptions/ProductOptions';
+import { ProductPurchase } from '@components/product/ProductPurchase/ProductPurchase';
+import { ProductDetail } from '@components/product/ProductDetail';
+import { TechSpecs } from '@components/product/TechSpecs/TechSpecs';
+import { RelatedProducts } from '@components/product/RelatedProducts/RelatedProducts';
+import { ProductFeatures } from '@components/product/ProductFeatures';
+import { ReviewsPage } from '@components/product/Reviews/ReviewsPage';
+
+import { ScrollToTop } from '@components/common/ScrollToTop/ScrollToTop';
+
+import { ProductDetails } from '@/types/Product';
 
 type Props = {
   product: ProductDetails;

@@ -1,4 +1,4 @@
-import { BarRow } from '../../../product/Reviews/BarRow/BarRow';
+import { BarRow } from '@components/product/Reviews/BarRow/BarRow';
 import './DropDown.scss';
 
 interface Rating {

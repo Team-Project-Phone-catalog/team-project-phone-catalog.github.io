@@ -2,12 +2,12 @@ import { useEffect, useState, useMemo, useRef } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import Fuse from 'fuse.js';
-import { getProducts } from '../../../../api/products';
-import { Product } from '../../../../types/Product';
+import { getProducts } from '@api/products';
+import { Product } from '@/types/Product';
 import styles from './Search.module.scss';
-import searchLight from '../../../../assets/icons/search-light.svg';
-import searchDark from '../../../../assets/icons/search-dark.svg';
-import closeIcon from '../../../../assets/icons/close-dark.svg';
+import searchLight from '@assets/icons/search-light.svg';
+import searchDark from '@assets/icons/search-dark.svg';
+import closeIcon from '@assets/icons/close-dark.svg';
 
 export const Search = () => {
   const [query, setQuery] = useState('');

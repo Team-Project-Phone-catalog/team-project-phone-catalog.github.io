@@ -1,9 +1,9 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { useAppContext } from '../../../hooks/useAppContext';
-import { supabase } from '../../../utils/supabaseClient';
-import { notify } from '../../../utils/notifications';
+import { useAppContext } from '@hooks/useAppContext';
+import { supabase } from '@utils/supabaseClient';
+import { notify } from '@utils/notifications';
 
 import styles from './CheckoutModal.module.scss';
 

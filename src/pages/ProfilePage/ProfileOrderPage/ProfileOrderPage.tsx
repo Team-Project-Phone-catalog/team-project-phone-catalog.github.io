@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import styles from './ProfileOrderPage.module.scss';
-import { Sidebar } from '../../../components/layout/SideBar';
-import { Breadcrumbs } from '../../../components/ui/Breadcrumbs/Breadcrumbs.tsx';
-import { Order, ProductFromDB } from '../../../types/CartOrder.ts';
-import { supabase } from '../../../utils/supabaseClient.ts';
-import { Loader } from '../../../components/ui/Loader/Loader.tsx';
-import { EmptyOrders } from '../../../components/ui/Profile/CartHistory/EmptyOrders/EmptyOrders.tsx';
-import { OrderCard } from '../../../components/ui/Profile/CartHistory/OrderCard/OrderCard.tsx';
+import { Sidebar } from '@components/layout/SideBar';
+import { Breadcrumbs } from '@components/ui/Breadcrumbs/Breadcrumbs';
+import { Order, ProductFromDB } from '@/types/CartOrder';
+import { supabase } from '@utils/supabaseClient';
+import { Loader } from '@components/ui/Loader/Loader';
+import { EmptyOrders } from '@components/ui/Profile/CartHistory/EmptyOrders/EmptyOrders';
+import { OrderCard } from '@components/ui/Profile/CartHistory/OrderCard/OrderCard';
 
 export const ProfileOrderPage: React.FC = () => {
   const [orders, setOrders] = useState<Order[]>([]);
