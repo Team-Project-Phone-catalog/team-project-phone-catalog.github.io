@@ -11,7 +11,7 @@ import { ProductSkeleton } from '@components/product/ProductSkelet/ProductSkelet
 import { Dropdown } from '@components/ui/Dropdown/Dropdown';
 import { usePagination } from '@hooks/usePagination';
 import { usePaginationWithParams } from '@hooks/usePaginationWithParams';
-import arrowIcon from '@assets/icons/arrow-right.svg';
+import arrowRight from '@assets/icons/arrow-right.svg';
 
 export const PhonesPage = () => {
   const { t } = useTranslation();
@@ -137,7 +137,7 @@ export const PhonesPage = () => {
                 className={`${s.pageButton} ${s.arrow} ${s.arrowLeft}`}
               >
                 <img
-                  src={arrowIcon}
+                  src={arrowRight}
                   alt="Previous page"
                 />
               </button>
@@ -173,7 +173,7 @@ export const PhonesPage = () => {
                 className={`${s.pageButton} ${s.arrow}`}
               >
                 <img
-                  src={arrowIcon}
+                  src={arrowRight}
                   alt="Next page"
                 />
               </button>

@@ -157,7 +157,8 @@
     width: 16px;
     height: 16px;
     display: block;
-    filter: brightness(1);
+    filter: $icon-filter;
+    transition: filter 0.2s ease;
   }
 }
 
