@@ -45,6 +45,7 @@ export const Breadcrumbs = () => {
         <img
           src={homeDarkIcon}
           alt="Home"
+          className={s.breadcrumbs__icon}
         />
       </Link>
 

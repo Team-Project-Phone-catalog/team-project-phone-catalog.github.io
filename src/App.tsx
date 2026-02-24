@@ -1,33 +1,30 @@
 import './App.css';
 import { Route, Routes, Navigate } from 'react-router-dom';
+
 import { loadStripe } from '@stripe/stripe-js';
 import { Elements } from '@stripe/react-stripe-js';
+
+import { Header } from './components/layout/Header/Header.tsx';
+import { Footer } from './components/layout/Footer';
+import { PhonesPage } from './pages/PhonesPage/PhonesPage.tsx';
+import { AccessoriesPage } from './pages/AccessoriesPage/AccessoriesPage.tsx';
+import { CartPage } from './pages/CartPage/CartPage.tsx';
+import { NotFoundPage } from './pages/NotFoundPage/NotFoundPage.tsx';
+import { TabletsPage } from './pages/TabletsPage/TabletsPage.tsx';
+import { HomePage } from './pages/HomePage/HomePage.tsx';
+import { FavoritesPage } from './pages/FavoritesPage/FavoritesPage.tsx';
+import { ProductDetailsPage } from './pages/ProductDetailsPage/ProductDetailsPage.tsx';
+import { ScrollToTop } from './components/common/ScrollToTop/ScrollToTop.tsx';
 import { Toaster } from 'sonner';
 
-// Layout & Common
-import { Header } from '@components/layout/Header/Header';
-import { Footer } from '@components/layout/Footer';
-import { ScrollToTop } from '@components/common/ScrollToTop/ScrollToTop';
-import { HelpWidget } from '@components/common/HelpWidget/HelpWidget';
-
-// Pages
-import { HomePage } from '@pages/HomePage/HomePage';
-import { PhonesPage } from '@pages/PhonesPage/PhonesPage';
-import { TabletsPage } from '@pages/TabletsPage/TabletsPage';
-import { AccessoriesPage } from '@pages/AccessoriesPage/AccessoriesPage';
-import { ProductDetailsPage } from '@pages/ProductDetailsPage/ProductDetailsPage';
-import { FavoritesPage } from '@pages/FavoritesPage/FavoritesPage';
-import { CartPage } from '@pages/CartPage/CartPage';
-import { RightsPage } from '@pages/RightsPage/RightsPage';
-import { ContactsPage } from '@pages/ContactsPage/ContactsPage';
-import { NotFoundPage } from '@pages/NotFoundPage/NotFoundPage';
-
-// Profile & Admin
-import { ProfilePage } from '@pages/ProfilePage/ProfilePage';
-import { ProfileOrderPage } from '@pages/ProfilePage/ProfileOrderPage/ProfileOrderPage';
-import { AdminPage } from '@pages/ProfilePage/AdminPage/AdminPage';
-import { SupportChat } from '@pages/ProfilePage/SupportChat/SupportChat';
-import { WalletPage } from '@pages/ProfilePage/WalletPage/WalletPage';
+import { ProfilePage } from './pages/ProfilePage/ProfilePage';
+import { HelpWidget } from './components/common/HelpWidget/HelpWidget.tsx';
+import { ProfileOrderPage } from './pages/ProfilePage/ProfileOrderPage/ProfileOrderPage.tsx';
+import { AdminPage } from './pages/ProfilePage/AdminPage/AdminPage.tsx';
+import { SupportChat } from './pages/ProfilePage/SupportChat/SupportChat.tsx';
+import { WalletPage } from './pages/ProfilePage/WalletPage/WalletPage.tsx';
+import { RightsPage } from './pages/RightsPage/RightsPage.tsx';
+import { ContactsPage } from './pages/ContactsPage/ContactsPage.tsx';
 
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
 
@@ -52,8 +49,6 @@ export const App = () => {
               path="/"
               element={<HomePage />}
             />
-
-            {/* Редіректи для чистої пагінації (якщо вони потрібні) */}
             <Route
               path="/phones"
               element={
@@ -103,6 +98,7 @@ export const App = () => {
               path="/favorites"
               element={<FavoritesPage />}
             />
+
             <Route
               path="/profile"
               element={<ProfilePage />}
@@ -128,6 +124,7 @@ export const App = () => {
               path="/:category/:productId"
               element={<ProductDetailsPage />}
             />
+
             <Route
               path="/rights"
               element={<RightsPage />}
@@ -136,6 +133,7 @@ export const App = () => {
               path="/contacts"
               element={<ContactsPage />}
             />
+
             <Route
               path="*"
               element={<NotFoundPage />}

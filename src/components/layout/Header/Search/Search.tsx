@@ -6,9 +6,8 @@ import Fuse from 'fuse.js';
 import { getProducts } from '@api/products';
 import { Product } from '@/types/Product';
 import styles from './Search.module.scss';
-import searchLight from '@assets/icons/search-light.svg';
-import searchDark from '@assets/icons/search-dark.svg';
-import closeIcon from '@assets/icons/close-dark.svg';
+import searchIcon from '@assets/icons/search.svg';
+import closeIcon from '@assets/icons/close.svg';
 
 export const Search = () => {
   const { t } = useTranslation();
@@ -18,29 +17,10 @@ export const Search = () => {
   const [selectedIndex, setSelectedIndex] = useState(-1);
   const [isMobile, setIsMobile] = useState(false);
 
-  const [currentTheme, setCurrentTheme] = useState(
-    document.documentElement.getAttribute('data-theme') || 'light',
-  );
-
   const searchRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const listRef = useRef<HTMLUListElement>(null);
   const navigate = useNavigate();
-
-  useEffect(() => {
-    const observer = new MutationObserver(() => {
-      const theme =
-        document.documentElement.getAttribute('data-theme') || 'light';
-      setCurrentTheme(theme);
-    });
-
-    observer.observe(document.documentElement, {
-      attributes: true,
-      attributeFilter: ['data-theme'],
-    });
-
-    return () => observer.disconnect();
-  }, []);
 
   const [hotkeyText] = useState(() => {
     if (typeof window !== 'undefined') {
@@ -209,12 +189,7 @@ export const Search = () => {
           <AnimatePresence mode="wait">
             <motion.img
               key={query ? 'close' : 'search'}
-              src={
-                query ? closeIcon
-                : currentTheme === 'light' ?
-                  searchDark
-                : searchLight
-              }
+              src={query ? closeIcon : searchIcon}
               className={styles.search__icon}
               initial={{ opacity: 0, scale: 0.5, rotate: query ? -90 : 0 }}
               animate={{ opacity: 1, scale: 1, rotate: 0 }}

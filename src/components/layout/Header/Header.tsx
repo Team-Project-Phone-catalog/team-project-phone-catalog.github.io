@@ -4,12 +4,12 @@ import { useTranslation } from 'react-i18next';
 import { BurgerMenu } from './BurgerMenu/BurgerMenu';
 import { CounterIcon } from './CounterIcon/CounterIcon';
 import styles from './Header.module.scss';
+
+import heartIcon from '@assets/icons/heart.svg';
+import cartIcon from '@assets/icons/cart.svg';
+import userIcon from '@assets/icons/user.svg';
 import logoDark from '@assets/logo-dark.svg';
 import logoLight from '@assets/logo-light.svg';
-import heartIcon from '@assets/icons/heart-dark.svg';
-import cartIcon from '@assets/icons/cart-dark.svg';
-import userLight from '@assets/icons/user-light.svg';
-import userDark from '@assets/icons/user-dark.svg';
 import { useAppContext } from '@hooks/useAppContext';
 import { Search } from './Search/Search';
 import { AuthModal } from '@components/common/AuthModal';
@@ -18,7 +18,7 @@ import { User } from '@supabase/supabase-js';
 import { ThemeSwitcher } from './ThemeSwitcher/ThemeSwitcher';
 
 export const Header = () => {
-  const { t, i18n } = useTranslation();
+  const { i18n } = useTranslation();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const [user, setUser] = useState<User | null>(null);
@@ -27,18 +27,16 @@ export const Header = () => {
   const { getTotalItems, getFavoritesCount } = useAppContext();
   const cartCount = getTotalItems();
   const favoritesCount = getFavoritesCount();
-
   const navLinks = [
-    { id: 1, name: t('nav.home'), path: '/' },
-    { id: 2, name: t('nav.phones'), path: '/phones' },
-    { id: 3, name: t('nav.tablets'), path: '/tablets' },
-    { id: 4, name: t('nav.accessories'), path: '/accessories' },
+    { id: 1, name: 'Home', path: '/' },
+    { id: 2, name: 'Phones', path: '/phones' },
+    { id: 3, name: 'Tablets', path: '/tablets' },
+    { id: 4, name: 'Accessories', path: '/accessories' },
   ];
 
   const toggleMenu = () => setIsMenuOpen((prev) => !prev);
   const closeMenu = () => setIsMenuOpen(false);
   const [theme, setTheme] = useState('dark');
-
   const changeLanguage = (lng: string) => {
     i18n.changeLanguage(lng);
   };
@@ -75,8 +73,6 @@ export const Header = () => {
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme);
   }, [theme]);
-
-  const userIcon = theme === 'light' ? userDark : userLight;
 
   return (
     <>
@@ -133,9 +129,7 @@ export const Header = () => {
                 UA
               </button>
             </div>
-
             <Search />
-
             <div className={styles.header__icons}>
               <div className={styles.header__theme}>
                 <ThemeSwitcher

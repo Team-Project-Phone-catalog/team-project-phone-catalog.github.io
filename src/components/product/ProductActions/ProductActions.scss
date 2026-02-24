@@ -17,7 +17,7 @@
     font-size: 14px;
     line-height: 21px;
     letter-spacing: 0;
-    color: $color-light-1;
+    color: $btn-primary-text;
     background-color: $color-accent;
     text-decoration: none;
     text-align: center;
@@ -41,7 +41,7 @@
     width: 40px;
     height: 40px;
     background-color: $bg-card;
-    background-image: url(../../../assets/icons/heart-dark.svg);
+    background-image: url(../../../assets/icons/heart.svg);
     background-repeat: no-repeat;
     background-position: center;
     cursor: pointer;
