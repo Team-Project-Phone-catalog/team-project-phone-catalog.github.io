@@ -1,5 +1,5 @@
 @use '../../../../styles/variables.scss' as *;
-@import '../../../../styles/utils';
+@use '../../../../styles/utils' as *;
 
 .menu {
   position: fixed;

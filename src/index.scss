@@ -1,5 +1,5 @@
 @use 'styles/variables' as *;
-@import 'styles/utils.scss';
+@use 'styles/utils.scss' as *;
 
 @font-face {
   font-family: 'Mont';
