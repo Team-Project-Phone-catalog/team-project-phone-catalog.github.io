@@ -28,12 +28,14 @@ export const RatingsWidget = ({
     <div
       ref={wrapRef}
       className="ratings-widget"
+      style={{ display: 'flex', alignItems: 'center', gap: '8px' }}
     >
       <span className="ratings-widget__score">{avgScore}</span>
       <button
         className="ratings-widget__trigger"
         onClick={() => setOpen((v) => !v)}
         aria-expanded={open}
+        style={{ verticalAlign: 'middle' }}
       >
         <Stars score={avgScore} />
         <svg

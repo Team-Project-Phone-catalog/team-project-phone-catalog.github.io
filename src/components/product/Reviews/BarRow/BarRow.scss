@@ -5,12 +5,7 @@
   align-items: center;
   gap: 8px;
   padding: 3px 0;
-  cursor: pointer;
-
-  &:hover .bar-row__label {
-    color: $color-accent-hover;
-    text-decoration: underline;
-  }
+  cursor: default;
 
   &__label {
     font-size: 13px;
@@ -18,6 +13,7 @@
     min-width: 38px;
     white-space: nowrap;
     transition: color 0.2s ease;
+    text-decoration: none;
   }
 
   &__track {

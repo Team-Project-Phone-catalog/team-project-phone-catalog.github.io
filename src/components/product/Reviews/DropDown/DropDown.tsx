@@ -39,7 +39,6 @@ export const DropDown = ({
           label={r.label}
           pct={r.pct}
           animate={open}
-          onClick={onSeeAll}
         />
       ))}
 
