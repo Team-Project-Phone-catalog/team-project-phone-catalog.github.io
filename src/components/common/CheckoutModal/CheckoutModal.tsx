@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
 
 import { useAppContext } from '../../../hooks/useAppContext';
 import { supabase } from '../../../utils/supabaseClient';
@@ -13,31 +14,30 @@ interface Props {
 }
 
 type Step = 1 | 2 | 3;
-type DeliveryMethod = 'home' | 'pickup';
+type DeliveryMethod = 'home';
 type PaymentMethod = 'card' | 'paypal' | 'cod';
 
 export const CheckoutModal: React.FC<Props> = ({ isOpen, onClose }) => {
   const navigate = useNavigate();
-
+  const stripe = useStripe();
+  const elements = useElements();
   const { cartItems, getTotalPrice, getTotalItems, clearCart } =
     useAppContext();
 
   const [step, setStep] = useState<Step>(1);
+  const [paymentOpen, setPaymentOpen] = useState(false);
 
   const [fullName, setFullName] = useState('');
   const [phone, setPhone] = useState('');
 
   const [deliveryMethod, setDeliveryMethod] = useState<DeliveryMethod>('home');
   const [address, setAddress] = useState('');
-  const [pickupPoint, setPickupPoint] = useState('');
 
   const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>('card');
-  const [cardNumber, setCardNumber] = useState('');
-  const [cardExpiry, setCardExpiry] = useState('');
-  const [cardCvc, setCardCvc] = useState('');
 
   const [loading, setLoading] = useState(false);
   const [successOrderId, setSuccessOrderId] = useState<string | null>(null);
+  const [paypalConfirmed, setPaypalConfirmed] = useState(false);
 
   const totalPrice = useMemo(() => getTotalPrice(), [getTotalPrice]);
   const totalItems = useMemo(() => getTotalItems(), [getTotalItems]);
@@ -50,13 +50,10 @@ export const CheckoutModal: React.FC<Props> = ({ isOpen, onClose }) => {
     setPhone('');
     setDeliveryMethod('home');
     setAddress('');
-    setPickupPoint('');
     setPaymentMethod('card');
-    setCardNumber('');
-    setCardExpiry('');
-    setCardCvc('');
     setLoading(false);
     setSuccessOrderId(null);
+    setPaypalConfirmed(false);
   }, [isOpen]);
 
   useEffect(() => {
@@ -70,82 +67,93 @@ export const CheckoutModal: React.FC<Props> = ({ isOpen, onClose }) => {
     return () => window.clearTimeout(t);
   }, [successOrderId, navigate, onClose]);
 
+  useEffect(() => {
+    const handleMessage = (event: MessageEvent) => {
+      if (event.data.type === 'paypal_confirmed') {
+        setPaypalConfirmed(true);
+      }
+    };
+
+    window.addEventListener('message', handleMessage);
+    return () => window.removeEventListener('message', handleMessage);
+  }, []);
+
+  useEffect(() => {
+    if (paypalConfirmed) {
+      setPaypalConfirmed(false);
+      handleCreateOrder();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [paypalConfirmed]);
+
   if (!isOpen) return null;
 
   const isStep1Valid = fullName.trim().length >= 2 && phone.trim().length >= 6;
 
   const isStep2Valid =
-    deliveryMethod === 'home' ?
-      address.trim().length >= 6
-    : pickupPoint.trim().length >= 3;
+    deliveryMethod === 'home' ? address.trim().length >= 6 : true;
 
-  const isCardValid = (() => {
-    if (paymentMethod !== 'card') return true;
+  const isStep3Valid = Boolean(paymentMethod);
 
-    const digits = cardNumber.replace(/\s/g, '');
-    const expiry = cardExpiry.trim();
-    const cvc = cardCvc.trim();
+  const handlePayPalDemo = () => {
+    const paypalUrl = new URL('about:blank');
+    paypalUrl.hash = 'paypal-demo';
+    const newWindow = window.open(
+      'about:blank',
+      'paypal_demo',
+      'width=500,height=600',
+    );
 
-    const isDigitsOk = /^\d{16}$/.test(digits);
-    const isExpiryOk = /^(0[1-9]|1[0-2])\/\d{2}$/.test(expiry);
-    const isCvcOk = /^\d{3,4}$/.test(cvc);
-
-    return isDigitsOk && isExpiryOk && isCvcOk;
-  })();
-
-  const isStep3Valid = Boolean(paymentMethod) && isCardValid;
-
-  const formatCardNumber = (value: string) => {
-    const digits = value.replace(/\D/g, '').slice(0, 16);
-    return digits.replace(/(\d{4})(?=\d)/g, '$1 ').trim();
+    if (newWindow) {
+      newWindow.document.write(`
+        <!DOCTYPE html>
+        <html>
+          <head>
+            <title>PayPal - Confirm Payment</title>
+            <style>
+              body { font-family: Arial, sans-serif; margin: 0; padding: 20px; background: #f5f5f5; }
+              .container { max-width: 400px; margin: 50px auto; background: white; padding: 30px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); text-align: center; }
+              h1 { color: #003087; margin-bottom: 10px; }
+              .logo { font-size: 32px; margin: 20px 0; }
+              p { color: #666; margin: 15px 0; }
+              .amount { font-size: 24px; font-weight: bold; color: #333; margin: 20px 0; }
+              button { padding: 12px 30px; margin: 10px 5px; border: none; border-radius: 4px; cursor: pointer; font-size: 16px; }
+              .confirm-btn { background: #0070ba; color: white; }
+              .confirm-btn:hover { background: #005a94; }
+              .cancel-btn { background: #e8e8e8; color: #333; }
+              .cancel-btn:hover { background: #d0d0d0; }
+            </style>
+          </head>
+          <body>
+            <div class="container">
+              <h1>PayPal</h1>
+              <p>Confirm your payment</p>
+              <div class="amount">$${totalPrice}</div>
+              <p><small>This is a demo payment confirmation</small></p>
+              <button class="confirm-btn" onclick="confirm()">Confirm Payment</button>
+              <button class="cancel-btn" onclick="cancel()">Cancel</button>
+            </div>
+            <script>
+              function confirm() {
+                window.opener.postMessage({ type: 'paypal_confirmed' }, '*');
+                window.close();
+              }
+              function cancel() {
+                window.close();
+              }
+            </script>
+          </body>
+        </html>
+      `);
+    }
   };
 
-  const formatExpiry = (value: string) => {
-    const digits = value.replace(/\D/g, '').slice(0, 4);
-    if (digits.length <= 2) return digits;
-    return `${digits.slice(0, 2)}/${digits.slice(2)}`;
-  };
-
-  const handleCreateOrder = async () => {
-    if (cartItems.length === 0) {
-      notify.error('Your cart is empty.');
-      return;
-    }
-
-    if (!isStep1Valid) {
-      notify.error('Please fill in your name and phone.');
-      setStep(1);
-      return;
-    }
-
-    if (!isStep2Valid) {
-      notify.error(
-        deliveryMethod === 'home' ?
-          'Please enter your delivery address.'
-        : 'Please enter a pick-up point.',
-      );
-      setStep(2);
-      return;
-    }
-
-    if (!isStep3Valid) {
-      notify.error('Please check your payment details.');
-      setStep(3);
-      return;
-    }
-
-    setLoading(true);
-
+  const createOrderInDatabase = async () => {
     try {
       const { data: userData, error: userError } =
         await supabase.auth.getUser();
 
       if (userError) {
-        notify.error(userError.message);
-        return;
-      }
-
-      if (!userData.user) {
         notify.error('You must be logged in to place an order.');
         return;
       }
@@ -157,12 +165,10 @@ export const CheckoutModal: React.FC<Props> = ({ isOpen, onClose }) => {
         status: 'processing',
         total: totalPrice,
         date: new Date(),
-
         full_name: fullName.trim(),
         phone: phone.trim(),
         delivery_method: deliveryMethod,
         address: deliveryMethod === 'home' ? address.trim() : null,
-        pickup_point: deliveryMethod === 'pickup' ? pickupPoint.trim() : null,
         payment_method: paymentMethod,
       };
 
@@ -173,7 +179,6 @@ export const CheckoutModal: React.FC<Props> = ({ isOpen, onClose }) => {
         .single();
 
       if (orderError) {
-        console.error(orderError);
         notify.error(orderError.message);
         return;
       }
@@ -192,7 +197,6 @@ export const CheckoutModal: React.FC<Props> = ({ isOpen, onClose }) => {
         .insert(itemsPayload);
 
       if (itemsError) {
-        console.error(itemsError);
         notify.error(itemsError.message);
         return;
       }
@@ -204,9 +208,101 @@ export const CheckoutModal: React.FC<Props> = ({ isOpen, onClose }) => {
         'Order placed successfully',
         'Redirecting you to your orders...',
       );
-    } catch (e) {
-      console.error(e);
+    } catch {
       notify.error('Something went wrong. Please try again.');
+    }
+  };
+
+  const handleCreateOrder = async () => {
+    if (cartItems.length === 0) {
+      notify.error('Your cart is empty.');
+      return;
+    }
+
+    if (!isStep1Valid) {
+      notify.error('Please fill in your name and phone.');
+      setStep(1);
+      return;
+    }
+
+    if (!isStep2Valid) {
+      notify.error(
+        deliveryMethod === 'home' ? 'Please enter your delivery address.' : '',
+      );
+      setStep(2);
+      return;
+    }
+
+    if (!isStep3Valid) {
+      notify.error('Please check your payment details.');
+      setStep(3);
+      return;
+    }
+
+    setLoading(true);
+
+    try {
+      // Если это COD (Cash on Delivery), просто создаем заказ
+      if (paymentMethod === 'cod') {
+        await createOrderInDatabase();
+        return;
+      }
+
+      // Если это карта, нужен Stripe
+      if (!stripe || !elements) {
+        notify.error('Stripe is not loaded');
+        return;
+      }
+
+      const response = await fetch(
+        `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/create-payment-intent`,
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            amount: totalPrice * 100,
+          }),
+        },
+      );
+
+      if (!response.ok) {
+        const errorData = await response.text();
+        console.error('Server error:', errorData);
+        notify.error('Failed to create payment intent');
+        return;
+      }
+
+      const { clientSecret } = await response.json();
+
+      if (!clientSecret) {
+        notify.error('Invalid payment response');
+        return;
+      }
+
+      const { error, paymentIntent } = await stripe.confirmCardPayment(
+        clientSecret,
+        {
+          payment_method: {
+            card: elements.getElement(CardElement)!,
+          },
+        },
+      );
+
+      if (error) {
+        notify.error(error.message || 'Payment failed');
+        return;
+      }
+
+      if (paymentIntent?.status === 'succeeded') {
+        await createOrderInDatabase();
+        notify.success('Payment successful');
+      }
+    } catch (err) {
+      console.error('Payment error:', err);
+      notify.error(
+        'Payment error: ' +
+          (err instanceof Error ? err.message : 'Unknown error'),
+      );
     } finally {
       setLoading(false);
     }
@@ -267,6 +363,7 @@ export const CheckoutModal: React.FC<Props> = ({ isOpen, onClose }) => {
           renderSuccess()
         : <div className={styles.content}>
             <div className={styles.formSection}>
+              {/* STEP 1 */}
               <div className={styles.stepBlock}>
                 <div className={styles.stepHeader}>
                   <h2>Your details</h2>
@@ -278,13 +375,38 @@ export const CheckoutModal: React.FC<Props> = ({ isOpen, onClose }) => {
                       className={styles.input}
                       placeholder="Full name *"
                       value={fullName}
-                      onChange={(e) => setFullName(e.target.value)}
+                      maxLength={60}
+                      onChange={(e) => {
+                        const cleaned = e.target.value
+                          .replace(
+                            /[^a-zA-Z\u00C0-\u024F\u0400-\u04FF' -]/g,
+                            '',
+                          )
+                          .replace(/\s{2,}/g, ' ')
+                          .slice(0, 30);
+
+                        setFullName(cleaned);
+                      }}
                     />
+
                     <input
                       className={styles.input}
                       placeholder="Phone number *"
                       value={phone}
-                      onChange={(e) => setPhone(e.target.value)}
+                      inputMode="tel"
+                      maxLength={16}
+                      onChange={(e) => {
+                        let value = e.target.value.replace(/[^\d+]/g, '');
+
+                        if (value.includes('+')) {
+                          value = value.replace(/\+/g, '');
+                          value = `+${value}`;
+                        }
+
+                        const digits = value.replace(/\D/g, '').slice(0, 15);
+
+                        setPhone(value.startsWith('+') ? `+${digits}` : digits);
+                      }}
                     />
 
                     <button
@@ -306,31 +428,19 @@ export const CheckoutModal: React.FC<Props> = ({ isOpen, onClose }) => {
 
                 {step === 2 && (
                   <div className={styles.stepContent}>
-                    <select
-                      className={styles.select}
-                      value={deliveryMethod}
-                      onChange={(e) =>
-                        setDeliveryMethod(e.target.value as DeliveryMethod)
-                      }
-                    >
-                      <option value="home">Home address</option>
-                      <option value="pickup">Pick-up point</option>
-                    </select>
+                    <input
+                      className={styles.input}
+                      placeholder="Delivery address *"
+                      value={address}
+                      maxLength={40}
+                      onChange={(e) => {
+                        const cleaned = e.target.value
+                          .replace(/\s{2,}/g, ' ')
+                          .slice(0, 40);
 
-                    {deliveryMethod === 'home' ?
-                      <input
-                        className={styles.input}
-                        placeholder="Delivery address *"
-                        value={address}
-                        onChange={(e) => setAddress(e.target.value)}
-                      />
-                    : <input
-                        className={styles.input}
-                        placeholder="Pick-up point / locker / store *"
-                        value={pickupPoint}
-                        onChange={(e) => setPickupPoint(e.target.value)}
-                      />
-                    }
+                        setAddress(cleaned);
+                      }}
+                    />
 
                     <button
                       type="button"
@@ -359,59 +469,86 @@ export const CheckoutModal: React.FC<Props> = ({ isOpen, onClose }) => {
 
                 {step === 3 && (
                   <div className={styles.stepContent}>
-                    <select
-                      className={styles.select}
-                      value={paymentMethod}
-                      onChange={(e) =>
-                        setPaymentMethod(e.target.value as PaymentMethod)
-                      }
-                    >
-                      <option value="card">Credit / Debit Card</option>
-                      <option value="paypal">PayPal (demo)</option>
-                      <option value="cod">Cash on delivery</option>
-                    </select>
+                    <div className={styles.dropdown}>
+                      <button
+                        type="button"
+                        className={styles.dropdown__button}
+                        onClick={() => setPaymentOpen((prev) => !prev)}
+                      >
+                        {paymentMethod === 'card' ?
+                          'Credit / Debit Card'
+                        : paymentMethod === 'paypal' ?
+                          'PayPal'
+                        : 'Cash on delivery'}
+
+                        <span className={styles._arrow}>
+                          <img
+                            alt="Previous page"
+                            src="/src/assets/icons/arrow-down.svg"
+                          />
+                        </span>
+                      </button>
+
+                      {paymentOpen && (
+                        <div className={styles.dropdown__list}>
+                          <div
+                            className={styles.dropdown__item}
+                            onClick={() => {
+                              setPaymentMethod('card');
+                              setPaymentOpen(false);
+                            }}
+                          >
+                            Credit / Debit Card
+                          </div>
+
+                          <div
+                            className={styles.dropdown__item}
+                            onClick={() => {
+                              setPaymentMethod('paypal');
+                              setPaymentOpen(false);
+                            }}
+                          >
+                            PayPal
+                          </div>
+
+                          <div
+                            className={styles.dropdown__item}
+                            onClick={() => {
+                              setPaymentMethod('cod');
+                              setPaymentOpen(false);
+                            }}
+                          >
+                            Cash on delivery
+                          </div>
+                        </div>
+                      )}
+                    </div>
 
                     {paymentMethod === 'card' && (
                       <div className={styles.cardFields}>
-                        <input
-                          className={styles.input}
-                          placeholder="Card number"
-                          value={cardNumber}
-                          onChange={(e) =>
-                            setCardNumber(formatCardNumber(e.target.value))
-                          }
-                          inputMode="numeric"
+                        <CardElement
+                          options={{
+                            style: {
+                              base: {
+                                fontSize: '16px',
+                                color: '#fff',
+                              },
+                            },
+                          }}
                         />
-
-                        <div className={styles.cardRow}>
-                          <input
-                            className={styles.input}
-                            placeholder="MM/YY"
-                            value={cardExpiry}
-                            onChange={(e) =>
-                              setCardExpiry(formatExpiry(e.target.value))
-                            }
-                            inputMode="numeric"
-                          />
-
-                          <input
-                            className={styles.input}
-                            placeholder="CVC"
-                            value={cardCvc}
-                            onChange={(e) =>
-                              setCardCvc(
-                                e.target.value.replace(/\D/g, '').slice(0, 4),
-                              )
-                            }
-                            inputMode="numeric"
-                          />
-                        </div>
                       </div>
                     )}
+
                     <button
                       type="button"
                       className={styles.primaryBtn}
-                      onClick={handleCreateOrder}
+                      onClick={() => {
+                        if (paymentMethod === 'paypal') {
+                          handlePayPalDemo();
+                        } else {
+                          handleCreateOrder();
+                        }
+                      }}
                       disabled={loading || !isStep3Valid}
                     >
                       {loading ?

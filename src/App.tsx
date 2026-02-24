@@ -1,5 +1,7 @@
 import './App.css';
 import { Route, Routes } from 'react-router-dom';
+import { loadStripe } from '@stripe/stripe-js';
+import { Elements } from '@stripe/react-stripe-js';
 import { Header } from './components/layout/Header/Header.tsx';
 import { Footer } from './components/layout/Footer';
 import { PhonesPage } from './pages/PhonesPage/PhonesPage.tsx';
@@ -22,89 +24,93 @@ import { WalletPage } from './pages/ProfilePage/WalletPage/WalletPage.tsx';
 import { RightsPage } from './pages/RightsPage/RightsPage.tsx';
 import { ContactsPage } from './pages/ContactsPage/ContactsPage.tsx';
 
+const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
+
 export const App = () => {
   return (
-    <div className="App">
-      <Toaster
-        position="bottom-right"
-        richColors
-        toastOptions={{
-          className: 'my-custom-toast',
-        }}
-      />
+    <Elements stripe={stripePromise}>
+      <div className="App">
+        <Toaster
+          position="bottom-right"
+          richColors
+          toastOptions={{
+            className: 'my-custom-toast',
+          }}
+        />
 
-      <ScrollToTop />
-      <Header />
+        <ScrollToTop />
+        <Header />
 
-      <div className="container">
-        <Routes>
-          <Route
-            path="/"
-            element={<HomePage />}
-          />
-          <Route
-            path="/phones"
-            element={<PhonesPage />}
-          />
-          <Route
-            path="/tablets"
-            element={<TabletsPage />}
-          />
-          <Route
-            path="/accessories"
-            element={<AccessoriesPage />}
-          />
-          <Route
-            path="/cart"
-            element={<CartPage />}
-          />
-          <Route
-            path="/favorites"
-            element={<FavoritesPage />}
-          />
-          <Route
-            path="/profile"
-            element={<ProfilePage />}
-          />
+        <div className="container">
+          <Routes>
+            <Route
+              path="/"
+              element={<HomePage />}
+            />
+            <Route
+              path="/phones"
+              element={<PhonesPage />}
+            />
+            <Route
+              path="/tablets"
+              element={<TabletsPage />}
+            />
+            <Route
+              path="/accessories"
+              element={<AccessoriesPage />}
+            />
+            <Route
+              path="/cart"
+              element={<CartPage />}
+            />
+            <Route
+              path="/favorites"
+              element={<FavoritesPage />}
+            />
+            <Route
+              path="/profile"
+              element={<ProfilePage />}
+            />
 
-          <Route
-            path="/profile/orders"
-            element={<ProfileOrderPage />}
-          />
+            <Route
+              path="/profile/orders"
+              element={<ProfileOrderPage />}
+            />
 
-          <Route
-            path="/profile/admin"
-            element={<AdminPage />}
-          />
-          <Route
-            path="/profile/chat"
-            element={<SupportChat />}
-          />
-          <Route
-            path="/profile/wallet"
-            element={<WalletPage />}
-          />
-          <Route
-            path="/:category/:productId"
-            element={<ProductDetailsPage />}
-          />
-          <Route
-            path="/rights"
-            element={<RightsPage />}
-          />
-          <Route
-            path="/contacts"
-            element={<ContactsPage />}
-          />
-          <Route
-            path="*"
-            element={<NotFoundPage />}
-          />
-        </Routes>
+            <Route
+              path="/profile/admin"
+              element={<AdminPage />}
+            />
+            <Route
+              path="/profile/chat"
+              element={<SupportChat />}
+            />
+            <Route
+              path="/profile/wallet"
+              element={<WalletPage />}
+            />
+            <Route
+              path="/:category/:productId"
+              element={<ProductDetailsPage />}
+            />
+            <Route
+              path="/rights"
+              element={<RightsPage />}
+            />
+            <Route
+              path="/contacts"
+              element={<ContactsPage />}
+            />
+            <Route
+              path="*"
+              element={<NotFoundPage />}
+            />
+          </Routes>
+        </div>
+
+        <Footer />
+        <HelpWidget />
       </div>
-
-      <Footer />
-      <HelpWidget />
-    </div>
+    </Elements>
   );
 };
