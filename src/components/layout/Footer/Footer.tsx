@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import styles from './Footer.module.scss';
-import logoDark from '../../../assets/logo-dark.svg';
+import logoDark from '@assets/logo-dark.svg';
 
 export const Footer = () => {
   const { t } = useTranslation();

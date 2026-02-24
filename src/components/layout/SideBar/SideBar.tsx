@@ -2,8 +2,8 @@ import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next'; // Додано
 import styles from './Sidebar.module.scss';
-import { supabase } from '../../../utils/supabaseClient.ts';
-import { useAppContext } from '../../../hooks/useAppContext.ts';
+import { supabase } from '@utils/supabaseClient';
+import { useAppContext } from '@hooks/useAppContext';
 
 export const Sidebar = () => {
   const { t } = useTranslation(); // Додано

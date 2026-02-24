@@ -1,14 +1,16 @@
 import './ProductDetailsPage.scss';
-import { BackButton } from '../../components/ui/Buttons/Back/BackButton.tsx';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { useEffect, useRef, useState, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ProductDetails } from '../../types/Product.ts';
-import { getProductDetails } from '../../api/products.ts';
-import { Breadcrumbs } from '../../components/ui/Breadcrumbs/Breadcrumbs.tsx';
-import { Loader } from '../../components/ui/Loader/Loader.tsx';
-import { RatingsWidget } from '../../components/product/Reviews/RatingsWidget.tsx';
-import { ProductPage } from '../../components/product/ProductPage/ProductPage.tsx';
+
+import { ProductPage } from '@components/product/ProductPage/ProductPage';
+import { BackButton } from '@components/ui/Buttons/Back/BackButton';
+import { Breadcrumbs } from '@components/ui/Breadcrumbs/Breadcrumbs';
+import { Loader } from '@components/ui/Loader/Loader';
+import { RatingsWidget } from '@components/product/Reviews/RatingsWidget';
+
+import { ProductDetails } from '@/types/Product';
+import { getProductDetails } from '@api/products';
 
 export const ProductDetailsPage = () => {
   const { t } = useTranslation();

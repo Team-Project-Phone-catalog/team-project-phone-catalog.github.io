@@ -1,5 +1,5 @@
-import { Sidebar } from '../../../components/layout/SideBar';
-import { Breadcrumbs } from '../../../components/ui/Breadcrumbs/Breadcrumbs.tsx';
+import { Sidebar } from '@components/layout/SideBar';
+import { Breadcrumbs } from '@components/ui/Breadcrumbs/Breadcrumbs';
 import styles from './WalletPage.module.scss';
 
 export const WalletPage = () => {

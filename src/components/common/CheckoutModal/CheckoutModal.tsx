@@ -1,9 +1,11 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { useAppContext } from '../../../hooks/useAppContext';
-import { supabase } from '../../../utils/supabaseClient';
-import { notify } from '../../../utils/notifications';
+
+import { useAppContext } from '@hooks/useAppContext';
+import { supabase } from '@utils/supabaseClient';
+import { notify } from '@utils/notifications';
+
 import styles from './CheckoutModal.module.scss';
 
 interface Props {

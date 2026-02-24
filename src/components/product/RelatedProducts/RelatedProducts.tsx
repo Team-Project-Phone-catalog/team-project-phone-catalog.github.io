@@ -1,8 +1,8 @@
 import React, { useEffect, useMemo, useState, useRef } from 'react';
-import { useTranslation } from 'react-i18next'; // Додано
-import { getProducts } from '../../../api/products.ts';
-import { Product } from '../../../types/Product.ts';
-import { sortByBestPrice } from '../../../utils/productFilters.ts';
+import { useTranslation } from 'react-i18next';
+import { getProducts } from '@api/products';
+import { Product } from '@/types/Product';
+import { sortByBestPrice } from '@utils/productFilters';
 import './RelatedProducts.scss';
 import { ProductCard } from '../ProductCard';
 

@@ -1,8 +1,8 @@
 import React, { useState, ReactNode, useCallback, useEffect } from 'react';
-import { BaseProduct } from '../types/Product';
-import { CartItem } from '../types/Cart';
+import { BaseProduct } from '@/types/Product';
+import { CartItem } from '@/types/Cart';
 import { AppContext } from './AppContext';
-import { notify } from '../utils/notifications';
+import { notify } from '@utils/notifications';
 
 interface AppProviderProps {
   children: ReactNode;

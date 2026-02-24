@@ -1,10 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import styles from './SupportChat.module.scss';
-import { Sidebar } from '../../../components/layout/SideBar';
-import { Breadcrumbs } from '../../../components/ui/Breadcrumbs/Breadcrumbs.tsx';
-import { supabase } from '../../../utils/supabaseClient.ts';
-import { useSupportRealtime } from '../../../hooks/useRealTime.tsx';
+import { Sidebar } from '@components/layout/SideBar';
+import { Breadcrumbs } from '@components/ui/Breadcrumbs/Breadcrumbs';
+import { supabase } from '@utils/supabaseClient';
+import { useSupportRealtime } from '@hooks/useRealTime';
 
 interface Message {
   id: string;

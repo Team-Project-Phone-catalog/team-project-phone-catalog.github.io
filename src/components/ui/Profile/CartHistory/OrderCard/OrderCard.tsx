@@ -1,7 +1,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import styles from './OrderCard.module.scss';
-import { Order } from '../../../../../types/CartOrder.ts';
+import { Order } from '@/types/CartOrder';
 
 export const OrderCard: React.FC<{ order: Order }> = ({ order }) => {
   const { t } = useTranslation();

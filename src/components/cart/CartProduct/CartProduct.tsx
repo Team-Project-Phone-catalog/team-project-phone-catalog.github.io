@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
-import { CartItem } from '../../../types/Cart';
-import { ProductDetails } from '../../../types/Product';
+import { CartItem } from '@/types/Cart';
+import { ProductDetails } from '@/types/Product';
 import s from './CartProduct.module.scss';
 
 interface Props {

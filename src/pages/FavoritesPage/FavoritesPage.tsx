@@ -1,14 +1,15 @@
 import React, { useEffect, useState, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ProductCard } from '../../components/product/ProductCard';
-import { Product } from '../../types/Product';
-import { getAccessories, getPhones, getTablets } from '../../api/products';
-import { Breadcrumbs } from '../../components/ui/Breadcrumbs/Breadcrumbs';
-import { useAppContext } from '../../hooks/useAppContext';
-import { Loader } from '../../components/ui/Loader/Loader';
-import './FavoritesPage.scss';
-import Heart from './Heart';
 import { Link } from 'react-router-dom';
+import { ProductCard } from '@components/product/ProductCard';
+import { Product } from '@/types/Product';
+import { getAccessories, getPhones, getTablets } from '@api/products';
+import { Breadcrumbs } from '@components/ui/Breadcrumbs/Breadcrumbs';
+import { useAppContext } from '@hooks/useAppContext';
+import { Loader } from '@components/ui/Loader/Loader';
+import Heart from './Heart';
+
+import './FavoritesPage.scss';
 
 export const FavoritesPage: React.FC = () => {
   const { t } = useTranslation();

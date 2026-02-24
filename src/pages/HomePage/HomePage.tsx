@@ -1,18 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import styles from './HomePage.module.scss';
-import { Banner } from '../../components/ui/Banner/Banner';
+import { Banner } from '@components/ui/Banner/Banner';
 import { ProductsSlider } from './components/ProductsSlider';
 import { CategorySection } from './components/CategorySection';
-import { Loader } from '../../components/ui/Loader/Loader';
+import { Loader } from '@components/ui/Loader/Loader';
 import {
   getAccessories,
   getPhones,
   getProducts,
   getTablets,
-} from '../../api/products';
-import { Product } from '../../types/Product';
-import { sortByBestPrice, sortByNewest } from '../../utils/productFilters';
+} from '@api/products';
+import { Product } from '@/types/Product';
+import { sortByBestPrice, sortByNewest } from '@utils/productFilters';
 
 export const HomePage: React.FC = () => {
   const { t } = useTranslation();

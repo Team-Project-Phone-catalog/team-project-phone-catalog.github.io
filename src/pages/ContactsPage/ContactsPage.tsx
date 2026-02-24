@@ -1,5 +1,5 @@
 import styles from './contacts.module.scss';
-import { BackButton } from '../../components/ui/Buttons/Back/BackButton';
+import { BackButton } from '@components/ui/Buttons/Back/BackButton';
 
 type TeamMember = {
   name: string;
