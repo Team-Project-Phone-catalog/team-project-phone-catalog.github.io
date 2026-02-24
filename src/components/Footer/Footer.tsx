@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import styles from './Footer.module.scss';
-import logoDark from '../ui/Header/icons/logo-dark.svg';
+import logoDark from '../../assets/logo-dark.svg';
 
 export const Footer = () => {
   const handleScrollTop = () => {
@@ -38,11 +38,13 @@ export const Footer = () => {
           <span>Back to top</span>
 
           <button
-            type="button"
             onClick={handleScrollTop}
-            className={styles.arrow}
+            className={styles.scrollTop}
           >
-            ↑
+            <img
+              src="src/assets/icons/Button-Top.svg"
+              alt="Back to top"
+            />
           </button>
         </div>
       </div>

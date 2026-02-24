@@ -5,9 +5,9 @@ import Fuse from 'fuse.js';
 import { getProducts } from '../../../../api/products';
 import { Product } from '../../../../types/Product';
 import styles from './Search.module.scss';
-import searchLight from '../icons/search-light.svg';
-import searchDark from '../icons/search-dark.svg';
-import closeIcon from '../icons/Close.svg';
+import searchLight from '../../../../assets/icons/search-light.svg';
+import searchDark from '../../../../assets/icons/search-dark.svg';
+import closeIcon from '../../../../assets/icons/close-dark.svg';
 
 export const Search = () => {
   const [query, setQuery] = useState('');
@@ -16,10 +16,29 @@ export const Search = () => {
   const [selectedIndex, setSelectedIndex] = useState(-1);
   const [isMobile, setIsMobile] = useState(false);
 
+  const [currentTheme, setCurrentTheme] = useState(
+    document.documentElement.getAttribute('data-theme') || 'light',
+  );
+
   const searchRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const listRef = useRef<HTMLUListElement>(null);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const observer = new MutationObserver(() => {
+      const theme =
+        document.documentElement.getAttribute('data-theme') || 'light';
+      setCurrentTheme(theme);
+    });
+
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['data-theme'],
+    });
+
+    return () => observer.disconnect();
+  }, []);
 
   const [hotkeyText] = useState(() => {
     if (typeof window !== 'undefined') {
@@ -187,12 +206,9 @@ export const Search = () => {
               key={query ? 'close' : 'search'}
               src={
                 query ? closeIcon
-                : (
-                  document.documentElement.getAttribute('data-theme') ===
-                  'light'
-                ) ?
-                  searchLight
-                : searchDark
+                : currentTheme === 'light' ?
+                  searchDark
+                : searchLight
               }
               className={styles.search__icon}
               initial={{ opacity: 0, scale: 0.5, rotate: query ? -90 : 0 }}

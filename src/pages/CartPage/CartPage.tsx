@@ -7,6 +7,7 @@ import { CartProduct } from '../../components/ui/CartProduct/CartProduct';
 import { BackButton } from '../../components/ui/Buttons/Back/BackButton';
 import { useAppContext } from '../../hooks/useAppContext';
 import { CheckoutModal } from '../../components/CheckoutModal/CheckoutModal';
+import cartZeroImg from '../../assets/cart-zero.png';
 
 export const CartPage = () => {
   const {
@@ -36,7 +37,7 @@ export const CartPage = () => {
           <div className={s.imgWrapper}>
             <img
               className={s.img}
-              src="../../img/cart-zero.png"
+              src={cartZeroImg}
               alt="Empty Cart"
             />
           </div>
