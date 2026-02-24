@@ -21,7 +21,6 @@ export const usePaginationWithParams = ({
   const sortBy = (sort as SortType) || defaultSort;
   const currentPage = page ? +page : 1;
 
-  // якщо параметри відсутні → редірект
   useEffect(() => {
     if (!items || !sort || !page) {
       navigate(`${basePath}/${defaultItems}/${defaultSort}/1`, {

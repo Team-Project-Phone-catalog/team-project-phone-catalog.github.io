@@ -1,17 +1,17 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { getPhones } from '../../api/products';
-import { Product } from '../../types/Product';
-import { ProductCard } from '../../components/product/ProductCard/ProductCard.tsx';
-import { sortProducts } from '../../utils/productFilters';
-import { SortType } from '../../types/SortType';
+import { getPhones } from '@api/products';
+import { Product } from '@/types/Product';
+import { ProductCard } from '@components/product/ProductCard/ProductCard';
+import { sortProducts } from '@utils/productFilters';
+import { SortType } from '@/types/SortType';
 import s from './PhonesPage.module.scss';
-import { Breadcrumbs } from '../../components/ui/Breadcrumbs/Breadcrumbs.tsx';
-import { ProductSkeleton } from '../../components/product/ProductSkelet/ProductSkelet.tsx';
-import { NoResults } from '../../components/ui/NoResults/NoResults.tsx';
-import { Dropdown } from '../../components/ui/Dropdown/Dropdown';
-import { usePagination } from '../../hooks/usePagination.ts';
-import { usePaginationWithParams } from '../../hooks/usePaginationWithParams.ts';
+import { Breadcrumbs } from '@components/ui/Breadcrumbs/Breadcrumbs';
+import { ProductSkeleton } from '@components/product/ProductSkelet/ProductSkelet';
+import { Dropdown } from '@components/ui/Dropdown/Dropdown';
+import { usePagination } from '@hooks/usePagination';
+import { usePaginationWithParams } from '@hooks/usePaginationWithParams';
+import arrowRight from '@assets/icons/arrow-right.svg';
 
 export const PhonesPage = () => {
   const { t } = useTranslation();
@@ -35,6 +35,8 @@ export const PhonesPage = () => {
       try {
         const data = await getPhones();
         setPhones(data.map((phone) => ({ ...phone, category: 'phones' })));
+      } catch (error) {
+        console.error('Failed to fetch phones:', error);
       } finally {
         setTimeout(() => setIsLoading(false), 600);
       }
@@ -117,14 +119,13 @@ export const PhonesPage = () => {
         <section className={s['phones-page__list']}>
           {isLoading ?
             Array.from({ length: 8 }).map((_, i) => <ProductSkeleton key={i} />)
-          : visiblePhones.length > 0 ?
-            visiblePhones.map((phone) => (
+          : visiblePhones.map((phone) => (
               <ProductCard
                 key={phone.id}
                 product={phone}
               />
             ))
-          : <NoResults category="phones" />}
+          }
         </section>
 
         {totalPages > 1 && (
@@ -136,7 +137,7 @@ export const PhonesPage = () => {
                 className={`${s.pageButton} ${s.arrow} ${s.arrowLeft}`}
               >
                 <img
-                  src="src/assets/icons/arrow-right.svg"
+                  src={arrowRight}
                   alt="Previous page"
                 />
               </button>
@@ -172,7 +173,7 @@ export const PhonesPage = () => {
                 className={`${s.pageButton} ${s.arrow}`}
               >
                 <img
-                  src="src/assets/icons/arrow-right.svg"
+                  src={arrowRight}
                   alt="Next page"
                 />
               </button>

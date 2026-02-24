@@ -3,8 +3,8 @@ import { NavLink } from 'react-router-dom';
 import { User } from '@supabase/supabase-js';
 import { useTranslation } from 'react-i18next';
 import styles from './BurgerMenu.module.scss';
-import heartIcon from '../../../../assets/icons/heart-dark.svg';
-import cartIcon from '../../../../assets/icons/cart-dark.svg';
+import heartIcon from '@assets/icons/heart.svg';
+import cartIcon from '@assets/icons/cart.svg';
 
 interface Props {
   isOpen: boolean;

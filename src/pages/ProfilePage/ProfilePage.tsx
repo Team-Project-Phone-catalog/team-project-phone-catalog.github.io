@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { supabase } from '../../utils/supabaseClient';
+import { supabase } from '@utils/supabaseClient';
 import { User } from '@supabase/supabase-js';
 import styles from './ProfilePage.module.scss';
-import { Breadcrumbs } from '../../components/ui/Breadcrumbs/Breadcrumbs.tsx';
-import { Loader } from '../../components/ui/Loader/Loader.tsx';
-import { Sidebar } from '../../components/layout/SideBar';
+import { Breadcrumbs } from '@components/ui/Breadcrumbs/Breadcrumbs';
+import { Loader } from '@components/ui/Loader/Loader';
+import { Sidebar } from '@components/layout/SideBar';
 
 export const ProfilePage = () => {
   const { t, i18n } = useTranslation();

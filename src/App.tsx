@@ -13,6 +13,9 @@ import { ProductDetailsPage } from './pages/ProductDetailsPage/ProductDetailsPag
 import { ScrollToTop } from './components/common/ScrollToTop/ScrollToTop.tsx';
 import { Toaster } from 'sonner';
 
+import { loadStripe } from '@stripe/stripe-js';
+import { Elements } from '@stripe/react-stripe-js';
+
 import { ProfilePage } from './pages/ProfilePage/ProfilePage';
 import { HelpWidget } from './components/common/HelpWidget/HelpWidget.tsx';
 import { ProfileOrderPage } from './pages/ProfilePage/ProfileOrderPage/ProfileOrderPage.tsx';
@@ -22,118 +25,125 @@ import { WalletPage } from './pages/ProfilePage/WalletPage/WalletPage.tsx';
 import { RightsPage } from './pages/RightsPage/RightsPage.tsx';
 import { ContactsPage } from './pages/ContactsPage/ContactsPage.tsx';
 
+const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
+
 export const App = () => {
   return (
-    <div className="App">
-      <Toaster
-        position="bottom-right"
-        richColors
-        toastOptions={{
-          className: 'my-custom-toast',
-        }}
-      />
+    <Elements stripe={stripePromise}>
+      <div className="App">
+        <Toaster
+          position="bottom-right"
+          richColors
+          toastOptions={{
+            className: 'my-custom-toast',
+          }}
+        />
 
-      <ScrollToTop />
-      <Header />
+        <ScrollToTop />
+        <Header />
 
-      <div className="container">
-        <Routes>
-          <Route
-            path="/"
-            element={<HomePage />}
-          />
-          <Route
-            path="/phones"
-            element={
-              <Navigate
-                to="/phones/12/newest/1"
-                replace
-              />
-            }
-          />
-          <Route
-            path="/tablets"
-            element={
-              <Navigate
-                to="/tablets/12/newest/1"
-                replace
-              />
-            }
-          />
-          <Route
-            path="/accessories"
-            element={
-              <Navigate
-                to="/accessories/12/newest/1"
-                replace
-              />
-            }
-          />
+        <div className="container">
+          <Routes>
+            <Route
+              path="/"
+              element={<HomePage />}
+            />
 
-          <Route
-            path="/phones/:items/:sort/:page"
-            element={<PhonesPage />}
-          />
-          <Route
-            path="/tablets/:items/:sort/:page"
-            element={<TabletsPage />}
-          />
-          <Route
-            path="/accessories/:items/:sort/:page"
-            element={<AccessoriesPage />}
-          />
+            <Route
+              path="/phones"
+              element={
+                <Navigate
+                  to="/phones/12/newest/1"
+                  replace
+                />
+              }
+            />
+            <Route
+              path="/tablets"
+              element={
+                <Navigate
+                  to="/tablets/12/newest/1"
+                  replace
+                />
+              }
+            />
+            <Route
+              path="/accessories"
+              element={
+                <Navigate
+                  to="/accessories/12/newest/1"
+                  replace
+                />
+              }
+            />
 
-          <Route
-            path="/cart"
-            element={<CartPage />}
-          />
-          <Route
-            path="/favorites"
-            element={<FavoritesPage />}
-          />
-          <Route
-            path="/profile"
-            element={<ProfilePage />}
-          />
+            <Route
+              path="/phones/:items/:sort/:page"
+              element={<PhonesPage />}
+            />
+            <Route
+              path="/tablets/:items/:sort/:page"
+              element={<TabletsPage />}
+            />
+            <Route
+              path="/accessories/:items/:sort/:page"
+              element={<AccessoriesPage />}
+            />
 
-          <Route
-            path="/profile/orders"
-            element={<ProfileOrderPage />}
-          />
+            <Route
+              path="/cart"
+              element={<CartPage />}
+            />
+            <Route
+              path="/favorites"
+              element={<FavoritesPage />}
+            />
 
-          <Route
-            path="/profile/admin"
-            element={<AdminPage />}
-          />
-          <Route
-            path="/profile/chat"
-            element={<SupportChat />}
-          />
-          <Route
-            path="/profile/wallet"
-            element={<WalletPage />}
-          />
-          <Route
-            path="/:category/:productId"
-            element={<ProductDetailsPage />}
-          />
-          <Route
-            path="/rights"
-            element={<RightsPage />}
-          />
-          <Route
-            path="/contacts"
-            element={<ContactsPage />}
-          />
-          <Route
-            path="*"
-            element={<NotFoundPage />}
-          />
-        </Routes>
+            <Route
+              path="/profile"
+              element={<ProfilePage />}
+            />
+            <Route
+              path="/profile/orders"
+              element={<ProfileOrderPage />}
+            />
+            <Route
+              path="/profile/admin"
+              element={<AdminPage />}
+            />
+            <Route
+              path="/profile/chat"
+              element={<SupportChat />}
+            />
+            <Route
+              path="/profile/wallet"
+              element={<WalletPage />}
+            />
+
+            <Route
+              path="/:category/:productId"
+              element={<ProductDetailsPage />}
+            />
+
+            <Route
+              path="/rights"
+              element={<RightsPage />}
+            />
+            <Route
+              path="/contacts"
+              element={<ContactsPage />}
+            />
+
+            <Route
+              path="*"
+              element={<NotFoundPage />}
+            />
+          </Routes>
+        </div>
+
+        <Footer />
+        <HelpWidget />
       </div>
-
-      <Footer />
-      <HelpWidget />
-    </div>
+    </Elements>
   );
 };

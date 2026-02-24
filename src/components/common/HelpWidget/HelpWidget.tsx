@@ -60,7 +60,6 @@ export const HelpWidget = () => {
   };
 
   const getBotReply = () => {
-    // Отримуємо масив відповідей з i18n
     const replies = t('help_widget.bot_replies', {
       returnObjects: true,
     }) as string[];

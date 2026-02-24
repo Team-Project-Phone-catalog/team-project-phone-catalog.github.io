@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { supabase } from '../../../utils/supabaseClient';
+import { supabase } from '@utils/supabaseClient';
 import styles from './AuthModal.module.scss';
-
 interface AuthModalProps {
   isOpen: boolean;
   onClose: () => void;

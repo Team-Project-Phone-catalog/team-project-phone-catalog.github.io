@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import './RatingsWidget.scss';
 import { Stars } from './Stars/Stars';
 import { DropDown } from './DropDown/DropDown';
-import { useReviews } from '../../../hooks/useReviews';
+import { useReviews } from '@hooks/useReviews';
 
 export const RatingsWidget = ({
   productId,

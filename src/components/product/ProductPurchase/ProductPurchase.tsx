@@ -1,8 +1,8 @@
 import './ProductPurchase.scss';
 import { ProductActions } from '../ProductActions';
 import React from 'react';
-import { ProductDetails } from '../../../types/Product.ts';
-import { useAppContext } from '../../../hooks/useAppContext.ts';
+import { ProductDetails } from '@/types/Product';
+import { useAppContext } from '@hooks/useAppContext';
 
 type Props = {
   product: ProductDetails;

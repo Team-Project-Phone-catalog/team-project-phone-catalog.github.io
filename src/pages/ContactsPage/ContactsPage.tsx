@@ -1,5 +1,5 @@
 import styles from './contacts.module.scss';
-import { BackButton } from '../../components/ui/Buttons/Back/BackButton';
+import { BackButton } from '@components/ui/Buttons/Back/BackButton';
 
 type TeamMember = {
   name: string;
@@ -13,7 +13,7 @@ type TeamMember = {
 const teamMembers: TeamMember[] = [
   {
     name: 'Maksym Pukas',
-    role: 'Team Lead · Full-Stack',
+    role: 'Team Lead · Full-Stack Develop',
     photo: '/img/profile/Maksym.jpg',
     email: 'maksym.pukas.fs@gmail.com',
     linkedin: 'https://www.linkedin.com/in/maksym-pukas-74a3383ab/',

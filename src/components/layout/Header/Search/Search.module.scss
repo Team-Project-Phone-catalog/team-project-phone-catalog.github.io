@@ -1,5 +1,5 @@
-@use '../../../../styles/variables' as *;
-@use '../../../../styles/utils' as *;
+@use '@styles/variables' as *;
+@use '@styles/utils' as *;
 
 .search {
   position: relative;
@@ -59,6 +59,8 @@
     width: 16px;
     height: 16px;
     position: absolute;
+    filter: $icon-filter;
+    transition: filter 0.2s ease;
   }
 
   &__dropdown {

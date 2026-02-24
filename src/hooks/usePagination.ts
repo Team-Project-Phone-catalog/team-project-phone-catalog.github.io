@@ -11,27 +11,22 @@ export const usePagination = (
     const left = Math.max(currentPage - siblingCount, 1);
     const right = Math.min(currentPage + siblingCount, totalPages);
 
-    // завжди перша
     pages.push(1);
 
-    // ліва ...
     if (left > 2) {
       pages.push('...');
     }
 
-    // центральні сторінки
     for (let i = left; i <= right; i++) {
       if (i !== 1 && i !== totalPages) {
         pages.push(i);
       }
     }
 
-    // права ...
     if (right < totalPages - 1) {
       pages.push('...');
     }
 
-    // завжди остання
     if (totalPages > 1) {
       pages.push(totalPages);
     }

@@ -2,12 +2,11 @@ import './ProductCard.scss';
 import { ProductPrice } from '../ProductPrice/ProductPrice';
 import { ProductFeatures } from '../ProductFeatures/ProductFeatures';
 import { ProductActions } from '../ProductActions/ProductActions';
-import { Product, ProductDetails } from '../../../types/Product';
+import { Product, ProductDetails } from '@/types/Product';
 import React from 'react';
-import { useAppContext } from '../../../hooks/useAppContext';
+import { useAppContext } from '@hooks/useAppContext';
 import { Link } from 'react-router-dom';
 import { motion } from 'motion/react';
-
 interface Props {
   product?: Product | ProductDetails;
 }

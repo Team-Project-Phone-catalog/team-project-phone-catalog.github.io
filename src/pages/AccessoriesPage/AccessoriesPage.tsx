@@ -1,16 +1,16 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { getAccessories } from '../../api/products';
-import { Product } from '../../types/Product';
-import { ProductCard } from '../../components/product/ProductCard/ProductCard.tsx';
-import { sortProducts } from '../../utils/productFilters';
-import { SortType } from '../../types/SortType';
+import { getAccessories } from '@api/products';
+import { Product } from '@/types/Product';
+import { ProductCard } from '@components/product/ProductCard/ProductCard';
+import { sortProducts } from '@utils/productFilters';
+import { SortType } from '@/types/SortType';
 import s from './AccessoriesPage.module.scss';
-import { Breadcrumbs } from '../../components/ui/Breadcrumbs/Breadcrumbs.tsx';
-import { ProductSkeleton } from '../../components/product/ProductSkelet/ProductSkelet.tsx';
-import { NoResults } from '../../components/ui/NoResults/NoResults.tsx';
-import { Dropdown } from '../../components/ui/Dropdown/Dropdown';
-import { usePaginationWithParams } from '../../hooks/usePaginationWithParams';
+import { Breadcrumbs } from '@components/ui/Breadcrumbs/Breadcrumbs';
+import { ProductSkeleton } from '@components/product/ProductSkelet/ProductSkelet';
+import { Dropdown } from '@components/ui/Dropdown/Dropdown';
+import { usePaginationWithParams } from '@hooks/usePaginationWithParams';
+import arrowIcon from '@assets/icons/arrow-right.svg';
 
 export const AccessoriesPage = () => {
   const { t } = useTranslation();
@@ -40,6 +40,8 @@ export const AccessoriesPage = () => {
             category: 'accessories',
           })),
         );
+      } catch (error) {
+        console.error('Failed to fetch accessories:', error);
       } finally {
         setTimeout(() => setIsLoading(false), 600);
       }
@@ -124,14 +126,13 @@ export const AccessoriesPage = () => {
             Array.from({ length: 8 }).map((_, index) => (
               <ProductSkeleton key={index} />
             ))
-          : visibleAccessories.length > 0 ?
-            visibleAccessories.map((accessory) => (
+          : visibleAccessories.map((accessory) => (
               <ProductCard
                 key={accessory.id}
                 product={accessory}
               />
             ))
-          : <NoResults category="accessories" />}
+          }
         </section>
 
         {totalPages > 1 && (
@@ -143,14 +144,13 @@ export const AccessoriesPage = () => {
                 className={`${s.pageButton} ${s.arrow} ${s.arrowLeft}`}
               >
                 <img
-                  src="src/assets/icons/arrow-right.svg"
+                  src={arrowIcon}
                   alt="Previous page"
                 />
               </button>
 
               {[...Array(totalPages)].map((_, index) => {
                 const page = index + 1;
-
                 return (
                   <button
                     key={page}
@@ -168,7 +168,7 @@ export const AccessoriesPage = () => {
                 className={`${s.pageButton} ${s.arrow}`}
               >
                 <img
-                  src="src/assets/icons/arrow-right.svg"
+                  src={arrowIcon}
                   alt="Next page"
                 />
               </button>

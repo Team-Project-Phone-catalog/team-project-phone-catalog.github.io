@@ -1,5 +1,5 @@
-@use '../../../../styles/variables.scss' as *;
-@use '../../../../styles/utils' as *;
+@use '@styles/variables' as *;
+@use '@styles/utils' as *;
 
 .menu {
   position: fixed;
@@ -157,7 +157,8 @@
     width: 16px;
     height: 16px;
     display: block;
-    filter: brightness(1);
+    filter: $icon-filter;
+    transition: filter 0.2s ease;
   }
 }
 

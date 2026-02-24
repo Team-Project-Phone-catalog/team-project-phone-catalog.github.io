@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Product } from '../../../types/Product';
-import { ProductCard } from '../../../components/product/ProductCard';
+import { Product } from '@/types/Product';
+import { ProductCard } from '@components/product/ProductCard';
 import styles from '../HomePage.module.scss';
 
 interface Props {

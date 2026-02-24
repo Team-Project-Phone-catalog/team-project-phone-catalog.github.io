@@ -1,14 +1,16 @@
 import './ProductDetailsPage.scss';
-import { BackButton } from '../../components/ui/Buttons/Back/BackButton.tsx';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { useEffect, useRef, useState, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ProductDetails } from '../../types/Product.ts';
-import { getProductDetails } from '../../api/products.ts';
-import { Breadcrumbs } from '../../components/ui/Breadcrumbs/Breadcrumbs.tsx';
-import { Loader } from '../../components/ui/Loader/Loader.tsx';
-import { RatingsWidget } from '../../components/product/Reviews/RatingsWidget.tsx';
-import { ProductPage } from '../../components/product/ProductPage/ProductPage.tsx';
+
+import { ProductPage } from '@components/product/ProductPage/ProductPage';
+import { BackButton } from '@components/ui/Buttons/Back/BackButton';
+import { Breadcrumbs } from '@components/ui/Breadcrumbs/Breadcrumbs';
+import { Loader } from '@components/ui/Loader/Loader';
+import { RatingsWidget } from '@components/product/Reviews/RatingsWidget';
+
+import { ProductDetails } from '@/types/Product';
+import { getProductDetails } from '@api/products';
 
 export const ProductDetailsPage = () => {
   const { t } = useTranslation();
@@ -29,6 +31,8 @@ export const ProductDetailsPage = () => {
     null,
   );
   const headerRef = useRef<HTMLDivElement | null>(null);
+
+  const currentColorRef = useRef<string | null>(null);
 
   const fetchProductData = useCallback(
     (idToFetch: string, isBackgroundUpdate = false) => {
@@ -51,16 +55,23 @@ export const ProductDetailsPage = () => {
   );
 
   useEffect(() => {
+    if (product) {
+      currentColorRef.current = product.color
+        .toLowerCase()
+        .replace(/\s+/g, '-');
+    }
+  }, [product]);
+
+  useEffect(() => {
     if (!productId) return;
 
     let isBackgroundUpdate = false;
-    if (product) {
-      const formattedCurrentColor = product.color
-        .toLowerCase()
-        .replace(/\s+/g, '-');
-      if (productId.includes(formattedCurrentColor)) {
-        isBackgroundUpdate = true;
-      }
+
+    if (
+      currentColorRef.current &&
+      productId.includes(currentColorRef.current)
+    ) {
+      isBackgroundUpdate = true;
     }
 
     const timeoutId = setTimeout(() => {
@@ -68,7 +79,7 @@ export const ProductDetailsPage = () => {
     }, 0);
 
     return () => clearTimeout(timeoutId);
-  }, [productId, fetchProductData, product]);
+  }, [productId, fetchProductData]);
 
   const handleCapacityUpdate = (newItemId: string) => {
     if (!category) return;
@@ -77,10 +88,14 @@ export const ProductDetailsPage = () => {
     if (capacityMatch) {
       newParams.set('capacity', capacityMatch[1].toUpperCase());
     }
-    navigate({
-      pathname: `/${category}/${newItemId}`,
-      search: newParams.toString(),
-    });
+
+    navigate(
+      {
+        pathname: `/${category}/${newItemId}`,
+        search: newParams.toString(),
+      },
+      { replace: true },
+    );
   };
 
   const handleCloseReviews = () => {
