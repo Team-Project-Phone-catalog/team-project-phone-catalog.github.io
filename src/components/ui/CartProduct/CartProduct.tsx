@@ -50,7 +50,7 @@ export const CartProduct: React.FC<Props> = ({
         onClick={onRemove}
       >
         <img
-          src="../../../img/icons/closeCart-dark.svg"
+          src="src/assets/icons/closeCart-dark.svg"
           alt="Remove"
           className={s.removeIcon}
         />
@@ -80,7 +80,7 @@ export const CartProduct: React.FC<Props> = ({
             onClick={onDecrease}
           >
             <img
-              src="../../../img/icons/minus-dark.svg"
+              src="src/assets/icons/minus-dark.svg"
               alt="Minus"
               className={s.minusIcon}
             />
@@ -93,7 +93,7 @@ export const CartProduct: React.FC<Props> = ({
             onClick={onIncrease}
           >
             <img
-              src="../../../img/icons/plus-dark.svg"
+              src="src/assets/icons/plus-dark.svg"
               alt="Plus"
               className={s.plusIcon}
             />
