@@ -4,15 +4,11 @@ type Props = {
   label: string;
   pct: number;
   animate: boolean;
-  onClick?: () => void;
 };
 
-export const BarRow = ({ label, pct, animate, onClick }: Props) => {
+export const BarRow = ({ label, pct, animate }: Props) => {
   return (
-    <div
-      className="bar-row"
-      onClick={onClick}
-    >
+    <div className="bar-row">
       <span className="bar-row__label">{label}</span>
 
       <div className="bar-row__track">
