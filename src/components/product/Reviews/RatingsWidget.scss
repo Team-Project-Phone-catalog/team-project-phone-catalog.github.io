@@ -16,8 +16,6 @@
     font-weight: 600;
     color: $color-white;
     line-height: 1;
-    display: flex;
-    align-items: center;
   }
 
   &__trigger {
@@ -29,26 +27,20 @@
     cursor: pointer;
     padding: 0;
     line-height: 1;
-    vertical-align: middle;
   }
 
   &__chevron {
     color: $color-secondary;
     transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    display: block;
-    flex-shrink: 0;
     &--open {
       transform: rotate(180deg);
     }
   }
 
   &__count {
-    font-size: 18px;
+    font-size: 13px;
     font-weight: 600;
     color: $color-white;
-    line-height: 1;
-    display: flex;
-    align-items: center;
   }
 }
 
@@ -86,7 +78,6 @@
     align-items: center;
     gap: 8px;
     margin-bottom: 6px;
-    cursor: default;
   }
 
   &__bar-label {
@@ -95,8 +86,6 @@
     min-width: 38px;
     white-space: nowrap;
     transition: color $transition-default;
-    text-decoration: none;
-    cursor: default;
   }
   &__bar-track {
     flex: 1;
@@ -147,6 +136,31 @@
     transition: background $transition-default;
     &:hover {
       background: $color-icons;
+    }
+  }
+}
+
+// ─── Star Picker ─────────────────────────────────────────
+.star-picker {
+  display: flex;
+  gap: 4px;
+
+  &__star {
+    font-size: 36px;
+    cursor: pointer;
+    color: $color-elements;
+    background: none;
+    border: none;
+    padding: 2px;
+    line-height: 1;
+    transition: color 0.15s;
+    -webkit-tap-highlight-color: transparent;
+
+    @media (max-width: 360px) {
+      font-size: 28px;
+    }
+    &--active {
+      color: $color-accent;
     }
   }
 }
