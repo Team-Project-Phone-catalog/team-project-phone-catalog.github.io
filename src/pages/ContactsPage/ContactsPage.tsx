@@ -1,3 +1,5 @@
+import React from 'react';
+import { useTranslation } from 'react-i18next';
 import styles from './contacts.module.scss';
 import { BackButton } from '@components/ui/Buttons/Back/BackButton';
 
@@ -13,7 +15,7 @@ type TeamMember = {
 const teamMembers: TeamMember[] = [
   {
     name: 'Maksym Pukas',
-    role: 'Team Lead · Full-Stack Develop',
+    role: 'Team Lead · Full-Stack Developer',
     photo: '/img/profile/Maksym.jpg',
     email: 'maksym.pukas.fs@gmail.com',
     linkedin: 'https://www.linkedin.com/in/maksym-pukas-74a3383ab/',
@@ -133,15 +135,14 @@ const GitHubIcon = () => (
 );
 
 export const ContactsPage: React.FC = () => {
+  const { t } = useTranslation();
+
   return (
     <main className={styles.contacts}>
       <BackButton />
-      <h1>TEAM CONTACTS</h1>
+      <h1>{t('footer.contacts')}</h1>
 
-      <p className={styles.subtitle}>
-        Reach out to us for any collaboration opportunities or questions you may
-        have.
-      </p>
+      <p className={styles.subtitle}>{t('help_widget.bot_replies.0')}</p>
 
       <section className={styles.team}>
         {teamMembers.map(({ name, role, photo, email, linkedin, github }) => (

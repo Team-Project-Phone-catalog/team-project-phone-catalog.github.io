@@ -19,7 +19,14 @@ i18n
             phones: 'Phones',
             tablets: 'Tablets',
             accessories: 'Accessories',
-            favourites: 'Favourites',
+            favorites: 'Favorites',
+            orders: 'Orders',
+            chat: 'Chat',
+            wallet: 'Wallet',
+            admin: 'Admin',
+            wishlist: 'Favorites',
+            FAVORITES: 'Favorites',
+            WISHLIST: 'Favorites',
           },
           home: {
             title: 'Welcome to Nice Gadgets store!',
@@ -79,7 +86,8 @@ i18n
             no_results_message:
               "We couldn't find any results matching your search query.",
           },
-          favourites: {
+          favorites: 'Favorites',
+          page_favorites: {
             empty_title: 'Your favorites list is empty',
             empty_text: 'Add some products to see them here!',
           },
@@ -250,6 +258,34 @@ i18n
             title: 'Error 404',
             message: 'Page not found',
           },
+          rights_page: {
+            title: 'Rights & Intellectual Property',
+            section1_title: '1. General Provisions',
+            section1_text:
+              'All rights to this website and its content are owned by',
+            section1_subtext:
+              '. This platform is designed for technology enthusiasts and consumers, and the use of any of its elements is governed by applicable copyright laws.',
+            section2_title: '2. Use of Product Images and Descriptions',
+            section2_text:
+              'Product images, brand names, specifications, and manufacturer descriptions presented in our catalog are the property of their respective copyright holders.',
+            section2_list: [
+              'We use these materials solely for the purpose of product identification and informational purposes.',
+              'does not claim authorship of images or descriptions provided by manufacturers or official partners.',
+              'If you are a brand or copyright holder and wish to modify or remove information about your product, please contact our support team.',
+            ],
+            section3_title: '3. User-Generated Content',
+            section3_text1:
+              'By leaving reviews or ratings on the site, you grant',
+            section3_text2:
+              'the right to publish and distribute them within our platform. However, the authorship of the review remains with you.',
+            section4_title: '4. Prohibition of Copying',
+            section4_text1:
+              "Any automated data collection (scraping) or full copying of our store's database, pricing, or product catalog without the explicit consent of",
+            section4_text2:
+              'is strictly prohibited and subject to legal action.',
+            updated:
+              'Last updated: February 22, 2026. We reserve the right to modify these terms without prior notice.',
+          },
         },
       },
       ua: {
@@ -259,7 +295,14 @@ i18n
             phones: 'Телефони',
             tablets: 'Планшети',
             accessories: 'Аксесуари',
-            favourites: 'Обране',
+            favorites: 'Обране',
+            orders: 'Замовлення',
+            chat: 'Чат',
+            wallet: 'Гаманець',
+            admin: 'Адмін',
+            wishlist: 'Обране',
+            FAVORITES: 'Обране',
+            WISHLIST: 'Обране',
           },
           home: {
             title: 'Ласкаво просимо до Nice Gadgets!',
@@ -323,7 +366,8 @@ i18n
             no_results_message:
               'Ми не змогли знайти жодного результату за вашим запитом.',
           },
-          favourites: {
+          favorites: 'Обране',
+          page_favorites: {
             empty_title: 'Ваш список обраного порожній',
             empty_text: 'Додайте товари, щоб побачити їх тут!',
           },
@@ -473,7 +517,7 @@ i18n
             table_id: 'ID',
             table_email: 'Email',
             table_registered: 'Реєстрація',
-            table_role: 'Роль',
+            table_role: 'Role',
             table_actions: 'Дії',
             table_status: 'Статус',
             table_total: 'Сума',
@@ -494,6 +538,32 @@ i18n
           not_found_page: {
             title: 'Помилка 404',
             message: 'Сторінка не знайдена',
+          },
+          rights_page: {
+            title: 'Права та інтелектуальна власність',
+            section1_title: '1. Загальні положення',
+            section1_text: 'Усі права на цей веб-сайт та його вміст належать',
+            section1_subtext:
+              '. Ця платформа розроблена для ентузіастів технологій та споживачів, а використання будь-яких її елементів регулюється чинним законодавством про авторське право.',
+            section2_title: '2. Використання зображень та описів товарів',
+            section2_text:
+              'Зображення товарів, торгові марки, специфікації та описи виробників, представлені в нашому каталозі, є власністю їхніх відповідних правовласників.',
+            section2_list: [
+              'Ми використовуємо ці матеріали виключно з метою ідентифікації товару та в інформаційних цілях.',
+              'не претендує на авторство зображень або описів, наданих виробниками або офіційними партнерами.',
+              'Якщо ви є брендом або правовласником і бажаєте змінити або видалити інформацію про свій продукт, будь ласка, зверніться до нашої служби підтримки.',
+            ],
+            section3_title: '3. Контент, створений користувачами',
+            section3_text1: 'Залишаючи відгуки або оцінки на сайті, ви надаєте',
+            section3_text2:
+              'право публікувати та поширювати їх у межах нашої платформи. Однак авторство відгуку залишається за вами.',
+            section4_title: '4. Заборона копіювання',
+            section4_text1:
+              'Будь-який автоматизований збір даних (скрапінг) або повне копіювання бази даних нашого магазину, цін або каталогу товарів без явної згоди',
+            section4_text2:
+              'суворо заборонено і тягне за собою юридичну відповідальність.',
+            updated:
+              'Останнє оновлення: 22 лютого 2026 р. Ми залишаємо за собою право змінювати ці умови без попереднього повідомлення.',
           },
         },
       },

@@ -18,25 +18,27 @@ import { User } from '@supabase/supabase-js';
 import { ThemeSwitcher } from './ThemeSwitcher/ThemeSwitcher';
 
 export const Header = () => {
-  const { i18n } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const [user, setUser] = useState<User | null>(null);
   const [isAdmin, setIsAdmin] = useState(false);
+  const [theme, setTheme] = useState('dark');
 
   const { getTotalItems, getFavoritesCount } = useAppContext();
   const cartCount = getTotalItems();
   const favoritesCount = getFavoritesCount();
+
   const navLinks = [
-    { id: 1, name: 'Home', path: '/' },
-    { id: 2, name: 'Phones', path: '/phones' },
-    { id: 3, name: 'Tablets', path: '/tablets' },
-    { id: 4, name: 'Accessories', path: '/accessories' },
+    { id: 1, name: t('nav.home'), path: '/' },
+    { id: 2, name: t('nav.phones'), path: '/phones' },
+    { id: 3, name: t('nav.tablets'), path: '/tablets' },
+    { id: 4, name: t('nav.accessories'), path: '/accessories' },
   ];
 
   const toggleMenu = () => setIsMenuOpen((prev) => !prev);
   const closeMenu = () => setIsMenuOpen(false);
-  const [theme, setTheme] = useState('dark');
+
   const changeLanguage = (lng: string) => {
     i18n.changeLanguage(lng);
   };
