@@ -23,7 +23,6 @@ export const WriteReview = ({ onBack, onSubmit }: Props) => {
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  // Пріоритет перекладам, якщо їх немає — використовуємо запасний масив
   const starLabels = (t('write_review.star_labels', {
     returnObjects: true,
   }) as string[]) || [
@@ -87,7 +86,9 @@ export const WriteReview = ({ onBack, onSubmit }: Props) => {
         </div>
 
         <div className="write-review__section">
-          <div className="write-review__section-title">Your name</div>
+          <div className="write-review__section-title">
+            {t('write_review.name_label', 'Your name')}
+          </div>
           <input
             className="write-review__input"
             type="text"
@@ -99,7 +100,9 @@ export const WriteReview = ({ onBack, onSubmit }: Props) => {
         </div>
 
         <div className="write-review__section">
-          <div className="write-review__section-title">Overall rating</div>
+          <div className="write-review__section-title">
+            {t('write_review.overall_rating', 'Overall rating')}
+          </div>
           <div className="star-picker">
             {[1, 2, 3, 4, 5].map((n) => (
               <button
@@ -156,7 +159,9 @@ export const WriteReview = ({ onBack, onSubmit }: Props) => {
             onClick={handleSubmit}
             disabled={!canSubmit || loading}
           >
-            {loading ? 'Submitting...' : t('write_review.submit')}
+            {loading ?
+              t('write_review.submitting', 'Submitting...')
+            : t('write_review.submit', 'Submit')}
           </button>
           <button
             className="write-review__cancel"

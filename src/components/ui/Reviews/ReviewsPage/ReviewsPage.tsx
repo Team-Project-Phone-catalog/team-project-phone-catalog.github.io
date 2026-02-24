@@ -56,7 +56,7 @@ export const ReviewsPage = ({
               <div className="summary-panel__bar-track">
                 <div
                   className="summary-panel__bar-fill"
-                  style={{ width: ${r.pct}% }}
+                  style={{ width: `${r.pct}%` }}
                 />
               </div>
               <span className="summary-panel__bar-pct">{r.pct}%</span>

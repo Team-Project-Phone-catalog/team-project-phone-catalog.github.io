@@ -33,7 +33,7 @@ export const Footer = () => {
             {t('footer.github')}
           </a>
 
-          <a href="#">{t('footer.contacts')}</a>
+          <Link to="/contacts">{t('footer.contacts')}</Link>
           <Link to="/rights">{t('footer.rights')}</Link>
         </nav>
 

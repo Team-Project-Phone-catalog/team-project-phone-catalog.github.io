@@ -1,7 +1,7 @@
 import './ProductDetailsPage.scss';
 import { BackButton } from '../../components/ui/Buttons/Back/BackButton.tsx';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ProductDetails } from '../../types/Product.ts';
 import { getProductDetails } from '../../api/products.ts';
@@ -23,27 +23,36 @@ export const ProductDetailsPage = () => {
   const [product, setProduct] = useState<ProductDetails | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
+
   const [showReviews, setShowReviews] = useState(false);
+  const [scrollBeforeReviews, setScrollBeforeReviews] = useState<number | null>(
+    null,
+  );
+  const headerRef = useRef<HTMLDivElement | null>(null);
 
-  const fetchProductData = (idToFetch: string, isBackgroundUpdate = false) => {
-    if (!category) return;
-    if (!isBackgroundUpdate) setLoading(true);
-    setError(false);
+  const fetchProductData = useCallback(
+    (idToFetch: string, isBackgroundUpdate = false) => {
+      if (!category) return;
+      if (!isBackgroundUpdate) setLoading(true);
+      setError(false);
 
-    getProductDetails(category, idToFetch)
-      .then((data) => {
-        setProduct(data);
-      })
-      .catch(() => {
-        setError(true);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-  };
+      getProductDetails(category, idToFetch)
+        .then((data) => {
+          setProduct(data);
+        })
+        .catch(() => {
+          setError(true);
+        })
+        .finally(() => {
+          setLoading(false);
+        });
+    },
+    [category],
+  );
 
   useEffect(() => {
     if (!productId) return;
+
     let isBackgroundUpdate = false;
     if (product) {
       const formattedCurrentColor = product.color
@@ -53,8 +62,13 @@ export const ProductDetailsPage = () => {
         isBackgroundUpdate = true;
       }
     }
-    fetchProductData(productId, isBackgroundUpdate);
-  }, [category, productId]);
+
+    const timeoutId = setTimeout(() => {
+      fetchProductData(productId, isBackgroundUpdate);
+    }, 0);
+
+    return () => clearTimeout(timeoutId);
+  }, [productId, fetchProductData, product]);
 
   const handleCapacityUpdate = (newItemId: string) => {
     if (!category) return;
@@ -67,6 +81,19 @@ export const ProductDetailsPage = () => {
       pathname: `/${category}/${newItemId}`,
       search: newParams.toString(),
     });
+  };
+
+  const handleCloseReviews = () => {
+    setShowReviews(false);
+    if (scrollBeforeReviews !== null) {
+      const headerOffset = 80;
+      setTimeout(() => {
+        window.scrollTo({
+          top: scrollBeforeReviews - headerOffset,
+          behavior: 'smooth',
+        });
+      }, 0);
+    }
   };
 
   if (loading) {
@@ -84,12 +111,21 @@ export const ProductDetailsPage = () => {
           <Breadcrumbs />
           <div className="product-not-found__content">
             <h1 className="product-not-found__title">
-              {t('product_details.not_found_title', 'Unfortunately, the product is unknown.')}
+              {t(
+                'product_details.not_found_title',
+                'Unfortunately, the product is unknown.',
+              )}
             </h1>
             <p className="product-not-found__text">
-              {t('product_details.not_found_text', "We couldn't find the product you're looking for.")}
+              {t(
+                'product_details.not_found_text',
+                "We couldn't find the product you're looking for.",
+              )}
             </p>
-            <button className="product-not-found__button" onClick={() => navigate(-1)}>
+            <button
+              className="product-not-found__button"
+              onClick={() => navigate(-1)}
+            >
               {t('product_details.back')}
             </button>
           </div>
@@ -99,14 +135,20 @@ export const ProductDetailsPage = () => {
   }
 
   return (
-    <div className="product-details-page">
+    <div
+      className="product-details-page"
+      ref={headerRef}
+    >
       <Breadcrumbs />
       <BackButton />
       <div className="product-header">
         <h1 className="product-title">{product.name}</h1>
-        <RatingsWidget 
-          productId={product.id} 
-          onSeeAll={() => setShowReviews(true)} 
+        <RatingsWidget
+          productId={product.id}
+          onSeeAll={() => {
+            setScrollBeforeReviews(window.scrollY);
+            setShowReviews(true);
+          }}
         />
       </div>
       <ProductPage
@@ -114,7 +156,7 @@ export const ProductDetailsPage = () => {
         product={product}
         onCapacityChange={handleCapacityUpdate}
         showReviews={showReviews}
-        onCloseReviews={() => setShowReviews(false)}
+        onCloseReviews={handleCloseReviews}
       />
     </div>
   );

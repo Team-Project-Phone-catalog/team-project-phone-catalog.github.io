@@ -10,13 +10,23 @@ import { Breadcrumbs } from '../../components/ui/Breadcrumbs/Breadcrumbs.tsx';
 import { ProductSkeleton } from '../../components/product/ProductSkelet/ProductSkelet.tsx';
 import { NoResults } from '../../components/ui/NoResults/NoResults.tsx';
 import { Dropdown } from '../../components/ui/Dropdown/Dropdown';
+import { usePaginationWithParams } from '../../hooks/usePaginationWithParams';
 
 export const AccessoriesPage = () => {
   const { t } = useTranslation();
   const [accessories, setAccessories] = useState<Product[]>([]);
-  const [sortBy, setSortBy] = useState<SortType>('newest');
-  const [itemsOnPage, setItemsOnPage] = useState(12);
-  const [currentPage, setCurrentPage] = useState(1);
+
+  const {
+    sortBy,
+    itemsOnPage,
+    currentPage,
+    changeSort,
+    changeItems,
+    changePage,
+  } = usePaginationWithParams({
+    basePath: '/accessories',
+  });
+
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -93,8 +103,7 @@ export const AccessoriesPage = () => {
                 options={sortOptions}
                 value={sortBy}
                 onChange={(value) => {
-                  setSortBy(value as SortType);
-                  setCurrentPage(1);
+                  changeSort(value as SortType);
                 }}
               />
             </div>
@@ -104,10 +113,7 @@ export const AccessoriesPage = () => {
               <Dropdown
                 options={itemsOptions}
                 value={String(itemsOnPage)}
-                onChange={(value) => {
-                  setItemsOnPage(+value);
-                  setCurrentPage(1);
-                }}
+                onChange={(value) => changeItems(+value)}
               />
             </div>
           </div>
@@ -133,7 +139,7 @@ export const AccessoriesPage = () => {
             <div className={s.pagination}>
               <button
                 disabled={currentPage === 1}
-                onClick={() => setCurrentPage((prev) => prev - 1)}
+                onClick={() => changePage(currentPage - 1)}
                 className={`${s.pageButton} ${s.arrow} ${s.arrowLeft}`}
               >
                 <img
@@ -148,7 +154,7 @@ export const AccessoriesPage = () => {
                 return (
                   <button
                     key={page}
-                    onClick={() => setCurrentPage(page)}
+                    onClick={() => changePage(page)}
                     className={`${s.pageButton} ${currentPage === page ? s.active : ''}`}
                   >
                     {page}
@@ -158,7 +164,7 @@ export const AccessoriesPage = () => {
 
               <button
                 disabled={currentPage === totalPages}
-                onClick={() => setCurrentPage((prev) => prev + 1)}
+                onClick={() => changePage(currentPage + 1)}
                 className={`${s.pageButton} ${s.arrow}`}
               >
                 <img

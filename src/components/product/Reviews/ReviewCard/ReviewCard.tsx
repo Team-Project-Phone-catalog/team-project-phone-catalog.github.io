@@ -1,4 +1,4 @@
-import { Avatar } from '../../../product/Reviews/Avatar/Avatar';
+import { Avatar } from '../Avatar/Avatar';
 import { Stars } from '../Stars/Stars';
 import './ReviewCard.scss';
 

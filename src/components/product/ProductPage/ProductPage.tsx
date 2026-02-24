@@ -10,7 +10,7 @@ import React, { useRef, useEffect } from 'react';
 import { ProductFeatures } from '../ProductFeatures';
 import { useLocation } from 'react-router-dom';
 import { ScrollToTop } from '../../common/ScrollToTop/ScrollToTop.tsx';
-import { ReviewsPage } from '../Reviews/ReviewsPage/ReviewsPage';
+import { ReviewsPage } from '../Reviews/ReviewsPage';
 
 type Props = {
   product: ProductDetails;
@@ -92,6 +92,7 @@ export const ProductPage: React.FC<Props> = ({
           cell={product.cell}
         />
       </div>
+
       {showReviews && (
         <div
           ref={reviewsRef}
@@ -103,6 +104,7 @@ export const ProductPage: React.FC<Props> = ({
           />
         </div>
       )}
+
       <div className="product-card__related">
         <RelatedProducts
           category={categoryFromUrl}
