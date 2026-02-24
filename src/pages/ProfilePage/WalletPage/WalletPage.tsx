@@ -1,4 +1,4 @@
-import { Sidebar } from '../../../components/SideBar/SideBar.tsx';
+import { Sidebar } from '../../../components/layout/SideBar';
 import { Breadcrumbs } from '../../../components/ui/Breadcrumbs/Breadcrumbs.tsx';
 import styles from './WalletPage.module.scss';
 

@@ -1,0 +1,101 @@
+import React from 'react';
+import { Link, useLocation } from 'react-router-dom';
+import styles from './Sidebar.module.scss';
+import { supabase } from '../../../utils/supabaseClient.ts';
+import { useAppContext } from '../../../hooks/useAppContext.ts';
+
+export const Sidebar = () => {
+  const location = useLocation();
+  const [userName, setUserName] = React.useState('');
+  const [userEmail, setUserEmail] = React.useState('');
+  const [isAdmin, setIsAdmin] = React.useState(false);
+
+  const { getFavoritesCount } = useAppContext();
+  const favoritesCount = getFavoritesCount();
+
+  React.useEffect(() => {
+    const fetchUser = async () => {
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+
+      if (!user) return;
+
+      setUserName(user.user_metadata?.full_name || '');
+      setUserEmail(user.email || '');
+
+      const { data: profile } = await supabase
+        .from('profiles')
+        .select('is_admin')
+        .eq('id', user.id)
+        .single();
+
+      setIsAdmin(profile?.is_admin ?? false);
+    };
+
+    fetchUser();
+  }, []);
+
+  const isActive = (path: string) => location.pathname === path;
+
+  return (
+    <aside className={styles.sidebar}>
+      <div className={styles.profileSection}>
+        <div className={styles.avatarPlaceholder}>{userName.charAt(0)}</div>
+        <div className={styles.profileInfo}>
+          <p className={styles.name}>{userName}</p>
+          <p className={styles.email}>{userEmail}</p>
+        </div>
+      </div>
+
+      <nav className={styles.nav}>
+        <Link
+          to="/profile"
+          className={`${styles.navItem} ${isActive('/profile') ? styles.active : ''}`}
+        >
+          My Account
+        </Link>
+
+        {isAdmin && (
+          <Link
+            to="/profile/admin"
+            className={`${styles.navItem} ${isActive('/profile/admin') ? styles.active : ''}`}
+          >
+            Admin
+          </Link>
+        )}
+
+        <Link
+          to="/profile/orders"
+          className={`${styles.navItem} ${isActive('/profile/orders') ? styles.active : ''}`}
+        >
+          Order
+        </Link>
+
+        <Link
+          to="/profile/chat"
+          className={`${styles.navItem} ${isActive('/profile/chat') ? styles.active : ''}`}
+        >
+          <span>Support Chat</span>
+        </Link>
+
+        <div className={styles.divider}></div>
+
+        <Link
+          to="/favorites"
+          className={`${styles.navItem} ${isActive('/favorites') ? styles.active : ''}`}
+        >
+          <span>Wish lists</span>
+          <span className={styles.badge}>{favoritesCount}</span>
+        </Link>
+
+        <Link
+          to="/profile/wallet"
+          className={`${styles.navItem} ${isActive('/profile/wallet') ? styles.active : ''}`}
+        >
+          Wallet
+        </Link>
+      </nav>
+    </aside>
+  );
+};
