@@ -47,6 +47,10 @@
     cursor: pointer;
     border: none;
 
+    &:hover {
+      background-color: $btn-secondary-hover;
+    }
+
     &:focus {
       outline: 2px solid $color-accent;
       outline-offset: 2px;
