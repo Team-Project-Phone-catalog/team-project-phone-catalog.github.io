@@ -1,7 +1,7 @@
 import { Link, useLocation, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import s from './Breadcrumbs.module.scss';
-import homeDarkIcon from '@/assets/icons/home-dark.svg';
+import homeDarkIcon from '@/assets/icons/home.svg';
 
 export const Breadcrumbs = () => {
   const { t } = useTranslation();
