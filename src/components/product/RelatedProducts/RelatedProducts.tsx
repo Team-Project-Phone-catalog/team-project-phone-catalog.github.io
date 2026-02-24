@@ -15,7 +15,7 @@ export const RelatedProducts: React.FC<Props> = ({
   category,
   currentProductId,
 }) => {
-  const { t } = useTranslation(); // Додано
+  const { t } = useTranslation();
   const [products, setProducts] = useState<Product[]>([]);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -89,7 +89,6 @@ export const RelatedProducts: React.FC<Props> = ({
   return (
     <div className="AlsoLike">
       <div className="AlsoLike__header">
-        {/* Замінено на переклад */}
         <h3 className="AlsoLike__title">{t('product_details.recommend')}</h3>
 
         <div className="AlsoLike__arrows">

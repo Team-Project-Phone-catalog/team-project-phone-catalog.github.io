@@ -7,6 +7,7 @@ import { supabase } from '@utils/supabaseClient';
 import { notify } from '@utils/notifications';
 
 import styles from './CheckoutModal.module.scss';
+import { useTranslation } from 'react-i18next';
 
 interface Props {
   isOpen: boolean;

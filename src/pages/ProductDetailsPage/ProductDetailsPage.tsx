@@ -32,6 +32,8 @@ export const ProductDetailsPage = () => {
   );
   const headerRef = useRef<HTMLDivElement | null>(null);
 
+  const currentColorRef = useRef<string | null>(null);
+
   const fetchProductData = useCallback(
     (idToFetch: string, isBackgroundUpdate = false) => {
       if (!category) return;
@@ -53,16 +55,23 @@ export const ProductDetailsPage = () => {
   );
 
   useEffect(() => {
+    if (product) {
+      currentColorRef.current = product.color
+        .toLowerCase()
+        .replace(/\s+/g, '-');
+    }
+  }, [product]);
+
+  useEffect(() => {
     if (!productId) return;
 
     let isBackgroundUpdate = false;
-    if (product) {
-      const formattedCurrentColor = product.color
-        .toLowerCase()
-        .replace(/\s+/g, '-');
-      if (productId.includes(formattedCurrentColor)) {
-        isBackgroundUpdate = true;
-      }
+
+    if (
+      currentColorRef.current &&
+      productId.includes(currentColorRef.current)
+    ) {
+      isBackgroundUpdate = true;
     }
 
     const timeoutId = setTimeout(() => {
@@ -70,7 +79,7 @@ export const ProductDetailsPage = () => {
     }, 0);
 
     return () => clearTimeout(timeoutId);
-  }, [productId, fetchProductData, product]);
+  }, [productId, fetchProductData]);
 
   const handleCapacityUpdate = (newItemId: string) => {
     if (!category) return;
@@ -79,10 +88,14 @@ export const ProductDetailsPage = () => {
     if (capacityMatch) {
       newParams.set('capacity', capacityMatch[1].toUpperCase());
     }
-    navigate({
-      pathname: `/${category}/${newItemId}`,
-      search: newParams.toString(),
-    });
+
+    navigate(
+      {
+        pathname: `/${category}/${newItemId}`,
+        search: newParams.toString(),
+      },
+      { replace: true },
+    );
   };
 
   const handleCloseReviews = () => {

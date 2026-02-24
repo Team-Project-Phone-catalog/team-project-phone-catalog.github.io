@@ -4,18 +4,16 @@ import './Heart.scss';
 export default function AnimatedHeart() {
   return (
     <div className="heart-container">
-      {/* Серый базовый контур */}
       <Heart
         className="heart-base"
         fill="none"
-        strokeWidth={1} // тонкий контур
+        strokeWidth={1}
       />
 
-      {/* Красный анимированный контур */}
       <Heart
         className="heart-animated"
         fill="none"
-        strokeWidth={1} // тонкий контур
+        strokeWidth={1}
       />
     </div>
   );
