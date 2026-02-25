@@ -13,6 +13,7 @@ import {
 } from '@api/products';
 import { Product } from '@/types/Product';
 import { sortByBestPrice, sortByNewest } from '@utils/productFilters';
+import { RevealWrapper } from '@utils/RevealWrapper.tsx';
 
 export const HomePage: React.FC = () => {
   const { t } = useTranslation();
@@ -53,26 +54,34 @@ export const HomePage: React.FC = () => {
   return (
     <main className={styles.home}>
       <div className={styles.container}>
-        <section className={styles.hero}>
-          <h1 className={styles['hero__title']}>{t('home.title')}</h1>
-          <Banner />
-        </section>
+        <RevealWrapper threshold={0.1}>
+          <section className={styles.hero}>
+            <h1 className={styles['hero__title']}>{t('home.title')}</h1>
+            <Banner />
+          </section>
+        </RevealWrapper>
 
-        <ProductsSlider
-          title={t('home.new_models')}
-          products={newestProducts}
-        />
+        <RevealWrapper>
+          <ProductsSlider
+            title={t('home.new_models')}
+            products={newestProducts}
+          />
+        </RevealWrapper>
 
-        <CategorySection
-          phonesCount={phones.length}
-          tabletsCount={tablets.length}
-          accessoriesCount={accessories.length}
-        />
+        <RevealWrapper>
+          <CategorySection
+            phonesCount={phones.length}
+            tabletsCount={tablets.length}
+            accessoriesCount={accessories.length}
+          />
+        </RevealWrapper>
 
-        <ProductsSlider
-          title={t('home.hot_prices')}
-          products={hotPriceProducts}
-        />
+        <RevealWrapper>
+          <ProductsSlider
+            title={t('home.hot_prices')}
+            products={hotPriceProducts}
+          />
+        </RevealWrapper>
       </div>
     </main>
   );
