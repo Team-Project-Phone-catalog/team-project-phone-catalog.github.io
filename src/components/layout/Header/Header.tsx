@@ -191,21 +191,20 @@ export const Header = () => {
                   alt="Cart"
                 />
               </NavLink>
-            </div>
-
-            <button
-              className={styles.header__burger}
-              onClick={toggleMenu}
-              aria-label="Toggle menu"
-            >
-              <div
-                className={`${styles.burger_icon} ${isMenuOpen ? styles['burger_icon--active'] : ''}`}
+              <button
+                className={styles.header__burger}
+                onClick={toggleMenu}
+                aria-label="Toggle menu"
               >
-                <span></span>
-                <span></span>
-                <span></span>
-              </div>
-            </button>
+                <div
+                  className={`${styles.burger_icon} ${isMenuOpen ? styles['burger_icon--active'] : ''}`}
+                >
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                </div>
+              </button>
+            </div>
           </div>
         </div>
 
