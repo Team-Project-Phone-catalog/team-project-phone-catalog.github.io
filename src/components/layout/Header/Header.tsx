@@ -23,7 +23,6 @@ export const Header = () => {
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const [user, setUser] = useState<User | null>(null);
   const [isAdmin, setIsAdmin] = useState(false);
-  const [theme, setTheme] = useState('dark');
 
   const { getTotalItems, getFavoritesCount } = useAppContext();
   const cartCount = getTotalItems();
@@ -72,8 +71,11 @@ export const Header = () => {
     return () => subscription.unsubscribe();
   }, []);
 
+  const [theme, setTheme] = useState(localStorage.getItem('theme') || 'dark');
+
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme);
+    localStorage.setItem('theme', theme);
   }, [theme]);
 
   return (
