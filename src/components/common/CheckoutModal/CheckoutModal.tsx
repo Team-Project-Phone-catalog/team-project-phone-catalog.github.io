@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
 
@@ -29,8 +29,7 @@ export const CheckoutModal: React.FC<Props> = ({ isOpen, onClose }) => {
   const navigate = useNavigate();
   const stripe = useStripe();
   const elements = useElements();
-  const { cartItems, getTotalPrice, getTotalItems, clearCart } =
-    useAppContext();
+  const { cartItems, totalPrice, totalItems, clearCart } = useAppContext();
 
   const [step, setStep] = useState<Step>(1);
   const [paymentOpen, setPaymentOpen] = useState(false);
@@ -59,9 +58,6 @@ export const CheckoutModal: React.FC<Props> = ({ isOpen, onClose }) => {
   const [loading, setLoading] = useState(false);
   const [successOrderId, setSuccessOrderId] = useState<string | null>(null);
   const [paypalConfirmed, setPaypalConfirmed] = useState(false);
-
-  const totalPrice = useMemo(() => getTotalPrice(), [getTotalPrice]);
-  const totalItems = useMemo(() => getTotalItems(), [getTotalItems]);
 
   useEffect(() => {
     if (!isOpen) return;
