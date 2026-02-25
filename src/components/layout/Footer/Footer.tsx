@@ -1,8 +1,10 @@
 import { Link } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import styles from './Footer.module.scss';
-import logoDark from '@assets/logo-dark.svg';
 import buttonTopIcon from '@/assets/icons/Button-Top.svg';
+import logoDark from '@assets/logo-dark.svg';
+import logoLight from '@assets/logo-light.svg';
 
 export const Footer = () => {
   const { t } = useTranslation();
@@ -10,6 +12,23 @@ export const Footer = () => {
   const handleScrollTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
+
+  const [theme, setTheme] = useState(
+    document.documentElement.getAttribute('data-theme'),
+  );
+
+  useEffect(() => {
+    const observer = new MutationObserver(() => {
+      setTheme(document.documentElement.getAttribute('data-theme'));
+    });
+
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['data-theme'],
+    });
+
+    return () => observer.disconnect();
+  }, []);
 
   return (
     <footer className={styles.footer}>
@@ -19,7 +38,7 @@ export const Footer = () => {
           className={styles.logoLink}
         >
           <img
-            src={logoDark}
+            src={theme === 'light' ? logoLight : logoDark}
             alt="Nice Gadgets"
             className={styles.logo}
           />

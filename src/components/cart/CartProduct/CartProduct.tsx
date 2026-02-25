@@ -6,6 +6,10 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { formatPrice } from '@/utils/formatPrice';
 
+import closeIcon from '@/assets/icons/closeCart-dark.svg';
+import minusIcon from '@/assets/icons/minus-dark.svg';
+import plusIcon from '@/assets/icons/plus-dark.svg';
+
 interface Props {
   product: CartItem | ProductDetails;
   onRemove: () => void;
@@ -54,7 +58,7 @@ export const CartProduct: React.FC<Props> = ({
         onClick={onRemove}
       >
         <img
-          src="src/assets/icons/closeCart-dark.svg"
+          src={closeIcon}
           alt="Remove"
           className={s.removeIcon}
         />
@@ -84,7 +88,7 @@ export const CartProduct: React.FC<Props> = ({
             onClick={onDecrease}
           >
             <img
-              src="src/assets/icons/minus-dark.svg"
+              src={minusIcon}
               alt="Minus"
               className={s.minusIcon}
             />
@@ -95,7 +99,7 @@ export const CartProduct: React.FC<Props> = ({
             onClick={onIncrease}
           >
             <img
-              src="src/assets/icons/plus-dark.svg"
+              src={plusIcon}
               alt="Plus"
               className={s.plusIcon}
             />
