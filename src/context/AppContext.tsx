@@ -9,13 +9,14 @@ export interface AppContextValue {
   toggleCart: (product: BaseProduct) => void;
   updateQuantity: (productId: string, quantity: number) => void;
   clearCart: () => void;
-  getTotalPrice: () => number;
-  getTotalItems: () => number;
+  totalPrice: number;
+  totalItems: number;
   isInCart: (product: BaseProduct) => boolean;
+
   favorites: string[];
   toggleFavorite: (product: BaseProduct) => void;
   isFavorite: (productId: string) => boolean;
-  getFavoritesCount: () => number;
+  favoritesCount: number;
 }
 
 export const AppContext = createContext<AppContextValue | undefined>(undefined);

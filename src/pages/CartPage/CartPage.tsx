@@ -12,13 +12,8 @@ import cartZeroImg from '@assets/cart-zero.png';
 
 export const CartPage = () => {
   const { t } = useTranslation();
-  const {
-    cartItems,
-    removeFromCart,
-    updateQuantity,
-    getTotalPrice,
-    getTotalItems,
-  } = useAppContext();
+  const { cartItems, removeFromCart, updateQuantity, totalPrice, totalItems } =
+    useAppContext();
 
   const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
 
@@ -72,8 +67,8 @@ export const CartPage = () => {
 
           <div className={s.summary}>
             <CartItem
-              totalPrice={getTotalPrice()}
-              totalItems={getTotalItems()}
+              totalPrice={totalPrice}
+              totalItems={totalItems}
               onCheckout={handleCheckout}
             />
           </div>

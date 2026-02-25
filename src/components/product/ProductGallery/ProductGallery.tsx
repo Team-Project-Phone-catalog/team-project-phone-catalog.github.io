@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
 import './ProductGallery.scss';
 
 type Props = {
@@ -6,12 +6,41 @@ type Props = {
   name: string;
 };
 
+type AnimationState = 'idle' | 'exit' | 'enter';
+
 export const ProductGallery: React.FC<Props> = ({ images, name }) => {
   const [activeImage, setActiveImage] = useState(images[0]);
+  const [nextImage, setNextImage] = useState<string | null>(null);
+  const [animState, setAnimState] = useState<AnimationState>('idle');
+  const [prevImages, setPrevImages] = useState(images);
 
-  useEffect(() => {
+  const animRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  if (images !== prevImages) {
+    setPrevImages(images);
     setActiveImage(images[0]);
-  }, [images]);
+    setNextImage(null);
+    setAnimState('idle');
+  }
+
+  const handleThumbClick = (img: string) => {
+    if (img === activeImage || animState !== 'idle') return;
+
+    if (animRef.current) clearTimeout(animRef.current);
+
+    setNextImage(img);
+    setAnimState('exit');
+
+    animRef.current = setTimeout(() => {
+      setActiveImage(img);
+      setAnimState('enter');
+
+      animRef.current = setTimeout(() => {
+        setNextImage(null);
+        setAnimState('idle');
+      }, 300);
+    }, 250);
+  };
 
   return (
     <div className="gallery">
@@ -19,8 +48,8 @@ export const ProductGallery: React.FC<Props> = ({ images, name }) => {
         {images.map((img, index) => (
           <div
             key={index}
-            className={`thumb ${activeImage === img ? 'active' : ''}`}
-            onClick={() => setActiveImage(img)}
+            className={`thumb ${activeImage === img && !nextImage ? 'active' : ''} ${nextImage === img ? 'active' : ''}`}
+            onClick={() => handleThumbClick(img)}
           >
             <img
               src={`/${img}`}
@@ -34,6 +63,7 @@ export const ProductGallery: React.FC<Props> = ({ images, name }) => {
         <img
           src={`/${activeImage}`}
           alt={name}
+          className={`gallery__image gallery__image--${animState}`}
         />
       </div>
     </div>
