@@ -82,7 +82,6 @@ export const CartProduct: React.FC<Props> = ({
           <button
             className={s.btnMinus}
             onClick={onDecrease}
-            disabled={quantity <= 1}
           >
             <img
               src="src/assets/icons/minus-dark.svg"

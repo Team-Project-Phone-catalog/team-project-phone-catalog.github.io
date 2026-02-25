@@ -25,9 +25,7 @@ export const Header = () => {
   const [isAdmin, setIsAdmin] = useState(false);
   const [theme, setTheme] = useState('dark');
 
-  const { getTotalItems, getFavoritesCount } = useAppContext();
-  const cartCount = getTotalItems();
-  const favoritesCount = getFavoritesCount();
+  const { totalItems, favoritesCount } = useAppContext();
 
   const navLinks = [
     { id: 1, name: t('nav.home'), path: '/' },
@@ -187,7 +185,7 @@ export const Header = () => {
               >
                 <CounterIcon
                   icon={cartIcon}
-                  count={cartCount}
+                  count={totalItems}
                   alt="Cart"
                 />
               </NavLink>
@@ -219,7 +217,7 @@ export const Header = () => {
         isOpen={isMenuOpen}
         onClose={closeMenu}
         favoritesCount={favoritesCount}
-        cartCount={cartCount}
+        cartCount={totalItems}
         user={user}
         isAdmin={isAdmin}
       />
