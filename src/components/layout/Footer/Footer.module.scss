@@ -88,7 +88,7 @@
 .scrollTop {
   width: 32px;
   height: 32px;
-  background: $color-surface-2;
+  background: $color-surface-3;
   border: 1px solid $color-elements;
   border-radius: 8px;
   color: $color-white;
@@ -107,7 +107,7 @@
   }
 
   &:hover {
-    background: #4219d0;
+    background: $color-accent;
   }
 
   &:active {

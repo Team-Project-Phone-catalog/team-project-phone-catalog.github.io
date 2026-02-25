@@ -1,16 +1,5 @@
 @use '@styles/variables' as *;
-
-@mixin on-tablet {
-  @media (min-width: 640px) {
-    @content;
-  }
-}
-
-@mixin on-desktop {
-  @media (min-width: 1200px) {
-    @content;
-  }
-}
+@use '@styles/utils' as *;
 
 .loader-wrapper {
   display: flex;
@@ -290,6 +279,17 @@
     .category-card__image-tablets,
     .category-card__image-access {
       transform: scale(1.05);
+    }
+  }
+}
+
+[data-theme='light'] {
+  .arrow-btn:hover:not(:disabled) {
+    background-color: transparent;
+    border-color: $color-surface-2;
+
+    &::after {
+      background-image: url('/src/assets/icons/vector-black.svg');
     }
   }
 }
