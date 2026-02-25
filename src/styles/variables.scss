@@ -68,7 +68,9 @@
   --color-surface-2: #75767f;
   --color-elements: #75767f;
   --color-secondary: #75767f;
+  --color-secondary-1: #89939a;
   --color-border-1: #16192b;
+  --color-border-fav: #26293e;
 
   --color-white: #0f1121;
   --color-light-1: #0f1121;
@@ -82,8 +84,8 @@
   --border-color: #75767f;
 
   --bg-main: #ffffff;
-  --bg-surface: #e6e9ef;
-  --bg-card: #e6e9ef;
+  --bg-surface: #f1f2f9;
+  --bg-card: #f1f2f9;
 
   /* BUTTONS */
   --btn-secondary-bg: #f1f2f9;
@@ -103,6 +105,7 @@ $color-surface-2: var(--color-surface-2);
 $color-elements: var(--color-elements);
 $color-icons: var(--color-icons);
 $color-secondary: var(--color-secondary);
+$color-secondary-1: var(--color-secondary-1);
 
 $color-white: var(--color-white);
 $color-light-1: var(--color-light-1);
@@ -122,6 +125,7 @@ $color-text-secondary: var(--text-secondary);
 /* BORDERS */
 $color-border: var(--border-color);
 $color-border-1: var(--color-border-1);
+$favorites-border: var(--color-border-fav);
 
 /* BACKGROUNDS */
 $bg-main: var(--bg-main);
