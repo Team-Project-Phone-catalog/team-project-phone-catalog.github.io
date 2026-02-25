@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { WriteReview } from '../WriteReview/WriteReview';
 import { ReviewCard } from '../ReviewCard/ReviewCard';
 import { Stars } from '../Stars/Stars';
@@ -12,6 +13,7 @@ export const ReviewsPage = ({
   onBack: () => void;
   productId: string;
 }) => {
+  const { t } = useTranslation();
   const { reviews, loading, addReview, avgScore, ratings } =
     useReviews(productId);
   const [showWriteReview, setShowWriteReview] = useState(false);
@@ -28,12 +30,12 @@ export const ReviewsPage = ({
   return (
     <div className="reviews-page">
       <div className="reviews-page__header">
-        <h1 className="reviews-page__title">Customer reviews</h1>
+        <h1 className="reviews-page__title">{t('reviews.title')}</h1>
         <button
           className="reviews-page__back"
           onClick={onBack}
         >
-          ← Back
+          {'<'} {t('reviews.back')}
         </button>
       </div>
       <div className="reviews-page__body">
@@ -41,11 +43,11 @@ export const ReviewsPage = ({
           <div className="summary-panel__score-row">
             <Stars score={avgScore} />
             <span className="summary-panel__score-text">
-              {avgScore} out of 5
+              {avgScore} {t('reviews.out_of')}
             </span>
           </div>
           <p className="summary-panel__count">
-            {reviews.length} global ratings
+            {reviews.length} {t('reviews.global_ratings')}
           </p>
           {ratings.map((r) => (
             <div
@@ -63,20 +65,20 @@ export const ReviewsPage = ({
             </div>
           ))}
           <div className="summary-panel__write-section">
-            <p className="summary-panel__write-title">Review this product</p>
-            <p className="summary-panel__write-sub">
-              Share your thoughts with other customers
+            <p className="summary-panel__write-title">
+              {t('reviews.write_title')}
             </p>
+            <p className="summary-panel__write-sub">{t('reviews.write_sub')}</p>
             <button
               className="summary-panel__write-btn"
               onClick={() => setShowWriteReview(true)}
             >
-              Write a customer review
+              {t('reviews.write_btn')}
             </button>
           </div>
         </div>
         <div className="reviews-list">
-          {loading && <p>Loading</p>}
+          {loading && <p>{t('auth.loading')}</p>}
           {reviews.map((r) => (
             <ReviewCard
               key={r.id}

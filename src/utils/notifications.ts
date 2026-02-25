@@ -1,36 +1,45 @@
 import { toast } from 'sonner';
+import i18n from './i18n';
 
 export const notify = {
   addedToCart: (productName: string) =>
-    toast.success('Added to cart', {
-      description: `${productName} has been added.`,
+    toast.success(i18n.t('notifications.added_to_cart'), {
+      description: i18n.t('notifications.added_to_cart_desc', {
+        name: productName,
+      }),
     }),
 
   alreadyInCart: (productName: string) =>
-    toast.info('Already in cart', {
-      description: `${productName} is already waiting for you.`,
+    toast.info(i18n.t('notifications.already_in_cart'), {
+      description: i18n.t('notifications.already_in_cart_desc', {
+        name: productName,
+      }),
     }),
 
   removedFromCart: (productName: string) =>
-    toast.info('Removed from cart', {
-      description: `${productName} has been removed.`,
+    toast.info(i18n.t('notifications.removed_from_cart'), {
+      description: i18n.t('notifications.removed_from_cart_desc', {
+        name: productName,
+      }),
     }),
 
   addedToFavorites: (productName: string) =>
-    toast.success('Added to favorites', {
-      description: `${productName} added to your wishlist.`,
+    toast.success(i18n.t('notifications.added_to_fav'), {
+      description: i18n.t('notifications.added_to_fav_desc', {
+        name: productName,
+      }),
     }),
 
   removedFromFavorites: (productName: string) =>
-    toast.info('Removed from favorites', {
-      description: `${productName} removed from your wishlist.`,
+    toast.info(i18n.t('notifications.removed_from_fav'), {
+      description: i18n.t('notifications.removed_from_fav_desc', {
+        name: productName,
+      }),
     }),
 
-  error: (message: string = 'Something went wrong.') =>
-    toast.error('Error', { description: message }),
+  error: (message: string = i18n.t('notifications.something_wrong')) =>
+    toast.error(i18n.t('notifications.error'), { description: message }),
 
   success: (message: string, description?: string) =>
-    toast.success(message, {
-      description,
-    }),
+    toast.success(message, { description }),
 };

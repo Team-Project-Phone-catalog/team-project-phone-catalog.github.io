@@ -40,11 +40,14 @@ export const SupportChat: React.FC = () => {
   const handleSend = async () => {
     const trimmed = text.trim();
     if (!trimmed || !userId) return;
+
     setText('');
     const isFirstMessage = messages.length === 0;
+
     await supabase
       .from('support_messages')
       .insert({ user_id: userId, role: 'user', text: trimmed });
+
     if (isFirstMessage) {
       await supabase.from('support_messages').insert({
         user_id: userId,
@@ -71,7 +74,7 @@ export const SupportChat: React.FC = () => {
             <div className={styles.chat}>
               <div className={styles.messages}>
                 {messages.length === 0 && (
-                  <p className={styles.empty}>{t('favourites.empty_text')}</p>
+                  <p className={styles.empty}>{t('help_widget.welcome')}</p>
                 )}
                 {messages.map((msg) => (
                   <React.Fragment key={msg.id}>

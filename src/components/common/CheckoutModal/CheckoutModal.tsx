@@ -2,12 +2,19 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
 
-import { useAppContext } from '@hooks/useAppContext';
-import { supabase } from '@utils/supabaseClient';
-import { notify } from '@utils/notifications';
+import arrowDownIcon from '@/assets/icons/arrow-down.svg';
+
+import { useAppContext } from '@/hooks/useAppContext';
+import { supabase } from '@/utils/supabaseClient';
+import { notify } from '@/utils/notifications';
+import {
+  getCities,
+  getWarehouses,
+  type City,
+  type Warehouse,
+} from '@/utils/novaPostaClient';
 
 import styles from './CheckoutModal.module.scss';
-import { useTranslation } from 'react-i18next';
 
 interface Props {
   isOpen: boolean;
@@ -15,11 +22,10 @@ interface Props {
 }
 
 type Step = 1 | 2 | 3;
-type DeliveryMethod = 'home';
+type DeliveryMethod = 'home' | 'novapost';
 type PaymentMethod = 'card' | 'paypal' | 'cod';
 
 export const CheckoutModal: React.FC<Props> = ({ isOpen, onClose }) => {
-  const { t } = useTranslation();
   const navigate = useNavigate();
   const stripe = useStripe();
   const elements = useElements();
@@ -28,11 +34,25 @@ export const CheckoutModal: React.FC<Props> = ({ isOpen, onClose }) => {
 
   const [step, setStep] = useState<Step>(1);
   const [paymentOpen, setPaymentOpen] = useState(false);
+  const [deliveryOpen, setDeliveryOpen] = useState(false);
 
   const [fullName, setFullName] = useState('');
   const [phone, setPhone] = useState('');
+
   const [deliveryMethod, setDeliveryMethod] = useState<DeliveryMethod>('home');
   const [address, setAddress] = useState('');
+
+  // Nova Poshta states
+  const [cities, setCities] = useState<City[]>([]);
+  const [selectedCity, setSelectedCity] = useState<City | null>(null);
+  const [citiesOpen, setCitiesOpen] = useState(false);
+  const [warehouses, setWarehouses] = useState<Warehouse[]>([]);
+  const [selectedWarehouse, setSelectedWarehouse] = useState<Warehouse | null>(
+    null,
+  );
+  const [warehousesOpen, setWarehousesOpen] = useState(false);
+  const [loadingCities, setLoadingCities] = useState(false);
+  const [loadingWarehouses, setLoadingWarehouses] = useState(false);
 
   const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>('card');
 
@@ -45,6 +65,7 @@ export const CheckoutModal: React.FC<Props> = ({ isOpen, onClose }) => {
 
   useEffect(() => {
     if (!isOpen) return;
+
     setStep(1);
     setFullName('');
     setPhone('');
@@ -54,15 +75,46 @@ export const CheckoutModal: React.FC<Props> = ({ isOpen, onClose }) => {
     setLoading(false);
     setSuccessOrderId(null);
     setPaypalConfirmed(false);
+    setSelectedCity(null);
+    setSelectedWarehouse(null);
+    setDeliveryOpen(false);
+    setPaymentOpen(false);
+    setCitiesOpen(false);
+    setWarehousesOpen(false);
   }, [isOpen]);
+
+  // Load cities for Nova Poshta
+  useEffect(() => {
+    const loadCities = async () => {
+      setLoadingCities(true);
+      try {
+        const citiesData = await getCities();
+        setCities(citiesData);
+        if (citiesData.length === 0) {
+          console.warn('No cities loaded from Nova Poshta');
+        }
+      } catch (error) {
+        console.error('Failed to load cities:', error);
+        notify.error('Failed to load cities from Nova Poshta');
+      } finally {
+        setLoadingCities(false);
+      }
+    };
+
+    if (isOpen && deliveryMethod === 'novapost') {
+      loadCities();
+    }
+  }, [isOpen, deliveryMethod]);
 
   useEffect(() => {
     if (!successOrderId) return;
-    const timeout = window.setTimeout(() => {
+
+    const t = window.setTimeout(() => {
       onClose();
       navigate('/profile/orders');
     }, 1600);
-    return () => window.clearTimeout(timeout);
+
+    return () => window.clearTimeout(t);
   }, [successOrderId, navigate, onClose]);
 
   useEffect(() => {
@@ -84,12 +136,42 @@ export const CheckoutModal: React.FC<Props> = ({ isOpen, onClose }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [paypalConfirmed]);
 
+  // Load warehouses when city is selected
+  useEffect(() => {
+    const loadWarehouses = async () => {
+      if (!selectedCity) {
+        setWarehouses([]);
+        setSelectedWarehouse(null);
+        return;
+      }
+
+      setLoadingWarehouses(true);
+      try {
+        const warehousesData = await getWarehouses({
+          cityRef: selectedCity.Ref,
+        });
+        setWarehouses(warehousesData);
+        setSelectedWarehouse(null);
+      } catch (error) {
+        console.error('Failed to load warehouses:', error);
+        notify.error('Failed to load warehouses');
+      } finally {
+        setLoadingWarehouses(false);
+      }
+    };
+
+    loadWarehouses();
+  }, [selectedCity]);
+
   if (!isOpen) return null;
 
   const isStep1Valid = fullName.trim().length >= 2 && phone.trim().length >= 6;
 
   const isStep2Valid =
-    deliveryMethod === 'home' ? address.trim().length >= 6 : true;
+    deliveryMethod === 'home' ? address.trim().length >= 6
+    : deliveryMethod === 'novapost' ?
+      selectedCity !== null && selectedWarehouse !== null
+    : false;
 
   const isStep3Valid = Boolean(paymentMethod);
 
@@ -150,12 +232,14 @@ export const CheckoutModal: React.FC<Props> = ({ isOpen, onClose }) => {
     try {
       const { data: userData, error: userError } =
         await supabase.auth.getUser();
+
       if (userError) {
         notify.error('You must be logged in to place an order.');
         return;
       }
 
       const userId = userData.user.id;
+
       const orderPayload = {
         user_id: userId,
         status: 'processing',
@@ -164,7 +248,11 @@ export const CheckoutModal: React.FC<Props> = ({ isOpen, onClose }) => {
         full_name: fullName.trim(),
         phone: phone.trim(),
         delivery_method: deliveryMethod,
-        address: deliveryMethod === 'home' ? address.trim() : null,
+        address:
+          deliveryMethod === 'home' ? address.trim()
+          : deliveryMethod === 'novapost' && selectedWarehouse ?
+            `${selectedCity?.Description} - ${selectedWarehouse.Description}`
+          : null,
         payment_method: paymentMethod,
       };
 
@@ -173,6 +261,7 @@ export const CheckoutModal: React.FC<Props> = ({ isOpen, onClose }) => {
         .insert([orderPayload])
         .select()
         .single();
+
       if (orderError) {
         notify.error(orderError.message);
         return;
@@ -180,7 +269,7 @@ export const CheckoutModal: React.FC<Props> = ({ isOpen, onClose }) => {
 
       const itemsPayload = cartItems.map((item) => ({
         order_id: order.id,
-        product_id: item.id,
+        product_id: Number(item.id),
         name: item.name,
         price: item.priceDiscount ?? item.price,
         image: item.image ?? null,
@@ -190,6 +279,7 @@ export const CheckoutModal: React.FC<Props> = ({ isOpen, onClose }) => {
       const { error: itemsError } = await supabase
         .from('order_items')
         .insert(itemsPayload);
+
       if (itemsError) {
         notify.error(itemsError.message);
         return;
@@ -236,13 +326,11 @@ export const CheckoutModal: React.FC<Props> = ({ isOpen, onClose }) => {
     setLoading(true);
 
     try {
-      // Если это COD (Cash on Delivery), просто создаем заказ
-      if (paymentMethod === 'cod') {
+      if (paymentMethod === 'cod' || paymentMethod === 'paypal') {
         await createOrderInDatabase();
         return;
       }
 
-      // Если это карта, нужен Stripe
       if (!stripe || !elements) {
         notify.error('Stripe is not loaded');
         return;
@@ -305,13 +393,14 @@ export const CheckoutModal: React.FC<Props> = ({ isOpen, onClose }) => {
   const renderSuccess = () => (
     <div className={styles.successScreen}>
       <div className={styles.successIcon}>✓</div>
-      <h2 className={styles.successTitle}>{t('checkout.success_title')}</h2>
+      <h2 className={styles.successTitle}>Payment successful</h2>
       <p className={styles.successText}>
-        {t('checkout.success_text')}
+        Your order has been created
         {successOrderId ? ` (#${successOrderId})` : ''}.
         <br />
-        {t('checkout.redirecting')}
+        Redirecting you to your orders...
       </p>
+
       <div className={styles.successActions}>
         <button
           type="button"
@@ -321,14 +410,15 @@ export const CheckoutModal: React.FC<Props> = ({ isOpen, onClose }) => {
             navigate('/profile/orders');
           }}
         >
-          {t('checkout.view_orders')}
+          View orders
         </button>
+
         <button
           type="button"
           className={styles.secondaryBtn}
           onClick={onClose}
         >
-          {t('checkout.close')}
+          Close
         </button>
       </div>
     </div>
@@ -348,7 +438,8 @@ export const CheckoutModal: React.FC<Props> = ({ isOpen, onClose }) => {
         >
           ✕
         </button>
-        <h1 className={styles.title}>{t('checkout.title')}</h1>
+
+        <h1 className={styles.title}>Checkout</h1>
 
         {successOrderId ?
           renderSuccess()
@@ -357,13 +448,14 @@ export const CheckoutModal: React.FC<Props> = ({ isOpen, onClose }) => {
               {/* STEP 1 */}
               <div className={styles.stepBlock}>
                 <div className={styles.stepHeader}>
-                  <h2>{t('checkout.details')}</h2>
+                  <h2>Your details</h2>
                 </div>
+
                 {step === 1 && (
                   <div className={styles.stepContent}>
                     <input
                       className={styles.input}
-                      placeholder={t('checkout.full_name')}
+                      placeholder="Full name *"
                       value={fullName}
                       maxLength={60}
                       onChange={(e) => {
@@ -381,7 +473,7 @@ export const CheckoutModal: React.FC<Props> = ({ isOpen, onClose }) => {
 
                     <input
                       className={styles.input}
-                      placeholder={t('checkout.phone')}
+                      placeholder="Phone number *"
                       value={phone}
                       inputMode="tel"
                       maxLength={16}
@@ -398,13 +490,14 @@ export const CheckoutModal: React.FC<Props> = ({ isOpen, onClose }) => {
                         setPhone(value.startsWith('+') ? `+${digits}` : digits);
                       }}
                     />
+
                     <button
                       type="button"
                       className={styles.primaryBtn}
                       onClick={() => setStep(2)}
                       disabled={!isStep1Valid}
                     >
-                      {t('checkout.continue')}
+                      Continue
                     </button>
                   </div>
                 )}
@@ -412,23 +505,186 @@ export const CheckoutModal: React.FC<Props> = ({ isOpen, onClose }) => {
 
               <div className={styles.stepBlock}>
                 <div className={styles.stepHeader}>
-                  <h2>{t('checkout.delivery')}</h2>
+                  <h2>Delivery</h2>
                 </div>
+
                 {step === 2 && (
                   <div className={styles.stepContent}>
-                    <input
-                      className={styles.input}
-                      placeholder="Delivery address *"
-                      value={address}
-                      maxLength={40}
-                      onChange={(e) => {
-                        const cleaned = e.target.value
-                          .replace(/\s{2,}/g, ' ')
-                          .slice(0, 40);
+                    {/* Delivery method selector */}
+                    <div className={styles.dropdown}>
+                      <button
+                        type="button"
+                        className={styles.dropdown__button}
+                        onClick={() => setDeliveryOpen((prev) => !prev)}
+                      >
+                        {deliveryMethod === 'home' ?
+                          'Home delivery'
+                        : 'Nova Poshta (Depot)'}
 
-                        setAddress(cleaned);
-                      }}
-                    />
+                        <span className={styles._arrow}>
+                          <img
+                            alt="Dropdown arrow"
+                            src={arrowDownIcon}
+                          />
+                        </span>
+                      </button>
+
+                      {deliveryOpen && (
+                        <div className={styles.dropdown__list}>
+                          <div
+                            className={styles.dropdown__item}
+                            onClick={() => {
+                              setDeliveryMethod('home');
+                              setDeliveryOpen(false);
+                              setSelectedCity(null);
+                              setSelectedWarehouse(null);
+                              setCitiesOpen(false);
+                              setWarehousesOpen(false);
+                            }}
+                          >
+                            Home delivery
+                          </div>
+
+                          <div
+                            className={styles.dropdown__item}
+                            onClick={() => {
+                              setDeliveryMethod('novapost');
+                              setDeliveryOpen(false);
+                              setAddress('');
+                              setCitiesOpen(false);
+                              setWarehousesOpen(false);
+                            }}
+                          >
+                            Nova Poshta (Depot)
+                          </div>
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Home delivery form */}
+                    {deliveryMethod === 'home' && (
+                      <input
+                        className={styles.input}
+                        placeholder="Delivery address *"
+                        value={address}
+                        maxLength={40}
+                        onChange={(e) => {
+                          const cleaned = e.target.value
+                            .replace(/\s{2,}/g, ' ')
+                            .slice(0, 40);
+
+                          setAddress(cleaned);
+                        }}
+                      />
+                    )}
+
+                    {/* Nova Poshta form */}
+                    {deliveryMethod === 'novapost' && (
+                      <>
+                        {/* City selector */}
+                        <div className={styles.dropdown}>
+                          <button
+                            type="button"
+                            className={styles.dropdown__button}
+                            disabled={loadingCities}
+                            onClick={() => setCitiesOpen((prev) => !prev)}
+                          >
+                            {loadingCities ?
+                              'Loading cities...'
+                            : selectedCity ?
+                              selectedCity.Description
+                            : 'Select city *'}
+
+                            {!loadingCities && (
+                              <span className={styles._arrow}>
+                                <img
+                                  alt="Dropdown arrow"
+                                  src={arrowDownIcon}
+                                />
+                              </span>
+                            )}
+                          </button>
+
+                          {citiesOpen && cities.length > 0 && (
+                            <div className={styles.dropdown__list}>
+                              {cities.map((city) => (
+                                <div
+                                  key={city.Ref}
+                                  className={styles.dropdown__item}
+                                  onClick={() => {
+                                    setSelectedCity(city);
+                                    setCitiesOpen(false);
+                                  }}
+                                >
+                                  {city.Description}
+                                </div>
+                              ))}
+                            </div>
+                          )}
+                        </div>
+
+                        {/* Warehouse selector */}
+                        {selectedCity && (
+                          <div className={styles.dropdown}>
+                            <button
+                              type="button"
+                              className={styles.dropdown__button}
+                              disabled={loadingWarehouses}
+                              onClick={() => setWarehousesOpen((prev) => !prev)}
+                            >
+                              {loadingWarehouses ?
+                                'Loading warehouses...'
+                              : selectedWarehouse ?
+                                `№${selectedWarehouse.Number} — ${selectedWarehouse.Description}`
+                              : 'Select depot *'}
+
+                              {!loadingWarehouses && (
+                                <span className={styles._arrow}>
+                                  <img
+                                    alt="Dropdown arrow"
+                                    src={arrowDownIcon}
+                                  />
+                                </span>
+                              )}
+                            </button>
+
+                            {warehousesOpen && warehouses.length > 0 && (
+                              <div
+                                className={styles.dropdown__list}
+                                style={{
+                                  maxHeight: '300px',
+                                  overflowY: 'auto',
+                                }}
+                              >
+                                {warehouses.map((warehouse) => (
+                                  <div
+                                    key={warehouse.Ref}
+                                    className={styles.dropdown__item}
+                                    onClick={() => {
+                                      setSelectedWarehouse(warehouse);
+                                      setWarehousesOpen(false);
+                                    }}
+                                  >
+                                    <div>{warehouse.Description}</div>
+
+                                    {warehouse.Phone && (
+                                      <div
+                                        style={{
+                                          fontSize: '12px',
+                                          color: '#999',
+                                        }}
+                                      >
+                                        {warehouse.Phone}
+                                      </div>
+                                    )}
+                                  </div>
+                                ))}
+                              </div>
+                            )}
+                          </div>
+                        )}
+                      </>
+                    )}
 
                     <button
                       type="button"
@@ -436,14 +692,15 @@ export const CheckoutModal: React.FC<Props> = ({ isOpen, onClose }) => {
                       onClick={() => setStep(3)}
                       disabled={!isStep2Valid}
                     >
-                      {t('checkout.continue')}
+                      Continue
                     </button>
+
                     <button
                       type="button"
                       className={styles.secondaryBtn}
                       onClick={() => setStep(1)}
                     >
-                      {t('checkout.back')}
+                      Back
                     </button>
                   </div>
                 )}
@@ -451,8 +708,9 @@ export const CheckoutModal: React.FC<Props> = ({ isOpen, onClose }) => {
 
               <div className={styles.stepBlock}>
                 <div className={styles.stepHeader}>
-                  <h2>{t('checkout.payment')}</h2>
+                  <h2>Payment</h2>
                 </div>
+
                 {step === 3 && (
                   <div className={styles.stepContent}>
                     <div className={styles.dropdown}>
@@ -470,7 +728,7 @@ export const CheckoutModal: React.FC<Props> = ({ isOpen, onClose }) => {
                         <span className={styles._arrow}>
                           <img
                             alt="Previous page"
-                            src="/src/assets/icons/arrow-down.svg"
+                            src={arrowDownIcon}
                           />
                         </span>
                       </button>
@@ -538,27 +796,33 @@ export const CheckoutModal: React.FC<Props> = ({ isOpen, onClose }) => {
                       disabled={loading || !isStep3Valid}
                     >
                       {loading ?
-                        t('checkout.processing')
+                        'Processing...'
                       : paymentMethod === 'card' ?
-                        t('checkout.pay_order')
-                      : t('checkout.place_order')}
+                        'Pay & place order'
+                      : 'Place order'}
                     </button>
+
                     <button
                       type="button"
                       className={styles.secondaryBtn}
                       onClick={() => setStep(2)}
                       disabled={loading}
                     >
-                      {t('checkout.back')}
+                      Back
                     </button>
-                    <p className={styles.terms}>{t('checkout.terms')}</p>
+
+                    <p className={styles.terms}>
+                      By confirming the order, you agree to the Terms and
+                      Conditions.
+                    </p>
                   </div>
                 )}
               </div>
             </div>
 
             <div className={styles.summary}>
-              <h2>{t('checkout.summary')}</h2>
+              <h2>Order summary</h2>
+
               {cartItems.map((item) => (
                 <div
                   key={item.itemUniqueId}
@@ -572,8 +836,11 @@ export const CheckoutModal: React.FC<Props> = ({ isOpen, onClose }) => {
                   </div>
                 </div>
               ))}
+
               <div className={styles.totalBlock}>
-                <p>{t('cart.total_items', { count: totalItems })}</p>
+                <p>
+                  {totalItems} {totalItems === 1 ? 'item' : 'items'}
+                </p>
                 <h3>${totalPrice}</h3>
               </div>
             </div>

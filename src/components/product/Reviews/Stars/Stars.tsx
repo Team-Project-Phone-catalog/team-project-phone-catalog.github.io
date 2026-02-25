@@ -1,22 +1,26 @@
+import React from 'react';
 import './Stars.scss';
 
-export const Stars = ({ score }: { score: number }) => {
+interface StarsProps {
+  score: number;
+}
+
+export const Stars = ({ score }: StarsProps) => {
+  const totalStars = 5;
+
   return (
     <div className="stars">
-      {[1, 2, 3, 4, 5].map((n) => {
-        const fill = Math.min(1, Math.max(0, score - (n - 1)));
+      {[...Array(totalStars)].map((_, i) => {
+        const fillPercent = Math.min(1, Math.max(0, score - i)) * 100;
         return (
           <span
-            key={n}
+            key={i}
             className="stars__item"
+            style={
+              { '--fill-percent': `${fillPercent}%` } as React.CSSProperties
+            }
           >
             ★
-            <span
-              className="stars__item-fill"
-              style={{ width: `${fill * 100}%` }}
-            >
-              ★
-            </span>
           </span>
         );
       })}
