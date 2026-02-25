@@ -1,15 +1,11 @@
-/* ======================================
-   CSS VARIABLES (THEME)
-   ====================================== */
-
 :root {
-  /* DARK THEME (default) */
-
-  /* PRIMARY */
   --color-black: #0f1121;
+  --color-surface: #323542;
   --color-surface-1: #161827;
   --color-surface-2: #323542;
+  --color-surface-3: #323542;
   --color-elements: #3b3e4a;
+  --color-elements-1: #3b3e4a;
   --color-icons: #4a4d58;
   --color-secondary: #75767f;
 
@@ -18,24 +14,23 @@
   --color-light-bt: #f1f2f9;
   --color-light-2: #e8e9ee;
 
-  /* ACCENTS */
   --color-accent: #905bff;
   --color-accent-hover: #a378ff;
   --color-green: #27ae60;
   --color-red: #eb5757;
 
-  /* SEMANTIC */
   --text-primary: var(--color-white);
   --text-secondary: var(--color-secondary);
 
   --border-color: var(--color-elements);
   --color-border-1: #3b3e4a;
+  --bg-surface-1: #161827;
+  --bg-card-1: #323542;
 
   --bg-main: var(--color-black);
   --bg-surface: var(--color-surface-1);
   --bg-card: var(--color-surface-2);
 
-  /* BUTTONS */
   --btn-primary-bg: var(--color-accent);
   --btn-primary-hover: var(--color-accent-hover);
   --btn-primary-text: var(--color-white);
@@ -55,18 +50,19 @@
   --btn-light-bg: var(--color-light-1);
 
   --icon-filter: brightness(0) invert(1);
+  --color-modal: #905cff40;
+  --bg-modal: #ffffff14;
+  --bg-modal-input: #ffffff2e;
 }
 
-/* ======================================
-   LIGHT THEME
-   ====================================== */
-
 [data-theme='light'] {
-  /* PRIMARY */
   --color-black: #fafbfc;
+  --color-surface: #e8e9ee;
   --color-surface-1: #fafbfc;
   --color-surface-2: #75767f;
+  --color-surface-3: #b4bdc3;
   --color-elements: #75767f;
+  --color-elements-1: #89939a;
   --color-secondary: #75767f;
   --color-secondary-1: #89939a;
   --color-border-1: #16192b;
@@ -75,19 +71,16 @@
   --color-white: #0f1121;
   --color-light-1: #0f1121;
   --color-light-bt: #ffffff;
-  // --color-light-2:#161827;
+  --bg-surface-1: #fafbfc;
+  --bg-card-1: #c8d0d6;
 
-  /* SEMANTIC */
   --text-primary: #0f1121;
   --text-secondary: #75767f;
-
   --border-color: #75767f;
-
   --bg-main: #ffffff;
   --bg-surface: #f1f2f9;
   --bg-card: #f1f2f9;
 
-  /* BUTTONS */
   --btn-secondary-bg: #f1f2f9;
   --btn-secondary-hover: #e8e9ee;
   --btn-primary-text: #ffffff;
@@ -96,12 +89,16 @@
   --btn-default-selected: #e8e9ee;
   --btn-default-disabled: #b4bdc3;
   --icon-filter: brightness(0);
+  --color-modal: #b4bdc3;
+  --bg-modal: #01211a;
+  --bg-modal-input: #01211a;
 }
 
-/* PRIMARY PALETTE */
 $color-black: var(--color-black);
+$color-surface: var(--color-surface);
 $color-surface-1: var(--color-surface-1);
 $color-surface-2: var(--color-surface-2);
+$color-surface-3: var(--color-surface-3);
 $color-elements: var(--color-elements);
 $color-icons: var(--color-icons);
 $color-secondary: var(--color-secondary);
@@ -113,29 +110,24 @@ $color-light-bt: var(--color-light-bt);
 $color-light-2: var(--color-light-2);
 $color-accent-hover: var(--color-accent-hover);
 
-/* ACCENTS */
 $color-accent: var(--color-accent);
 $color-green: var(--color-green);
 $color-red: var(--color-red);
 
-/* TEXT */
 $color-text-primary: var(--text-primary);
 $color-text-secondary: var(--text-secondary);
 
-/* BORDERS */
 $color-border: var(--border-color);
 $color-border-1: var(--color-border-1);
 $favorites-border: var(--color-border-fav);
 
-/* BACKGROUNDS */
 $bg-main: var(--bg-main);
 $bg-surface: var(--bg-surface);
+$bg-surface-1: var(--bg-surface-1);
 $bg-card: var(--bg-card);
-
-/* TRANSITIONS */
+$bg-card-1: var(--bg-card-1);
 $transition-default: 0.3s ease;
 
-/* BUTTON STATES */
 $btn-primary-bg: var(--btn-primary-bg);
 $btn-primary-hover: var(--btn-primary-hover);
 $btn-primary-text: var(--btn-primary-text);
@@ -154,3 +146,6 @@ $btn-success: var(--btn-success);
 
 $btn-light-bg: var(--btn-light-bg);
 $icon-filter: var(--icon-filter);
+$color-modal: var(--color-modal);
+$bg-modal: var(--bg-modal);
+$bg-modal-input: var(--bg-modal-input);
