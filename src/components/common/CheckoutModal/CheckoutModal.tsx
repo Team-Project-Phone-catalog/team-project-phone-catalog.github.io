@@ -1,17 +1,18 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
+
 import arrowDownIcon from '@/assets/icons/arrow-down.svg';
 
-import { useAppContext } from '../../../hooks/useAppContext';
-import { supabase } from '../../../utils/supabaseClient';
-import { notify } from '../../../utils/notifications';
+import { useAppContext } from '@/hooks/useAppContext';
+import { supabase } from '@/utils/supabaseClient';
+import { notify } from '@/utils/notifications';
 import {
   getCities,
   getWarehouses,
   type City,
   type Warehouse,
-} from '../../../utils/novaPostaClient';
+} from '@/utils/novaPostaClient';
 
 import styles from './CheckoutModal.module.scss';
 
@@ -523,7 +524,7 @@ export const CheckoutModal: React.FC<Props> = ({ isOpen, onClose }) => {
                         <span className={styles._arrow}>
                           <img
                             alt="Dropdown arrow"
-                            src="/src/assets/icons/arrow-down.svg"
+                            src={arrowDownIcon}
                           />
                         </span>
                       </button>
@@ -598,7 +599,7 @@ export const CheckoutModal: React.FC<Props> = ({ isOpen, onClose }) => {
                               <span className={styles._arrow}>
                                 <img
                                   alt="Dropdown arrow"
-                                  src="/src/assets/icons/arrow-down.svg"
+                                  src={arrowDownIcon}
                                 />
                               </span>
                             )}
@@ -641,7 +642,7 @@ export const CheckoutModal: React.FC<Props> = ({ isOpen, onClose }) => {
                                 <span className={styles._arrow}>
                                   <img
                                     alt="Dropdown arrow"
-                                    src="/src/assets/icons/arrow-down.svg"
+                                    src={arrowDownIcon}
                                   />
                                 </span>
                               )}
