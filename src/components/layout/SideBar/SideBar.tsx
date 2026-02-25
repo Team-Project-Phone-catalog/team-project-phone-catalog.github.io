@@ -12,8 +12,8 @@ export const Sidebar = () => {
   const [userEmail, setUserEmail] = React.useState('');
   const [isAdmin, setIsAdmin] = React.useState(false);
 
-  const { getFavoritesCount } = useAppContext();
-  const favoritesCount = getFavoritesCount();
+  // Отримуємо значення напряму з контексту, а не викликаємо як функцію
+  const { favoritesCount } = useAppContext();
 
   React.useEffect(() => {
     const fetchUser = async () => {
