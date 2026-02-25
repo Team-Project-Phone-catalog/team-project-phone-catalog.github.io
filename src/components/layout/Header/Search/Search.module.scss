@@ -39,11 +39,16 @@
     border: none;
     outline: none;
     color: $color-light-1;
-    font-size: 14px;
     width: 100%;
+
+    font-size: 16px;
 
     &::placeholder {
       color: $color-secondary;
+    }
+
+    @include on-desktop() {
+      font-size: 14px;
     }
   }
 

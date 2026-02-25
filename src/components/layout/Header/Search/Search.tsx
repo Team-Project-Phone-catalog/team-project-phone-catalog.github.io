@@ -22,6 +22,7 @@ export const Search = () => {
   const listRef = useRef<HTMLUListElement>(null);
   const navigate = useNavigate();
 
+  // Визначення платформи для відображення правильного хоткея
   const [hotkeyText] = useState(() => {
     if (typeof window !== 'undefined') {
       const isMac = navigator.platform.toUpperCase().indexOf('MAC') >= 0;
@@ -30,6 +31,7 @@ export const Search = () => {
     return 'Alt + S';
   });
 
+  // Відстеження розміру екрана
   useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth <= 768);
@@ -40,6 +42,7 @@ export const Search = () => {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
+  // Завантаження товарів
   useEffect(() => {
     const loadAllProducts = async () => {
       try {
@@ -52,6 +55,7 @@ export const Search = () => {
     loadAllProducts();
   }, []);
 
+  // Дебаунс для вводу (300мс)
   useEffect(() => {
     const handler = setTimeout(() => setDebouncedQuery(query), 300);
     return () => {
@@ -60,6 +64,7 @@ export const Search = () => {
     };
   }, [query]);
 
+  // Скрол до вибраного елемента при навігації клавіатурою
   useEffect(() => {
     if (selectedIndex >= 0 && listRef.current) {
       const selectedElement = listRef.current.children[
@@ -72,20 +77,23 @@ export const Search = () => {
     }
   }, [selectedIndex]);
 
+  // ЛОГІКА ПОШУКУ (Тонке налаштування)
   const filteredItems = useMemo(() => {
     const normalizedQuery = debouncedQuery.toLowerCase().trim();
     if (!normalizedQuery) return [];
 
     const fuse = new Fuse(products, {
-      keys: ['name'],
-      threshold: 0.3,
-      distance: 100,
+      keys: ['name', 'category'], // Шукаємо і в назві, і в категорії
+      threshold: 0.4, // Гнучкість (0.4 дозволяє більше опечаток)
+      distance: 100, // Радіус пошуку
+      ignoreLocation: true, // Шукати в будь-якому місці рядка
       useExtendedSearch: true,
-      ignoreLocation: true,
     });
+
     const searchTerms = {
       $or: [
         { name: normalizedQuery },
+        { category: normalizedQuery },
         {
           $and: normalizedQuery
             .split(/\s+/)
@@ -98,7 +106,7 @@ export const Search = () => {
     return fuse
       .search(searchTerms)
       .map((r) => r.item)
-      .slice(0, 15);
+      .slice(0, 10); // Обмежуємо до 10 результатів (5 видимих + 5 у скролі)
   }, [debouncedQuery, products]);
 
   const handleClear = () => {
@@ -111,10 +119,12 @@ export const Search = () => {
     inputRef.current?.focus();
   };
 
+  // ОБРОБКА ГАРЯЧИХ КЛАВІШ ТА НАВІГАЦІЇ
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (isMobile) return;
 
+      // Хоткей працює незалежно від мови завдяки e.code
       if (e.altKey && e.code === 'KeyS') {
         e.preventDefault();
         inputRef.current?.focus();
@@ -123,8 +133,7 @@ export const Search = () => {
 
       if (e.key === 'Escape') {
         if (query.length > 0) {
-          setQuery('');
-          setDebouncedQuery('');
+          handleClear();
           setSelectedIndex(-1);
         } else {
           inputRef.current?.blur();
@@ -132,7 +141,7 @@ export const Search = () => {
         return;
       }
 
-      if (!query) return;
+      if (!query || filteredItems.length === 0) return;
 
       if (e.key === 'ArrowDown') {
         e.preventDefault();
