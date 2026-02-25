@@ -57,9 +57,7 @@ export const FavoritesPage: React.FC = () => {
         <Breadcrumbs />
 
         <div className="favorites-page__text">
-          <h1 className="favorites-page__title">
-            {t('nav.favourites', 'Favourites')}
-          </h1>
+          <h1 className="favorites-page__title">{t('favorites')}</h1>
           <span className="favorites-page__items-number">
             {t('cart.total_items', { count: favoriteProducts.length })}
           </span>
@@ -79,13 +77,10 @@ export const FavoritesPage: React.FC = () => {
               <Heart />
             </div>
             <h2 className="favorites-page__title">
-              {t('favourites.empty_title', 'Your favorites list is empty')}
+              {t('page_favorites.empty_title')}
             </h2>
             <p className="favorites-page__items-number">
-              {t(
-                'favourites.empty_text',
-                'Add some products to see them here!',
-              )}
+              {t('page_favorites.empty_text')}
             </p>
             <Link
               to="/"

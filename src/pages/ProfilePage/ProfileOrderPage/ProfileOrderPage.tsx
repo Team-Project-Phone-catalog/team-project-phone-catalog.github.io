@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import styles from './ProfileOrderPage.module.scss';
 import { Sidebar } from '@components/layout/SideBar';
 import { Breadcrumbs } from '@components/ui/Breadcrumbs/Breadcrumbs';
@@ -9,6 +10,7 @@ import { EmptyOrders } from '@components/ui/Profile/CartHistory/EmptyOrders/Empt
 import { OrderCard } from '@components/ui/Profile/CartHistory/OrderCard/OrderCard';
 
 export const ProfileOrderPage: React.FC = () => {
+  const { t, i18n } = useTranslation();
   const [orders, setOrders] = useState<Order[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -20,7 +22,7 @@ export const ProfileOrderPage: React.FC = () => {
       } = await supabase.auth.getUser();
 
       if (!user) {
-        setError('User doesnt login');
+        setError(t('checkout.error_login'));
         setLoading(false);
         return;
       }
@@ -53,7 +55,7 @@ export const ProfileOrderPage: React.FC = () => {
       } else {
         const format: Order[] = data.map((order) => ({
           id: order.id,
-          date: new Date(order.date).toLocaleDateString('en-GB', {
+          date: new Date(order.date).toLocaleDateString(i18n.language, {
             day: 'numeric',
             month: 'short',
             year: 'numeric',
@@ -77,7 +79,7 @@ export const ProfileOrderPage: React.FC = () => {
     };
 
     fetchOrders();
-  }, []);
+  }, [t, i18n.language]);
 
   return (
     <div className={styles.profilePage}>
@@ -87,7 +89,7 @@ export const ProfileOrderPage: React.FC = () => {
 
           <main className={styles.profilePage__content}>
             <Breadcrumbs />
-            <h1 className={styles.profilePage__title}>Order History</h1>
+            <h1 className={styles.profilePage__title}>{t('orders.title')}</h1>
 
             {loading ?
               <div className={styles.loaderWrapper}>

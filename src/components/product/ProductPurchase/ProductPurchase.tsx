@@ -1,5 +1,6 @@
 import './ProductPurchase.scss';
 import { ProductActions } from '../ProductActions';
+import { ProductPrice } from '../ProductPrice/ProductPrice';
 import React from 'react';
 import { ProductDetails } from '@/types/Product';
 import { useAppContext } from '@hooks/useAppContext';
@@ -24,11 +25,12 @@ export const ProductPurchase: React.FC<Props> = ({
   return (
     <div className="purchase">
       <div className="purchase-price">
-        <span className="purchase-price__current">${priceDiscount}</span>
-        {priceDiscount < priceRegular && (
-          <span className="purchase-price__full">${priceRegular}</span>
-        )}
+        <ProductPrice
+          currentPrice={priceDiscount}
+          fullPrice={priceRegular}
+        />
       </div>
+
       <div className="purchase__buttons">
         <ProductActions
           handleToggleCart={() => toggleCart(product)}

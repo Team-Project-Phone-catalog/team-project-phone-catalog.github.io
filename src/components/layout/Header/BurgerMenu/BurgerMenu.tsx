@@ -39,7 +39,7 @@ export const BurgerMenu: React.FC<Props> = ({
   const authNavLinks = [
     { id: 5, name: t('nav.orders'), path: 'profile/orders' },
     { id: 6, name: t('nav.chat'), path: 'profile/chat' },
-    { id: 7, name: t('nav.wishlist'), path: 'profile/favorites' },
+    { id: 7, name: t('nav.favorites'), path: 'profile/favorites' },
     { id: 8, name: t('nav.wallet'), path: 'profile/wallet' },
   ];
 
@@ -115,14 +115,14 @@ export const BurgerMenu: React.FC<Props> = ({
           className={`${styles.lang_btn} ${i18n.language === 'en' ? styles['lang_btn--active'] : ''}`}
           onClick={() => changeLanguage('en')}
         >
-          English
+          EN
         </button>
         <span className={styles.lang_divider}>|</span>
         <button
           className={`${styles.lang_btn} ${i18n.language === 'ua' ? styles['lang_btn--active'] : ''}`}
           onClick={() => changeLanguage('ua')}
         >
-          Українська
+          UA
         </button>
       </div>
 
