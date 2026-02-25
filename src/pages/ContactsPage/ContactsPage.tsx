@@ -23,7 +23,7 @@ const teamMembers: TeamMember[] = [
   },
   {
     name: 'Ruslan Zavadskyi',
-    role: 'Product Manager · Frontend Developer',
+    role: 'Product Manager · Full-Stack Developer',
     photo:
       'https://media.mate.academy/fit-in/128x128/users/172623/avatars/current-1748715857382.jpg',
     email: 'ruslan.zavadskyi.dev@gmail.com',
@@ -59,7 +59,7 @@ const teamMembers: TeamMember[] = [
   },
   {
     name: 'Mark Chepizhnyi',
-    role: 'Frontend Developer',
+    role: 'Full-Stack Developer',
     photo: 'https://avatars.githubusercontent.com/u/62542962?v=4',
     email: 'markchep0411@gmail.com',
     linkedin: 'https://www.linkedin.com/in/markchepizhnyi/',

@@ -45,6 +45,25 @@ Deno.serve(async (req) => {
       });
     }
 
+    // 🔥 ВАЖЛИВО: правильна модель для кожного методу
+    const modelMap: Record<string, string> = {
+      getCities: 'Address',
+      getWarehouses: 'Address',
+      getDocumentPrice: 'InternetDocument',
+    };
+
+    const modelName = modelMap[method];
+
+    if (!modelName) {
+      return new Response(JSON.stringify({ error: 'Unknown method' }), {
+        status: 400,
+        headers: {
+          ...corsHeaders,
+          'Content-Type': 'application/json',
+        },
+      });
+    }
+
     const response = await fetch(NOVAPOSHTA_API_URL, {
       method: 'POST',
       headers: {
@@ -52,7 +71,7 @@ Deno.serve(async (req) => {
       },
       body: JSON.stringify({
         apiKey,
-        modelName: 'Address',
+        modelName,
         calledMethod: method,
         methodProperties: properties || {},
       }),
