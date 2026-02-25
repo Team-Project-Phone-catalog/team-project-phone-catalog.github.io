@@ -114,6 +114,11 @@
   padding: 0;
   border-radius: 8px;
 
+  img,
+  svg {
+    filter: $icon-filter;
+  }
+
   &:hover {
     background-color: $btn-secondary-hover;
   }
@@ -132,6 +137,11 @@
   justify-content: center;
   padding: 0;
   border-radius: 8px;
+
+  img,
+  svg {
+    filter: $icon-filter;
+  }
 
   &:hover {
     background-color: $btn-secondary-hover;

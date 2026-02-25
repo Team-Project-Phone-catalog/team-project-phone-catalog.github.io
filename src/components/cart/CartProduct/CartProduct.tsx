@@ -7,8 +7,8 @@ import { useTranslation } from 'react-i18next';
 import { formatPrice } from '@/utils/formatPrice';
 
 import closeIcon from '@/assets/icons/closeCart-dark.svg';
-import minusIcon from '@/assets/icons/minus-dark.svg';
-import plusIcon from '@/assets/icons/plus-dark.svg';
+import minusIcon from '@/assets/icons/minus.svg';
+import plusIcon from '@/assets/icons/plus.svg';
 
 interface Props {
   product: CartItem | ProductDetails;

@@ -9,9 +9,10 @@
   width: 60px;
   height: 60px;
   border-radius: 50%;
-  border: 3px solid $color-light-1;
 
-  background: $color-surface-2;
+  border: 3px solid $color-light-widget;
+  background: $bg-card-1;
+  color: $color-light-widget;
 
   display: flex;
   align-items: center;
@@ -21,15 +22,15 @@
   transition:
     transform 0.2s ease,
     box-shadow 0.2s ease;
-}
 
-.bubble:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.35);
-}
+  svg {
+    stroke: currentColor;
+  }
 
-.bubble svg {
-  display: block;
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.25);
+  }
 }
 
 .badge {
@@ -37,8 +38,9 @@
   top: 6px;
   right: 6px;
 
-  background: white;
+  background: $color-light-bt;
   color: $color-surface-2;
+
   font-size: 12px;
   padding: 2px 6px;
   border-radius: 12px;
@@ -49,18 +51,24 @@
   position: fixed;
   bottom: 100px;
   right: 24px;
+
   width: 360px;
   height: 480px;
+
   z-index: 9999;
 
-  background: $color-surface-2;
+  background: $bg-surface;
+  border: 1px solid $color-elements;
   border-radius: 16px;
 
   display: flex;
   flex-direction: column;
   overflow: hidden;
 
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.45);
+  box-shadow:
+    0 20px 40px rgba(0, 0, 0, 0.25),
+    0 4px 12px rgba(0, 0, 0, 0.08);
+
   animation: fadeIn 0.2s ease;
 }
 
@@ -77,23 +85,30 @@
 
 .header {
   padding: 16px;
-  background: #2b2e3a;
-  color: white;
+  background: $bg-card;
+  color: $color-light-1;
 
   display: flex;
   justify-content: space-between;
   align-items: center;
 
-  font-weight: 500;
+  font-weight: 600;
+  border-bottom: 1px solid $color-elements;
 }
 
 .close {
   background: transparent;
   border: none;
   cursor: pointer;
+  color: $color-light-1;
+
   display: flex;
   align-items: center;
   justify-content: center;
+
+  svg {
+    stroke: currentColor;
+  }
 }
 
 .body {
@@ -108,8 +123,9 @@
 
 .message {
   max-width: 75%;
-  padding: 8px 12px;
+  padding: 10px 14px;
   border-radius: 14px;
+
   font-size: 14px;
   line-height: 1.4;
 
@@ -129,14 +145,15 @@
 
 .user {
   align-self: flex-end;
-  background: white;
-  color: $color-surface-2;
+  background: $color-accent;
+  color: $btn-primary-text;
 }
 
 .bot {
   align-self: flex-start;
-  background: #44475a;
-  color: white;
+  background: $bg-card;
+  color: $color-light-1;
+  border: 1px solid $color-elements;
 }
 
 .typing {
@@ -146,7 +163,7 @@
   span {
     width: 6px;
     height: 6px;
-    background: white;
+    background: $color-light-1;
     border-radius: 50%;
     animation: blink 1.4s infinite both;
   }
@@ -175,29 +192,48 @@
   display: flex;
   padding: 12px;
   gap: 8px;
-  border-top: 1px solid #44475a;
+
+  border-top: 1px solid $color-elements;
+  background: $bg-card;
 }
 
 .footer input {
   flex: 1;
+
   border-radius: 20px;
-  border: 1px solid white;
-  background: transparent;
-  color: white;
+  border: 1px solid $color-elements;
+
+  background: $bg-surface;
+  color: $color-light-1;
+
   padding: 8px 12px;
   outline: none;
+
+  transition: border 0.2s;
+
+  &:focus {
+    border-color: $color-accent;
+  }
 }
 
 .footer input::placeholder {
-  color: #ccc;
+  color: $color-secondary;
 }
 
 .footer button {
   border-radius: 50%;
-  border: 2px solid white;
+  border: none;
+
   width: 36px;
   height: 36px;
-  background: white;
-  color: $color-surface-2;
+
+  background: $color-accent;
+  color: $btn-primary-text;
+
   cursor: pointer;
+  transition: background 0.2s;
+
+  &:hover {
+    background: $color-accent-hover;
+  }
 }
