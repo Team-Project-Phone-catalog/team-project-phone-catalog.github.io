@@ -35,7 +35,7 @@ export const ReviewsPage = ({
           className="reviews-page__back"
           onClick={onBack}
         >
-          ← {t('reviews.back')}
+          {'<'} {t('reviews.back')}
         </button>
       </div>
       <div className="reviews-page__body">
