@@ -32,16 +32,17 @@
   }
 
   &__back {
-    font-size: 13px;
-    color: $color-accent;
+    font-size: 12px;
+    font-weight: 700;
+    color: $color-light-1;
     background: none;
     border: none;
     cursor: pointer;
     padding: 0;
     transition: color $transition-default;
     &:hover {
-      color: $color-accent-hover;
-      text-decoration: underline;
+      color: $color-accent;
+      text-decoration: none;
     }
   }
 
@@ -81,6 +82,11 @@
   }
   &__section {
     margin-bottom: 24px;
+  }
+  &__section-hover {
+    font-size: 13px;
+    color: $color-accent-hover;
+    margin-top: 6px;
   }
   &__section-title {
     font-size: 15px;

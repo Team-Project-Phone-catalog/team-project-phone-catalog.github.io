@@ -33,7 +33,7 @@ export const ReviewsPage = ({
           className="reviews-page__back"
           onClick={onBack}
         >
-          ← Back
+          {'<'} Back
         </button>
       </div>
       <div className="reviews-page__body">
