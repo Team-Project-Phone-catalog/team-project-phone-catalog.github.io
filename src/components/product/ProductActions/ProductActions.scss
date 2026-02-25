@@ -7,22 +7,27 @@
 
   &__add-to-cart {
     display: flex;
-    border-radius: 8px;
     justify-content: center;
     align-items: center;
     flex-grow: 1;
+
     width: 175px;
     height: 40px;
+
+    border: none;
+    border-radius: 8px;
+
     font-family: 'Mont', 'Helvetica Neue', Arial, sans-serif;
     font-size: 14px;
     line-height: 21px;
-    letter-spacing: 0;
+
     color: $btn-primary-text;
     background-color: $color-accent;
+
     text-decoration: none;
     text-align: center;
     cursor: pointer;
-    border: none;
+
     transition: background-color $transition-default;
 
     &:hover:not(:disabled):not(.in-cart) {
@@ -32,20 +37,34 @@
     &:disabled,
     &.in-cart {
       background-color: $color-surface-2;
+      cursor: default;
     }
   }
 
   &__favorites {
+    position: relative;
     box-sizing: border-box;
-    border-radius: 8px;
+
     width: 40px;
     height: 40px;
-    background-color: $bg-card;
-    background-image: url(../../../assets/icons/heart.svg);
-    background-repeat: no-repeat;
-    background-position: center;
-    cursor: pointer;
+
     border: none;
+    border-radius: 8px;
+    border: 1px solid $favorites-border;
+    background-color: $bg-card;
+    cursor: pointer;
+
+    &::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+
+      background-image: url(../../../assets/icons/heart.svg);
+      background-repeat: no-repeat;
+      background-position: center;
+
+      filter: $icon-filter;
+    }
 
     &:hover {
       background-color: $btn-secondary-hover;
@@ -61,9 +80,13 @@
     }
 
     &--active {
-      background-image: url(../../../assets/icons/heart-red.svg);
       background-color: $color-surface-1;
       border: 1px solid $color-elements;
+
+      &::before {
+        background-image: url(../../../assets/icons/heart-red.svg);
+        filter: none;
+      }
     }
   }
 }

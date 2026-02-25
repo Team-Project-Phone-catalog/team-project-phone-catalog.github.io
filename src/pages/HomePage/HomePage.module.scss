@@ -12,8 +12,6 @@
   }
 }
 
-$color-secondary: #89939a;
-
 .loader-wrapper {
   display: flex;
   justify-content: center;
@@ -150,7 +148,7 @@ $color-secondary: #89939a;
   border-radius: 8px;
 
   &:hover:not(:disabled) {
-    background-color: $color-surface-2;
+    background-color: $btn-secondary-hover;
     border-color: $color-icons;
 
     &::after {
@@ -283,7 +281,7 @@ $color-secondary: #89939a;
 
   &__count {
     font-size: 14px;
-    color: $color-secondary;
+    color: $color-secondary-1;
     font-weight: 600;
   }
 
