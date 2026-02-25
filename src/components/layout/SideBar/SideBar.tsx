@@ -94,13 +94,6 @@ export const Sidebar = () => {
           <span>{t('profile_sidebar.wishlist')}</span>
           <span className={styles.badge}>{favoritesCount}</span>
         </Link>
-
-        <Link
-          to="/profile/wallet"
-          className={`${styles.navItem} ${isActive('/profile/wallet') ? styles.active : ''}`}
-        >
-          {t('profile_sidebar.wallet')}
-        </Link>
       </nav>
     </aside>
   );
