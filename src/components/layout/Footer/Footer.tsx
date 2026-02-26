@@ -39,7 +39,7 @@ export const Footer = () => {
         >
           <img
             src={theme === 'light' ? logoLight : logoDark}
-            alt="Nice Gadgets"
+            alt="Voltrix"
             className={styles.logo}
           />
         </Link>
