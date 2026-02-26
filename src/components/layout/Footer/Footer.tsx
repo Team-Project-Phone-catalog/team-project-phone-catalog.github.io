@@ -3,8 +3,8 @@ import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import styles from './Footer.module.scss';
 import buttonTopIcon from '@/assets/icons/Button-Top.svg';
-import logoDark from '@assets/logo-dark.svg';
-import logoLight from '@assets/logo-light.svg';
+import logoDark from '@/assets/icons/logo-dark.svg';
+import logoLight from '@/assets/icons/logo-light.svg';
 
 export const Footer = () => {
   const { t } = useTranslation();
