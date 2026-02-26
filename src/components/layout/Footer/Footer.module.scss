@@ -36,7 +36,14 @@
 }
 
 .logo {
-  height: 32px;
+  width: 140px;
+  height: auto;
+  object-fit: contain;
+
+  @include on-desktop() {
+    width: 200px;
+    height: auto;
+  }
 }
 
 .logoLink {
