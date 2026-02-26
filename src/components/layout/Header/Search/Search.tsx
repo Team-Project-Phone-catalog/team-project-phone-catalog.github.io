@@ -78,11 +78,12 @@ export const Search = () => {
 
     const fuse = new Fuse(products, {
       keys: ['name'],
-      threshold: 0.3,
+      threshold: 0.4,
       distance: 100,
-      useExtendedSearch: true,
       ignoreLocation: true,
+      useExtendedSearch: true,
     });
+
     const searchTerms = {
       $or: [
         { name: normalizedQuery },
@@ -123,8 +124,7 @@ export const Search = () => {
 
       if (e.key === 'Escape') {
         if (query.length > 0) {
-          setQuery('');
-          setDebouncedQuery('');
+          handleClear();
           setSelectedIndex(-1);
         } else {
           inputRef.current?.blur();
@@ -132,7 +132,7 @@ export const Search = () => {
         return;
       }
 
-      if (!query) return;
+      if (!query || filteredItems.length === 0) return;
 
       if (e.key === 'ArrowDown') {
         e.preventDefault();
