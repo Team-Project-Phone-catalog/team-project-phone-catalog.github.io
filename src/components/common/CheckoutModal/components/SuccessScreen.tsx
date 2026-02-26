@@ -1,5 +1,5 @@
 import React from 'react';
-
+import { useTranslation } from 'react-i18next';
 import type { SuccessScreenProps } from '../CheckoutModal.types';
 
 export const SuccessScreen: React.FC<SuccessScreenProps> = ({
@@ -8,32 +8,32 @@ export const SuccessScreen: React.FC<SuccessScreenProps> = ({
   onViewOrders,
   onClose,
 }) => {
+  const { t } = useTranslation();
+
   return (
     <div className={styles.successScreen}>
       <div className={styles.successIcon}>✓</div>
-      <h2 className={styles.successTitle}>Payment successful</h2>
+      <h2 className={styles.successTitle}>{t('checkout.success_title')}</h2>
       <p className={styles.successText}>
-        Your order has been created
+        {t('checkout.success_text')}
         {successOrderId ? ` (#${successOrderId})` : ''}.
         <br />
-        Redirecting you to your orders...
+        {t('checkout.redirecting')}
       </p>
-
       <div className={styles.successActions}>
         <button
           type="button"
           className={styles.primaryBtn}
           onClick={onViewOrders}
         >
-          View orders
+          {t('checkout.view_orders')}
         </button>
-
         <button
           type="button"
           className={styles.secondaryBtn}
           onClick={onClose}
         >
-          Close
+          {t('checkout.close')}
         </button>
       </div>
     </div>

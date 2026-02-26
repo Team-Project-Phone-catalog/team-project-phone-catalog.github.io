@@ -1,5 +1,5 @@
 import React from 'react';
-
+import { useTranslation } from 'react-i18next';
 import type { StepDeliveryProps } from '../CheckoutModal.types';
 
 export const StepDelivery: React.FC<StepDeliveryProps> = ({
@@ -32,6 +32,8 @@ export const StepDelivery: React.FC<StepDeliveryProps> = ({
   onBack,
   normalizeWarehouseText,
 }) => {
+  const { t } = useTranslation();
+
   return (
     <div className={styles.stepContent}>
       <div className={styles.dropdown}>
@@ -40,11 +42,12 @@ export const StepDelivery: React.FC<StepDeliveryProps> = ({
           className={styles.dropdown__button}
           onClick={onToggleDelivery}
         >
-          {deliveryMethod === 'home' ? 'Home delivery' : 'Nova Poshta'}
-
+          {deliveryMethod === 'home' ?
+            t('checkout.home_address')
+          : 'Nova Poshta'}
           <span className={styles._arrow}>
             <img
-              alt="Dropdown arrow"
+              alt="arrow"
               src={arrowDownIcon}
             />
           </span>
@@ -56,9 +59,8 @@ export const StepDelivery: React.FC<StepDeliveryProps> = ({
               className={styles.dropdown__item}
               onClick={onSelectHome}
             >
-              Home delivery
+              {t('checkout.home_address')}
             </div>
-
             <div
               className={styles.dropdown__item}
               onClick={onSelectNovaPoshta}
@@ -72,14 +74,12 @@ export const StepDelivery: React.FC<StepDeliveryProps> = ({
       {deliveryMethod === 'home' && (
         <input
           className={styles.input}
-          placeholder="Delivery address *"
+          placeholder={t('checkout.address_placeholder')}
           value={address}
           maxLength={40}
-          onChange={(e) => {
-            const cleaned = e.target.value.replace(/\s{2,}/g, ' ').slice(0, 40);
-
-            onAddressChange(cleaned);
-          }}
+          onChange={(e) =>
+            onAddressChange(e.target.value.replace(/\s{2,}/g, ' ').slice(0, 40))
+          }
         />
       )}
 
@@ -88,25 +88,20 @@ export const StepDelivery: React.FC<StepDeliveryProps> = ({
           <div className={styles.dropdown}>
             <input
               className={styles.input}
-              placeholder="Type city name *"
+              placeholder={t('checkout.pickup_placeholder')}
               value={cityQuery}
               disabled={loadingCities}
               onFocus={onCityFocus}
               onBlur={onCityBlur}
               onChange={(e) => onCityQueryChange(e.target.value)}
             />
-
             {loadingCities && (
-              <div className={styles.loadingHint}>Loading cities...</div>
+              <div className={styles.loadingHint}>{t('auth.loading')}</div>
             )}
-
             {!loadingCities && citiesOpen && filteredCities.length > 0 && (
               <div
                 className={styles.dropdown__list}
-                style={{
-                  maxHeight: '300px',
-                  overflowY: 'auto',
-                }}
+                style={{ maxHeight: '300px', overflowY: 'auto' }}
               >
                 {filteredCities.map((city) => (
                   <div
@@ -119,10 +114,6 @@ export const StepDelivery: React.FC<StepDeliveryProps> = ({
                 ))}
               </div>
             )}
-
-            {!loadingCities && citiesOpen && filteredCities.length === 0 && (
-              <div className={styles.emptyHint}>City not found</div>
-            )}
           </div>
 
           {selectedCity && (
@@ -134,47 +125,31 @@ export const StepDelivery: React.FC<StepDeliveryProps> = ({
                 onClick={onToggleWarehouses}
               >
                 {loadingWarehouses ?
-                  'Loading warehouses...'
+                  t('auth.loading')
                 : selectedWarehouse ?
                   `№${selectedWarehouse.Number} — ${normalizeWarehouseText(selectedWarehouse.Description)}`
-                : 'Select branch *'}
-
+                : t('checkout.pickup_placeholder')}
                 {!loadingWarehouses && (
                   <span className={styles._arrow}>
                     <img
-                      alt="Dropdown arrow"
+                      alt="arrow"
                       src={arrowDownIcon}
                     />
                   </span>
                 )}
               </button>
-
               {warehousesOpen && warehouses.length > 0 && (
                 <div
                   className={styles.dropdown__list}
-                  style={{
-                    maxHeight: '300px',
-                    overflowY: 'auto',
-                  }}
+                  style={{ maxHeight: '300px', overflowY: 'auto' }}
                 >
-                  {warehouses.map((warehouse) => (
+                  {warehouses.map((w) => (
                     <div
-                      key={warehouse.Ref}
+                      key={w.Ref}
                       className={styles.dropdown__item}
-                      onClick={() => onSelectWarehouse(warehouse)}
+                      onClick={() => onSelectWarehouse(w)}
                     >
-                      <div>{normalizeWarehouseText(warehouse.Description)}</div>
-
-                      {warehouse.Phone && (
-                        <div
-                          style={{
-                            fontSize: '12px',
-                            color: '#999',
-                          }}
-                        >
-                          {warehouse.Phone}
-                        </div>
-                      )}
+                      {normalizeWarehouseText(w.Description)}
                     </div>
                   ))}
                 </div>
@@ -190,15 +165,14 @@ export const StepDelivery: React.FC<StepDeliveryProps> = ({
         onClick={onContinue}
         disabled={!isStep2Valid}
       >
-        Continue
+        {t('checkout.continue')}
       </button>
-
       <button
         type="button"
         className={styles.secondaryBtn}
         onClick={onBack}
       >
-        Back
+        {t('checkout.back')}
       </button>
     </div>
   );

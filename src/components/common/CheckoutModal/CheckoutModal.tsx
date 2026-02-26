@@ -1,6 +1,7 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useStripe, useElements } from '@stripe/react-stripe-js';
+import { useTranslation } from 'react-i18next';
 
 import arrowDownIcon from '@/assets/icons/arrow-down.svg';
 
@@ -36,6 +37,7 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
   isOpen,
   onClose,
 }) => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const stripe = useStripe();
   const elements = useElements();
@@ -86,75 +88,35 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
     citiesOpen,
   } = useCheckoutDelivery({ isOpen });
 
-  useEffect(() => {
-    if (!isOpen) return;
-
-    resetCheckoutState();
-  }, [isOpen, resetCheckoutState]);
-
-  useEffect(() => {
-    if (!successOrderId) return;
-
-    const t = window.setTimeout(() => {
-      onClose();
-      navigate('/profile/orders');
-    }, 1600);
-
-    return () => window.clearTimeout(t);
-  }, [successOrderId, navigate, onClose]);
-
-  useEffect(() => {
-    const handleMessage = (event: MessageEvent) => {
-      if (event.data.type === 'paypal_confirmed') {
-        setPaypalConfirmed(true);
-      }
-    };
-
-    window.addEventListener('message', handleMessage);
-    return () => window.removeEventListener('message', handleMessage);
-  }, [setPaypalConfirmed]);
-
-  useEffect(() => {
-    if (paypalConfirmed) {
-      setPaypalConfirmed(false);
-      handleCreateOrder();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [paypalConfirmed]);
-
-  if (!isOpen) return null;
-
   const isStep1Valid = validateStep1({ fullName, phone });
-
   const isStep2Valid = validateStep2({
     deliveryMethod,
     address,
     hasSelectedCity: selectedCity !== null,
     hasSelectedWarehouse: selectedWarehouse !== null,
   });
-
   const isStep3Valid = validateStep3(paymentMethod);
 
-  const handleCreateOrder = async () => {
+  const handleCreateOrder = useCallback(async () => {
     if (cartItems.length === 0) {
-      notify.error('Your cart is empty.');
+      notify.error(t('checkout.error_empty'));
       return;
     }
 
     if (!isStep1Valid) {
-      notify.error('Please fill in your name and phone.');
+      notify.error(t('checkout.error_details'));
       setStep(1);
       return;
     }
 
     if (!isStep2Valid) {
-      notify.error(getStep2ValidationError(deliveryMethod));
+      notify.error(t(getStep2ValidationError(deliveryMethod)));
       setStep(2);
       return;
     }
 
     if (!isStep3Valid) {
-      notify.error('Please check your payment details.');
+      notify.error(t('checkout.error_payment'));
       setStep(3);
       return;
     }
@@ -180,10 +142,7 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
       }
 
       const clientSecret = await createPaymentIntent(totalPrice);
-
-      if (!clientSecret) {
-        return;
-      }
+      if (!clientSecret) return;
 
       const isPaid = await confirmCardPayment({
         stripe,
@@ -205,25 +164,74 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
           clearCart,
           setSuccessOrderId,
         });
-        notify.success('Payment successful');
+        notify.success(t('checkout.success_notify'));
       }
-    } catch (err) {
-      console.error('Payment error:', err);
-      notify.error(
-        'Payment error: ' +
-          (err instanceof Error ? err.message : 'Unknown error'),
-      );
+    } catch (error) {
+      console.error('Checkout error:', error);
+      notify.error(t('checkout.error_general'));
     } finally {
       setLoading(false);
     }
-  };
+  }, [
+    cartItems,
+    t,
+    isStep1Valid,
+    isStep2Valid,
+    isStep3Valid,
+    paymentMethod,
+    totalPrice,
+    fullName,
+    phone,
+    deliveryMethod,
+    address,
+    selectedCity,
+    selectedWarehouse,
+    clearCart,
+    setSuccessOrderId,
+    setLoading,
+    setStep,
+    stripe,
+    elements,
+  ]);
+
+  useEffect(() => {
+    if (!isOpen) return;
+    resetCheckoutState();
+  }, [isOpen, resetCheckoutState]);
+
+  useEffect(() => {
+    if (!successOrderId) return;
+    const timer = window.setTimeout(() => {
+      onClose();
+      navigate('/profile/orders');
+    }, 1600);
+    return () => window.clearTimeout(timer);
+  }, [successOrderId, navigate, onClose]);
+
+  useEffect(() => {
+    const handleMessage = (event: MessageEvent) => {
+      if (event.data.type === 'paypal_confirmed') {
+        setPaypalConfirmed(true);
+      }
+    };
+    window.addEventListener('message', handleMessage);
+    return () => window.removeEventListener('message', handleMessage);
+  }, [setPaypalConfirmed]);
+
+  useEffect(() => {
+    if (paypalConfirmed) {
+      setPaypalConfirmed(false);
+      handleCreateOrder();
+    }
+  }, [paypalConfirmed, handleCreateOrder, setPaypalConfirmed]);
+
+  if (!isOpen) return null;
 
   const handleSubmitStep3 = () => {
     if (paymentMethod === 'paypal') {
       openPayPalDemo({ totalPrice });
       return;
     }
-
     handleCreateOrder();
   };
 
@@ -237,12 +245,11 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
         <button
           className={styles.closeBtn}
           onClick={onClose}
-          aria-label="Close"
+          aria-label={t('checkout.close')}
         >
           ✕
         </button>
-
-        <h1 className={styles.title}>Checkout</h1>
+        <h1 className={styles.title}>{t('checkout.title')}</h1>
 
         {successOrderId ?
           <SuccessScreen
@@ -258,9 +265,8 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
             <div className={styles.formSection}>
               <div className={styles.stepBlock}>
                 <div className={styles.stepHeader}>
-                  <h2>Your details</h2>
+                  <h2>{t('checkout.details')}</h2>
                 </div>
-
                 {step === 1 && (
                   <StepDetails
                     styles={styles}
@@ -276,9 +282,8 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
 
               <div className={styles.stepBlock}>
                 <div className={styles.stepHeader}>
-                  <h2>Delivery</h2>
+                  <h2>{t('checkout.delivery')}</h2>
                 </div>
-
                 {step === 2 && (
                   <StepDelivery
                     styles={styles}
@@ -301,16 +306,16 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
                     onSelectNovaPoshta={handleSelectNovaPoshtaDelivery}
                     onAddressChange={setAddress}
                     onCityFocus={() => setCitiesOpen(true)}
-                    onCityBlur={() => {
-                      window.setTimeout(() => setCitiesOpen(false), 120);
-                    }}
+                    onCityBlur={() =>
+                      window.setTimeout(() => setCitiesOpen(false), 120)
+                    }
                     onCityQueryChange={handleCityQueryChange}
                     onSelectCity={handleSelectCity}
                     onToggleWarehouses={() =>
                       setWarehousesOpen((prev) => !prev)
                     }
-                    onSelectWarehouse={(warehouse) => {
-                      setSelectedWarehouse(warehouse);
+                    onSelectWarehouse={(w) => {
+                      setSelectedWarehouse(w);
                       setWarehousesOpen(false);
                     }}
                     onContinue={() => setStep(3)}
@@ -322,9 +327,8 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
 
               <div className={styles.stepBlock}>
                 <div className={styles.stepHeader}>
-                  <h2>Payment</h2>
+                  <h2>{t('checkout.payment')}</h2>
                 </div>
-
                 {step === 3 && (
                   <StepPayment
                     styles={styles}
@@ -334,8 +338,8 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
                     loading={loading}
                     isStep3Valid={isStep3Valid}
                     onTogglePayment={() => setPaymentOpen((prev) => !prev)}
-                    onSelectPaymentMethod={(method) => {
-                      setPaymentMethod(method);
+                    onSelectPaymentMethod={(m) => {
+                      setPaymentMethod(m);
                       setPaymentOpen(false);
                     }}
                     onSubmit={handleSubmitStep3}
@@ -344,7 +348,6 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
                 )}
               </div>
             </div>
-
             <OrderSummary
               styles={styles}
               cartItems={cartItems as CheckoutCartItem[]}

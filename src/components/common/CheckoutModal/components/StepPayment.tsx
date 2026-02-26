@@ -1,6 +1,6 @@
 import React from 'react';
 import { CardElement } from '@stripe/react-stripe-js';
-
+import { useTranslation } from 'react-i18next';
 import type { StepPaymentProps } from '../CheckoutModal.types';
 
 export const StepPayment: React.FC<StepPaymentProps> = ({
@@ -15,6 +15,8 @@ export const StepPayment: React.FC<StepPaymentProps> = ({
   onSubmit,
   onBack,
 }) => {
+  const { t } = useTranslation();
+
   return (
     <div className={styles.stepContent}>
       <div className={styles.dropdown}>
@@ -24,14 +26,13 @@ export const StepPayment: React.FC<StepPaymentProps> = ({
           onClick={onTogglePayment}
         >
           {paymentMethod === 'card' ?
-            'Credit / Debit Card'
+            t('checkout.card')
           : paymentMethod === 'paypal' ?
             'PayPal'
-          : 'Cash on delivery'}
-
+          : t('checkout.cod')}
           <span className={styles._arrow}>
             <img
-              alt="Previous page"
+              alt="arrow"
               src={arrowDownIcon}
             />
           </span>
@@ -43,21 +44,19 @@ export const StepPayment: React.FC<StepPaymentProps> = ({
               className={styles.dropdown__item}
               onClick={() => onSelectPaymentMethod('card')}
             >
-              Credit / Debit Card
+              {t('checkout.card')}
             </div>
-
             <div
               className={styles.dropdown__item}
               onClick={() => onSelectPaymentMethod('paypal')}
             >
               PayPal
             </div>
-
             <div
               className={styles.dropdown__item}
               onClick={() => onSelectPaymentMethod('cod')}
             >
-              Cash on delivery
+              {t('checkout.cod')}
             </div>
           </div>
         )}
@@ -66,14 +65,7 @@ export const StepPayment: React.FC<StepPaymentProps> = ({
       {paymentMethod === 'card' && (
         <div className={styles.cardFields}>
           <CardElement
-            options={{
-              style: {
-                base: {
-                  fontSize: '16px',
-                  color: '#fff',
-                },
-              },
-            }}
+            options={{ style: { base: { fontSize: '16px', color: '#fff' } } }}
           />
         </div>
       )}
@@ -85,24 +77,20 @@ export const StepPayment: React.FC<StepPaymentProps> = ({
         disabled={loading || !isStep3Valid}
       >
         {loading ?
-          'Processing...'
+          t('checkout.processing')
         : paymentMethod === 'card' ?
-          'Pay & place order'
-        : 'Place order'}
+          t('checkout.pay_order')
+        : t('checkout.place_order')}
       </button>
-
       <button
         type="button"
         className={styles.secondaryBtn}
         onClick={onBack}
         disabled={loading}
       >
-        Back
+        {t('checkout.back')}
       </button>
-
-      <p className={styles.terms}>
-        By confirming the order, you agree to the Terms and Conditions.
-      </p>
+      <p className={styles.terms}>{t('checkout.terms')}</p>
     </div>
   );
 };

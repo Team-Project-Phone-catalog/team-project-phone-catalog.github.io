@@ -1,5 +1,5 @@
 import React from 'react';
-
+import { useTranslation } from 'react-i18next';
 import type { StepDetailsProps } from '../CheckoutModal.types';
 
 const PHONE_PREFIX = '+380';
@@ -13,11 +13,13 @@ export const StepDetails: React.FC<StepDetailsProps> = ({
   onPhoneChange,
   onContinue,
 }) => {
+  const { t } = useTranslation();
+
   return (
     <div className={styles.stepContent}>
       <input
         className={styles.input}
-        placeholder="Full name *"
+        placeholder={t('checkout.full_name')}
         value={fullName}
         maxLength={60}
         onChange={(e) => {
@@ -25,7 +27,6 @@ export const StepDetails: React.FC<StepDetailsProps> = ({
             .replace(/[^a-zA-Z\u00C0-\u024F\u0400-\u04FF' -]/g, '')
             .replace(/\s{2,}/g, ' ')
             .slice(0, 30);
-
           onFullNameChange(cleaned);
         }}
       />
@@ -41,11 +42,7 @@ export const StepDetails: React.FC<StepDetailsProps> = ({
         }}
         onChange={(e) => {
           let value = e.target.value;
-
-          if (!value.startsWith(PHONE_PREFIX)) {
-            value = PHONE_PREFIX;
-          }
-
+          if (!value.startsWith(PHONE_PREFIX)) value = PHONE_PREFIX;
           const suffix = value
             .slice(PHONE_PREFIX.length)
             .replace(/\D/g, '')
@@ -60,7 +57,7 @@ export const StepDetails: React.FC<StepDetailsProps> = ({
         onClick={onContinue}
         disabled={!isStep1Valid}
       >
-        Continue
+        {t('checkout.continue')}
       </button>
     </div>
   );

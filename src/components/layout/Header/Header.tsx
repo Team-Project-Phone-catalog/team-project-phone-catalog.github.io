@@ -88,7 +88,7 @@ export const Header = () => {
             >
               <img
                 src={theme === 'light' ? logoLight : logoDark}
-                alt="Nice Gadgets"
+                alt="Voltrix"
               />
             </Link>
 
