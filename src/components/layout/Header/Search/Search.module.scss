@@ -7,6 +7,7 @@
   align-items: center;
   margin: 0 12px;
   flex-shrink: 1;
+
   @include on-desktop() {
     width: 300px;
   }
@@ -22,9 +23,11 @@
     border: 1px solid $color-border;
     border-radius: 8px;
     transition: all $transition-default;
+
     &:focus-within {
       border-color: $color-light-1;
     }
+
     @include on-desktop() {
       height: 40px;
     }
@@ -38,6 +41,7 @@
     color: $color-light-1;
     font-size: 14px;
     width: 100%;
+
     &::placeholder {
       color: $color-secondary;
     }
@@ -68,7 +72,7 @@
     top: calc(100% + 8px);
     left: 0;
     right: 0;
-    background-color: #161932;
+    background-color: $color-drobdown;
     border: 1px solid $color-elements;
     border-radius: 8px;
     max-height: 400px;
@@ -80,6 +84,7 @@
     &::-webkit-scrollbar {
       width: 6px;
     }
+
     &::-webkit-scrollbar-thumb {
       background: $color-white;
       border: 2px solid $color-surface-1;
@@ -90,7 +95,7 @@
   &__empty {
     padding: 24px;
     text-align: center;
-    color: rgba(255, 255, 255, 0.5);
+    color: $search-empty;
     font-size: 14px;
   }
 
@@ -109,7 +114,8 @@
     transition: all 0.2s ease;
 
     &--selected {
-      background-color: rgba(255, 255, 255, 0.12);
+      background-color: $search-item-hover;
+
       &::after {
         opacity: 0;
       }
@@ -122,8 +128,9 @@
       left: 12px;
       right: 12px;
       height: 1px;
-      background-color: rgba(59, 62, 74, 0.5);
+      background-color: $search-divider;
     }
+
     &:last-child::after {
       display: none;
     }
@@ -150,8 +157,8 @@
     max-width: 100%;
     max-height: 100%;
     object-fit: contain;
-    mix-blend-mode: screen;
-    filter: brightness(1.1) contrast(1.1);
+    mix-blend-mode: $search-img-blend;
+    filter: $search-img-filter;
   }
 
   &__item_info {
