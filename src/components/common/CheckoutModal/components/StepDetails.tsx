@@ -2,6 +2,8 @@ import React from 'react';
 
 import type { StepDetailsProps } from '../CheckoutModal.types';
 
+const PHONE_PREFIX = '+380';
+
 export const StepDetails: React.FC<StepDetailsProps> = ({
   styles,
   fullName,
@@ -30,21 +32,25 @@ export const StepDetails: React.FC<StepDetailsProps> = ({
 
       <input
         className={styles.input}
-        placeholder="Phone number *"
+        placeholder="+380XXXXXXXXX"
         value={phone}
         inputMode="tel"
-        maxLength={16}
+        maxLength={13}
+        onFocus={() => {
+          if (!phone) onPhoneChange(PHONE_PREFIX);
+        }}
         onChange={(e) => {
-          let value = e.target.value.replace(/[^\d+]/g, '');
+          let value = e.target.value;
 
-          if (value.includes('+')) {
-            value = value.replace(/\+/g, '');
-            value = `+${value}`;
+          if (!value.startsWith(PHONE_PREFIX)) {
+            value = PHONE_PREFIX;
           }
 
-          const digits = value.replace(/\D/g, '').slice(0, 15);
-
-          onPhoneChange(value.startsWith('+') ? `+${digits}` : digits);
+          const suffix = value
+            .slice(PHONE_PREFIX.length)
+            .replace(/\D/g, '')
+            .slice(0, 9);
+          onPhoneChange(PHONE_PREFIX + suffix);
         }}
       />
 

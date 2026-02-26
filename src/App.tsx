@@ -26,7 +26,9 @@ import { WalletPage } from './pages/ProfilePage/WalletPage/WalletPage.tsx';
 import { RightsPage } from './pages/RightsPage/RightsPage.tsx';
 import { ContactsPage } from './pages/ContactsPage/ContactsPage.tsx';
 
-const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
+const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY, {
+  locale: 'en',
+});
 
 export const App = () => {
   return (
