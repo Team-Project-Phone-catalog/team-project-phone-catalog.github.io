@@ -40,7 +40,6 @@ export const BurgerMenu: React.FC<Props> = ({
     { id: 5, name: t('nav.orders'), path: 'profile/orders' },
     { id: 6, name: t('nav.chat'), path: 'profile/chat' },
     { id: 7, name: t('nav.favorites'), path: 'profile/favorites' },
-    { id: 8, name: t('nav.wallet'), path: 'profile/wallet' },
   ];
 
   return (

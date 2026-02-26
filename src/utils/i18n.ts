@@ -11,6 +11,7 @@ i18n
   .init({
     debug: false,
     fallbackLng: 'en',
+    supportedLngs: ['en', 'ua'],
     interpolation: {
       escapeValue: false,
     },
@@ -21,6 +22,10 @@ i18n
       ua: {
         translation: uaTranslation,
       },
+    },
+    detection: {
+      order: ['localStorage', 'navigator'],
+      caches: ['localStorage'],
     },
   });
 

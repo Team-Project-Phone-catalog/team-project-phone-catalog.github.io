@@ -64,7 +64,7 @@ export const WriteReview = ({ onBack, onSubmit }: Props) => {
               className="write-review__cancel"
               onClick={onBack}
             >
-              ← {t('write_review.back_to')}
+              {'<'} {t('write_review.back_to')}
             </button>
           </div>
         </div>
@@ -81,7 +81,7 @@ export const WriteReview = ({ onBack, onSubmit }: Props) => {
             className="write-review__back"
             onClick={onBack}
           >
-            ← {t('write_review.back')}
+            {'<'} {t('write_review.back')}
           </button>
         </div>
 
@@ -118,7 +118,7 @@ export const WriteReview = ({ onBack, onSubmit }: Props) => {
             ))}
           </div>
           {(hoverScore || starScore) > 0 && (
-            <div style={{ fontSize: 13, color: '#75767f', marginTop: 6 }}>
+            <div className="write-review__section-hover">
               {starLabels[hoverScore || starScore]}
             </div>
           )}

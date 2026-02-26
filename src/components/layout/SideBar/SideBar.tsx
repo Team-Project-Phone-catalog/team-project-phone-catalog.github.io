@@ -12,8 +12,8 @@ export const Sidebar = () => {
   const [userEmail, setUserEmail] = React.useState('');
   const [isAdmin, setIsAdmin] = React.useState(false);
 
-  const { getFavoritesCount } = useAppContext();
-  const favoritesCount = getFavoritesCount();
+  // Отримуємо значення напряму з контексту, а не викликаємо як функцію
+  const { favoritesCount } = useAppContext();
 
   React.useEffect(() => {
     const fetchUser = async () => {
@@ -93,13 +93,6 @@ export const Sidebar = () => {
         >
           <span>{t('profile_sidebar.wishlist')}</span>
           <span className={styles.badge}>{favoritesCount}</span>
-        </Link>
-
-        <Link
-          to="/profile/wallet"
-          className={`${styles.navItem} ${isActive('/profile/wallet') ? styles.active : ''}`}
-        >
-          {t('profile_sidebar.wallet')}
         </Link>
       </nav>
     </aside>

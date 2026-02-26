@@ -64,7 +64,7 @@
     font-weight: 700;
     letter-spacing: 0.04em;
     text-transform: uppercase;
-    color: #89939a;
+    color: $color-secondary-1;
     text-decoration: none;
     transition: color 0.3s ease;
 
@@ -81,14 +81,14 @@
 
   span {
     font-size: 12px;
-    color: #89939a;
+    color: $color-secondary-1;
   }
 }
 
 .scrollTop {
   width: 32px;
   height: 32px;
-  background: $color-surface-2;
+  background: $color-surface-3;
   border: 1px solid $color-elements;
   border-radius: 8px;
   color: $color-white;
@@ -107,7 +107,7 @@
   }
 
   &:hover {
-    background: #4219d0;
+    background: $color-accent;
   }
 
   &:active {
@@ -117,8 +117,4 @@
 
 .logo {
   display: block;
-}
-
-[data-theme='light'] .logo {
-  content: url('../../assets/logo-light.svg');
 }

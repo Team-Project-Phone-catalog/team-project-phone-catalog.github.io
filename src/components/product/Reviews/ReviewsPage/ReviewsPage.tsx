@@ -35,7 +35,7 @@ export const ReviewsPage = ({
           className="reviews-page__back"
           onClick={onBack}
         >
-          ← {t('reviews.back')}
+          {'<'} {t('reviews.back')}
         </button>
       </div>
       <div className="reviews-page__body">
@@ -79,7 +79,7 @@ export const ReviewsPage = ({
         </div>
         <div className="reviews-list">
           {loading && <p>{t('auth.loading')}</p>}
-          {reviews.map((r) => (
+          {reviews.slice(0, 5).map((r) => (
             <ReviewCard
               key={r.id}
               review={r}

@@ -8,8 +8,8 @@ import styles from './Header.module.scss';
 import heartIcon from '@assets/icons/heart.svg';
 import cartIcon from '@assets/icons/cart.svg';
 import userIcon from '@assets/icons/user.svg';
-import logoDark from '@assets/logo-dark.svg';
-import logoLight from '@assets/logo-light.svg';
+import logoDark from '@assets/icons/logo-dark.svg';
+import logoLight from '@assets/icons/logo-light.svg';
 import { useAppContext } from '@hooks/useAppContext';
 import { Search } from './Search/Search';
 import { AuthModal } from '@components/common/AuthModal';
@@ -23,11 +23,8 @@ export const Header = () => {
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const [user, setUser] = useState<User | null>(null);
   const [isAdmin, setIsAdmin] = useState(false);
-  const [theme, setTheme] = useState('dark');
 
-  const { getTotalItems, getFavoritesCount } = useAppContext();
-  const cartCount = getTotalItems();
-  const favoritesCount = getFavoritesCount();
+  const { totalItems, favoritesCount } = useAppContext();
 
   const navLinks = [
     { id: 1, name: t('nav.home'), path: '/' },
@@ -72,8 +69,11 @@ export const Header = () => {
     return () => subscription.unsubscribe();
   }, []);
 
+  const [theme, setTheme] = useState(localStorage.getItem('theme') || 'dark');
+
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme);
+    localStorage.setItem('theme', theme);
   }, [theme]);
 
   return (
@@ -187,25 +187,24 @@ export const Header = () => {
               >
                 <CounterIcon
                   icon={cartIcon}
-                  count={cartCount}
+                  count={totalItems}
                   alt="Cart"
                 />
               </NavLink>
-            </div>
-
-            <button
-              className={styles.header__burger}
-              onClick={toggleMenu}
-              aria-label="Toggle menu"
-            >
-              <div
-                className={`${styles.burger_icon} ${isMenuOpen ? styles['burger_icon--active'] : ''}`}
+              <button
+                className={styles.header__burger}
+                onClick={toggleMenu}
+                aria-label="Toggle menu"
               >
-                <span></span>
-                <span></span>
-                <span></span>
-              </div>
-            </button>
+                <div
+                  className={`${styles.burger_icon} ${isMenuOpen ? styles['burger_icon--active'] : ''}`}
+                >
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                </div>
+              </button>
+            </div>
           </div>
         </div>
 
@@ -219,7 +218,7 @@ export const Header = () => {
         isOpen={isMenuOpen}
         onClose={closeMenu}
         favoritesCount={favoritesCount}
-        cartCount={cartCount}
+        cartCount={totalItems}
         user={user}
         isAdmin={isAdmin}
       />

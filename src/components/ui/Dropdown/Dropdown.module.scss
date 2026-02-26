@@ -42,12 +42,12 @@
   transition: background $transition-default;
 
   &:hover {
-    background: $bg-card;
+    background: $bg-card-1;
   }
 }
 
 .active {
-  background: $bg-card;
+  background: $bg-card-1;
 }
 
 .arrow {
