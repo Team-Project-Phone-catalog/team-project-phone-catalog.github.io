@@ -301,7 +301,7 @@ We welcome your contributions! 🎉
 
 ### Developed by **Team-Project-Phone-catalog**
 
-👨‍💻 **3 contributors** worked on this project
+👨‍💻 **6 contributors** worked on this project
 
 [View all contributors →](https://github.com/Team-Project-Phone-catalog/team-project-phone-catalog.github.io/graphs/contributors)
 
