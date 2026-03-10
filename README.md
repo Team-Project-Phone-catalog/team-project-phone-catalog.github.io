@@ -1,5 +1,7 @@
 <div align="center">
 
+Demo: https://team-project-phone-catalog.github.io/
+
 # 📱 Phone Catalog Frontend
 
 ### A modern online electronics store with an intuitive interface
