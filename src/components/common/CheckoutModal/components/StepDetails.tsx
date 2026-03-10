@@ -1,8 +1,6 @@
 import React from 'react';
-import { useTranslation } from 'react-i18next';
-import type { StepDetailsProps } from '../CheckoutModal.types';
 
-const PHONE_PREFIX = '+380';
+import type { StepDetailsProps } from '../CheckoutModal.types';
 
 export const StepDetails: React.FC<StepDetailsProps> = ({
   styles,
@@ -13,13 +11,11 @@ export const StepDetails: React.FC<StepDetailsProps> = ({
   onPhoneChange,
   onContinue,
 }) => {
-  const { t } = useTranslation();
-
   return (
     <div className={styles.stepContent}>
       <input
         className={styles.input}
-        placeholder={t('checkout.full_name')}
+        placeholder="Full name *"
         value={fullName}
         maxLength={60}
         onChange={(e) => {
@@ -27,27 +23,28 @@ export const StepDetails: React.FC<StepDetailsProps> = ({
             .replace(/[^a-zA-Z\u00C0-\u024F\u0400-\u04FF' -]/g, '')
             .replace(/\s{2,}/g, ' ')
             .slice(0, 30);
+
           onFullNameChange(cleaned);
         }}
       />
 
       <input
         className={styles.input}
-        placeholder="+380XXXXXXXXX"
+        placeholder="Phone number *"
         value={phone}
         inputMode="tel"
-        maxLength={13}
-        onFocus={() => {
-          if (!phone) onPhoneChange(PHONE_PREFIX);
-        }}
+        maxLength={16}
         onChange={(e) => {
-          let value = e.target.value;
-          if (!value.startsWith(PHONE_PREFIX)) value = PHONE_PREFIX;
-          const suffix = value
-            .slice(PHONE_PREFIX.length)
-            .replace(/\D/g, '')
-            .slice(0, 9);
-          onPhoneChange(PHONE_PREFIX + suffix);
+          let value = e.target.value.replace(/[^\d+]/g, '');
+
+          if (value.includes('+')) {
+            value = value.replace(/\+/g, '');
+            value = `+${value}`;
+          }
+
+          const digits = value.replace(/\D/g, '').slice(0, 15);
+
+          onPhoneChange(value.startsWith('+') ? `+${digits}` : digits);
         }}
       />
 
@@ -57,7 +54,7 @@ export const StepDetails: React.FC<StepDetailsProps> = ({
         onClick={onContinue}
         disabled={!isStep1Valid}
       >
-        {t('checkout.continue')}
+        Continue
       </button>
     </div>
   );

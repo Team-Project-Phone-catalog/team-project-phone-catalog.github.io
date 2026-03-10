@@ -2,13 +2,11 @@ import { useCallback, useState } from 'react';
 
 import type { PaymentMethod, Step } from '../CheckoutModal.types';
 
-const PHONE_PREFIX = '+380';
-
 export function useCheckoutState() {
   const [step, setStep] = useState<Step>(1);
   const [paymentOpen, setPaymentOpen] = useState(false);
   const [fullName, setFullName] = useState('');
-  const [phone, setPhone] = useState(PHONE_PREFIX);
+  const [phone, setPhone] = useState('');
   const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>('card');
   const [loading, setLoading] = useState(false);
   const [successOrderId, setSuccessOrderId] = useState<string | null>(null);

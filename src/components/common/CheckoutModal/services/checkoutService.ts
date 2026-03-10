@@ -1,4 +1,4 @@
-import type { Stripe, StripeElements } from '@stripe/stripe-js';
+import type { StripeElements, Stripe } from '@stripe/stripe-js';
 import { CardElement } from '@stripe/react-stripe-js';
 
 import { supabase } from '@/utils/supabaseClient';
@@ -25,12 +25,6 @@ interface CreateOrderInDatabaseParams {
   setSuccessOrderId: (orderId: string) => void;
 }
 
-interface ConfirmCardPaymentParams {
-  stripe: Stripe | null;
-  elements: StripeElements | null;
-  clientSecret: string;
-}
-
 export async function createOrderInDatabase({
   cartItems,
   totalPrice,
@@ -47,7 +41,7 @@ export async function createOrderInDatabase({
   try {
     const { data: userData, error: userError } = await supabase.auth.getUser();
 
-    if (userError || !userData.user) {
+    if (userError) {
       notify.error('You must be logged in to place an order.');
       return;
     }
@@ -116,25 +110,28 @@ export async function createPaymentIntent(totalPrice: number) {
     data: { session },
   } = await supabase.auth.getSession();
 
-  if (!session) {
-    notify.error('You must be logged in to make a payment.');
+  if (!session?.access_token) {
+    notify.error('Please sign in to complete payment.');
     return null;
   }
 
-  const { data, error } = await supabase.functions.invoke(
+  const { data, error: paymentIntentError } = await supabase.functions.invoke(
     'create-payment-intent',
     {
-      body: { amount: totalPrice },
+      body: {
+        amount: totalPrice,
+      },
       headers: {
         Authorization: `Bearer ${session.access_token}`,
-        apikey: import.meta.env.VITE_SUPABASE_ANON_KEY,
       },
     },
   );
 
-  if (error) {
-    console.error('create-payment-intent error:', error);
-    notify.error(error.message || 'Failed to create payment intent');
+  if (paymentIntentError) {
+    console.error('create-payment-intent error:', paymentIntentError);
+    notify.error(
+      paymentIntentError.message || 'Failed to create payment intent',
+    );
     return null;
   }
 
@@ -144,6 +141,12 @@ export async function createPaymentIntent(totalPrice: number) {
 
   notify.error('Invalid payment response');
   return null;
+}
+
+interface ConfirmCardPaymentParams {
+  stripe: Stripe | null;
+  elements: StripeElements | null;
+  clientSecret: string;
 }
 
 export async function confirmCardPayment({

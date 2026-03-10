@@ -46,15 +46,11 @@ async function callNovaPostaAPI<T>(
   return data as NovaPostaResponse<T>;
 }
 
-// ======================
-// 📍 Отримати міста
-// ======================
-
 export async function getCities(): Promise<City[]> {
   try {
     const response = await callNovaPostaAPI<City>('getCities', {});
 
-    console.log('NOVA RESPONSE:', response); // 👈 ДОДАЙ ЦЕ
+    console.log('NOVA RESPONSE:', response);
 
     if (!response.success) {
       console.error(response.errors);
@@ -67,10 +63,6 @@ export async function getCities(): Promise<City[]> {
     return [];
   }
 }
-
-// ======================
-// 📦 Отримати відділення
-// ======================
 
 interface GetWarehouses {
   cityRef: string;
@@ -101,10 +93,6 @@ export async function getWarehouses(
     return [];
   }
 }
-
-// ======================
-// 💰 Вартість доставки
-// ======================
 
 interface GetDeliveryPrice {
   citySenderRef: string;
